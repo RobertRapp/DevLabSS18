@@ -17,7 +17,7 @@
 	<repository>
 	<id>EvE</id>
     <name>EvE-Framework</name>
-    <url>file://${project.basedir}/lib</url>
+    <url>file://${project.basedir}/lib/</url>
     </repository>
 </repositories>
 
