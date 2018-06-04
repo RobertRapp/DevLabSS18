@@ -2,6 +2,7 @@ package hdm.developmentlab.ebi.eve_implementation.sessionContextService;
 
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.interestprofile.AbstractInterestProfile;
+import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenDocumentType;
 import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.*;
 

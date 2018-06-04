@@ -1,4 +1,4 @@
-package hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles;
+package hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles;
 
 
 import eventprocessing.event.AbstractEvent;
