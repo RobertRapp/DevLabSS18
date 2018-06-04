@@ -1,19 +1,20 @@
 package startServices;
 
+import java.util.Locale;
+
 import org.apache.spark.SparkException;
 import org.apache.spark.TaskKilledException;
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.exceptions.NoValidAgentException;
-import eventprocessing.demo.events.SensorEvent;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
 import eventprocessing.input.spark.streaming.StreamingExecution;
 import eventprocessing.output.kafka.Despatcher;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
-import eventprocessing.utils.factory.FactoryValues;
+import startServices.FactoryValues;
 import eventprocessing.utils.mapping.MessageMapper;
-import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;;
+import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
 
 /**
  * Startpunkt der Anwendung.
@@ -117,9 +118,8 @@ public class StartServices {
 			publish(event2,"TokenGeneration");
 
 			TokenEvent event3 = (TokenEvent) eventFactory.createEvent("TokenEvent");
-			event3.setDocumentType("document");
-			Property<String> costdocument = new Property<String>("documentcategory", "CostDocument");
-			event3.add(costdocument);
+			Property<Long> sessionStart = new Property<Long>("sessionStart", System.currentTimeMillis());
+			event3.add(sessionStart);
 			event3.setSessionID("1");			
 			publish(event3,"TokenGeneration");
 	}
