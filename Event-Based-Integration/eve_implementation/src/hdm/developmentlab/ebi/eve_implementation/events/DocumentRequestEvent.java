@@ -6,7 +6,11 @@ import java.util.ArrayList;
 
 public class DocumentRequestEvent extends AbstractEvent {
 
-    TokenEvent token;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	TokenEvent token;
     String projectid;
     Enum<TimeReferenceEnum> timeref;
     String sessionId;

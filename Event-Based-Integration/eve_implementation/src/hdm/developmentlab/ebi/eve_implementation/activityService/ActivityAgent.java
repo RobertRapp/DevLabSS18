@@ -3,13 +3,10 @@ package hdm.developmentlab.ebi.eve_implementation.activityService;
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.exceptions.NoValidConsumingTopicException;
 import eventprocessing.demo.ShowcaseValues;
-import eventprocessing.demo.interestprofiles.DiagnosisInterestProfile;
 import eventprocessing.dispatch.NoValidInterestProfileException;
 import eventprocessing.input.kafka.ConsumerSettings;
 import eventprocessing.interestprofile.AbstractInterestProfile;
-import eventprocessing.interestprofile.predicates.statement.IsEventType;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationType;
-import hdm.developmentlab.ebi.eve_implementation.events.*;
 
 
 public class ActivityAgent extends AbstractAgent {
@@ -17,6 +14,11 @@ public class ActivityAgent extends AbstractAgent {
 	
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	protected void doOnInit() {
 		
 		/*

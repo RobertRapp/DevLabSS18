@@ -1,7 +1,7 @@
 package hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles;
 
 
-import eventprocessing.demo.events.SpeedEvent;
+
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.interestprofile.AbstractInterestProfile;
 import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
@@ -25,7 +25,7 @@ public class TokenApplicationType extends AbstractInterestProfile {
 		
 		if (event instanceof TokenEvent) {
 			// casten zu SpeedEvent um HÃ¶chstgeschwindigkeit auszulesen
-			SpeedEvent speedEvent = (SpeedEvent) event;
+			//SpeedEvent speedEvent = (SpeedEvent) event;
 			// Alle benÃ¶tigten Informationen werden aus dem Event entnommen
 			// e.setVelocity(speedEvent.getAverageSpeed());
 

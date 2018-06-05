@@ -1,9 +1,8 @@
 package startServices;
 
-import java.util.Locale;
-
 import org.apache.spark.SparkException;
 import org.apache.spark.TaskKilledException;
+
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.exceptions.NoValidAgentException;
 import eventprocessing.event.AbstractEvent;
@@ -11,10 +10,11 @@ import eventprocessing.event.Property;
 import eventprocessing.input.spark.streaming.StreamingExecution;
 import eventprocessing.output.kafka.Despatcher;
 import eventprocessing.utils.factory.AbstractFactory;
-import eventprocessing.utils.factory.FactoryProducer;
-import startServices.FactoryValues;
 import eventprocessing.utils.mapping.MessageMapper;
+import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
 import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
+import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
+import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 
 /**
  * Startpunkt der Anwendung.
@@ -30,21 +30,16 @@ public class StartServices {
 	private static final Despatcher despatcher = new Despatcher();
 	// wandelt die Events in Nachrichten um.
 	private static final MessageMapper messageMapper = new MessageMapper();
-	// Ãœber diese Factory kÃ¶nnen Events erzeugt werden
-	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
-
 	public static void main(String[] args)
 			throws TaskKilledException, SparkException, InterruptedException, NoValidAgentException {
 		/*
 		 * Alle Agenten die benötigt werden, werden hier erzeugt.
 		 */
-		AbstractFactory agentFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getAgentFactory());
+		//AbstractFactory agentFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getAgentFactory());
 		// Erstellung der Agenten
-		AbstractAgent activityService = (AbstractAgent) agentFactory.createAgent("ActivityAgent");
-		AbstractAgent protocolService = (AbstractAgent) agentFactory
-				.createAgent("ProtocolAgent");
-		AbstractAgent sessionContext = (AbstractAgent) agentFactory
-				.createAgent("SessionContextAgent");
+		AbstractAgent activityService = (AbstractAgent) new ActivityAgent();
+		AbstractAgent protocolService = (AbstractAgent) new ProtocolAgent();
+		AbstractAgent sessionContext = (AbstractAgent) new SessionContextAgent();
 
 		/*
 		 * Die Agenten werden der Sparkumgebung hinzugefÃ¼gt Nur die Agenten die
@@ -103,21 +98,21 @@ public class StartServices {
 	 */
 	private static void publishDemoEvents() throws InterruptedException {
 			
-			TokenEvent event = (TokenEvent) eventFactory.createEvent("TokenEvent");
+			TokenEvent event = (TokenEvent) new TokenEvent();
 			event.setDocumentType("application");
 			Property<String> app = new Property<String>("application", "drive");
 			event.add(app);
 			event.setSessionID("1");			
 			publish(event,"TokenGeneration");		
 			
-			TokenEvent event2 = (TokenEvent) eventFactory.createEvent("TokenEvent");
+			TokenEvent event2 = (TokenEvent) new TokenEvent();
 			event2.setDocumentType("document");
 			Property<String> taskdocument = new Property<String>("documentcategory", "TaskDocument");
 			event2.add(taskdocument);			
 			event2.setSessionID("1");			
 			publish(event2,"TokenGeneration");
 
-			TokenEvent event3 = (TokenEvent) eventFactory.createEvent("TokenEvent");
+			TokenEvent event3 = (TokenEvent) new TokenEvent();
 			Property<Long> sessionStart = new Property<Long>("sessionStart", System.currentTimeMillis());
 			event3.add(sessionStart);
 			event3.setSessionID("1");			

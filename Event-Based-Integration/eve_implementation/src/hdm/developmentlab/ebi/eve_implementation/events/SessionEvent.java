@@ -7,7 +7,11 @@ import java.util.Stack;
 
 public class SessionEvent extends AbstractEvent {
 
-    String sessionId;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	String sessionId;
     ArrayList<UserInfoEvent> users;
     Enum<TimeReferenceEnum> timereference;
     TokenEvent latesttopic;
