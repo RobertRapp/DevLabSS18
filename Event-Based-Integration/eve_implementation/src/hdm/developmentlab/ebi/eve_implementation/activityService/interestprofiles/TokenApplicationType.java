@@ -7,10 +7,6 @@ import java.util.logging.Logger;
 
 import eventprocessing.agent.exceptions.NoValidEventException;
 import eventprocessing.agent.exceptions.NoValidTargetTopicException;
-import eventprocessing.demo.ShowcaseValues;
-import eventprocessing.demo.events.SpeedEvent;
-import eventprocessing.demo.events.SpeedMeasurement;
-import eventprocessing.demo.interestprofiles.DiagnosisInterestProfile;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.interestprofile.AbstractInterestProfile;
 import eventprocessing.utils.factory.AbstractFactory;
@@ -48,8 +44,6 @@ public class TokenApplicationType extends AbstractInterestProfile {
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist und eine Application beinhaltet
 		//HIER MIT PREDICATES IN IF CONDITION ARBEITEN! 
 		if (event instanceof TokenEvent) {
-				// casten um Type auszulesen
-				TokenEvent tokenEvent = (TokenEvent) event;
 				// Alle benötigten Informationen werden aus dem Event entnommen
 				//e.setApplicationID(tokenEvent.getChunkID());
 				//e.setApplicationName(tokenEvent.getChunkSemantic());

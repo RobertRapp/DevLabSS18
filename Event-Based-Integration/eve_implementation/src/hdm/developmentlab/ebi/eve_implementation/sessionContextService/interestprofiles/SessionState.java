@@ -1,6 +1,9 @@
 package hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles;
 
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import eventprocessing.agent.exceptions.NoValidEventException;
 import eventprocessing.agent.exceptions.NoValidTargetTopicException;
 import eventprocessing.event.AbstractEvent;
@@ -29,7 +32,10 @@ public class SessionState extends AbstractInterestProfile {
 	 */
 	@Override
 	protected void doOnReceive(AbstractEvent abs) {
-	SessionStateEvent arg0 = (SessionStateEvent) abs;		
+		
+		Logger l = LoggerFactory.getLogger("DOONRECEIVE SESSIONSTATE");
+		l.log(Level.WARNING, "Event von test erhalten");
+		SessionStateEvent arg0 = (SessionStateEvent) abs;		
 		SessionContextAgent agent = (SessionContextAgent) this.getAgent(); 			
 		SessionEvent session = new SessionEvent();
 		session.setId(arg0.getId());
@@ -39,9 +45,10 @@ public class SessionState extends AbstractInterestProfile {
 		agent.addSession(session);
 		
 		try {
-			agent.send(session, "test");
-		} catch (NoValidEventException e) {
+			agent.send(session, "Session");
 			
+		} catch (NoValidEventException e) {
+			l.log(Level.WARNING, "SessionState Event konnte nicht publiziert werden"+e);
 			e.printStackTrace();
 		} catch (NoValidTargetTopicException e) {
 			// TODO Auto-generated catch block
