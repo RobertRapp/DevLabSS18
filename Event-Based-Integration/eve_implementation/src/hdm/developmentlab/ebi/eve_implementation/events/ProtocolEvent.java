@@ -9,10 +9,10 @@ public class ProtocolEvent extends AbstractEvent {
 	/**
 	 * Komentar
 	 */
-	private static final long serialVersionUID = 1L;
-	String sessionId;
-    ArrayList<UserInfoEvent> users;
-    Enum<TimeReferenceEnum> timereference;
+	//private static final long serialVersionUID = 1L;
+	//String sessionId;
+    //ArrayList<UserInfoEvent> users;
+    //Enum<TimeReferenceEnum> timereference;
     
     
 	

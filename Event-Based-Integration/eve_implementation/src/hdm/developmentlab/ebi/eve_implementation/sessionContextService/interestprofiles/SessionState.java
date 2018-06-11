@@ -45,7 +45,7 @@ public class SessionState extends AbstractInterestProfile {
 		agent.addSession(session);
 		
 		try {
-			agent.send(session, "Session");
+			agent.send(session, "Sessions");
 			
 		} catch (NoValidEventException e) {
 			l.log(Level.WARNING, "SessionState Event konnte nicht publiziert werden"+e);

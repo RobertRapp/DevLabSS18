@@ -4,7 +4,10 @@ import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.exceptions.NoValidConsumingTopicException;
 import eventprocessing.dispatch.NoValidInterestProfileException;
 import eventprocessing.interestprofile.AbstractInterestProfile;
+import eventprocessing.interestprofile.predicates.statement.IsEventType;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.interestprofiles.Sessions;
+
+import startServices.ShowcaseValues;
 
 public class ProtocolAgent extends AbstractAgent {
 
@@ -33,7 +36,7 @@ public class ProtocolAgent extends AbstractAgent {
 		 */
 		try {
 			AbstractInterestProfile ip = new Sessions();
-			//ip.add(new IsEventType(ShowcaseValues.INSTANCE.Token()));
+			ip.add(new IsEventType(ShowcaseValues.INSTANCE.getSessionEvent()));
 			this.add(ip);
 		} catch (NoValidInterestProfileException e1) {
 			e1.printStackTrace();

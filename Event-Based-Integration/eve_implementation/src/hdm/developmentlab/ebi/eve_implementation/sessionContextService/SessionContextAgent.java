@@ -5,7 +5,10 @@ import eventprocessing.agent.exceptions.NoValidConsumingTopicException;
 import startServices.ShowcaseValues;
 import eventprocessing.dispatch.NoValidInterestProfileException;
 import eventprocessing.input.kafka.ConsumerSettings;
-import eventprocessing.interestprofile.AbstractInterestProfile;import eventprocessing.interestprofile.predicates.AbstractPredicate;
+import eventprocessing.interestprofile.AbstractInterestProfile;
+import eventprocessing.interestprofile.predicates.AbstractPredicate;
+
+
 import eventprocessing.interestprofile.predicates.statement.HasProperty;
 import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.*;
@@ -32,13 +35,13 @@ public class SessionContextAgent extends AbstractAgent {
 		}
 		try {
 			
-			AbstractPredicate predicate = new HasProperty("sessionStart");						
+					
 			SessionState sessionInt = new SessionState(); 
-					sessionInt.add(predicate);
+					
 			this.add(sessionInt);
 			
 		} catch (NoValidInterestProfileException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		this.setConsumerSettings(new ConsumerSettings(ShowcaseValues.INSTANCE.getIpKafka(),
@@ -57,6 +60,14 @@ public class SessionContextAgent extends AbstractAgent {
 
 	public void addSession(SessionEvent session) {
 		sessions.add(session);
+	}
+	
+	public SessionEvent getSessionById(String session) {
+		
+		for(SessionEvent s : sessions) {
+			if(s.getSessionId().equalsIgnoreCase(session)) return s;
+		}		
+		return null;
 	}
 
 

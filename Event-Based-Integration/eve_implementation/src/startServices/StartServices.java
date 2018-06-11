@@ -8,6 +8,7 @@ import org.apache.spark.TaskKilledException;
 
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.exceptions.NoValidAgentException;
+import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
 import eventprocessing.input.kafka.ConsumerSettings;
@@ -134,6 +135,14 @@ public class StartServices {
 			event.setSessionID("2");
 			Property<Long> sessionStart = new Property<Long>("sessionStart", System.currentTimeMillis());
 			event3.add(sessionStart);
+			int zaehler = 5;
+			for(int i = 0 ; i < zaehler; i++) {
+				Thread.sleep(ShowcaseValues.INSTANCE.getThreadSleep());
+				publish(event3,"test");
+				Logger l = LoggerFactory.getLogger("PUBLISHDEMOEVENTS");
+				l.log(Level.WARNING, "Event wurde direkt durch Dispatcher auf Test gepusht");
+			}
+			
 					
 			publish(event3,"test");
 			Logger l = LoggerFactory.getLogger("PUBLISHDEMOEVENTS");
