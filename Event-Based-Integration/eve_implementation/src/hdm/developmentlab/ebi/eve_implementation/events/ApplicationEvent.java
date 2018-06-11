@@ -1,6 +1,8 @@
 package hdm.developmentlab.ebi.eve_implementation.events;
 
-public class ApplicationEvent {
+import eventprocessing.event.AbstractEvent;
+
+public class ApplicationEvent extends AbstractEvent {
 	
 	private static final long serialVersionUID = 1L;
 	

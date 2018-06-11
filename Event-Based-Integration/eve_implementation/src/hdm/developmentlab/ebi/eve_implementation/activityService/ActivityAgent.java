@@ -27,6 +27,13 @@ public class ActivityAgent extends AbstractAgent {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private ArrayList<SessionEvent> sessions = new ArrayList<SessionEvent>();
+	private AbstractInterestProfile project;
+	private SessionState sessionState = new SessionState();
+	private TimeReference timeReference = new TimeReference();
+	private TokenApplicationType tokenApplicationType = new TokenApplicationType();
+	private User userInfo = new User();
 
 	protected void doOnInit() {
 		
@@ -47,8 +54,8 @@ public class ActivityAgent extends AbstractAgent {
 		 */
 		try {
 			AbstractPredicate predicate = new HasProperty("application");
-			tokenDocumentType.add(predicate);
-			this.add(tokenDocumentType);
+			tokenApplicationType.add(predicate);
+			this.add(tokenApplicationType);
 			
 			/*
 			 * Beinhaltet Tokenevent eine Application? 
@@ -94,12 +101,7 @@ public class ActivityAgent extends AbstractAgent {
 	public void setTimeReference(TimeReference timeReference) {
 		this.timeReference = timeReference;
 	}
-	public TokenDocumentType getTokenDocumentType() {
-		return tokenDocumentType;
-	}
-	public void setTokenDocumentType(TokenDocumentType tokenDocumentType) {
-		this.tokenDocumentType = tokenDocumentType;
-	}
+
 	public User getUserInfo() {
 		return userInfo;
 	}
@@ -107,18 +109,14 @@ public class ActivityAgent extends AbstractAgent {
 		this.userInfo = userInfo;
 	}
 
+	public TokenApplicationType getTokenApplicationType() {
+		return tokenApplicationType;
+	}
 
 
-
-	ArrayList<SessionEvent> sessions = new ArrayList<SessionEvent>();
-	AbstractInterestProfile project;
-	SessionState sessionState = new SessionState();
-	TimeReference timeReference = new TimeReference();
-	TokenDocumentType tokenDocumentType = new TokenDocumentType();
-	User userInfo = new User();
-	
-	
-		
+	public void setTokenApplicationType(TokenApplicationType tokenApplicationType) {
+		this.tokenApplicationType = tokenApplicationType;
+	}
 		
 	}
 
