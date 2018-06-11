@@ -21,8 +21,19 @@ public class ActivityAgent extends AbstractAgent {
 
 	protected void doOnInit() {
 		
+
 		/*
-		 * FÃ¼gt dem Agenten ein InteressenProfil hinzu Ein Agent kann mehrere
+		 * Angabe der Topics, die konsumiert werden sollen. Es können mehrere Topics
+		 * angegeben werden.
+		 */
+		try {
+			this.add("TokenGeneration");
+		} catch (NoValidConsumingTopicException e) {
+			e.printStackTrace();
+		}
+		
+		/*
+		 * Fügt dem Agenten ein InteressenProfil hinzu. Ein Agent kann mehrere
 		 * InteressenProfile besitzen
 		 */
 		try {
@@ -32,15 +43,7 @@ public class ActivityAgent extends AbstractAgent {
 		} catch (NoValidInterestProfileException e1) {
 			e1.printStackTrace();
 		}
-		/*
-		 * Angabe der Topics, die konsumiert werden sollen. Es kÃ¶nnen mehrere Topics
-		 * angegeben werden.
-		 */
-		try {
-			this.add("TokenGeneration");
-		} catch (NoValidConsumingTopicException e) {
-			e.printStackTrace();
-		}
+		
 		this.setConsumerSettings(new ConsumerSettings(ShowcaseValues.INSTANCE.getIpKafka(),
 				ShowcaseValues.INSTANCE.getPortKafka(), "Tokens2"));
 
