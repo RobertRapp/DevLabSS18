@@ -3,6 +3,7 @@ package hdm.developmentlab.ebi.eve_implementation.protocolService.interestprofil
 
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.interestprofile.AbstractInterestProfile;
+import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
 
 
 public class Sessions extends AbstractInterestProfile {
@@ -27,8 +28,7 @@ public class Sessions extends AbstractInterestProfile {
 	@Override
 	protected void doOnReceive(AbstractEvent arg0) {
 
-		// SessionEvent session = (SessionEvent) arg0; Hier kommt in jeden Fall ein SessionEvent rein, das bereits alle Infos für das Protokoll enthält.
-		
+		SessionEvent session = (SessionEvent) arg0; //Hier kommt in jeden Fall ein SessionEvent rein, das bereits alle Infos für das Protokoll enthält.
 	}
 
 }

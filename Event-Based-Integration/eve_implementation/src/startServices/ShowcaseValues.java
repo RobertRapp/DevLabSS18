@@ -3,6 +3,9 @@ package startServices;
 public enum ShowcaseValues {
 	INSTANCE;
 	
+	private String sessionEvent = null;
+	
+	
 	private String firstSensorLocation = null;
 	private String secondSensorLocation = null;
 	private int firstSensorID = 0;
@@ -33,6 +36,9 @@ public enum ShowcaseValues {
 	private String SeverityNotOk = null;
 	
 	private ShowcaseValues() {
+		
+		sessionEvent = "SessionEvent";
+		
 		firstSensorLocation = "West-1";
 		secondSensorLocation = "West-2";
 		firstSensorID = 1;
@@ -148,5 +154,13 @@ public enum ShowcaseValues {
 	
 	public String getSeverityNotOk() {
 		return SeverityNotOk;
+	}
+
+	public String getSessionEvent() {
+		return sessionEvent;
+	}
+
+	public void setSessionEvent(String sessionEvent) {
+		this.sessionEvent = sessionEvent;
 	}
 }
