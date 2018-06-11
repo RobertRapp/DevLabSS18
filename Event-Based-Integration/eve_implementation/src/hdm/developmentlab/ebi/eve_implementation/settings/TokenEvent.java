@@ -1,4 +1,4 @@
-package hdm.developmentlab.ebi.eve_implementation.events;
+package hdm.developmentlab.ebi.eve_implementation.settings;
 
 import eventprocessing.event.AbstractEvent;
 

@@ -7,6 +7,7 @@ import eventprocessing.dispatch.NoValidInterestProfileException;
 import eventprocessing.input.kafka.ConsumerSettings;
 import eventprocessing.interestprofile.AbstractInterestProfile;import eventprocessing.interestprofile.predicates.AbstractPredicate;
 import eventprocessing.interestprofile.predicates.statement.HasProperty;
+import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenDocumentType;
 import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.*;
 
@@ -15,7 +16,12 @@ import java.util.ArrayList;
 
 
 public class SessionContextAgent extends AbstractAgent {
-
+	
+	ArrayList<SessionEvent> sessions = new ArrayList<SessionEvent>();
+	AbstractInterestProfile project;
+	SessionState sessionState = new SessionState();
+	TimeReference timeReference = new TimeReference();
+	User userInfo = new User();
 
 	protected void doOnInit() {
 		try {
@@ -27,8 +33,9 @@ public class SessionContextAgent extends AbstractAgent {
 		try {
 			
 			AbstractPredicate predicate = new HasProperty("sessionStart");						
-			tokenDocumentType.add(predicate);
-			this.add(tokenDocumentType);
+			SessionState sessionInt = new SessionState(); 
+					sessionInt.add(predicate);
+			this.add(sessionInt);
 			
 		} catch (NoValidInterestProfileException e) {
 			// TODO Auto-generated catch block
@@ -81,18 +88,7 @@ public class SessionContextAgent extends AbstractAgent {
 	public void setTimeReference(TimeReference timeReference) {
 		this.timeReference = timeReference;
 	}
-
-
-	public TokenDocumentType getTokenDocumentType() {
-		return tokenDocumentType;
-	}
-
-
-	public void setTokenDocumentType(TokenDocumentType tokenDocumentType) {
-		this.tokenDocumentType = tokenDocumentType;
-	}
-
-
+	
 	public User getUserInfo() {
 		return userInfo;
 	}
@@ -108,12 +104,7 @@ public class SessionContextAgent extends AbstractAgent {
 	}
 
 
-	ArrayList<SessionEvent> sessions = new ArrayList<SessionEvent>();
-	AbstractInterestProfile project;
-	SessionState sessionState = new SessionState();
-	TimeReference timeReference = new TimeReference();
-	TokenDocumentType tokenDocumentType = new TokenDocumentType();
-	User userInfo = new User();
+
 
 
 	
