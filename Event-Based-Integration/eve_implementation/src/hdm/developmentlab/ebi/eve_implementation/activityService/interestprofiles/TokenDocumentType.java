@@ -10,12 +10,14 @@ import eventprocessing.demo.events.SpeedEvent;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.interestprofile.AbstractInterestProfile;
 import eventprocessing.utils.factory.AbstractFactory;
+import eventprocessing.utils.factory.AgentFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import hdm.developmentlab.ebi.eve_implementation.events.ApplicationEvent;
 import hdm.developmentlab.ebi.eve_implementation.events.DocumentRequestEvent;
 import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
+import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 
 
 public class TokenDocumentType extends AbstractInterestProfile {
@@ -28,7 +30,7 @@ public class TokenDocumentType extends AbstractInterestProfile {
 
 	// Factory für die Erzeugung der Events
 	private AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
-	
+	private AbstractFactory agentFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getAgentFactory());
 	/**
 	 * Empfängt Tokentypen und leitet damit eine neue Dokumentenvorschlagsanfrage ein.
 	 * @param arg0
@@ -38,6 +40,9 @@ public class TokenDocumentType extends AbstractInterestProfile {
 	protected void doOnReceive(AbstractEvent event) {
 		// Erzeugt über die Factory ein neues Event
 		DocumentRequestEvent dr = (DocumentRequestEvent) eventFactory.createEvent("????");
+		SessionContextAgent sc = (SessionContextAgent) agentFactory.createAgent("SessionContextAgent");
+		
+		
 		
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist und eine Application beinhaltet
 		if (event instanceof TokenEvent) {
@@ -49,6 +54,26 @@ public class TokenDocumentType extends AbstractInterestProfile {
 				dr.setToken(tokenEvent);
 
 				//Token bei Bedarf um Infos aus SessionContext anreichern 
+				if(tokenEvent.getPropertyByKey("project").getValue() == null) {
+					
+				}
+				
+				if(tokenEvent.getPropertyByKey("timereference").getValue() == null) {
+					
+				}
+				
+				if(tokenEvent.getPropertyByKey("latestActivity").getValue() == null) {
+					
+				}
+				
+				if(tokenEvent.getPropertyByKey("users").getValue() == null) {
+					dr.setUsers(sc.getSessions().get(tokenEvent.getSessionID()).getUsers());
+				}
+				
+				if(tokenEvent.getPropertyByKey("sessionId").getValue() == null) {
+					
+				}
+				
 				
 				// Sendet das Event an DR (welches Topic ???) 
 				try {
