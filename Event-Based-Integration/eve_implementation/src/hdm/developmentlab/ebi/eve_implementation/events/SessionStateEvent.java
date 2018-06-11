@@ -2,12 +2,13 @@ package hdm.developmentlab.ebi.eve_implementation.events;
 
 import eventprocessing.event.AbstractEvent;
 
-public class TokenEvent extends AbstractEvent {
+public class SessionStateEvent extends AbstractEvent {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6649640980097463080L;
+	private static final long serialVersionUID = 1L;
+
 	private String sessionID;
 	
 	public String getSessionID() {
@@ -16,6 +17,4 @@ public class TokenEvent extends AbstractEvent {
 	public void setSessionID(String sessionID) {
 		this.sessionID = sessionID;
 	} 
-	
-
 }
