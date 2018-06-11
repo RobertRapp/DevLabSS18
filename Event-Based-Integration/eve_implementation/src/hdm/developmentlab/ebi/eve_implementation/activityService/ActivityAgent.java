@@ -11,6 +11,7 @@ import eventprocessing.interestprofile.AbstractInterestProfile;
 import eventprocessing.interestprofile.predicates.AbstractPredicate;
 import eventprocessing.interestprofile.predicates.statement.HasProperty;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationType;
+import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenDocumentType;
 import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.TimeReference;
@@ -20,11 +21,6 @@ import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestp
 public class ActivityAgent extends AbstractAgent {
 
 	
-
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private ArrayList<SessionEvent> sessions = new ArrayList<SessionEvent>();
@@ -32,6 +28,7 @@ public class ActivityAgent extends AbstractAgent {
 	private SessionState sessionState = new SessionState();
 	private TimeReference timeReference = new TimeReference();
 	private TokenApplicationType tokenApplicationType = new TokenApplicationType();
+	private TokenDocumentType tokenDocumentType = new TokenDocumentType();
 	private User userInfo = new User();
 
 	protected void doOnInit() {
@@ -53,12 +50,33 @@ public class ActivityAgent extends AbstractAgent {
 		 */
 		try {
 			AbstractPredicate predicate = new HasProperty("application");
+			
 			tokenApplicationType.add(predicate);
 			this.add(tokenApplicationType);
 			
 			/*
-			 * Beinhaltet Tokenevent eine Application? 
-			 * ApplicationEvent-Objekt erzeugen 
+			 * Beinhaltet Tokenevent eine Application?
+			 * ApplicationEvent-Objekt erzeugen
+			 * Wenn ja, Event erzeugen, welches Link zur Application bei DR "abfragt"
+			 * 
+			 */
+			
+			AbstractInterestProfile ip = new TokenApplicationType();
+			//ip.add(new IsEventType(ShowcaseValues.INSTANCE.Token()));
+			this.add(ip);
+		} catch (NoValidInterestProfileException e1) {
+			e1.printStackTrace();
+		}
+		
+		try {
+			AbstractPredicate predicate = new HasProperty("topic");
+			
+			tokenDocumentType.add(predicate);
+			this.add(tokenDocumentType);
+			
+			/*
+			 * Beinhaltet Tokenevent eine Application?
+			 * ApplicationEvent-Objekt erzeugen
 			 * Wenn ja, Event erzeugen, welches Link zur Application bei DR "abfragt"
 			 * 
 			 */
@@ -111,7 +129,6 @@ public class ActivityAgent extends AbstractAgent {
 	public TokenApplicationType getTokenApplicationType() {
 		return tokenApplicationType;
 	}
-
 
 	public void setTokenApplicationType(TokenApplicationType tokenApplicationType) {
 		this.tokenApplicationType = tokenApplicationType;

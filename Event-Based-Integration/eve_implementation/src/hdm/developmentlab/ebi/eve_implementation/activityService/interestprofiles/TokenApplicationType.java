@@ -39,8 +39,7 @@ public class TokenApplicationType extends AbstractInterestProfile {
 	protected void doOnReceive(AbstractEvent event) {
 		// Erzeugt über die Factory ein neues Event
 		ApplicationEvent e = (ApplicationEvent) eventFactory.createEvent("????");
-		DocumentRequestEvent dr = (DocumentRequestEvent) eventFactory.createEvent("????");
-		
+			
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist und eine Application beinhaltet
 		//HIER MIT PREDICATES IN IF CONDITION ARBEITEN! 
 		if (event instanceof TokenEvent) {
@@ -59,30 +58,6 @@ public class TokenApplicationType extends AbstractInterestProfile {
 				}
 				
 		}
-		
-		//Handelt es sich um eine Aktivität? Dann muss daraus eine Dokumentenabfrage generiert werden
-		//Bedingung fehl noch 
-		if (event instanceof TokenEvent) {
-			// casten um Type auszulesen
-			TokenEvent tokenEvent = (TokenEvent) event;
-			// Alle benötigten Informationen werden aus dem Event entnommen
-			
-			dr.setToken(tokenEvent);
-			
-			//Tokeninfos werden bei Bedarf um aktuellen Sessioncontext ergänzt 
-			
-			//if (tokenEvent.getProperties().get(arg0))
-			
-			// Sendet das Event an DR (welches Topic ???) 
-			try {
-				getAgent().send(e, "DR Topic ???");
-			} catch (NoValidEventException e1) {
-				LOGGER.log(Level.WARNING, () -> String.format("%s", e));
-			} catch (NoValidTargetTopicException e1) {
-				LOGGER.log(Level.WARNING, () -> String.format("%s", e));
-			}
-			
-	}
 		
 		
 		
