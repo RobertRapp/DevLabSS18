@@ -41,11 +41,11 @@ public class TokenApplicationType extends AbstractInterestProfile {
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
 		// Erzeugt über die Factory ein neues Event
-		ApplicationEvent e = (ApplicationEvent) eventFactory.createEvent("??");
+		ApplicationEvent e = (ApplicationEvent) eventFactory.createEvent("????");
 		
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist und eine Application beinhaltet
-		if (event instanceof TokenEvent) {
-			// Prüfe ob das empfangene Event vom Typ TokenEvent ist
+		//HIER MIT PREDICATES IN IF CONDITION ARBEITEN! 
+		if (event instanceof TokenEvent && ((TokenEvent) event).getChunkSemantic() == "application") {
 				// casten um Type auszulesen
 				TokenEvent tokenEvent = (TokenEvent) event;
 				// Alle benötigten Informationen werden aus dem Event entnommen
