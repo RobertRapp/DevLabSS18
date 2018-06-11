@@ -6,15 +6,15 @@ import java.util.logging.Logger;
 
 import eventprocessing.agent.exceptions.NoValidEventException;
 import eventprocessing.agent.exceptions.NoValidTargetTopicException;
-import eventprocessing.demo.events.SpeedEvent;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.interestprofile.AbstractInterestProfile;
+import eventprocessing.interestprofile.predicates.AbstractPredicate;
+import eventprocessing.interestprofile.predicates.statement.HasProperty;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.AgentFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
-import hdm.developmentlab.ebi.eve_implementation.events.ApplicationEvent;
 import hdm.developmentlab.ebi.eve_implementation.events.DocumentRequestEvent;
 import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
@@ -48,18 +48,23 @@ public class TokenDocumentType extends AbstractInterestProfile {
 		if (event instanceof TokenEvent) {
 			// casten zu TokenEvent um Event auszulesen
 				TokenEvent tokenEvent = (TokenEvent) event;
-				// Alle benötigten Informationen werden aus dem Event entnommen
-				//e.setApplicationID(tokenEvent.getChunkID());
-				//e.setApplicationName(tokenEvent.getChunkSemantic());
-				dr.setToken(tokenEvent);
 
+				AbstractPredicate predicate = new HasProperty("project");
 				//Token bei Bedarf um Infos aus SessionContext anreichern 
-				if(tokenEvent.getPropertyByKey("project").getValue() == null) {
+				if(tokenEvent.getPropertyByKey("project").equals(null)) {
+					tokenEvent.add(sc.getSessionById(tokenEvent.getSessionID()).getPropertyByKey("project"));
+					dr.setToken(tokenEvent);
+
+				} else 
+					if(tokenEvent.getPropertyByKey("project").getValue() == null) {
+						tokenEvent.remove(tokenEvent.getPropertyByKey("project"));
+						tokenEvent.add(sc.getSessionById(tokenEvent.getSessionID()).getPropertyByKey("project"));
+						dr.setToken(tokenEvent);
 					
 				}
 				
 				if(tokenEvent.getPropertyByKey("timereference").getValue() == null) {
-					
+					dr.setTimeref(sc.getSessionById(tokenEvent.getSessionID()).getTimereference());
 				}
 				
 				if(tokenEvent.getPropertyByKey("latestActivity").getValue() == null) {
@@ -67,11 +72,11 @@ public class TokenDocumentType extends AbstractInterestProfile {
 				}
 				
 				if(tokenEvent.getPropertyByKey("users").getValue() == null) {
-					dr.setUsers(sc.getSessions().get(tokenEvent.getSessionID()).getUsers());
+					dr.setUsers(sc.getSessionById(tokenEvent.getSessionID()).getUsers());
 				}
 				
 				if(tokenEvent.getPropertyByKey("sessionId").getValue() == null) {
-					
+					dr.setSessionId(sc.getSessionById(tokenEvent.getSessionID()).getSessionId());
 				}
 				
 				

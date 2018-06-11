@@ -10,10 +10,10 @@ public class DocumentRequestEvent extends AbstractEvent {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	TokenEvent token;
-    String projectid;
-    Enum<TimeReferenceEnum> timeref;
-    String sessionId;
+	private TokenEvent token;
+    private String projectid;
+    private Enum<TimeReferenceEnum> timeref;
+    private String sessionId;
 
     public TokenEvent getToken() {
         return token;
