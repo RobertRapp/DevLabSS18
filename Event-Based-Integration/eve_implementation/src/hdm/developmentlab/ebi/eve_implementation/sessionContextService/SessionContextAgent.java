@@ -7,7 +7,6 @@ import eventprocessing.dispatch.NoValidInterestProfileException;
 import eventprocessing.input.kafka.ConsumerSettings;
 import eventprocessing.interestprofile.AbstractInterestProfile;import eventprocessing.interestprofile.predicates.AbstractPredicate;
 import eventprocessing.interestprofile.predicates.statement.HasProperty;
-import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenDocumentType;
 import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.*;
 

@@ -2,11 +2,8 @@ package hdm.developmentlab.ebi.eve_implementation.protocolService;
 
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.exceptions.NoValidConsumingTopicException;
-import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.dispatch.NoValidInterestProfileException;
-import eventprocessing.input.kafka.ConsumerSettings;
 import eventprocessing.interestprofile.AbstractInterestProfile;
-import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationType;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.interestprofiles.Sessions;
 
 public class ProtocolAgent extends AbstractAgent {

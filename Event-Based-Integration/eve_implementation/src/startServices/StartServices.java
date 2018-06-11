@@ -1,7 +1,6 @@
 package startServices;
 
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import org.apache.spark.SparkException;
@@ -14,8 +13,6 @@ import eventprocessing.event.Property;
 import eventprocessing.input.kafka.ConsumerSettings;
 import eventprocessing.input.spark.streaming.StreamingExecution;
 import eventprocessing.output.kafka.Despatcher;
-import eventprocessing.output.kafka.settings.ProducerSettings;
-import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
 import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
