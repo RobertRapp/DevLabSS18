@@ -26,6 +26,7 @@ public class SessionContextAgent extends AbstractAgent {
 	protected void doOnInit() {
 		try {
 			this.add("TokenGeneration");
+			this.add("test");
 		} catch (NoValidConsumingTopicException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
