@@ -14,7 +14,6 @@ import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofile
 import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.TimeReference;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.TokenDocumentType;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
 

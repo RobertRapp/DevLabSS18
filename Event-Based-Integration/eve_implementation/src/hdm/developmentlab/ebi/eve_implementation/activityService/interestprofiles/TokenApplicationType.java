@@ -45,12 +45,12 @@ public class TokenApplicationType extends AbstractInterestProfile {
 		
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist und eine Application beinhaltet
 		//HIER MIT PREDICATES IN IF CONDITION ARBEITEN! 
-		if (event instanceof TokenEvent && ((TokenEvent) event).getChunkSemantic() == "application") {
+		if (event instanceof TokenEvent) {
 				// casten um Type auszulesen
 				TokenEvent tokenEvent = (TokenEvent) event;
 				// Alle benötigten Informationen werden aus dem Event entnommen
-				e.setApplicationID(tokenEvent.getChunkID());
-				e.setApplicationName(tokenEvent.getChunkSemantic());
+				//e.setApplicationID(tokenEvent.getChunkID());
+				//e.setApplicationName(tokenEvent.getChunkSemantic());
 				e.setLink("missing");
 				
 		}
