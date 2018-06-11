@@ -1,5 +1,9 @@
 package startServices;
 
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+
 import org.apache.spark.SparkException;
 import org.apache.spark.TaskKilledException;
 
@@ -12,6 +16,7 @@ import eventprocessing.input.spark.streaming.StreamingExecution;
 import eventprocessing.output.kafka.Despatcher;
 import eventprocessing.output.kafka.settings.ProducerSettings;
 import eventprocessing.utils.factory.AbstractFactory;
+import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
 import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
 import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
@@ -48,6 +53,7 @@ public class StartServices {
 		activityService.setConsumerSettings(cs);
 		protocolService.setConsumerSettings(cs);
 		sessionContext.setConsumerSettings(cs);
+		
 		/*
 		 * Alle Agenten die benötigt werden, werden hier erzeugt.
 		 */
@@ -97,6 +103,7 @@ public class StartServices {
 	 */
 	private static void publish(AbstractEvent event, String topic) {
 		String message = messageMapper.toJSON(event);
+		
 		despatcher.deliver(message, topic);
 	}
 
@@ -130,7 +137,12 @@ public class StartServices {
 			Property<Long> sessionStart = new Property<Long>("sessionStart", System.currentTimeMillis());
 			event3.add(sessionStart);
 					
-			//publish(event3,"test");
+			publish(event3,"test");
+			Logger l = LoggerFactory.getLogger("PUBLISHDEMOEVENTS");
+			l.log(Level.WARNING, "Event wurde direkt durch Dispatcher auf Test gepusht");
+			
+			
+			
 			 
 	}
 }
