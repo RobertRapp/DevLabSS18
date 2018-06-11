@@ -13,6 +13,7 @@ import eventprocessing.event.Property;
 import eventprocessing.input.kafka.ConsumerSettings;
 import eventprocessing.input.spark.streaming.StreamingExecution;
 import eventprocessing.output.kafka.Despatcher;
+import eventprocessing.output.kafka.settings.ProducerSettings;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
 import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
@@ -31,7 +32,7 @@ import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionCo
 public class StartServices {
 
 	// FÃ¼r die Versendung der DemoEvents an das Topic nötig.
-	private static final Despatcher despatcher = new Despatcher();
+	private static final Despatcher despatcher = new Despatcher(ProducerSettings.INSTANCE);
 	// wandelt die Events in Nachrichten um.
 	private static final MessageMapper messageMapper = new MessageMapper();
 	
