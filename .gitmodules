@@ -1,0 +1,4 @@
+[submodule "Event-Processing"]
+	path = Event-Processing
+	url = git@github.com:PeterThies/Event-Processing.git
+	branch = master
