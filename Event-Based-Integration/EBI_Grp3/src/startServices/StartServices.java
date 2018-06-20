@@ -67,13 +67,11 @@ public class StartServices {
 		//AbstractAgent activityService = (AbstractAgent) new ActivityAgent();		
 		//AbstractAgent protocolService = (AbstractAgent) new ProtocolAgent();
 		AbstractAgent sessionContext = (AbstractAgent)  new SessionContextAgent();
-		try {
-			AbstractInterestProfile ip = new SessionState();
-			ip.add(new IsEventType("SensorEvent"));
-			sessionContext.add(ip);
-		} catch (NoValidInterestProfileException e1) {
-			e1.printStackTrace();
-		}
+	
+			SessionState ip = new SessionState();
+//			ip.add(new IsEventType("SensorEvent"));
+//			sessionContext.add(ip);
+		
 		try {
 			sessionContext.add("SessionState");
 		} catch (NoValidConsumingTopicException e1) {
@@ -154,22 +152,7 @@ public class StartServices {
 	
 	private static void publishDemoEvents() throws InterruptedException {
 			
-		SensorEvent event = (SensorEvent) eventFactory.createEvent("SensorEvent");
-			Property<Long> sessionStart = new Property<Long>("sessionStart", System.currentTimeMillis());
-			event.add(sessionStart);
-			event.setId(EventIdProvider.INSTANCE.getUniqueId());
-			
-			
-			int zaehler = 10;
-			for(int i = 0 ; i < zaehler; i++) {
-				Thread.sleep(ShowcaseValues.INSTANCE.getThreadSleep());
-				Property<Long> sessionid = new Property<Long>("sessionId", Long.valueOf(i));
-				event.add(sessionid);
-				publish(event,"SessionState");		
-				Logger l = LoggerFactory.getLogger("StartServices");
-				l.log(Level.WARNING, "Event wurde direkt durch Dispatcher auf SessionState gepusht");
-			}
-						
+	
 			/*
 			TokenEvent event2 = (TokenEvent) new TokenEvent();
 			event2.setSessionID("1");
