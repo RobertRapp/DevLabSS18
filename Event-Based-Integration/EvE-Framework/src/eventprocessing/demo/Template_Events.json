@@ -1,0 +1,48 @@
+/*
+* Nachfolgend befinden sich Templates für Nachrichten im JSON-Format.
+* Diese Nachrichten können auf ein Topic in Kafka geschrieben werden, 
+* die dann von der Anwendung in Events transformiert werden können.
+*/
+
+// Das Sensorevent simuliert das überschreiten der Induktionsschleife
+{
+	"type":"SensorEvent",
+	"id":123,
+	"creationDate":"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+	"location":"west-1",
+	"sensorID":1
+}
+
+// SpeedMeasurement stellt die Durchschnittsgeschwindigkeit zwischen zwei Sensoren dar.
+// über die severity wird angegeben, ob sich die Geschwindigkeit unter der maximalen Geschwindigkeit befindet oder darüber.
+{
+	"type":"SpeedMeasurement",
+	"id":123,
+	"creationDate":"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+	"severity":"String",
+	"velocity":0.0,
+	"sensorID":123
+}
+
+// Das SpeedEvent aggregiert zwei Events vom Typ SensorEvent und beinhaltet die Durchschnittsgeschwindigkeit.
+{
+	"type":"SpeedEvent",
+	"id":123,
+	"creationDate":"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+	"averageSpeed":0.0,
+	"pairTriggeredSensor":{
+		"firstTriggeredSensor":{
+			"type":"SensorEvent",
+			"id":123,
+			"creationDate":"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+			"location":"west-1",
+			"sensorID":1	
+		},"secondTriggeredSensor":{
+			"type":"SensorEvent",
+			"id":123,
+			"creationDate":"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+			"location":"west-2",
+			"sensorID":2
+		}	
+	}
+}

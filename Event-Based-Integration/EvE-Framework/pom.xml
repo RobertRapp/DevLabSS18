@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>Complex-Event-Processing</groupId>
+	<artifactId>EvE</artifactId>
+	<version>1.0</version>
+	<packaging>jar</packaging>
+	<description>Event Processing, Prof. Thies, Hochschule der Medien, Stuttgart</description>
+	<name>EvE</name>
+	<url>https://github.com/PeterThies/Event-Processing</url>
+	<inceptionYear>2017</inceptionYear>
+	<organization>
+    	<name>Hochschule der Medien</name>
+    	<url>https://www.hdm-stuttgart.de</url>
+  	</organization>
+	
+	<developers>
+    	<developer>
+      		<id>IngoTrautwein</id>
+      		<name>Ingo Trautwein</name>
+      		<email>it013@hdm-stuttgart.de</email>
+      		<organization>Hochschule der Medien</organization>
+      		<organizationUrl>https://www.hdm-stuttgart.de</organizationUrl>
+    	</developer>
+  	</developers>
+	
+	<scm>
+    	<tag>HEAD</tag>
+  	</scm>
+	
+	<build>
+		<directory>${project.basedir}/target</directory>
+		<outputDirectory>${project.build.directory}/classes</outputDirectory>
+		<finalName>${project.artifactId}-${project.version}</finalName>
+    	<sourceDirectory>${project.basedir}/src</sourceDirectory>
+    	<resources>
+      		<resource>
+        		<directory>${project.basedir}/src/resources</directory>
+      		</resource>
+    	</resources>
+    	<plugins>
+    		<plugin>
+    			<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>eventprocessing.demo.Showcase</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+			</plugin>
+			<plugin>
+			 	<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.0.2</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-jar-plugin</artifactId>
+			<version>3.0.2</version>
+			<configuration>
+				<archive>
+				<manifest>
+					<addClasspath>true</addClasspath>
+					<classpathPrefix>lib/</classpathPrefix>
+					<mainClass>eventprocessing.demo.Showcase</mainClass>
+				</manifest>
+				</archive>
+			</configuration>
+			</plugin>
+		</plugins>
+  	</build>
+	<dependencies>  
+		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core -->
+		<dependency>
+    		<groupId>org.apache.spark</groupId>
+    		<artifactId>spark-core_2.11</artifactId>
+    		<version>2.3.0</version>
+    		<scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-streaming -->
+		<dependency>
+    		<groupId>org.apache.spark</groupId>
+    		<artifactId>spark-streaming_2.11</artifactId>
+    		<version>2.3.0</version>
+    		<scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.spark/spark-streaming-kafka-0-10 -->
+		<dependency>
+		    <groupId>org.apache.spark</groupId>
+    		<artifactId>spark-streaming-kafka-0-10_2.11</artifactId>
+    		<version>2.3.0</version>
+    		<scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
+		<dependency>
+    		<groupId>org.apache.kafka</groupId>
+    		<artifactId>kafka-clients</artifactId>
+    		<version>1.1.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+		<dependency>
+    		<groupId>com.fasterxml.jackson.core</groupId>
+    		<artifactId>jackson-core</artifactId>
+    		<version>2.9.5</version>
+    		<scope>compile</scope>
+		</dependency>
+    </dependencies>
+	<parent>
+		<artifactId>Event-Based-Integration</artifactId>
+		<groupId>developmentLab</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+</project>

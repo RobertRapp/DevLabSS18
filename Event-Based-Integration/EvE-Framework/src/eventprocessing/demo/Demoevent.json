@@ -1,0 +1,4 @@
+// Nachrichten können direkt über das Terminal auf ein Topic geschrieben werden.
+// Folgende Nachricht kann in das Terminal kopiert werden, um es auf das Topic Sensor-1 zu schreiben.
+// Das Datum muss ggf. angepasst werden.
+{"type":"SensorEvent","id":1,"properties":[],"creationDate":"2018-03-01T012:34:56.789Z","location":"west-1","sensorID":1}

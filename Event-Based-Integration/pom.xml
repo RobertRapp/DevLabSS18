@@ -6,19 +6,11 @@
 	<artifactId>Event-Based-Integration</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+
+	
 	<modules>
-
-		<module>
-  		eve_implementation
-  	</module>
+		<module>EBI_Grp3
+	</module>	
+		<module>EvE-Framework</module>
 	</modules>
-
-	<repositories>
-		<repository>
-			<id>EvE</id>
-			<name>EvE-Framework</name>
-			<url>file://${project.basedir}/lib/</url>
-		</repository>
-	</repositories>
-
 </project>
