@@ -1,8 +1,8 @@
 package hdm.developmentlab.ebi.eve_implementation.protocolService.interestprofiles;
 
 
+import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.interestprofile.AbstractInterestProfile;
 import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
 
 

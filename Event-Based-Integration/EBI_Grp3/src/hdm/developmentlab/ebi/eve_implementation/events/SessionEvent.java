@@ -1,9 +1,9 @@
 package hdm.developmentlab.ebi.eve_implementation.events;
 
-import eventprocessing.event.AbstractEvent;
-
 import java.util.ArrayList;
 import java.util.Stack;
+
+import eventprocessing.event.AbstractEvent;
 
 public class SessionEvent extends AbstractEvent {
 

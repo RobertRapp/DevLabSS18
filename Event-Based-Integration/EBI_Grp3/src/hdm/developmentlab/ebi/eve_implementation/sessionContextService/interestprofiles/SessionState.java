@@ -4,15 +4,14 @@ package hdm.developmentlab.ebi.eve_implementation.sessionContextService.interest
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import eventprocessing.agent.exceptions.NoValidEventException;
-import eventprocessing.agent.exceptions.NoValidTargetTopicException;
+import eventprocessing.agent.NoValidEventException;
+import eventprocessing.agent.NoValidTargetTopicException;
+import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
-import eventprocessing.interestprofile.AbstractInterestProfile;
 import eventprocessing.utils.factory.LoggerFactory;
 import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
 import hdm.developmentlab.ebi.eve_implementation.events.SessionStateEvent;
-
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 
 

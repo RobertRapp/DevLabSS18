@@ -1,8 +1,5 @@
 package startServices;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.spark.SparkException;
@@ -12,26 +9,22 @@ import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
+import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
-import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.demo.agents.diagnosis.ConsumerSettingsDiagnosis;
-import eventprocessing.demo.agents.diagnosis.Diagnosis;
-import eventprocessing.demo.agents.diagnosis.DiagnosisInterestProfile;
 import eventprocessing.demo.agents.diagnosis.ProducerSettingsDiagnosis;
-import eventprocessing.demo.events.SensorEvent;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.event.EventIdProvider;
+import eventprocessing.event.AtomicEvent;
 import eventprocessing.event.Property;
 import eventprocessing.produce.kafka.Despatcher;
 import eventprocessing.produce.kafka.ProducerSettings;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
-import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
+import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
 
@@ -55,74 +48,29 @@ public class StartServices {
 	private static AbstractFactory agentFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getAgentFactory());
 	
 	
-	public static void main(String[] args)
-			throws TaskKilledException, SparkException, InterruptedException, NoValidAgentException {
+	public static void main(String[] args) throws NoValidAgentException, InterruptedException
+	 {
+		AbstractAgent sessionContextAgent = new SessionContextAgent();
+		AbstractInterestProfile sessionState = new SessionState();
+		sessionState.add(new IsFromTopic("SessionState"));
 		
-	
-		
-		//AbstractAgent activityService = (AbstractAgent) agentFactory.createAgent("ActivityAgent");		
-		//AbstractAgent protocolService = (AbstractAgent) agentFactory.createAgent("ProtocolAgent");
-		//AbstractAgent sessionContext = (AbstractAgent)  agentFactory.createAgent("SessionContextAgent");
-		
-		//AbstractAgent activityService = (AbstractAgent) new ActivityAgent();		
-		//AbstractAgent protocolService = (AbstractAgent) new ProtocolAgent();
-		AbstractAgent sessionContext = (AbstractAgent)  new SessionContextAgent();
-	
-			SessionState ip = new SessionState();
-//			ip.add(new IsEventType("SensorEvent"));
-//			sessionContext.add(ip);
 		
 		try {
-			sessionContext.add("SessionState");
+			sessionContextAgent.add(sessionState);
+		} catch (NoValidInterestProfileException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			sessionContextAgent.add("SessionState");
 		} catch (NoValidConsumingTopicException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
-		
-		ProducerSettings pSettings = new ProducerSettings();
-		// IPv4-Adresse des Kafkaservers. Port ist Standardmäßig 9092
-		pSettings.add(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, ProducerSettingsDiagnosis.INSTANCE.getIPv4Bootstrap() + ":" + ProducerSettingsDiagnosis.INSTANCE.getPortBootstrap());
-		// Bestätigung für alle gesendeten Nachrichten anfordern
-		pSettings.add(ProducerConfig.ACKS_CONFIG, ProducerSettingsDiagnosis.INSTANCE.getAcks());
-		// Wie Lang darf die Nachricht sein
-		pSettings.add(ProducerConfig.BATCH_SIZE_CONFIG, ProducerSettingsDiagnosis.INSTANCE.getBatchSize());
-		// In welchen zeitlichen Abstand werden die Nachrichten vor der Übertragung geschnitten
-		pSettings.add(ProducerConfig.LINGER_MS_CONFIG, ProducerSettingsDiagnosis.INSTANCE.getLingerMS());
-		// sollen Fehlgeschlagene Versuche wiederholt werden?
-		pSettings.add(ProducerConfig.RETRIES_CONFIG, ProducerSettingsDiagnosis.INSTANCE.getRetries());
-		// Wie viel darf im Arbeitsspeicher verbleiben
-		pSettings.add(ProducerConfig.BUFFER_MEMORY_CONFIG, ProducerSettingsDiagnosis.INSTANCE.getBufferMemory());
-		// Für die Serialisierung der Key-/Value Paare
-		pSettings.add(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, ProducerSettingsDiagnosis.INSTANCE.getKeySerializer());
-		pSettings.add(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ProducerSettingsDiagnosis.INSTANCE.getValueSerializer());
-		
-		despatcher = new Despatcher(pSettings);
-		
-		//activityService.setProducerSettings(pSettings);
-		//protocolService.setProducerSettings(pSettings);
-		sessionContext.setProducerSettings(pSettings);
-		
-		ConsumerSettings csettings = new ConsumerSettings();
-		csettings.add(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, ConsumerSettingsDiagnosis.INSTANCE.getIPv4Bootstrap() + ":" + ConsumerSettingsDiagnosis.INSTANCE.getPortBootstrap());
-		csettings.add(ConsumerConfig.GROUP_ID_CONFIG, ConsumerSettingsDiagnosis.INSTANCE.getGroupId());
-		csettings.add(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, ConsumerSettingsDiagnosis.INSTANCE.getKeyDeserializer());
-		csettings.add(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ConsumerSettingsDiagnosis.INSTANCE.getValueDeserializer());
-		csettings.add(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, ConsumerSettingsDiagnosis.INSTANCE.getPartitionAssignmentStrategy());
-		
-		//activityService.setConsumerSettings(csettings);
-		//protocolService.setConsumerSettings(csettings);
-		sessionContext.setConsumerSettings(csettings);
-		
-		
-		//AbstractFactory agentFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getAgentFactory());
-		// Erstellung der Agenten
-	
-
-		
 		//StreamingExecution.add(activityService);
 		//StreamingExecution.add(protocolService);
-		StreamingExecution.add(sessionContext);
+		StreamingExecution.add(sessionContextAgent);
 
 		
 		Runnable myRunnable = new Runnable() {
@@ -153,14 +101,18 @@ public class StartServices {
 	private static void publishDemoEvents() throws InterruptedException {
 			
 	
-			/*
+			
 			TokenEvent event2 = (TokenEvent) new TokenEvent();
-			event2.setSessionID("1");
-			Property<String> taskdocument = new Property<String>("documentcategory", "TaskDocument");
-			event2.add(taskdocument);			
+			
+			AbstractEvent event = new AtomicEvent();
+			event.setType("TokenEvent");
+			event.add(new Property<Integer>("Zahl", 1));
+			
+					
 					
 			publish(event2,"TokenGeneration");
 
+			/*
 			TokenEvent event3 = (TokenEvent) new TokenEvent();
 			event.setSessionID("2");
 			Property<Long> sessionStart = new Property<Long>("sessionStart", System.currentTimeMillis());

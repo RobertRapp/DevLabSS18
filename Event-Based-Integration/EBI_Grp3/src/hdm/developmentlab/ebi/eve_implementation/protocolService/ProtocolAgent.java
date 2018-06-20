@@ -1,12 +1,11 @@
 package hdm.developmentlab.ebi.eve_implementation.protocolService;
 
 import eventprocessing.agent.AbstractAgent;
-import eventprocessing.agent.exceptions.NoValidConsumingTopicException;
-import eventprocessing.dispatch.NoValidInterestProfileException;
-import eventprocessing.interestprofile.AbstractInterestProfile;
-import eventprocessing.interestprofile.predicates.statement.IsEventType;
+import eventprocessing.agent.NoValidConsumingTopicException;
+import eventprocessing.agent.dispatch.NoValidInterestProfileException;
+import eventprocessing.agent.interestprofile.AbstractInterestProfile;
+import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.interestprofiles.Sessions;
-
 import startServices.ShowcaseValues;
 
 public class ProtocolAgent extends AbstractAgent {

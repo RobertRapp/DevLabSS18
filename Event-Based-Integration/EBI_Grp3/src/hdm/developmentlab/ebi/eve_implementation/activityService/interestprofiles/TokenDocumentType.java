@@ -4,14 +4,12 @@ package hdm.developmentlab.ebi.eve_implementation.activityService.interestprofil
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import eventprocessing.agent.exceptions.NoValidEventException;
-import eventprocessing.agent.exceptions.NoValidTargetTopicException;
+import eventprocessing.agent.NoValidEventException;
+import eventprocessing.agent.NoValidTargetTopicException;
+import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
+import eventprocessing.agent.interestprofile.predicates.statement.HasProperty;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.interestprofile.AbstractInterestProfile;
-import eventprocessing.interestprofile.predicates.AbstractPredicate;
-import eventprocessing.interestprofile.predicates.statement.HasProperty;
 import eventprocessing.utils.factory.AbstractFactory;
-import eventprocessing.utils.factory.AgentFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
@@ -49,7 +47,6 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 			// casten zu TokenEvent um Event auszulesen
 				TokenEvent tokenEvent = (TokenEvent) event;
 
-				AbstractPredicate predicate = new HasProperty("project");
 				//Token bei Bedarf um Infos aus SessionContext anreichern 
 				if(tokenEvent.getPropertyByKey("project").equals(null)) {
 					tokenEvent.add(sc.getSessionById(tokenEvent.getSessionID()).getPropertyByKey("project"));

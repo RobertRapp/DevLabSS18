@@ -17,7 +17,7 @@ import eventprocessing.utils.model.ModelUtils;
  * Created by IngoT on 10.06.2017.
  * 
  */
-@JsonSubTypes({ @Type(value = AtomicEvent.class, name = "AtomicEvent"),
+		@JsonSubTypes({ @Type(value = AtomicEvent.class, name = "AtomicEvent"),
 		@Type(value = ComplexEvent.class, name = "ComplexEvent") })
 public abstract class AbstractEvent implements Serializable {
 
@@ -192,5 +192,16 @@ public abstract class AbstractEvent implements Serializable {
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
 		throw new CloneNotSupportedException();
+	}
+	public Property<?> getPropertyByKey(String key){
+		for(Property<?> p : this.getProperties()) {
+			if(p.getKey().equalsIgnoreCase(key)) {
+				return p;
+			}
+			else {
+				continue;
+			}
+		}
+		return null;
 	}
 }

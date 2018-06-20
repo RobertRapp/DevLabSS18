@@ -1,19 +1,17 @@
 package hdm.developmentlab.ebi.eve_implementation.sessionContextService;
 
-import eventprocessing.agent.AbstractAgent;
-import eventprocessing.agent.exceptions.NoValidConsumingTopicException;
-import startServices.ShowcaseValues;
-import eventprocessing.dispatch.NoValidInterestProfileException;
-import eventprocessing.input.kafka.ConsumerSettings;
-import eventprocessing.interestprofile.AbstractInterestProfile;
-import eventprocessing.interestprofile.predicates.AbstractPredicate;
-
-
-import eventprocessing.interestprofile.predicates.statement.HasProperty;
-import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.*;
-
 import java.util.ArrayList;
+
+import eventprocessing.agent.AbstractAgent;
+import eventprocessing.agent.NoValidConsumingTopicException;
+import eventprocessing.agent.dispatch.NoValidInterestProfileException;
+import eventprocessing.agent.interestprofile.AbstractInterestProfile;
+import eventprocessing.consume.kafka.ConsumerSettings;
+import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
+import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
+import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.TimeReference;
+import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
+
 
 
 
@@ -44,8 +42,7 @@ public class SessionContextAgent extends AbstractAgent {
 			
 			e.printStackTrace();
 		}
-		this.setConsumerSettings(new ConsumerSettings(ShowcaseValues.INSTANCE.getIpKafka(),
-				ShowcaseValues.INSTANCE.getPortKafka(), "Tokens"));
+		this.setConsumerSettings(new ConsumerSettings());
 		
 	}
 	

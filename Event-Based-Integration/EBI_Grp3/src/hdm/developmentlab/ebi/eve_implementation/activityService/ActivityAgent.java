@@ -8,8 +8,6 @@ import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
 import eventprocessing.agent.interestprofile.predicates.statement.HasProperty;
-import eventprocessing.consume.kafka.ConsumerSettings;
-import eventprocessing.demo.ShowcaseValues;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationType;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenDocumentType;
 import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
@@ -88,9 +86,7 @@ public class ActivityAgent extends AbstractAgent {
 			e1.printStackTrace();
 		}
 		
-		this.setConsumerSettings(new ConsumerSettings(ShowcaseValues.INSTANCE.getIpKafka(),
-				ShowcaseValues.INSTANCE.getPortKafka(), "Tokens2"));
-
+		
 	}
 	
 	

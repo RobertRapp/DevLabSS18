@@ -1,8 +1,8 @@
 package hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles;
 
 
+import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.interestprofile.AbstractInterestProfile;
 
 
 public class Project extends AbstractInterestProfile {
