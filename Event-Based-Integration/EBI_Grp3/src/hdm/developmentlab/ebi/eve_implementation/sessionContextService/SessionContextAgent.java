@@ -42,7 +42,7 @@ public class SessionContextAgent extends AbstractAgent {
 			
 			e.printStackTrace();
 		}
-		this.setConsumerSettings(new ConsumerSettings());
+		
 		
 	}
 	

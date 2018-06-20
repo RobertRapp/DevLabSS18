@@ -8,6 +8,7 @@ import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.event.AbstractEvent;
+import eventprocessing.event.AtomicEvent;
 import eventprocessing.event.Property;
 import eventprocessing.utils.factory.LoggerFactory;
 import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
@@ -36,12 +37,11 @@ public class SessionState extends AbstractInterestProfile {
 		l.log(Level.WARNING, "Event von test erhalten");
 		SessionStateEvent arg0 = (SessionStateEvent) abs;		
 		SessionContextAgent agent = (SessionContextAgent) this.getAgent(); 			
-		SessionEvent session = new SessionEvent();
-		session.setId(arg0.getId());
-		session.setSessionId(arg0.getSessionID());
-		session.setSessionStart((long) arg0.getProperties().get(0).getValue());
-		session.add(new Property<String>("Report", "Ich habe ein Token erhalten, es war ein SessionStart mit um "+session.getSessionStart()));
-		agent.addSession(session);
+		AbstractEvent session = new AtomicEvent();
+		session.setId(arg0.getId()+1);
+		session.add(abs.getPropertyByKey("sessionStart"));
+		session.add(new Property<String>("Report", "Ich habe ein Token erhalten, es war ein SessionStart"));
+		
 		
 		try {
 			agent.send(session, "Sessions");

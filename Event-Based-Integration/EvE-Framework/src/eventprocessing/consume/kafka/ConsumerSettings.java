@@ -3,6 +3,10 @@ package eventprocessing.consume.kafka;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.RangeAssignor;
+import org.apache.kafka.common.serialization.StringDeserializer;
+
 import eventprocessing.utils.TextUtils;
 import eventprocessing.utils.model.ModelUtils;
 
@@ -28,6 +32,18 @@ public class ConsumerSettings {
 	 * 
 	 * @return kafkaParams, die Map beinhaltet alle Verbindungsinformationen
 	 */
+	public ConsumerSettings() {
+		
+	}
+	
+	public ConsumerSettings(String hostip, String port, String groupId) {
+		this.add(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, hostip + ":" + port);
+		this.add(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+		this.add(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+		this.add(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+		this.add(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, RangeAssignor.class.getName());
+	}
+	
 	public Map<String, Object> getKafkaParameters() {
 		return this.kafkaParams;
 	}

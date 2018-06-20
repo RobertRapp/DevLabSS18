@@ -51,6 +51,8 @@ public class StartServices {
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
 		AbstractAgent sessionContextAgent = new SessionContextAgent();
+		sessionContextAgent.setConsumerSettings(new ConsumerSettings("110.142.0.2","9092","SessionState"));
+		sessionContextAgent.setProducerSettings(new ProducerSettings("110.142.0.2","9092"));
 		AbstractInterestProfile sessionState = new SessionState();
 		sessionState.add(new IsFromTopic("SessionState"));
 		
@@ -102,15 +104,12 @@ public class StartServices {
 			
 	
 			
-			TokenEvent event2 = (TokenEvent) new TokenEvent();
 			
 			AbstractEvent event = new AtomicEvent();
-			event.setType("TokenEvent");
-			event.add(new Property<Integer>("Zahl", 1));
-			
-					
-					
-			publish(event2,"TokenGeneration");
+			event.setType("SessionStateEvent");
+			Property<Long> sessionStart = new Property<Long>("sessionStart", System.currentTimeMillis());
+			event.add(sessionStart);
+			publish(event,"TokenGeneration");
 
 			/*
 			TokenEvent event3 = (TokenEvent) new TokenEvent();
