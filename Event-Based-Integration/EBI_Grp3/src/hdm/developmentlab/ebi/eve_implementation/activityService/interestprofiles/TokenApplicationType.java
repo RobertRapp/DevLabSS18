@@ -5,20 +5,18 @@ package hdm.developmentlab.ebi.eve_implementation.activityService.interestprofil
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import eventprocessing.agent.exceptions.NoValidEventException;
-import eventprocessing.agent.exceptions.NoValidTargetTopicException;
+import eventprocessing.agent.NoValidEventException;
+import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.interestprofile.AbstractInterestProfile;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import hdm.developmentlab.ebi.eve_implementation.events.ApplicationEvent;
-import hdm.developmentlab.ebi.eve_implementation.events.DocumentRequestEvent;
 import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
 
 
-public class TokenApplicationType extends AbstractInterestProfile {
+public class TokenApplicationType extends eventprocessing.agent.interestprofile.AbstractInterestProfile {
 
 	/**
 	 * 

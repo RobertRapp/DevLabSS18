@@ -20,7 +20,7 @@ import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 
 
-public class TokenDocumentType extends AbstractInterestProfile {
+public class TokenDocumentType extends eventprocessing.agent.interestprofile.AbstractInterestProfile {
 
 	/**
 	 * 
