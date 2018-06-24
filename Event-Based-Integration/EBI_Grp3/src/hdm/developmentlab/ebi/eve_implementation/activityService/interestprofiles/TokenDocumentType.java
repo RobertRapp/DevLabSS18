@@ -28,7 +28,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 
 	// Factory für die Erzeugung der Events
 	private AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
-	private AbstractFactory agentFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getAgentFactory());
+	
 	/**
 	 * Empfängt Tokentypen und leitet damit eine neue Dokumentenvorschlagsanfrage ein.
 	 * @param arg0
@@ -37,23 +37,26 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
 		// Erzeugt über die Factory ein neues Event
-		DocumentRequestEvent dr = (DocumentRequestEvent) eventFactory.createEvent("????");
-		SessionContextAgent sc = (SessionContextAgent) agentFactory.createAgent("SessionContextAgent");
+		AbstractEvent drEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
+		AbstractEvent scAgent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
 		
+	
 		
-		
-		// Prüfe ob das empfangene Event vom Typ TokenEvent ist und eine Application beinhaltet
-		if (event instanceof TokenEvent) {
-			// casten zu TokenEvent um Event auszulesen
-				TokenEvent tokenEvent = (TokenEvent) event;
+		// Prüfe ob das empfangene Event vom Typ TokenEvent ist undeinen Dokumententyp beinhaltet
+		if (EventUtils.isType("TokenEvent", event) && EventUtils.isType("TokenEvent", event)) {
+			
+				Property<AbstractEvent> firstEvent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(event, "FirstEvent");
+				Property<AbstractEvent> secondEvent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(event, "SecondEvent");
+				Property<Double> averageSpeed = (Property<Double>) EventUtils.findPropertyByKey(event,
+					"AverageSpeed");
 
 				//Token bei Bedarf um Infos aus SessionContext anreichern 
-				if(tokenEvent.getPropertyByKey("project").equals(null)) {
+				if(EventUtils.findPropertyByKey(event, "project") = null) {
 					tokenEvent.add(sc.getSessionById(tokenEvent.getSessionID()).getPropertyByKey("project"));
 					dr.setToken(tokenEvent);
 
 				} else 
-					if(tokenEvent.getPropertyByKey("project").getValue() == null) {
+					if(event.getPropertyByKey("project").getValue() == null) {
 						tokenEvent.remove(tokenEvent.getPropertyByKey("project"));
 						tokenEvent.add(sc.getSessionById(tokenEvent.getSessionID()).getPropertyByKey("project"));
 						dr.setToken(tokenEvent);

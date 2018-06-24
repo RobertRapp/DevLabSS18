@@ -44,19 +44,19 @@ public class TokenApplicationType extends eventprocessing.agent.interestprofile.
 				// Alle benötigten Informationen werden aus dem Event entnommen
 				//e.setApplicationID(tokenEvent.getChunkID());
 				//e.setApplicationName(tokenEvent.getChunkSemantic());
-				Property<AbstractEvent> tokenevent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(event, "FirstEvent");	
+				Property<AbstractEvent> applicationevent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(event, "FirstEvent");	
 				Property<Double> averageSpeed = (Property<Double>) EventUtils.findPropertyByKey(event,
 						"AverageSpeed");
-				e.setLink("missing");
+				//e.setLink("missing");
 				
-				newEvent.add(tokeneven);
+				newEvent.add(applicationevent);
 				newEvent.add(averageSpeed);
 
 				newEvent.setType("ApplicationEvent");
 				
 				// Sendet das Event an DR (welches Topic ???) 
 				try {
-					getAgent().send(e, "DR Topic ???");
+					getAgent().send(, "DR Topic ???");
 				} catch (NoValidEventException e1) {
 					LOGGER.log(Level.WARNING, () -> String.format("%s", e));
 				} catch (NoValidTargetTopicException e1) {
