@@ -36,19 +36,27 @@ public class TokenApplicationType extends eventprocessing.agent.interestprofile.
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
 		// Erzeugt über die Factory ein neues Event
-		ApplicationEvent e = (ApplicationEvent) eventFactory.createEvent("????");
+		AbstractEvent newEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
 			
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist und eine Application beinhaltet
 		//HIER MIT PREDICATES IN IF CONDITION ARBEITEN! 
-		if (event instanceof TokenEvent) {
+		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "Type") = "Application")) {
 				// Alle benötigten Informationen werden aus dem Event entnommen
 				//e.setApplicationID(tokenEvent.getChunkID());
 				//e.setApplicationName(tokenEvent.getChunkSemantic());
-				e.setLink("missing");
+				Property<AbstractEvent> applicationevent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(event, "FirstEvent");	
+				Property<Double> averageSpeed = (Property<Double>) EventUtils.findPropertyByKey(event,
+						"AverageSpeed");
+				//e.setLink("missing");
+				
+				newEvent.add(applicationevent);
+				newEvent.add(averageSpeed);
+
+				newEvent.setType("ApplicationEvent");
 				
 				// Sendet das Event an DR (welches Topic ???) 
 				try {
-					getAgent().send(e, "DR Topic ???");
+					getAgent().send(, "DR Topic ???");
 				} catch (NoValidEventException e1) {
 					LOGGER.log(Level.WARNING, () -> String.format("%s", e));
 				} catch (NoValidTargetTopicException e1) {
