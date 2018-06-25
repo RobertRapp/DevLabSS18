@@ -1,9 +1,6 @@
 package startServices;
 
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.spark.SparkException;
-import org.apache.spark.TaskKilledException;
+import com.sun.media.jfxmedia.logging.Logger;
 
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
@@ -13,8 +10,6 @@ import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
-import eventprocessing.demo.agents.diagnosis.ConsumerSettingsDiagnosis;
-import eventprocessing.demo.agents.diagnosis.ProducerSettingsDiagnosis;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.AtomicEvent;
 import eventprocessing.event.Property;
@@ -24,7 +19,6 @@ import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.mapping.MessageMapper;
-import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
 
@@ -50,12 +44,14 @@ public class StartServices {
 	
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
 		AbstractAgent sessionContextAgent = new SessionContextAgent();
-		sessionContextAgent.setConsumerSettings(new ConsumerSettings("110.142.0.2","9092","SessionState"));
-		sessionContextAgent.setProducerSettings(new ProducerSettings("110.142.0.2","9092"));
+		
+		sessionContextAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092","SessionState"));
+		sessionContextAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 		AbstractInterestProfile sessionState = new SessionState();
 		sessionState.add(new IsFromTopic("SessionState"));
-		
+			
 		
 		try {
 			sessionContextAgent.add(sessionState);
@@ -94,9 +90,12 @@ public class StartServices {
 
 	
 	private static void publish(AbstractEvent event, String topic) {
-		String message = messageMapper.toJSON(event);
 		
-		despatcher.deliver(message, topic);
+		String message = messageMapper.toJSON(event);	
+		if(message != null && topic != null) {
+			despatcher.deliver(message, topic);	
+		}
+		
 	}
 
 	

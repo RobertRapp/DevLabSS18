@@ -24,22 +24,12 @@ public class SessionContextAgent extends AbstractAgent {
 	User userInfo = new User();
 
 	protected void doOnInit() {
+		this.setId("SessionContextAgent");
 		try {
 			this.add("TokenGeneration");
 			this.add("test");
 		} catch (NoValidConsumingTopicException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			
-					
-			SessionState sessionInt = new SessionState(); 
-					
-			this.add(sessionInt);
-			
-		} catch (NoValidInterestProfileException e) {
-			
 			e.printStackTrace();
 		}
 		
