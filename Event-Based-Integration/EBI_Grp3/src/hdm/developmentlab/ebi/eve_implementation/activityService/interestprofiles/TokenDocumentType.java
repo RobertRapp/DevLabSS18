@@ -41,11 +41,11 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 		AbstractEvent scAgent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
 		
 	
-		
-		// Prüfe ob das empfangene Event vom Typ TokenEvent ist undeinen Dokumententyp beinhaltet
-		if (EventUtils.isType("TokenEvent", event) && EventUtils.isType("TokenEvent", event)) {
-			
+		//Hier if mit Zeitabprüfug und session context auf 30 sekunden oder so; TokenEvent ist es eigentlich schon
+		// Prüfe ob das empfangene Event vom Typ TokenEvent ist undeinen Dokumententyp beinhaltet 
+		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "Type") == "Topic")) {
 				Property<AbstractEvent> firstEvent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(event, "FirstEvent");
+				//Woher bekomm ich den SessionContext?
 				Property<AbstractEvent> secondEvent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(event, "SecondEvent");
 				Property<Double> averageSpeed = (Property<Double>) EventUtils.findPropertyByKey(event,
 					"AverageSpeed");

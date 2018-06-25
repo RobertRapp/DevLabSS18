@@ -40,7 +40,7 @@ public class TokenApplicationType extends eventprocessing.agent.interestprofile.
 			
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist und eine Application beinhaltet
 		//HIER MIT PREDICATES IN IF CONDITION ARBEITEN! 
-		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "Type") = "Application");) {
+		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "Type") = "Application")) {
 				// Alle benötigten Informationen werden aus dem Event entnommen
 				//e.setApplicationID(tokenEvent.getChunkID());
 				//e.setApplicationName(tokenEvent.getChunkSemantic());
