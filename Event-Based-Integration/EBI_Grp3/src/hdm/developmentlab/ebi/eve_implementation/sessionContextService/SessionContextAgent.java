@@ -6,7 +6,15 @@ import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.consume.kafka.ConsumerSettings;
+import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
+import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
+import eventprocessing.demo.ShowcaseValues;
+import eventprocessing.demo.agents.diagnosis.DiagnosisInterestProfile;
+import eventprocessing.utils.factory.AbstractFactory;
+import eventprocessing.utils.factory.FactoryProducer;
+import eventprocessing.utils.factory.FactoryValues;
+import eventprocessing.utils.factory.InterestProfileFactory;
+import eventprocessing.utils.factory.PredicateFactory;
 import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.TimeReference;
@@ -19,15 +27,31 @@ public class SessionContextAgent extends AbstractAgent {
 	
 	ArrayList<SessionEvent> sessions = new ArrayList<SessionEvent>();
 	AbstractInterestProfile project;
-	SessionState sessionState = new SessionState();
+	
+
 	TimeReference timeReference = new TimeReference();
 	User userInfo = new User();
-
+	
 	protected void doOnInit() {
-		this.setId("SessionContextAgent");
+		AbstractInterestProfile sessionState = new SessionState();
+		AbstractInterestProfile ip = new DiagnosisInterestProfile();
+		ip.add(new IsEventType(ShowcaseValues.INSTANCE.getSpeedEvent()));
 		try {
-			this.add("TokenGeneration");
-			this.add("test");
+			this.add(ip);
+		} catch (NoValidInterestProfileException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		this.setId("SessionContextAgent");
+		
+		try {
+			this.add(sessionState);
+		} catch (NoValidInterestProfileException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			this.add("SessionState");			
 		} catch (NoValidConsumingTopicException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -68,15 +92,7 @@ public class SessionContextAgent extends AbstractAgent {
 	}
 
 
-	public SessionState getSessionState() {
-		return sessionState;
-	}
-
-
-	public void setSessionState(SessionState sessionState) {
-		this.sessionState = sessionState;
-	}
-
+	
 
 	public TimeReference getTimeReference() {
 		return timeReference;

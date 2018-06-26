@@ -41,6 +41,7 @@ public class DiagnosisInterestProfile extends AbstractInterestProfile {
 	public void doOnReceive(AbstractEvent event) {
 		// Erzeugt über die Factory ein neues Event
 		AbstractEvent newEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
+		
 		// Prüfe ob das empfangene Event vom Typ SpeedEvent ist
 		if (EventUtils.isType("SpeedEvent", event)) {
 			Property<AbstractEvent> firstEvent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(event, "FirstEvent");
@@ -71,6 +72,8 @@ public class DiagnosisInterestProfile extends AbstractInterestProfile {
 			// Sendet das Event an das Storage Topic
 			try {
 				getAgent().send(newEvent, ShowcaseValues.INSTANCE.getStorageTopic());
+				newEvent.add(new Property<>("REPORT","DIESES EVENT WURDE AUS DIAGNOSIS INTERPROFIL ERSTELLT."));
+				getAgent().send(newEvent, "Sessions");
 			} catch (NoValidEventException e1) {
 				LOGGER.log(Level.WARNING, () -> String.format("%s", newEvent));
 			} catch (NoValidTargetTopicException e1) {
