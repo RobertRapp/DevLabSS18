@@ -33,7 +33,6 @@ public class ActivityAgent extends AbstractAgent {
 		 */
 		try {
 			this.add("TokenGeneration");
-			this.add("SessionInfos");
 		} catch (NoValidConsumingTopicException e) {
 			e.printStackTrace();
 		}
@@ -45,7 +44,6 @@ public class ActivityAgent extends AbstractAgent {
 		try {
 			AbstractInterestProfile ip = new TokenDocumentType();
 			ip.add(new IsEventType("TokenEvent"));
-			ip.add(new IsEventType("ContextUpdate"));
 			this.add(ip);
 		
 		} catch (NoValidInterestProfileException e1) {

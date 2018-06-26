@@ -25,6 +25,8 @@ public class ProtocolAgent extends AbstractAgent {
 		 */
 		try {
 			this.add("Sessions");
+			this.add("TokenGeneration");
+			// + alle Topics also Doc Requests auch
 		} catch (NoValidConsumingTopicException e) {
 			e.printStackTrace();
 		}
@@ -33,6 +35,7 @@ public class ProtocolAgent extends AbstractAgent {
 		 * Fügt dem Agenten ein InteressenProfil hinzu. Ein Agent kann mehrere
 		 * InteressenProfile besitzen
 		 */
+		
 		try {
 			AbstractInterestProfile ip = new Sessions();
 			ip.add(new IsEventType(ShowcaseValues.INSTANCE.getSessionEvent()));
