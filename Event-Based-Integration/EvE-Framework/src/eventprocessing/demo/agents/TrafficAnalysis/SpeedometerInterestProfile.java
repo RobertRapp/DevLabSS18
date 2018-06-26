@@ -87,7 +87,7 @@ public final class SpeedometerInterestProfile extends AbstractInterestProfile {
 		 * Die Liste wird sequentiell abgearbeitet und wenn ein passendes Gegenstück
 		 * gefunden wurde, wird die Suche abggebrochen oder null zurückgegeben
 		 */
-		AbstractEvent otherEvent = events.stream()
+		AbstractEvent otherEvent = events.stream() 
 				.filter(listEvent -> EventUtils.findPropertyByKey(listEvent, "Location").getValue().equals(location))
 				.findFirst().orElse(null);
 		// Wenn kein Gegenstück gefunden wurde

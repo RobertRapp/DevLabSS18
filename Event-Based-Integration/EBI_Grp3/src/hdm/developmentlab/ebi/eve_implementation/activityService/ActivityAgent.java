@@ -8,7 +8,10 @@ import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
 import eventprocessing.agent.interestprofile.predicates.statement.HasProperty;
-import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationType;
+import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
+import eventprocessing.demo.ShowcaseValues;
+import eventprocessing.demo.agents.diagnosis.DiagnosisInterestProfile;
+import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationIP;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenDocumentType;
 import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
@@ -20,14 +23,6 @@ public class ActivityAgent extends AbstractAgent {
 
 	
 	private static final long serialVersionUID = 1L;
-	
-	private ArrayList<SessionEvent> sessions = new ArrayList<SessionEvent>();
-	private AbstractInterestProfile project;
-	private SessionState sessionState = new SessionState();
-	private TimeReference timeReference = new TimeReference();
-	private TokenApplicationType tokenApplicationType = new TokenApplicationType();
-	private TokenDocumentType tokenDocumentType = new TokenDocumentType();
-	private User userInfo = new User();
 
 	protected void doOnInit() {
 		
@@ -47,90 +42,17 @@ public class ActivityAgent extends AbstractAgent {
 		 * InteressenProfile besitzen
 		 */
 		try {
-			AbstractPredicate predicate = new HasProperty("application");
-			
-			tokenApplicationType.add(predicate);
-			this.add(tokenApplicationType);
-			
-			/*
-			 * Beinhaltet Tokenevent eine Application?
-			 * ApplicationEvent-Objekt erzeugen
-			 * Wenn ja, Event erzeugen, welches Link zur Application bei DR "abfragt"
-			 * 
-			 */
-			
-			AbstractInterestProfile ip = new TokenApplicationType();
-			//ip.add(new IsEventType(ShowcaseValues.INSTANCE.Token()));
+			AbstractInterestProfile ip = new TokenDocumentType();
+			ip.add(new IsEventType("TokenEvent"));
 			this.add(ip);
+		
 		} catch (NoValidInterestProfileException e1) {
 			e1.printStackTrace();
 		}
 		
-		try {
-			AbstractPredicate predicate = new HasProperty("topic");
-			
-			tokenDocumentType.add(predicate);
-			this.add(tokenDocumentType);
-			
-			/*
-			 * Beinhaltet Tokenevent eine Application?
-			 * ApplicationEvent-Objekt erzeugen
-			 * Wenn ja, Event erzeugen, welches Link zur Application bei DR "abfragt"
-			 * 
-			 */
-			
-			AbstractInterestProfile ip = new TokenApplicationType();
-			//ip.add(new IsEventType(ShowcaseValues.INSTANCE.Token()));
-			this.add(ip);
-		} catch (NoValidInterestProfileException e1) {
-			e1.printStackTrace();
-		}
-		
-		
+	}
 	}
 	
-	
-	public ArrayList<SessionEvent> getSessions() {
-		return sessions;
-	}
-	public void setSessions(ArrayList<SessionEvent> sessions) {
-		this.sessions = sessions;
-	}
-	public AbstractInterestProfile getProject() {
-		return project;
-	}
-	public void setProject(AbstractInterestProfile project) {
-		this.project = project;
-	}
-	public SessionState getSessionState() {
-		return sessionState;
-	}
-	public void setSessionState(SessionState sessionState) {
-		this.sessionState = sessionState;
-	}
-	public TimeReference getTimeReference() {
-		return timeReference;
-	}
-	public void setTimeReference(TimeReference timeReference) {
-		this.timeReference = timeReference;
-	}
-
-	public User getUserInfo() {
-		return userInfo;
-	}
-	public void setUserInfo(User userInfo) {
-		this.userInfo = userInfo;
-	}
-
-	public TokenApplicationType getTokenApplicationType() {
-		return tokenApplicationType;
-	}
-
-	public void setTokenApplicationType(TokenApplicationType tokenApplicationType) {
-		this.tokenApplicationType = tokenApplicationType;
-	}
-		
-	}
 
 	
 

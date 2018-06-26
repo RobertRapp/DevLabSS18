@@ -5,6 +5,7 @@ import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
+import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenDocumentType;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.interestprofiles.Sessions;
 import startServices.ShowcaseValues;
 
@@ -25,6 +26,8 @@ public class ProtocolAgent extends AbstractAgent {
 		 */
 		try {
 			this.add("Sessions");
+			this.add("TokenGeneration");
+			// + alle Topics also Doc Requests auch
 		} catch (NoValidConsumingTopicException e) {
 			e.printStackTrace();
 		}
@@ -33,9 +36,15 @@ public class ProtocolAgent extends AbstractAgent {
 		 * Fügt dem Agenten ein InteressenProfil hinzu. Ein Agent kann mehrere
 		 * InteressenProfile besitzen
 		 */
+		
 		try {
-			AbstractInterestProfile ip = new Sessions();
-			ip.add(new IsEventType(ShowcaseValues.INSTANCE.getSessionEvent()));
+			AbstractInterestProfile ip = new TokenDocumentType();
+			ip.add(new IsEventType("TokenEvent"));
+			ip.add(new IsEventType("ContextUpdate"));
+			ip.add(new IsEventType("RequestEvents"));
+			ip.add(new IsEventType("DocumentEvents"));
+			//Wenn Session endet:
+			ip.add(new IsEventType("SessionEvent"));
 			this.add(ip);
 		} catch (NoValidInterestProfileException e1) {
 			e1.printStackTrace();
