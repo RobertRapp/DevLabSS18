@@ -7,11 +7,14 @@ import java.util.logging.Logger;
 
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
+import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.event.AbstractEvent;
+import eventprocessing.event.Property;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
+import eventprocessing.utils.model.EventUtils;
 import hdm.developmentlab.ebi.eve_implementation.events.ApplicationEvent;
 import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
 
@@ -40,7 +43,7 @@ public class TokenApplicationType extends eventprocessing.agent.interestprofile.
 			
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist und eine Application beinhaltet
 		//HIER MIT PREDICATES IN IF CONDITION ARBEITEN! 
-		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "Type") = "Application")) {
+		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "Type").getValue() == "Application") {
 				// Alle benötigten Informationen werden aus dem Event entnommen
 				//e.setApplicationID(tokenEvent.getChunkID());
 				//e.setApplicationName(tokenEvent.getChunkSemantic());
@@ -56,11 +59,11 @@ public class TokenApplicationType extends eventprocessing.agent.interestprofile.
 				
 				// Sendet das Event an DR (welches Topic ???) 
 				try {
-					getAgent().send(, "DR Topic ???");
+					getAgent().send(event, "TOPIC??");
 				} catch (NoValidEventException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", e));
+					LOGGER.log(Level.WARNING, () -> String.format("%s", applicationevent));
 				} catch (NoValidTargetTopicException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", e));
+					LOGGER.log(Level.WARNING, () -> String.format("%s", applicationevent));
 				}
 				
 		}

@@ -9,10 +9,12 @@ import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
 import eventprocessing.agent.interestprofile.predicates.statement.HasProperty;
 import eventprocessing.event.AbstractEvent;
+import eventprocessing.event.Property;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
+import eventprocessing.utils.model.EventUtils;
 import hdm.developmentlab.ebi.eve_implementation.events.DocumentRequestEvent;
 import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
@@ -43,7 +45,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 	
 		//Hier if mit Zeitabprüfug und session context auf 30 sekunden oder so; TokenEvent ist es eigentlich schon
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist undeinen Dokumententyp beinhaltet 
-		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "Type") == "Topic")) {
+		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "Type").getValue() == "Topic") {
 				Property<AbstractEvent> firstEvent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(event, "FirstEvent");
 				//Woher bekomm ich den SessionContext?
 				Property<AbstractEvent> secondEvent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(event, "SecondEvent");
@@ -51,42 +53,42 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 					"AverageSpeed");
 
 				//Token bei Bedarf um Infos aus SessionContext anreichern 
-				if(EventUtils.findPropertyByKey(event, "project") = null) {
-					tokenEvent.add(sc.getSessionById(tokenEvent.getSessionID()).getPropertyByKey("project"));
-					dr.setToken(tokenEvent);
+				if(EventUtils.findPropertyByKey(event, "project") == null) {
+					//tokenEvent.add(sc.getSessionById(tokenEvent.getSessionID()).getPropertyByKey("project"));
+					//dr.setToken(tokenEvent);
 
 				} else 
-					if(event.getPropertyByKey("project").getValue() == null) {
-						tokenEvent.remove(tokenEvent.getPropertyByKey("project"));
-						tokenEvent.add(sc.getSessionById(tokenEvent.getSessionID()).getPropertyByKey("project"));
-						dr.setToken(tokenEvent);
+					if(EventUtils.findPropertyByKey(event, "project").getValue() == null) {
+						//tokenEvent.remove(tokenEvent.getPropertyByKey("project"));
+						//tokenEvent.add(sc.getSessionById(tokenEvent.getSessionID()).getPropertyByKey("project"));
+						//dr.setToken(tokenEvent);
 					
 				}
 				
-				if(tokenEvent.getPropertyByKey("timereference").getValue() == null) {
-					dr.setTimeref(sc.getSessionById(tokenEvent.getSessionID()).getTimereference());
+				if(EventUtils.findPropertyByKey(event, "timereference").getValue() == null) {
+					//dr.setTimeref(sc.getSessionById(tokenEvent.getSessionID()).getTimereference());
 				}
 				
-				if(tokenEvent.getPropertyByKey("latestActivity").getValue() == null) {
+				if(EventUtils.findPropertyByKey(event, "latestActivity").getValue() == null) {
 					
 				}
 				
-				if(tokenEvent.getPropertyByKey("users").getValue() == null) {
-					dr.setUsers(sc.getSessionById(tokenEvent.getSessionID()).getUsers());
+				if(EventUtils.findPropertyByKey(event, "users").getValue() == null) {
+					//dr.setUsers(sc.getSessionById(tokenEvent.getSessionID()).getUsers());
 				}
 				
-				if(tokenEvent.getPropertyByKey("sessionId").getValue() == null) {
-					dr.setSessionId(sc.getSessionById(tokenEvent.getSessionID()).getSessionId());
+				if(EventUtils.findPropertyByKey(event, "sessionId").getValue() == null) {
+					//dr.setSessionId(sc.getSessionById(tokenEvent.getSessionID()).getSessionId());
 				}
 				
 				
 				// Sendet das Event an DR (welches Topic ???) 
 				try {
-					getAgent().send(dr, "DR Topic ???");
+					getAgent().send(event, "DR Topic ???");
 				} catch (NoValidEventException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", dr));
+					LOGGER.log(Level.WARNING, () -> String.format("%s", event));
 				} catch (NoValidTargetTopicException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", dr));
+					LOGGER.log(Level.WARNING, () -> String.format("%s", event));
 				}
 				
 		}
