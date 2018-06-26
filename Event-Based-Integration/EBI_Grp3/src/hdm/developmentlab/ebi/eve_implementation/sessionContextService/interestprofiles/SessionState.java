@@ -43,7 +43,7 @@ public class SessionState extends AbstractInterestProfile {
 		//SessionStateEvent arg0 = (SessionStateEvent) abs;		
 		SessionContextAgent agent = (SessionContextAgent) this.getAgent(); 			
 		AbstractEvent session = eventFactory.createEvent("AtomicEvent");
-		session.add(abs.getPropertyByKey("sessionStart"));
+		
 		session.add(new Property<String>("Report", "Ich habe ein SessionStart erhalten, es war ein SessionStart"));
 		
 		

@@ -44,23 +44,23 @@ public class DiagnosisInterestProfile extends AbstractInterestProfile {
 		
 		// Prüfe ob das empfangene Event vom Typ SpeedEvent ist
 		if (EventUtils.isType("SpeedEvent", event)) {
-			Property<AbstractEvent> firstEvent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(event, "FirstEvent");
-			Property<AbstractEvent> secondEvent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(event, "SecondEvent");
-			Property<Double> averageSpeed = (Property<Double>) EventUtils.findPropertyByKey(event,
-					"AverageSpeed");
-
-			newEvent.add(firstEvent);
-			newEvent.add(secondEvent);
-			newEvent.add(averageSpeed);
-
-			newEvent.setType("ProblemEvent");
+//			Property<AbstractEvent> firstEvent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(event, "FirstEvent");
+//			Property<AbstractEvent> secondEvent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(event, "SecondEvent");
+//			Property<Double> averageSpeed = (Property<Double>) EventUtils.findPropertyByKey(event,
+//					"AverageSpeed");
+//
+//			newEvent.add(firstEvent);
+//			newEvent.add(secondEvent);
+//			newEvent.add(averageSpeed);
+//
+//			newEvent.setType("ProblemEvent");
 			
 			/*
 			 * Hier wird das Fachwissen repräsentiert. Wenn die Durchschnittsgeschwindigkeit
 			 * über der erlaubten Höchstgeschwindigkeit liegt, muss eine angemessene
 			 * Reaktion erfolgen. Momentan wird entsprechend ein Text dem
 			 * SpeedMeasurementEvent mitgegeben und auf ein Topic gespeichert.
-			 */
+			 
 			if (averageSpeed != null) {
 				if (averageSpeed.getValue() > ShowcaseValues.INSTANCE.getSpeedLimit()) {
 					newEvent.add(new Property<String>("Severity", ShowcaseValues.INSTANCE.getSeverityNotOk()));
@@ -68,7 +68,7 @@ public class DiagnosisInterestProfile extends AbstractInterestProfile {
 					newEvent.add(new Property<String>("Severity", ShowcaseValues.INSTANCE.getSeverityOk()));
 				}
 			}
-			
+			*/
 			// Sendet das Event an das Storage Topic
 			try {
 				getAgent().send(newEvent, ShowcaseValues.INSTANCE.getStorageTopic());
