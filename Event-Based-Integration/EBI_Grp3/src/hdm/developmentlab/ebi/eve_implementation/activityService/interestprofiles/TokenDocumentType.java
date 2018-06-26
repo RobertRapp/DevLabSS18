@@ -34,7 +34,9 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 
 	// Factory für die Erzeugung der Events
 	private AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
-
+	private AbstractEvent requestEvent = eventFactory.createEvent("AtomicEvent");
+	private AbstractEvent lastSessionContextEvent = eventFactory.createEvent("AtomicEvent");
+	
 	
 	/**
 	 * Empfängt Tokentypen und leitet damit eine neue Dokumentenvorschlagsanfrage ein.
@@ -44,24 +46,24 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
 		// Erzeugt über die Factory ein neues Event
-		AbstractEvent requestEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
-		AbstractEvent lastSessionContextEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
-		
+
 		//Wird ein neues SessionContextEvent empfangen, so wird dies als letzter und damit aktuellster SessionContext abgespeichert
 		if (EventUtils.isType("SessionContext", event)) {
 			lastSessionContextEvent = event;
 			lastSessionContextEvent.setType("SessionContextEvent");
+			lastSessionContextEvent.setCreationDate(event.getCreationDate());
 		}
 		
 	
 		//Hier if mit Zeitabprüfug und session context auf 30 sekunden oder so; TokenEvent ist es eigentlich schon
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist undeinen Dokumententyp beinhaltet 
-		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "Topic") != null) {
+		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "topic") != null) {
 				requestEvent = event; 
 				requestEvent.setType("RequestEvent");
+				requestEvent.setCreationDate(event.getCreationDate());
 				
 				//Wenn letzter SessionContext nicht zu weit zurück liegt, wird das Tokenevent (bei Bedarf) um den aktuellen SC angereichert
-				if(TimeUtils.getDifferenceInSeconds(lastSessionContextEvent.getCreationDate(), requestEvent.getCreationDate()) >= 10) {
+				if(TimeUtils.getDifferenceInSeconds(requestEvent.getCreationDate(), lastSessionContextEvent.getCreationDate()) >= 100) {
 					
 				
 					//Enthält TokenEvent keine Property namens project (oder eine der folgenden Namen) oder ist der jeweilige Wert gleich null, so wird das Projekt des SC angehängt 

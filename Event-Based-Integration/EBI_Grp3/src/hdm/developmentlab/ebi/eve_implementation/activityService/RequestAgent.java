@@ -7,6 +7,8 @@ import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
+import eventprocessing.agent.interestprofile.predicates.NullPredicateException;
+import eventprocessing.agent.interestprofile.predicates.logical.Or;
 import eventprocessing.agent.interestprofile.predicates.statement.HasProperty;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.demo.ShowcaseValues;
@@ -44,9 +46,13 @@ public class RequestAgent extends AbstractAgent {
 		 * InteressenProfile besitzen
 		 */
 		try {
-			AbstractInterestProfile ip = new TokenApplicationIP();
-			ip.add(new IsEventType("TokenEvent"));
-			ip.add(new IsEventType("SessionContext"));
+			AbstractInterestProfile ip = new TokenDocumentType();
+			try {
+				ip.add(new Or(new IsEventType("TokenEvent"), new IsEventType("SessionContext")));
+			} catch (NullPredicateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			this.add(ip);
 		
 		} catch (NoValidInterestProfileException e1) {
