@@ -1,5 +1,7 @@
 package startServices;
 
+import java.util.logging.Level;
+
 import com.sun.media.jfxmedia.logging.Logger;
 
 import eventprocessing.agent.AbstractAgent;
@@ -18,7 +20,9 @@ import eventprocessing.produce.kafka.ProducerSettings;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
+import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
+import hdm.developmentlab.ebi.eve_implementation.events.TimeReference;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
 
@@ -44,28 +48,15 @@ public class StartServices {
 	
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
-		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
+		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
 		AbstractAgent sessionContextAgent = new SessionContextAgent();
 		
-		sessionContextAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092","SessionState"));
-		sessionContextAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-		AbstractInterestProfile sessionState = new SessionState();
-		sessionState.add(new IsFromTopic("SessionState"));
+		sessionContextAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "SessionState"));
+		sessionContextAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		
 			
-		
-		try {
-			sessionContextAgent.add(sessionState);
-		} catch (NoValidInterestProfileException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			sessionContextAgent.add("SessionState");
-		} catch (NoValidConsumingTopicException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
+	
+	
 		//StreamingExecution.add(activityService);
 		//StreamingExecution.add(protocolService);
 		StreamingExecution.add(sessionContextAgent);
@@ -99,16 +90,43 @@ public class StartServices {
 	}
 
 	
-	private static void publishDemoEvents() throws InterruptedException {
+	private static void publishDemoEvents() throws InterruptedException {		
 			
-	
+			for (int i = 0; i < 20; i++) {
+				
+				
+				AbstractEvent event = eventFactory.createEvent("AtomicEvent");
+				event.setType("TokenEvent");
+				Property<String> projekt = new Property<String>("projekt", "Highnet");
+				Property<String> thema = new Property<String>("thema", "Kosten");
+				Property<String> user = new Property<String>("user", "Robert Rapp"+i);
+				Property<String> user2 = new Property<String>("user", "Detlef Gabe"+i);
+				Property<TimeReference> timereference = new Property<TimeReference>("timereference", TimeReference.INSTANCE);
+				event.add(projekt);			
+				event.add(thema);			
+				event.add(user);			
+				event.add(user2);			
+				event.add(timereference);			
+				
+				if( i == 10) {
+					Property<String> context = new Property<String>("contextupdate", "Das Token ändert den Kontext");
+					event.add(context);
+				}
+				publish(event,"Tokens");
+				
+				java.util.logging.Logger logger = LoggerFactory.getLogger("StartServices!");				
+				logger.log(Level.WARNING, "SESSIONSTATE AUF SESSIONSTATE GEPUSHT");
+				
+//				AbstractEvent event2 = eventFactory.createEvent("AtomicEvent");
+//				event2.setType("SpeedEvent");
+//				Property<String> repo = new Property<String>("REPORT", "EVENT GEHT INS DIAGNOSIS IP");
+//				event2.add(repo);				
+//				publish(event2,"SessionState");					
+//				logger.log(Level.WARNING, "SESSIONSTATE AUF SESSIONSTATE GEPUSHT");				
+				Thread.sleep(1000);
+				
+			}
 			
-			
-			AbstractEvent event = new AtomicEvent();
-			event.setType("SessionStateEvent");
-			Property<Long> sessionStart = new Property<Long>("sessionStart", System.currentTimeMillis());
-			event.add(sessionStart);
-			publish(event,"TokenGeneration");
 
 			/*
 			TokenEvent event3 = (TokenEvent) new TokenEvent();

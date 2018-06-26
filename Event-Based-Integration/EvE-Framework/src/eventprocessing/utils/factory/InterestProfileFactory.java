@@ -67,7 +67,7 @@ public final class InterestProfileFactory extends AbstractFactory {
 	}
 
 	/**
-	 * wird hier nicht benÃ¶tigt
+	 * wird hier nicht benötigt
 	 */
 
 	@Override
