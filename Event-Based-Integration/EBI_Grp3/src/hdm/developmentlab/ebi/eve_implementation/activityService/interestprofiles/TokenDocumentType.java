@@ -50,6 +50,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 		//Wird ein neues SessionContextEvent empfangen, so wird dies als letzter und damit aktuellster SessionContext abgespeichert
 		if (EventUtils.isType("SessionContext", event)) {
 			lastSessionContextEvent = event;
+			lastSessionContextEvent.setType("SessionContextEvent");
 		}
 		
 	
@@ -57,7 +58,8 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist undeinen Dokumententyp beinhaltet 
 		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "Type").getValue() == "Topic") {
 				requestEvent = event; 
-
+				requestEvent.setType("RequestEvent");
+				
 				//Wenn letzter SessionContext nicht zu weit zurück liegt, wird das Tokenevent (bei Bedarf) um den aktuellen SC angereichert
 				if(TimeUtils.getDifferenceInSeconds(lastSessionContextEvent.getCreationDate(), requestEvent.getCreationDate()) >= 120) {
 					

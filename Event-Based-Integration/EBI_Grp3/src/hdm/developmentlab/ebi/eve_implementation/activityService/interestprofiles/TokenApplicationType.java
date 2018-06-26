@@ -39,31 +39,21 @@ public class TokenApplicationType extends eventprocessing.agent.interestprofile.
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
 		// Erzeugt über die Factory ein neues Event
-		AbstractEvent newEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
+		AbstractEvent applicationEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
 			
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist und eine Application beinhaltet
-		//HIER MIT PREDICATES IN IF CONDITION ARBEITEN! 
-		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "Type").getValue() == "Application") {
-				// Alle benötigten Informationen werden aus dem Event entnommen
-				//e.setApplicationID(tokenEvent.getChunkID());
-				//e.setApplicationName(tokenEvent.getChunkSemantic());
-				Property<AbstractEvent> applicationevent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(event, "FirstEvent");	
-				Property<Double> averageSpeed = (Property<Double>) EventUtils.findPropertyByKey(event,
-						"AverageSpeed");
-				//e.setLink("missing");
-				
-				newEvent.add(applicationevent);
-				newEvent.add(averageSpeed);
-
-				newEvent.setType("ApplicationEvent");
-				
+		if (EventUtils.findPropertyByKey(event, "Type").getValue() == "Application") {
+			applicationEvent = event; 	
+			applicationEvent.setType("ApplicationEvent");
+			
+			
 				// Sendet das Event an DR (welches Topic ???) 
 				try {
-					getAgent().send(event, "TOPIC??");
+					getAgent().send(applicationEvent, "TOPIC??");
 				} catch (NoValidEventException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", applicationevent));
+					java.util.logging.Logger logger = LoggerFactory.getLogger("ApplicationSend");
 				} catch (NoValidTargetTopicException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", applicationevent));
+					LOGGER.log(Level.WARNING, () -> String.format("%s", "ApplicationSend"));
 				}
 				
 		}
