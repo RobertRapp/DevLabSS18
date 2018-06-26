@@ -53,7 +53,7 @@ public class TokenApplicationType extends eventprocessing.agent.interestprofile.
 				} catch (NoValidEventException e1) {
 					java.util.logging.Logger logger = LoggerFactory.getLogger("ApplicationSend");
 				} catch (NoValidTargetTopicException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", "ApplicationSend"));
+					java.util.logging.Logger logger = LoggerFactory.getLogger("ApplicationSend");
 				}
 				
 		}
