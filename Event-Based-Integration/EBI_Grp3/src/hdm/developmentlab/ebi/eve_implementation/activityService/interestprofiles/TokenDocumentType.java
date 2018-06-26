@@ -56,12 +56,12 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 	
 		//Hier if mit Zeitabprüfug und session context auf 30 sekunden oder so; TokenEvent ist es eigentlich schon
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist undeinen Dokumententyp beinhaltet 
-		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "Type").getValue() == "Topic") {
+		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "Topic") != null) {
 				requestEvent = event; 
 				requestEvent.setType("RequestEvent");
 				
 				//Wenn letzter SessionContext nicht zu weit zurück liegt, wird das Tokenevent (bei Bedarf) um den aktuellen SC angereichert
-				if(TimeUtils.getDifferenceInSeconds(lastSessionContextEvent.getCreationDate(), requestEvent.getCreationDate()) >= 120) {
+				if(TimeUtils.getDifferenceInSeconds(lastSessionContextEvent.getCreationDate(), requestEvent.getCreationDate()) >= 10) {
 					
 				
 					//Enthält TokenEvent keine Property namens project (oder eine der folgenden Namen) oder ist der jeweilige Wert gleich null, so wird das Projekt des SC angehängt 

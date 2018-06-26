@@ -19,20 +19,22 @@ import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestp
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
 
-public class ActivityAgent extends AbstractAgent {
+public class RequestAgent extends AbstractAgent {
 
 	
 	private static final long serialVersionUID = 1L;
 
 	protected void doOnInit() {
 		
-		this.setId("ActivityAgent");
+		this.setId("RequestAgent");
+
 		/*
 		 * Angabe der Topics, die konsumiert werden sollen. Es können mehrere Topics
 		 * angegeben werden.
 		 */
 		try {
 			this.add("TokenGeneration");
+			this.add("SessionContext");
 		} catch (NoValidConsumingTopicException e) {
 			e.printStackTrace();
 		}
@@ -42,8 +44,9 @@ public class ActivityAgent extends AbstractAgent {
 		 * InteressenProfile besitzen
 		 */
 		try {
-			AbstractInterestProfile ip = new TokenDocumentType();
+			AbstractInterestProfile ip = new TokenApplicationIP();
 			ip.add(new IsEventType("TokenEvent"));
+			ip.add(new IsEventType("SessionContext"));
 			this.add(ip);
 		
 		} catch (NoValidInterestProfileException e1) {
