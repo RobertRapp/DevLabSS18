@@ -19,13 +19,13 @@ import hdm.developmentlab.ebi.eve_implementation.events.ApplicationEvent;
 import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
 
 
-public class TokenApplicationType extends eventprocessing.agent.interestprofile.AbstractInterestProfile {
+public class TokenApplicationIP extends eventprocessing.agent.interestprofile.AbstractInterestProfile {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static Logger LOGGER = LoggerFactory.getLogger(TokenApplicationType.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(TokenApplicationIP.class);
 	
 	// Factory für die Erzeugung der Events
 	private AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());

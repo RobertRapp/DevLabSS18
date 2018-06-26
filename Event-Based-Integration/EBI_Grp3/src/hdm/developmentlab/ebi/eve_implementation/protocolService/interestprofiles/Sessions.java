@@ -14,7 +14,7 @@ import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
-import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationType;
+import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationIP;
 import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
 
 
@@ -24,7 +24,7 @@ public class Sessions extends AbstractInterestProfile {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static Logger LOGGER = LoggerFactory.getLogger(TokenApplicationType.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(TokenApplicationIP.class);
 
 	// Factory für die Erzeugung der Events
 	private AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());

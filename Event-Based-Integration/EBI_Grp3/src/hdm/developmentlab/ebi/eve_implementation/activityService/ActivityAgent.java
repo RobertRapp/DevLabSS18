@@ -11,7 +11,7 @@ import eventprocessing.agent.interestprofile.predicates.statement.HasProperty;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.demo.agents.diagnosis.DiagnosisInterestProfile;
-import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationType;
+import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationIP;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenDocumentType;
 import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
