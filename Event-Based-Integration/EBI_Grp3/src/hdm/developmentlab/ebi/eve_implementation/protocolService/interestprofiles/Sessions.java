@@ -31,7 +31,7 @@ public class Sessions extends AbstractInterestProfile {
 	private ArrayList<AbstractEvent> tokenEvents = new ArrayList<AbstractEvent>();
 	private ArrayList<AbstractEvent> requestEvents = new ArrayList<AbstractEvent>();
 	private ArrayList<AbstractEvent> documentProposals = new ArrayList<AbstractEvent>();
-	private <AbstractEvent> SessionInfos = new ArrayList<AbstractEvent>();
+	private AbstractEvent SessionInfos = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
 	
 	/**
 	 *
