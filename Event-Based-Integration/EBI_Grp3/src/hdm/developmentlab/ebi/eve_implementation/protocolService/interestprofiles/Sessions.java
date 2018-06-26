@@ -31,6 +31,7 @@ public class Sessions extends AbstractInterestProfile {
 	private ArrayList<AbstractEvent> tokenEvents = new ArrayList<AbstractEvent>();
 	private ArrayList<AbstractEvent> requestEvents = new ArrayList<AbstractEvent>();
 	private ArrayList<AbstractEvent> documentProposals = new ArrayList<AbstractEvent>();
+	private <AbstractEvent> SessionInfos = new ArrayList<AbstractEvent>();
 	
 	/**
 	 *
@@ -50,7 +51,15 @@ public class Sessions extends AbstractInterestProfile {
 		AbstractEvent protocolEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
 		AbstractEvent tokenEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
 		AbstractEvent requestEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
-			
+		AbstractEvent documentProposalEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
+		AbstractEvent sessionEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
+
+		
+		// Prüfe ob das empfangene Event vom Typ SessionEvent ist. Wenn ja, Sessioninfos speichern
+		if (EventUtils.isType("SessionInfo", event)) {
+			sessionEvent = event;
+		} 
+		
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist. Wenn ja in TokenListe anfügen 
 		if (EventUtils.isType("TokenEvent", event)) {
 			tokenEvent = event;
@@ -61,14 +70,32 @@ public class Sessions extends AbstractInterestProfile {
 		if (EventUtils.isType("RequestEvents", event)) {
 			requestEvent = event;
 			requestEvents.add(requestEvent);
+		} 		
+		
+		// Prüfe ob das empfangene Event vom Typ RequestEvent ist. Wenn ja in RequestListe anfügen 
+		if (EventUtils.isType("documentEvents", event)) {
+			documentProposalEvent = event;
+			documentProposals.add(documentProposalEvent);
 		} 
 		
 		//Wenn die Session beendet wurde, werden alle Infos in ProtocolEvent verknüpft und das protocolEvent an DR gesendet
 		if (EventUtils.isType("SessionEndEvent", event)) {
-			Property<AbstractEvent> tokens = new Property<>();
-			//Wie kann man eine ganze Liste (Arraylist) als Value für eine Property festlegen? 
-			//tokens.setValue("");
-			//protocolEvent.add(property)
+			Property<AbstractEvent> sessionInfos = new Property<>();
+			Property<ArrayList<AbstractEvent>> tokens = new Property<>();
+			Property<ArrayList<AbstractEvent>> requests = new Property<>();
+			Property<ArrayList<AbstractEvent>> documents = new Property<>();
+			
+			//Arraylists mit allen Infos an das protocolEvent als Property anfügen
+			sessionInfos.setValue(sessionEvent);
+			
+			tokens.setValue(tokenEvents);
+			protocolEvent.add(tokens);
+			
+			requests.setValue(requestEvents);
+			protocolEvent.add(requests);
+			
+			documents.setValue(documentProposals);
+			protocolEvent.add(documents);
 			
 			// Sendet das Event an DR (welches Topic ???) 
 			try {
