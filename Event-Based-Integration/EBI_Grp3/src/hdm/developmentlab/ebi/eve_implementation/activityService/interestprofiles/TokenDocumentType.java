@@ -45,9 +45,10 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
-
+		System.out.println("Received" + event);
 		//Wird ein neues SessionContextEvent empfangen, so wird dies als letzter und damit aktuellster SessionContext abgespeichert
 		if (EventUtils.isType("SessionContext", event)) {
+			System.out.println("ES IST EIN SESSIONCONTEXT");
 			lastSessionContextEvent = event;
 			lastSessionContextEvent.setType("SessionContextEvent");
 			lastSessionContextEvent.setCreationDate(event.getCreationDate());
@@ -57,17 +58,21 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 		//Hier if mit Zeitabprüfug und session context auf 30 sekunden oder so; TokenEvent ist es eigentlich schon
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist undeinen Dokumententyp beinhaltet 
 		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "topic") != null) {
+			System.out.println("ES ist ein TOPIC EVENT!!!! ");
 				requestEvent = event; 
 				requestEvent.setType("RequestEvent");
 				requestEvent.setCreationDate(event.getCreationDate());
 				
-				//Wenn letzter SessionContext nicht zu weit zurück liegt, wird das Tokenevent (bei Bedarf) um den aktuellen SC angereichert
-				if(TimeUtils.getDifferenceInSeconds(requestEvent.getCreationDate(), lastSessionContextEvent.getCreationDate()) >= 100) {
-					
+				System.out.println("RequestEvent: " + requestEvent);
+				System.out.println("SC Event: " + lastSessionContextEvent);
+				
+				//Wenn letzter SessionContext existiert und nicht zu weit zurück liegt, wird das Tokenevent (bei Bedarf) um den aktuellen SC angereichert
+				if(lastSessionContextEvent != null && TimeUtils.getDifferenceInSeconds(requestEvent.getCreationDate(), lastSessionContextEvent.getCreationDate()) <= 10) {
+					System.out.println("ES LIEGT IN DER ZEIT!! ");
 				
 					//Enthält TokenEvent keine Property namens project (oder eine der folgenden Namen) oder ist der jeweilige Wert gleich null, so wird das Projekt des SC angehängt 
 					if(EventUtils.findPropertyByKey(requestEvent, "project") == null) {
-						requestEvent.add(lastSessionContextEvent.getPropertyByKey("project"));
+						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "project"));
 					} else 
 						if(EventUtils.findPropertyByKey(requestEvent, "project").getValue() == null) {
 							requestEvent.remove(EventUtils.findPropertyByKey(requestEvent, "project"));
@@ -76,23 +81,26 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 					}
 					
 					if(EventUtils.findPropertyByKey(requestEvent, "timereference") == null) {
-						requestEvent.add(lastSessionContextEvent.getPropertyByKey("timereference"));
+						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "timereference"));
+
+						
 					} else 
 						if(EventUtils.findPropertyByKey(requestEvent, "timereference").getValue() == null) {
 							requestEvent.remove(EventUtils.findPropertyByKey(requestEvent, "timereference"));
 							requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "timereference"));
+							System.out.println("ACHSO2");
 					}
 					
 					if(EventUtils.findPropertyByKey(requestEvent, "latestActivity") == null) {
-						requestEvent.add(lastSessionContextEvent.getPropertyByKey("latestActivity"));
+						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "latestActivity"));
 					} else 
 						if(EventUtils.findPropertyByKey(requestEvent, "latestActivity").getValue() == null) {
-							requestEvent.remove(EventUtils.findPropertyByKey(requestEvent, "latestActivity"));
+							requestEvent.remove(EventUtils.findPropertyByKey(lastSessionContextEvent, "latestActivity"));
 							requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "latestActivity"));
 					}
 					
 					if(EventUtils.findPropertyByKey(requestEvent, "users") == null) {
-						requestEvent.add(lastSessionContextEvent.getPropertyByKey("users"));
+						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "users"));
 					} else 
 						if(EventUtils.findPropertyByKey(requestEvent, "users").getValue() == null) {
 							requestEvent.remove(EventUtils.findPropertyByKey(requestEvent, "users"));
@@ -101,7 +109,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 					}
 					
 					if(EventUtils.findPropertyByKey(requestEvent, "sessionId") == null) {
-						requestEvent.add(lastSessionContextEvent.getPropertyByKey("sessionId"));
+						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "sessionId"));
 					} else 
 						if(EventUtils.findPropertyByKey(requestEvent, "sessionId").getValue() == null) {
 							requestEvent.remove(EventUtils.findPropertyByKey(requestEvent, "sessionId"));
@@ -113,7 +121,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 				
 				// Sendet das Event an DR (welches Topic ???) 
 				try {
-					getAgent().send(requestEvent, "DR Topic ???");
+					getAgent().send(requestEvent, "DRTopic");
 				} catch (NoValidEventException e1) {
 					java.util.logging.Logger logger = LoggerFactory.getLogger("RequestSend");
 				} catch (NoValidTargetTopicException e1) {
@@ -123,9 +131,9 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 		}
 		
 		
-		
 	}
 		
 	}
+
 
 
