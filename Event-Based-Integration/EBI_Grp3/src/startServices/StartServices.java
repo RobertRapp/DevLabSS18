@@ -2,7 +2,6 @@ package startServices;
 
 import java.util.logging.Level;
 
-import com.sun.media.jfxmedia.logging.Logger;
 
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
