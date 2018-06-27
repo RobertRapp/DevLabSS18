@@ -3,6 +3,7 @@
 	<name>EBI_Grp3</name>
 	<comment></comment>
 	<projects>
+		<project>EvE</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
