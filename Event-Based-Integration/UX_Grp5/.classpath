@@ -16,6 +16,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/markus/Desktop/Event_Processing_Test_V5.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/EvE"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

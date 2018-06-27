@@ -52,24 +52,9 @@ public class GuiInterestProfile extends AbstractInterestProfile {
 	@Override
 	public void doOnReceive(AbstractEvent event) {
 			
-		System.out.println("doOnReceive");
-		GuiEvent e = (GuiEvent) event;
-			
-				try {
-					getAgent().send(e, "Gui");
-					System.out.println("getAgent");
-				} catch (NoValidEventException e1) {
-					System.out.println("NogetAgent");
-					LOGGER.log(Level.WARNING, () -> String.format("%s", e));
-				} catch (NoValidTargetTopicException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", "Gui"));
-				}
-				
-				System.out.println("Consumer");
-				Property<?> gui=EventUtils.findPropertyByKey(e, "name");
-				System.out.println(gui);
-			
+		LOGGER.log(Level.WARNING, "Vom Topic DocProposal konsumiert!!!!!!: " +event);
 		
+	
 		
 	/*	
 		// Prüfung ob es vom Typ SensorEvent ist.

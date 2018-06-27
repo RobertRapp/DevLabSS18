@@ -28,11 +28,6 @@ import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestp
 public class SessionContextAgent extends AbstractAgent {
 	
 	ArrayList<SessionEvent> sessions = new ArrayList<SessionEvent>();
-	AbstractInterestProfile project;
-	
-
-	TimeReference timeReference = new TimeReference();
-	User userInfo = new User();
 	
 	protected void doOnInit() {
 		
@@ -40,6 +35,7 @@ public class SessionContextAgent extends AbstractAgent {
 		this.setId("SessionContextAgent");
 		try {
 			this.add("Tokens");
+			this.add("Gui");
 		} catch (NoValidConsumingTopicException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -48,6 +44,17 @@ public class SessionContextAgent extends AbstractAgent {
 		tokensip.add(new IsEventType("TokenEvent"));
 		try {
 			this.add(tokensip);
+			
+		} catch (NoValidInterestProfileException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			SessionState ssIP = new SessionState();
+			ssIP.add(new GetEverything());
+			this.add(ssIP);
+			
 		} catch (NoValidInterestProfileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -104,35 +111,7 @@ public class SessionContextAgent extends AbstractAgent {
 	}
 
 
-	public AbstractInterestProfile getProject() {
-		return project;
-	}
 
-
-	public void setProject(AbstractInterestProfile project) {
-		this.project = project;
-	}
-
-
-	
-
-	public TimeReference getTimeReference() {
-		return timeReference;
-	}
-
-
-	public void setTimeReference(TimeReference timeReference) {
-		this.timeReference = timeReference;
-	}
-	
-	public User getUserInfo() {
-		return userInfo;
-	}
-
-
-	public void setUserInfo(User userInfo) {
-		this.userInfo = userInfo;
-	}
 
 
 	public static long getSerialversionuid() {

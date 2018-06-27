@@ -38,4 +38,9 @@
   		<version>2.9.4</version>
   	</dependency>
   </dependencies>
+  <parent>
+  	<groupId>developmentLab</groupId>
+  	<artifactId>Event-Based-Integration</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  </parent>
 </project>

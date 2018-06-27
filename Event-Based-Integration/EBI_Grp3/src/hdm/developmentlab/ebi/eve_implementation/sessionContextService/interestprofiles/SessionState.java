@@ -1,6 +1,7 @@
 package hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles;
 
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,16 +40,18 @@ public class SessionState extends AbstractInterestProfile {
 	protected void doOnReceive(AbstractEvent abs) {
 		
 		Logger l = LoggerFactory.getLogger("DOONRECEIVE SESSIONSTATE");
-		l.log(Level.WARNING, "Event von test erhalten "+abs);
-		//SessionStateEvent arg0 = (SessionStateEvent) abs;		
-		SessionContextAgent agent = (SessionContextAgent) this.getAgent(); 			
-		AbstractEvent session = eventFactory.createEvent("AtomicEvent");
+		l.log(Level.WARNING, "Event "+abs);
 		
-		session.add(new Property<String>("Report", "Ich habe ein SessionStart erhalten, es war ein SessionStart"));
+		AbstractEvent session = eventFactory.createEvent("AtomicEvent");
+		ArrayList<Property> list = new ArrayList<>();
+		list.add(new Property<String>("kostendoc", "LInk"));
+		list.add(new Property<String>("kostendoc1", "LInk1"));
+		list.add(new Property<String>("kostendoc2", "LInk2"));
+		session.add(new Property<ArrayList<Property>>("docProposalList", list ));
 		
 		
 		try {
-			agent.send(session, "Sessions");			
+			this.getAgent().send(session, "DocProposal");			
 		} catch (NoValidEventException e) {
 			l.log(Level.WARNING, "SessionState Event konnte nicht publiziert werden"+e);
 			e.printStackTrace();

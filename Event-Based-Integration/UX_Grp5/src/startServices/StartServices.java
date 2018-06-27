@@ -1,27 +1,17 @@
 package startServices;
 
-import java.util.logging.Level;
-
-import com.sun.media.jfxmedia.logging.Logger;
-
 import eventprocessing.agent.AbstractAgent;
-import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.GuiAgent.GuiAgent;
-import eventprocessing.agent.dispatch.NoValidInterestProfileException;
-import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.event.AtomicEvent;
 import eventprocessing.event.Property;
 import eventprocessing.produce.kafka.Despatcher;
 import eventprocessing.produce.kafka.ProducerSettings;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
-import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
 
 
@@ -119,23 +109,7 @@ public class StartServices {
 				event.add(category);
 			//	event.add(timereference);	
 				
-				publish(event,"Gui");
-				
-			/*	if( i == 10) {
-					Property<String> context = new Property<String>("contextupdate", "Das Token ändert den Kontext");
-					event.add(context);
-				}
-				publish(event,"Tokens");
-				
-				java.util.logging.Logger logger = LoggerFactory.getLogger("StartServices!");				
-				logger.log(Level.WARNING, "SESSIONSTATE AUF SESSIONSTATE GEPUSHT");
-				*/
-//				AbstractEvent event2 = eventFactory.createEvent("AtomicEvent");
-//				event2.setType("SpeedEvent");
-//				Property<String> repo = new Property<String>("REPORT", "EVENT GEHT INS DIAGNOSIS IP");
-//				event2.add(repo);				
-//				publish(event2,"SessionState");					
-//				logger.log(Level.WARNING, "SESSIONSTATE AUF SESSIONSTATE GEPUSHT");				
+				publish(event,"Gui");		
 				Thread.sleep(1000);
 				
 			}
