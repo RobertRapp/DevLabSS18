@@ -33,9 +33,9 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 	
 
 	// Factory für die Erzeugung der Events
-	private AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
+	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
 	private AbstractEvent requestEvent = eventFactory.createEvent("AtomicEvent");
-	private AbstractEvent lastSessionContextEvent = eventFactory.createEvent("AtomicEvent");
+	private static AbstractEvent lastSessionContextEvent = eventFactory.createEvent("AtomicEvent");
 	
 	
 	/**
@@ -45,7 +45,6 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
-		// Erzeugt über die Factory ein neues Event
 
 		//Wird ein neues SessionContextEvent empfangen, so wird dies als letzter und damit aktuellster SessionContext abgespeichert
 		if (EventUtils.isType("SessionContext", event)) {
