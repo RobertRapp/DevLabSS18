@@ -27,11 +27,11 @@ public class Sessions extends AbstractInterestProfile {
 	private static Logger LOGGER = LoggerFactory.getLogger(TokenApplicationIP.class);
 
 	// Factory für die Erzeugung der Events
-	private AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
-	private ArrayList<AbstractEvent> tokenEvents = new ArrayList<AbstractEvent>();
-	private ArrayList<AbstractEvent> requestEvents = new ArrayList<AbstractEvent>();
-	private ArrayList<AbstractEvent> documentProposals = new ArrayList<AbstractEvent>();
-	private AbstractEvent SessionInfos = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
+	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
+	private static ArrayList<AbstractEvent> tokenEvents = new ArrayList<AbstractEvent>();
+	private static ArrayList<AbstractEvent> requestEvents = new ArrayList<AbstractEvent>();
+	private static ArrayList<AbstractEvent> documentProposals = new ArrayList<AbstractEvent>();
+	private static AbstractEvent SessionInfos = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
 	
 	/**
 	 *
