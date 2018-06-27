@@ -7,6 +7,7 @@ import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
+import eventprocessing.agent.interestprofile.predicates.statement.GetEverything;
 import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
@@ -47,11 +48,11 @@ public class StartServices {
 	
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
-		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
 		AbstractAgent sessionContextAgent = new SessionContextAgent();
 		
-		sessionContextAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "SessionState"));
-		sessionContextAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		sessionContextAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "SessionState"));
+		sessionContextAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 		
 			
 	
