@@ -38,18 +38,23 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 	
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
+		System.out.println("RECEIVED");
 		// Erzeugt über die Factory ein neues Event
-		AbstractEvent applicationEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
-			
+		AbstractEvent applicationEvent = eventFactory.createEvent("AtomicEvent");
+		
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist und eine Application beinhaltet
-		if (EventUtils.findPropertyByKey(event, "Type").getValue() == "Application") {
+		if (EventUtils.findPropertyByKey(event, "type") != null && EventUtils.findPropertyByKey(event, "Type").getValue() == "Application") {
+			System.out.println("IN IF");
 			applicationEvent = event; 	
 			applicationEvent.setType("ApplicationEvent");
-			
+			System.out.println("TIMESTAMP : ");
+			System.out.println("NeuEvent: " + applicationEvent.getCreationDate());
+			System.out.println("NeuEvent: " + event.getCreationDate());
 			
 				// Sendet das Event an DR (welches Topic ???) 
 				try {
-					getAgent().send(applicationEvent, "TOPIC??");
+					System.out.println("WIRD GESENDET");
+					getAgent().send(applicationEvent, "TOPIC");
 				} catch (NoValidEventException e1) {
 					java.util.logging.Logger logger = LoggerFactory.getLogger("ApplicationSend");
 				} catch (NoValidTargetTopicException e1) {

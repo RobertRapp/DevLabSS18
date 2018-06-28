@@ -42,7 +42,7 @@ public class ActivityAgent extends AbstractAgent {
 		 * InteressenProfile besitzen
 		 */
 		try {
-			AbstractInterestProfile ip = new TokenDocumentType();
+			AbstractInterestProfile ip = new TokenApplicationIP();
 			ip.add(new IsEventType("TokenEvent"));
 			this.add(ip);
 		
