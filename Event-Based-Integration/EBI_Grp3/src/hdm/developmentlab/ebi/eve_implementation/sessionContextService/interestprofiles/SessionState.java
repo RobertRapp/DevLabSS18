@@ -39,6 +39,16 @@ public class SessionState extends AbstractInterestProfile {
 	@Override
 	protected void doOnReceive(AbstractEvent abs) {
 		
+		if(abs.getType().equalsIgnoreCase("SessionState")) {
+			SessionContextAgent sA = (SessionContextAgent) this.getAgent();
+			AbstractEvent sessionStart = eventFactory.createEvent("AtomicEvent"); 
+			sA.addSession(abs);
+		}
+		
+		
+		
+		
+		
 		Logger l = LoggerFactory.getLogger("DOONRECEIVE SESSIONSTATE");
 		l.log(Level.WARNING, "Event "+abs);
 		

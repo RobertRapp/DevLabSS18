@@ -11,6 +11,7 @@ import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.demo.agents.diagnosis.DiagnosisInterestProfile;
+import eventprocessing.event.AbstractEvent;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
@@ -27,21 +28,22 @@ import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestp
 
 public class SessionContextAgent extends AbstractAgent {
 	
-	ArrayList<SessionEvent> sessions = new ArrayList<SessionEvent>();
+	ArrayList<AbstractEvent> sessions = new ArrayList<AbstractEvent>();
 	
 	protected void doOnInit() {
+		
 		
 		//Ohne ID geht der Agent nicht 
 		this.setId("SessionContextAgent");
 		try {
-			this.add("Tokens");
-			this.add("Gui");
+			//this.add("Tokens");
+			this.add("test");
 		} catch (NoValidConsumingTopicException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		AbstractInterestProfile tokensip = new Tokens();
-		tokensip.add(new IsEventType("TokenEvent"));
+		AbstractInterestProfile tokensip = new User();
+		tokensip.add(new GetEverything());
 		try {
 			this.add(tokensip);
 			
@@ -93,27 +95,14 @@ public class SessionContextAgent extends AbstractAgent {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public ArrayList<SessionEvent> getSessions() {
-		return sessions;
-	}
+	
 
 
-	public void addSession(SessionEvent session) {
+	public void addSession(AbstractEvent session) {
 		sessions.add(session);
 	}
 	
-	public SessionEvent getSessionById(String session) {
-		
-		for(SessionEvent s : sessions) {
-			if(s.getSessionId().equalsIgnoreCase(session)) return s;
-		}		
-		return null;
-	}
-
-
-
-
-
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
