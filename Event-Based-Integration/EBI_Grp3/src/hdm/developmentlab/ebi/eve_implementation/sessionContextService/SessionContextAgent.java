@@ -17,6 +17,7 @@ import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.InterestProfileFactory;
 import eventprocessing.utils.factory.PredicateFactory;
 import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
+import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionContextIP;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.TimeReference;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.Tokens;
@@ -38,16 +39,17 @@ public class SessionContextAgent extends AbstractAgent {
 		
 		//Ohne ID geht der Agent nicht 
 		this.setId("SessionContextAgent");
+		
 		try {
-			this.add("Tokens");
+			this.add("TokenGeneration");
 		} catch (NoValidConsumingTopicException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		AbstractInterestProfile tokensip = new Tokens();
-		tokensip.add(new IsEventType("TokenEvent"));
+		AbstractInterestProfile sessionContextIP = new SessionContextIP();
+		sessionContextIP.add(new IsEventType("TokenEvent"));
 		try {
-			this.add(tokensip);
+			this.add(sessionContextIP);
 		} catch (NoValidInterestProfileException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
