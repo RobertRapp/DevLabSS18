@@ -100,12 +100,13 @@ public class StartServicesApplicationSend {
 				event.setType("TokenEvent");
 				Property<String> project2 = new Property<String>("project", "Highnet");
 				Property<String> thema = new Property<String>("topic", "Kosten");
-				Property<String> type = new Property<String>("type", "Application");
-				Property<String> link = new Property<String>("link", "Application");
+				Property<String> type = new Property<String>("type", "application");
+				Property<String> link = new Property<String>("link", "application");
 				Property<String> user4 = new Property<String>("user", "Detlef Gabe"+i);
 				event.add(project2);			
 				event.add(thema);			
 				event.add(type);			
+				event.add(link);
 				event.add(user4);				
 				System.out.println(EventUtils.findPropertyByKey(event, "type"));
 				publish(event,"TokenGeneration");
