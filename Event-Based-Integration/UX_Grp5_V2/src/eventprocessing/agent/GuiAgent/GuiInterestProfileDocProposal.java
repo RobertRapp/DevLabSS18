@@ -52,7 +52,11 @@ public class GuiInterestProfileDocProposal extends AbstractInterestProfile {
 	@Override
 	public void doOnReceive(AbstractEvent event) {
 			
-		System.out.println("doOnReceive");
+		
+		GuiAgent guiAgent = (GuiAgent) this.getAgent();
+		LOGGER.log(Level.WARNING, "Ich will dieses tolle Event fatal broadcasten"+event);
+		guiAgent.broadcast(event.getPropertyByKey("json").getValue().toString());
+		
 		//GuiEvent e = (GuiEvent) event;
 		//LOGGER.log(Level.WARNING, "doOnReceiveGuiIP");
 		/*		
@@ -66,7 +70,7 @@ public class GuiInterestProfileDocProposal extends AbstractInterestProfile {
 					LOGGER.log(Level.WARNING, () -> String.format("%s", "Gui"));
 				
 				}
-				*/
+				
 				System.out.println("Consumer");
 				Property<?> name=EventUtils.findPropertyByKey(event, "name");
 				Property<?> type=EventUtils.findPropertyByKey(event, "type");

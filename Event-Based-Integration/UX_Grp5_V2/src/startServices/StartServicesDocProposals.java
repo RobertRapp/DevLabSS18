@@ -2,6 +2,9 @@ package startServices;
 
 import java.util.logging.Level;
 
+import org.json.JSONObject;
+
+import com.google.gson.JsonObject;
 import com.sun.media.jfxmedia.logging.Logger;
 
 import eventprocessing.agent.AbstractAgent;
@@ -58,31 +61,31 @@ public class StartServicesDocProposals {
 		GuiAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 		*/	
 		
-		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
 		
 		AbstractAgent DocProposal = new DocProposal();
-		DocProposal.setConsumerSettings(new ConsumerSettings("localhost","9092", "DocProposal"));
-		DocProposal.setProducerSettings(new ProducerSettings("localhost","9092"));
+		DocProposal.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "DocProposal"));
+		DocProposal.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 
 		AbstractAgent Gui = new GuiAgent();
-		Gui.setConsumerSettings(new ConsumerSettings("localhost","9092", "Gui"));
-		Gui.setProducerSettings(new ProducerSettings("localhost","9092"));
+		Gui.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "Gui"));
+		Gui.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 		
 		AbstractAgent ui = new UserInteraction();
-		ui.setConsumerSettings(new ConsumerSettings("localhost","9092", "UserInteraction"));
-		ui.setProducerSettings(new ProducerSettings("localhost","9092"));
+		ui.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "UserInteraction"));
+		ui.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 		
 		AbstractAgent session = new SessionEnd();
-		session.setConsumerSettings(new ConsumerSettings("localhost","9092", "SessionState"));
-		session.setProducerSettings(new ProducerSettings("localhost","9092"));
+		session.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "SessionState"));
+		session.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 
 	
 		//StreamingExecution.add(activityService);
 		//StreamingExecution.add(protocolService);
 		StreamingExecution.add(DocProposal);
 		StreamingExecution.add(Gui);
-		StreamingExecution.add(ui);
-		StreamingExecution.add(session);
+		//StreamingExecution.add(ui);
+		//StreamingExecution.add(session);
 
 		
 		Runnable myRunnable = new Runnable() {
@@ -115,13 +118,21 @@ public class StartServicesDocProposals {
 	
 	private static void publishDemoEvents() throws InterruptedException {		
 			
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < 20; i++) {
 				
 				
 				AbstractEvent event = eventFactory.createEvent("AtomicEvent");
 				event.setType("DocProposalEvent");
-				Property<String> name = new Property<String>("name", "Document1");
-				Property<String> type = new Property<String>("type", "Word");
+				JSONObject js = new JSONObject("{ \"head\": { \"vars\": [ \"Name\" , \"FileURL\" ] } , \"results\": { \"bindings\": [ { \"Name\": { \"type\": \"literal\" , \"value\": \"costplan\" } , \"FileURL\": { \"type\": \"literal\" , \"value\": \"https://drive.googledasdasdasdo3_iYxXJiXfXq6jYoLl8H4Y\" } } ] } }");
+				Property<String> document = new Property<String>("document", js.toString());
+				Thread.sleep(1000);	
+				event.add(document);
+				publish(event,"DocProposal");
+			}
+			
+				/*
+				 * Property<String> type = new Property<String>("type", "Word");
+				 
 				Property<String> path = new Property<String>("path", "https://drive.google.com/open?id=1QFKrdAlyiL9kJC5Tof4_T1J0w4bu0Du8BFYq8_-ZaXM");
 				Property<String> lastEditor = new Property<String>("lastEditor", "Manfred");
 				Property<String> lastEdit = new Property<String>("lastEdit", "26.06.2018");
@@ -154,9 +165,8 @@ public class StartServicesDocProposals {
 //				event2.add(repo);				
 //				publish(event2,"SessionState");					
 //				logger.log(Level.WARNING, "SESSIONSTATE AUF SESSIONSTATE GEPUSHT");				
-				Thread.sleep(1000);
-				
-			}
+/*				
+							}
 			
 for (int i = 0; i < 3; i++) {
 				

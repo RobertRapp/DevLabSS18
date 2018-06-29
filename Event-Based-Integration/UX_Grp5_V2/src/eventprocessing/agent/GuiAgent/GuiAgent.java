@@ -1,38 +1,45 @@
 package eventprocessing.agent.GuiAgent;
 
-import eventprocessing.agent.AbstractAgent;
-import eventprocessing.demo.ShowcaseValues;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.logging.Level;
 
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.producer.ProducerConfig;
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
+import javax.websocket.server.ServerEndpointConfig;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
-import eventprocessing.agent.DocProposal.ConsumerSettingsGui;
-import eventprocessing.agent.DocProposal.ProducerSettingsGui;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.statement.GetEverything;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
-import eventprocessing.consume.kafka.ConsumerSettings;
-import eventprocessing.demo.agents.diagnosis.ConsumerSettingsDiagnosis;
-import eventprocessing.demo.agents.diagnosis.ProducerSettingsDiagnosis;
-import eventprocessing.produce.kafka.ProducerSettings;
-import values.GUIValues;
 
 
-/**
- * Dieser Agent ist für die Diagnose des Verkehrs zuständig. Er wertet die
- * Verkehrsdaten aus und leitet daraus entsprechende Handlungen ab.
- * 
- * @author IngoT
- *
- */
+
+@ServerEndpoint("/socket")
 public class GuiAgent extends AbstractAgent {
 
 	private static final long serialVersionUID = 5414649241552569623L;
+	private static Set<Session> userSessions = Collections.newSetFromMap(new ConcurrentHashMap<Session, Boolean>());
+	private static HashMap<String, String> users = new HashMap<>();
+    static ScheduledExecutorService timer = 
+	       Executors.newSingleThreadScheduledExecutor(); 
 
 	@Override
 	protected void doOnInit() {
+		
 		this.setId("GuiAgent");
 		//System.out.println("GuiAgent");
 		/*
@@ -41,7 +48,7 @@ public class GuiAgent extends AbstractAgent {
 		 */
 		try {
 			AbstractInterestProfile ip = new GuiInterestProfileDocProposal();
-			ip.add(new IsEventType("DocProposalEvent"));
+			ip.add(new IsEventType("JsonDocEvent"));
 			//ip.add(new GetEverything());
 			//ip.add(new IsEventType(ShowcaseValues.INSTANCE.getSpeedEvent()));
 			this.add(ip);
@@ -49,67 +56,110 @@ public class GuiAgent extends AbstractAgent {
 		} catch (NoValidInterestProfileException e1) {
 			e1.printStackTrace();
 		}
-		
-		try {
-			AbstractInterestProfile ip = new GuiInterestProfileUserInteraction();
-			ip.add(new IsEventType("UserInteractionEvent"));
-			//ip.add(new GetEverything());
-			//ip.add(new IsEventType(ShowcaseValues.INSTANCE.getSpeedEvent()));
-			this.add(ip);
-			//System.out.println("ip geadded");
-		} catch (NoValidInterestProfileException e1) {
-			e1.printStackTrace();
-		}
-		
-		try {
-			AbstractInterestProfile ip = new GuiInterestProfileSessionEnd();
-			ip.add(new IsEventType("SessionEndEvent"));
-			//ip.add(new GetEverything());
-			//ip.add(new IsEventType(ShowcaseValues.INSTANCE.getSpeedEvent()));
-			this.add(ip);
-			//System.out.println("ip geadded");
-		} catch (NoValidInterestProfileException e1) {
-			e1.printStackTrace();
-		}
-		
-		/*
-		 * Angabe der Topics, die konsumiert werden sollen. Es können mehrere Topics
-		 * angegeben werden.
-		 */
+//		
+//		try {
+//			AbstractInterestProfile ip = new GuiInterestProfileUserInteraction();
+//			ip.add(new IsEventType("UserInteractionEvent"));
+//			//ip.add(new GetEverything());
+//			//ip.add(new IsEventType(ShowcaseValues.INSTANCE.getSpeedEvent()));
+//			this.add(ip);
+//			//System.out.println("ip geadded");
+//		} catch (NoValidInterestProfileException e1) {
+//			e1.printStackTrace();
+//		}
+//		
+//		try {
+//			AbstractInterestProfile ip = new GuiInterestProfileSessionEnd();
+//			ip.add(new IsEventType("SessionEndEvent"));
+//			//ip.add(new GetEverything());
+//			//ip.add(new IsEventType(ShowcaseValues.INSTANCE.getSpeedEvent()));
+//			this.add(ip);
+//			//System.out.println("ip geadded");
+//		} catch (NoValidInterestProfileException e1) {
+//			e1.printStackTrace();
+//		}
+//		
+//	
 		try {
 			this.add("Gui");
 		} catch (NoValidConsumingTopicException e) {
 			e.printStackTrace();
 		}
 
-		
-		/*
-		ConsumerSettings csettings = new ConsumerSettings();
-		csettings.add(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, ConsumerSettingsGui.INSTANCE.getIPv4Bootstrap() + ":" + ConsumerSettingsGui.INSTANCE.getPortBootstrap());
-		csettings.add(ConsumerConfig.GROUP_ID_CONFIG, ConsumerSettingsGui.INSTANCE.getGroupId());
-		csettings.add(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, ConsumerSettingsGui.INSTANCE.getKeyDeserializer());
-		csettings.add(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ConsumerSettingsGui.INSTANCE.getValueDeserializer());
-		csettings.add(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, ConsumerSettingsGui.INSTANCE.getPartitionAssignmentStrategy());
-		this.setConsumerSettings(csettings);
+	}
+	 @OnOpen
+	    public void onOpen(Session userSession) {
+	    System.out.println("Neue Verbindung aufgebaut..." + userSession.getId());
+	    userSessions.add(userSession);
+//
+//	      if (userSessions.size()==1){   
+//	        timer.scheduleAtFixedRate(
+//	        	() -> broadcast(json.toString()),0,8,TimeUnit.SECONDS);    
+//	      }
+	     }    
+	 	
 
-		ProducerSettings pSettings = new ProducerSettings();
-		// IPv4-Adresse des Kafkaservers. Port ist Standardmäßig 9092
-		pSettings.add(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, ProducerSettingsGui.INSTANCE.getIPv4Bootstrap() + ":" + ProducerSettingsGui.INSTANCE.getPortBootstrap());
-		// Bestätigung für alle gesendeten Nachrichten anfordern
-		pSettings.add(ProducerConfig.ACKS_CONFIG, ProducerSettingsGui.INSTANCE.getAcks());
-		// Wie Lang darf die Nachricht sein
-		pSettings.add(ProducerConfig.BATCH_SIZE_CONFIG, ProducerSettingsGui.INSTANCE.getBatchSize());
-		// In welchen zeitlichen Abstand werden die Nachrichten vor der Übertragung geschnitten
-		pSettings.add(ProducerConfig.LINGER_MS_CONFIG, ProducerSettingsGui.INSTANCE.getLingerMS());
-		// sollen Fehlgeschlagene Versuche wiederholt werden?
-		pSettings.add(ProducerConfig.RETRIES_CONFIG, ProducerSettingsGui.INSTANCE.getRetries());
-		// Wie viel darf im Arbeitsspeicher verbleiben
-		pSettings.add(ProducerConfig.BUFFER_MEMORY_CONFIG, ProducerSettingsGui.INSTANCE.getBufferMemory());
-		// Für die Serialisierung der Key-/Value Paare
-		pSettings.add(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, ProducerSettingsGui.INSTANCE.getKeySerializer());
-		pSettings.add(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ProducerSettingsGui.INSTANCE.getValueSerializer());
-		this.setProducerSettings(pSettings);
-*/
+	    @OnClose
+	    public void onClose(Session userSession) {
+	    System.out.println("Verbindung getrennt..."+ users.get(userSession.getId()));
+	    userSessions.remove(userSession);
+	    users.remove(userSession.getId());
+	    
+	    JSONObject usersJSON = new JSONObject();
+		JSONArray usersArray = new JSONArray();
+		usersJSON.put("type", "refreshUserList");
+		 for (Map.Entry user : users.entrySet()) {
+			 usersArray.put(user.getValue());
+	         System.out.println("Key: "+user.getKey() + " & Value: " + user.getValue());
+	          
+	        }
+ usersJSON.put("users", usersArray);
+	System.out.println(usersJSON);
+	broadcast(usersJSON.toString());
+	    }
+	 
+	    @OnMessage
+	    public void onMessage(String message, Session userSession) {
+	    JSONObject requestJSON = new JSONObject(message);	
 
+	    switch (requestJSON.getString("type")) {
+	    	case "join":
+	    		users.put(userSession.getId(), requestJSON.getString("username"));
+	    	    JSONObject usersJSON = new JSONObject();
+	    		JSONArray usersArray = new JSONArray();
+	    		usersJSON.put("type", "refreshUserList");
+	    		 for (Map.Entry user : users.entrySet()) {
+	    			 usersArray.put(user.getValue());
+	    			 
+	    	         System.out.println("Key: "+user.getKey() + " & Value: " + user.getValue());
+	    	          
+	    	        }
+	        usersJSON.put("users", usersArray);
+	    	System.out.println(usersJSON);
+	    	broadcast(usersJSON.toString());
+			break;
+		    case "clickedOnDocument":
+		    	JSONObject request = new JSONObject();
+		    	request.put("type", "clickedOnDocument");
+		    	request.put("docID", requestJSON.getString("docID"));
+		    	broadcast(request.toString());
+		    break;
+	    }
+	   
+//	    users.put(userSession.getId(), message);
+	    }
+
+	@OnError
+	public void onError(Throwable e){
+		e.printStackTrace();
+	}
+	
+
+	public  void broadcast(String msg) {
+	    System.out.println("Broadcast Nachricht an alle:" + msg);
+	    for (Session session : userSessions) {
+	        session.getAsyncRemote().sendText(msg);
+	        System.out.println("Sesion ID: " + session.getId());
+	    }
 	}
 }

@@ -4,25 +4,19 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import eventprocessing.demo.ShowcaseValues;
-import eventprocessing.events.DocProposalEvent;
-import eventprocessing.demo.events.SensorEvent;
-import eventprocessing.event.AbstractEvent;
-import eventprocessing.utils.TextUtils;
-import eventprocessing.utils.factory.LoggerFactory;
+import org.json.JSONObject;
 
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
+import eventprocessing.utils.Document;
+import eventprocessing.utils.DocumentProposal;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
-import eventprocessing.utils.model.EventUtils;
-import values.GUIValues;
 
 /**
  * Dieses Interessenprofil führt die Reinigung sowie Filterung durch. Es wird
@@ -41,7 +35,7 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 	 */
 	private static final long serialVersionUID = 8699861536301449664L;
 	private static Logger LOGGER = LoggerFactory.getLogger(DocProposalInterestProfile.class);
-
+	private AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
 	/**
 	 * Verarbeitung des empfangenen Events.
 	 * 
@@ -49,39 +43,37 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 	 */
 	@Override
 	public void doOnReceive(AbstractEvent event) {
-
-			//DocProposalEvent e = (DocProposalEvent) event;
-			
-				try {
-					getAgent().send(event, "Gui");
-				} catch (NoValidEventException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", event));
-				} catch (NoValidTargetTopicException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", "Gui"));
-				}
-				
-		//	Property<?> docProposals=EventUtils.findPropertyByKey(event, "docProposals");
-		//	System.out.println(docProposals);
-			
 		
-		
-	/*	
-		// Prüfung ob es vom Typ SensorEvent ist.
-		if (event instanceof SensorEvent) {
-			// Wenn ja, cast.
-			SensorEvent e = (SensorEvent) event;
-			// Aussortierung von fehlerhaften Sensorwerten.
-			if (e.getSensorID() != 0 && !TextUtils.isNullOrEmpty(e.getLocation())) {
-				try {
-					// Das erzeugte Event wird über den Agenten an das Topic "TrafficData" versendet
-					getAgent().send(e, ShowcaseValues.INSTANCE.getTrafficDataTopic());
-				} catch (NoValidEventException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", e));
-				} catch (NoValidTargetTopicException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", e));
-				}
+		ArrayList<Document> docListe = new ArrayList<Document>();
+		DocProposal dPA = (DocProposal) this.getAgent();
+		DocumentProposal currentProposal = dPA.getProposal();
+		for(Property<?> p : event.getProperties()) {
+			if(p.getKey().equals("document")){
+			Document doc = 	new Document(p.getValue().toString());
+			docListe.add(doc);
 			}
-		} */
+		}
+		currentProposal.addDocuments(docListe);
+		JSONObject json = currentProposal.toJson();
+		AbstractEvent jsonDocEvent = eventFactory.createEvent("AtomicEvent");
+		jsonDocEvent.setType("JsonDocEvent");
+		LOGGER.log(Level.WARNING, "JSON DOC EVENT: "+jsonDocEvent);
+		jsonDocEvent.add(new Property<String>("json", json.toString()));
+		
+		
+		try {
+			getAgent().send(jsonDocEvent, "Gui");
+		} catch (NoValidEventException e) {
+			e.printStackTrace();
+		} catch (NoValidTargetTopicException e) {
+			e.printStackTrace();
+		}
 	}
+//				} catch (NoValidEventException e1) {
+//					LOGGER.log(Level.WARNING, () -> String.format("%s", event));
+//				} catch (NoValidTargetTopicException e1) {
+//					LOGGER.log(Level.WARNING, () -> String.format("%s", "Gui"));
+//				}
+//	}
 
 }

@@ -15,6 +15,7 @@ import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.demo.agents.diagnosis.ConsumerSettingsDiagnosis;
 import eventprocessing.demo.agents.diagnosis.ProducerSettingsDiagnosis;
 import eventprocessing.produce.kafka.ProducerSettings;
+import eventprocessing.utils.DocumentProposal;
 import values.GUIValues;
 
 /**
@@ -27,15 +28,18 @@ import values.GUIValues;
 public class DocProposal extends AbstractAgent {
 
 	private static final long serialVersionUID = 1372051869173018986L;
+	private static DocumentProposal proposal; 
 
 	@Override
 	protected void doOnInit() {
 		this.setId("DocProposalAgent");
+		
 		/*
 		 * Fügt dem Agenten ein InteressenProfil hinzu Ein Agent kann mehrere
 		 * InteressenProfile besitzen
 		 */
 		try {
+			
 			AbstractInterestProfile ip = new DocProposalInterestProfile();
 			ip.add(new IsEventType("DocProposalEvent"));
 			//ip.add(new IsEventType(ShowcaseValues.INSTANCE.getSpeedEvent()));
@@ -89,5 +93,16 @@ public class DocProposal extends AbstractAgent {
 		
 */
 
+	}
+
+	public DocumentProposal getProposal() {
+		if(proposal != null) {
+			return proposal;
+		}
+		return new DocumentProposal();
+	}
+
+	public void setProposal(DocumentProposal proposal) {
+		DocProposal.proposal = proposal;
 	}
 }
