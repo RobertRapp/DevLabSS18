@@ -2,29 +2,34 @@ package hdm.developmentlab.ebi.eve_implementation.sessionContextService.interest
 
 
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.event.AbstractEvent;
+import eventprocessing.event.Property;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
+import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 
 
 public class SessionContextIP extends eventprocessing.agent.interestprofile.AbstractInterestProfile {
 
 	/**
+	 * Empfängt ein Event und prüft ob das neue Token den aktuellen SessionContext im Gespräch verändert,
 	 * 
+	 * ist das der Fall wird die gewonnene Information als SessionContextUpdate publiziert.
 	 */
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = LoggerFactory.getLogger(SessionContextIP.class);
 	
 	// Factory für die Erzeugung der Events
 	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
-	private static AbstractEvent lastSessionContext = eventFactory.createEvent("AtomicEvent");
+	private static AbstractEvent lastSessionContext = null;
 	/**
 	 * Verarbeitung des empfangenen Events.
 	 * 
@@ -34,60 +39,43 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 	
 	
 	@Override
-	protected void doOnReceive(AbstractEvent event) {
-		System.out.println("RECEIVEDSCIP");
-		System.out.println("DAs ist der letzte SC");
-		System.out.println(lastSessionContext);
-		// Erzeugt über die Factory ein neues Event
-		AbstractEvent sessionContext = eventFactory.createEvent("AtomicEvent");
-		AbstractEvent tokenEvent = eventFactory.createEvent("AtomicEvent");
+	protected void doOnReceive(AbstractEvent event) {	
+	/**
+	 * 
+	 * In dieser Methode wird die Verarbeitung eines Events gemacht. D. h. wie der Agent auf ein bestimmtes
+	 * Event reagieren soll. Hierfür ist keine weitere Abprüfung nötig, ob das Event dem entspricht
+	 * was als Predicates für das Interessensprofile festgelegt wurde.
+	 */
+	
+	/*
+	 * Innerhalb des Interessensprofils kann der Agent verwendet werden, dem dieses IP zugewiesen ist. 
+	 */
+	SessionContextAgent sA = (SessionContextAgent) this.getAgent();
+	
+	/*
+	 * Ein Interessensprofil kann ebenfalls Events publizieren, hierfür wird erstmal ein Event erzeugt,
+	 * das über die eventFactory erzeugt wird. Es handelt sich dabei im Rahmen dieses Projekts um ein AtomicEvent
+	 */
+	
+	// Erzeugt über die Factory ein neues Event
+	AbstractEvent currentSessionContext = (AbstractEvent) sA.getSessionById(String.valueOf(event.getValueByKey("sessionID"))).getValueByKey("sessionContext");
+	
+	AbstractEvent sessionContext = eventFactory.createEvent("AtomicEvent");
+	AbstractEvent tokenEvent = eventFactory.createEvent("AtomicEvent");
+	
+	sessionContext.setType("SessionContext");
 		
-		sessionContext.setType("SessionContext");
-		tokenEvent = event;
-		
-
-		//Pr�fen, ob sich der SessionContext ge�ndert hat 
-		if(lastSessionContext.getProperties().size() < 1) {
-			System.out.println("Alter SessionC exisitiert nicht! ");
-			sessionContext.add(EventUtils.findPropertyByKey(tokenEvent, "project"));
-			sessionContext.add(EventUtils.findPropertyByKey(tokenEvent, "topic"));
-			sessionContext.add(EventUtils.findPropertyByKey(tokenEvent, "timereference"));
-			sessionContext.add(EventUtils.findPropertyByKey(tokenEvent, "testggggg"));
-			
-			//Neuer SessionContext f�r den weiteren Verlauf als lastSessionContext abspeichern
-			System.out.println("DAs bekommt der letzte SC: " + sessionContext);
-			lastSessionContext = sessionContext;
-		} else {
-			//Pr�fen, ob sich das Projekt ge�ndert hat
-			if(!EventUtils.findPropertyByKey(tokenEvent, "project").getValue().equals(EventUtils.findPropertyByKey(lastSessionContext, "project").getValue())) {
-			System.out.println("PROJEKT HAT SICH GE�NDERT!");
-			sessionContext.add(EventUtils.findPropertyByKey(tokenEvent, "project"));
-			
-			
-			//Neuer SessionContext f�r den weiteren Verlauf als lastSessionContext abspeichern
-			System.out.println("DAs bekommt der letzte SC: " + sessionContext);
-			lastSessionContext = sessionContext;
-			}
-		}
-		
-		
-		
-
-			// Sendet das Event an ? (welches Topic ???) 
-			try {
-				System.out.println("Send the foll. SC: ");
-				System.out.println(sessionContext);
-				getAgent().send(sessionContext, "TOPIC");
-			} catch (NoValidEventException e1) {
-				LoggerFactory.getLogger("SessionContextSend");
-			} catch (NoValidTargetTopicException e1) {
-				LoggerFactory.getLogger("SessionContextSend");
-			}
+	//Pr�fen, ob sich der SessionContext ge�ndert hat 
+	boolean abgeaendert = false;
+	for (Property<?> pro: currentSessionContext.getProperties()){
+		for(Property<?> pro2: event.getProperties()) {
+			if(!pro.equals(pro2)){
 				
+			}
 		}
-		
-		
-		
+			
+		};
 	}
+		}
 
 
