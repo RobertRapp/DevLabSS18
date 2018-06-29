@@ -12,6 +12,7 @@ import jdk.nashorn.internal.runtime.JSONFunctions;
 
 public class JsonHandler {
 	private static ArrayList<Object> jsonValues = new ArrayList<Object>();
+	private static int resultNumber=0;
 	/*
 	// Pretty print JSON variables
 	Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -58,6 +59,10 @@ public class JsonHandler {
 	
 
 	private static void handleJsonArr(String key, JSONArray jsonArr) { // es handelt sich um ein JSONArray z.B. folgende Form {key:[val1,val2]}
+		if(key.equals("bindings")) {
+			resultNumber++;
+			System.out.println(resultNumber);
+		}
 		for (int i = 0; i < jsonArr.length(); i++) {
 			if(jsonArr.opt(i) instanceof JSONArray) { // hierbei würde es sich um ein Array in einem Array handeln: {key:[val1,[val21,val22]]}
 				JSONArray newJsonArr = (JSONArray) jsonArr.opt(i);
