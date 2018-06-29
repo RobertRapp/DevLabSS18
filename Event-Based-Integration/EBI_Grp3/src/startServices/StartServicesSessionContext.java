@@ -125,7 +125,7 @@ public class StartServicesSessionContext {
 				event2.add(link2);
 				event2.add(user5);				
 
-				publish(event,"TokenGeneration");
+				publish(event2,"TokenGeneration");
 				
 
 				

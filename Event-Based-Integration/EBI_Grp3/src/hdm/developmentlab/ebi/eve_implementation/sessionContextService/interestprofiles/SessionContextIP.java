@@ -55,17 +55,29 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 		if(lastSessionContext.getProperties().size() < 1) {
 			System.out.println("Alter SessionC exisitiert nicht! ");
 			sessionContext.add(EventUtils.findPropertyByKey(tokenEvent, "project"));
-		} else 
-		if(!EventUtils.findPropertyByKey(tokenEvent, "project").getValue().equals(EventUtils.findPropertyByKey(lastSessionContext, "project").getValue())) {
+			sessionContext.add(EventUtils.findPropertyByKey(tokenEvent, "topic"));
+			sessionContext.add(EventUtils.findPropertyByKey(tokenEvent, "timereference"));
+			sessionContext.add(EventUtils.findPropertyByKey(tokenEvent, "testggggg"));
+			
+			//Neuer SessionContext für den weiteren Verlauf als lastSessionContext abspeichern
+			System.out.println("DAs bekommt der letzte SC: " + sessionContext);
+			lastSessionContext = sessionContext;
+		} else {
+			//Prüfen, ob sich das Projekt geändert hat
+			if(!EventUtils.findPropertyByKey(tokenEvent, "project").getValue().equals(EventUtils.findPropertyByKey(lastSessionContext, "project").getValue())) {
 			System.out.println("PROJEKT HAT SICH GEÄNDERT!");
 			sessionContext.add(EventUtils.findPropertyByKey(tokenEvent, "project"));
+			
+			
+			//Neuer SessionContext für den weiteren Verlauf als lastSessionContext abspeichern
+			System.out.println("DAs bekommt der letzte SC: " + sessionContext);
+			lastSessionContext = sessionContext;
+			}
 		}
 		
 		
 		
-		//Neuer SessionContext für den weiteren Verlauf als lastSessionContext abspeichern
-		System.out.println("DAs bekommt der letzte SC: " + sessionContext);
-		lastSessionContext = sessionContext;
+
 			// Sendet das Event an ? (welches Topic ???) 
 			try {
 				System.out.println("Send the foll. SC: ");
