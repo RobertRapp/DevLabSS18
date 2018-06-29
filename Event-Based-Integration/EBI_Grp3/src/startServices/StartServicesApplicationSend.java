@@ -1,19 +1,10 @@
 package startServices;
 
-import java.util.logging.Level;
-
-
 import eventprocessing.agent.AbstractAgent;
-import eventprocessing.agent.NoValidConsumingTopicException;
-import eventprocessing.agent.dispatch.NoValidInterestProfileException;
-import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.statement.GetEverything;
-import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.event.AtomicEvent;
 import eventprocessing.event.Property;
 import eventprocessing.produce.kafka.Despatcher;
 import eventprocessing.produce.kafka.ProducerSettings;
@@ -24,10 +15,6 @@ import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
 import eventprocessing.utils.model.EventUtils;
 import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
-import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
-import hdm.developmentlab.ebi.eve_implementation.events.TimeReference;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
 
 /**
  * Startpunkt der Anwendung.
@@ -82,7 +69,7 @@ public class StartServicesApplicationSend {
 
 	
 	private static void publish(AbstractEvent event, String topic) {
-		java.util.logging.Logger logger = LoggerFactory.getLogger("StartServices!");				
+		LoggerFactory.getLogger("StartServices!");				
 		String message = messageMapper.toJSON(event);	
 		if(message != null && topic != null) {
 			despatcher.deliver(message, topic);	

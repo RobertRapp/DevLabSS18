@@ -2,21 +2,16 @@ package hdm.developmentlab.ebi.eve_implementation.sessionContextService.interest
 
 
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
-import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.event.Property;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
-import hdm.developmentlab.ebi.eve_implementation.events.ApplicationEvent;
-import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
 
 
 public class SessionContextIP extends eventprocessing.agent.interestprofile.AbstractInterestProfile {
@@ -51,7 +46,7 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 		tokenEvent = event;
 		
 
-		//Prüfen, ob sich der SessionContext geändert hat 
+		//Prï¿½fen, ob sich der SessionContext geï¿½ndert hat 
 		if(lastSessionContext.getProperties().size() < 1) {
 			System.out.println("Alter SessionC exisitiert nicht! ");
 			sessionContext.add(EventUtils.findPropertyByKey(tokenEvent, "project"));
@@ -59,17 +54,17 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 			sessionContext.add(EventUtils.findPropertyByKey(tokenEvent, "timereference"));
 			sessionContext.add(EventUtils.findPropertyByKey(tokenEvent, "testggggg"));
 			
-			//Neuer SessionContext für den weiteren Verlauf als lastSessionContext abspeichern
+			//Neuer SessionContext fï¿½r den weiteren Verlauf als lastSessionContext abspeichern
 			System.out.println("DAs bekommt der letzte SC: " + sessionContext);
 			lastSessionContext = sessionContext;
 		} else {
-			//Prüfen, ob sich das Projekt geändert hat
+			//Prï¿½fen, ob sich das Projekt geï¿½ndert hat
 			if(!EventUtils.findPropertyByKey(tokenEvent, "project").getValue().equals(EventUtils.findPropertyByKey(lastSessionContext, "project").getValue())) {
-			System.out.println("PROJEKT HAT SICH GEÄNDERT!");
+			System.out.println("PROJEKT HAT SICH GEï¿½NDERT!");
 			sessionContext.add(EventUtils.findPropertyByKey(tokenEvent, "project"));
 			
 			
-			//Neuer SessionContext für den weiteren Verlauf als lastSessionContext abspeichern
+			//Neuer SessionContext fï¿½r den weiteren Verlauf als lastSessionContext abspeichern
 			System.out.println("DAs bekommt der letzte SC: " + sessionContext);
 			lastSessionContext = sessionContext;
 			}
@@ -84,9 +79,9 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 				System.out.println(sessionContext);
 				getAgent().send(sessionContext, "TOPIC");
 			} catch (NoValidEventException e1) {
-				java.util.logging.Logger logger = LoggerFactory.getLogger("SessionContextSend");
+				LoggerFactory.getLogger("SessionContextSend");
 			} catch (NoValidTargetTopicException e1) {
-				java.util.logging.Logger logger = LoggerFactory.getLogger("SessionContextSend");
+				LoggerFactory.getLogger("SessionContextSend");
 			}
 				
 		}

@@ -1,26 +1,17 @@
 package hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
-import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
-import eventprocessing.agent.interestprofile.predicates.statement.HasProperty;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.event.Property;
 import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
-import hdm.developmentlab.ebi.eve_implementation.events.DocumentRequestEvent;
-import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 
 
 public class TokenDocumentType extends eventprocessing.agent.interestprofile.AbstractInterestProfile {
@@ -123,9 +114,9 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 				try {
 					getAgent().send(requestEvent, "DRTopic");
 				} catch (NoValidEventException e1) {
-					java.util.logging.Logger logger = LoggerFactory.getLogger("RequestSend");
+					LoggerFactory.getLogger("RequestSend");
 				} catch (NoValidTargetTopicException e1) {
-					java.util.logging.Logger logger = LoggerFactory.getLogger("RequestSend");
+					LoggerFactory.getLogger("RequestSend");
 				}
 				
 		}

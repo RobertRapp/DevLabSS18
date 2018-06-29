@@ -1,6 +1,7 @@
 package startServices;
 
 import eventprocessing.agent.AbstractAgent;
+import eventprocessing.agent.GuiAgent.GuiAgent;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
@@ -11,10 +12,8 @@ import eventprocessing.produce.kafka.ProducerSettings;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
-import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
-import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
-import hdm.developmentlab.ebi.eve_implementation.events.TimeReference;
+
 
 /**
  * Startpunkt der Anwendung.
@@ -24,7 +23,7 @@ import hdm.developmentlab.ebi.eve_implementation.events.TimeReference;
  * @author RobertRapp
  *
  */
-public class StartServicesDocRequest {
+public class StartServices {
 
 
 		
@@ -38,16 +37,24 @@ public class StartServicesDocRequest {
 	
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
+		/*
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
+		AbstractAgent GuiAgent = new GuiAgent();
+		
+		GuiAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "Gui"));
+		GuiAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+		*/	
+		
 		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
-		AbstractAgent requestAgent = new RequestAgent();
+		AbstractAgent GuiAgent = new GuiAgent();
 		
-		requestAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "g"));
-		requestAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		GuiAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "Gui"));
+		GuiAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		
-		
+	
 		//StreamingExecution.add(activityService);
 		//StreamingExecution.add(protocolService);
-		StreamingExecution.add(requestAgent);
+		StreamingExecution.add(GuiAgent);
 
 		
 		Runnable myRunnable = new Runnable() {
@@ -69,7 +76,7 @@ public class StartServicesDocRequest {
 
 	
 	private static void publish(AbstractEvent event, String topic) {
-		LoggerFactory.getLogger("StartServices!");				
+		
 		String message = messageMapper.toJSON(event);	
 		if(message != null && topic != null) {
 			despatcher.deliver(message, topic);	
@@ -80,47 +87,29 @@ public class StartServicesDocRequest {
 	
 	private static void publishDemoEvents() throws InterruptedException {		
 			
-			for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < 20; i++) {
 				
-				
-				AbstractEvent sessioncontext = eventFactory.createEvent("AtomicEvent");
-				sessioncontext.setType("SessionContext");
-				Property<String> project = new Property<String>("project", "2222222222Highnet");
-				Property<String> topic = new Property<String>("topic", "Kosten");
-				Property<String> user = new Property<String>("user", "Robert Rapp"+i);
-				Property<String> user2 = new Property<String>("users", "Detlef Gabe"+i);
-				Property<String> latestAct = new Property<String>("latestActivity", "Activity Folfe");
-				Property<TimeReference> timereference = new Property<TimeReference>("timereference", null);
-				sessioncontext.add(project);			
-				sessioncontext.add(topic);			
-				sessioncontext.add(user);		
-				sessioncontext.add(latestAct);
-				sessioncontext.add(user2);			
-				sessioncontext.add(timereference);			
-				
-				publish(sessioncontext,"SessionContext");
 				
 				AbstractEvent event = eventFactory.createEvent("AtomicEvent");
-				event.setType("TokenEvent");
-				Property<String> project2 = new Property<String>("project", "Highnet");
-				Property<String> thema = new Property<String>("topic", "Kosten");
-				Property<String> user3 = new Property<String>("user", "Robert Rapp"+i);
-				Property<String> user4 = new Property<String>("user", "Detlef Gabe"+i);
-				event.add(project2);			
-				event.add(thema);			
-				event.add(user3);			
-				event.add(user4);				
+				event.setType("GuiEvent");
+				Property<String> name = new Property<String>("name", "Document1");
+				Property<String> type = new Property<String>("type", "Word");
+				Property<String> path = new Property<String>("path", "https://drive.google.com/open?id=1QFKrdAlyiL9kJC5Tof4_T1J0w4bu0Du8BFYq8_-ZaXM");
+				Property<String> lastEditor = new Property<String>("lastEditor", "Manfred");
+				Property<String> lastEdit = new Property<String>("lastEdit", "26.06.2018");
+				Property<Long> docProposalID = new Property<Long>("docProposalID", 6471143L);
+				Property<String> category = new Property<String>("category", "Analysis");
+				//Property<TimeReference> timereference = new Property<TimeReference>("timereference", TimeReference.INSTANCE);
+				event.add(name);			
+				event.add(type);			
+				event.add(path);			
+				event.add(lastEditor);
+				event.add(lastEdit);
+				event.add(docProposalID);
+				event.add(category);
+			//	event.add(timereference);	
 				
-				publish(event,"TokenGeneration");
-				
-
-				
-//				AbstractEvent event2 = eventFactory.createEvent("AtomicEvent");
-//				event2.setType("SpeedEvent");
-//				Property<String> repo = new Property<String>("REPORT", "EVENT GEHT INS DIAGNOSIS IP");
-//				event2.add(repo);				
-//				publish(event2,"SessionState");					
-//				logger.log(Level.WARNING, "SESSIONSTATE AUF SESSIONSTATE GEPUSHT");				
+				publish(event,"Gui");		
 				Thread.sleep(1000);
 				
 			}

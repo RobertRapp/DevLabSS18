@@ -1,24 +1,13 @@
 package hdm.developmentlab.ebi.eve_implementation.activityService;
 
-import java.util.ArrayList;
-
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
 import eventprocessing.agent.interestprofile.predicates.NullPredicateException;
 import eventprocessing.agent.interestprofile.predicates.logical.Or;
-import eventprocessing.agent.interestprofile.predicates.statement.HasProperty;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
-import eventprocessing.demo.ShowcaseValues;
-import eventprocessing.demo.agents.diagnosis.DiagnosisInterestProfile;
-import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationIP;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenDocumentType;
-import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.TimeReference;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
 
 public class RequestAgent extends AbstractAgent {

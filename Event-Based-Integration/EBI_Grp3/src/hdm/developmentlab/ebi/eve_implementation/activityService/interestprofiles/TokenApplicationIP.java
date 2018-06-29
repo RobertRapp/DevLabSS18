@@ -2,21 +2,16 @@ package hdm.developmentlab.ebi.eve_implementation.activityService.interestprofil
 
 
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
-import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.event.Property;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
-import hdm.developmentlab.ebi.eve_implementation.events.ApplicationEvent;
-import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
 
 
 public class TokenApplicationIP extends eventprocessing.agent.interestprofile.AbstractInterestProfile {
@@ -55,9 +50,9 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 				try {
 					getAgent().send(applicationEvent, "TOPIC");
 				} catch (NoValidEventException e1) {
-					java.util.logging.Logger logger = LoggerFactory.getLogger("ApplicationSend");
+					LoggerFactory.getLogger("ApplicationSend");
 				} catch (NoValidTargetTopicException e1) {
-					java.util.logging.Logger logger = LoggerFactory.getLogger("ApplicationSend");
+					LoggerFactory.getLogger("ApplicationSend");
 				}
 				
 		}
