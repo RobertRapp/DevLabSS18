@@ -55,7 +55,8 @@ public class CreateNewXML {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.newDocument();
-
+			
+			//Complete new formatting
 			// root element
 			Element rootElement = doc.createElement("Protocol");
 			doc.appendChild(rootElement);
