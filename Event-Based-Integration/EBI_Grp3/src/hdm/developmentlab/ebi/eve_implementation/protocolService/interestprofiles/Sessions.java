@@ -15,7 +15,6 @@ import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationIP;
-import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
 
 
 public class Sessions extends AbstractInterestProfile {
@@ -101,9 +100,9 @@ public class Sessions extends AbstractInterestProfile {
 			try {
 				getAgent().send(protocolEvent, "TOPIC??");
 			} catch (NoValidEventException e1) {
-				java.util.logging.Logger logger = LoggerFactory.getLogger("ProtocolSend");
+				LoggerFactory.getLogger("ProtocolSend");
 			} catch (NoValidTargetTopicException e1) {
-				java.util.logging.Logger logger = LoggerFactory.getLogger("ProtocolSend");
+				LoggerFactory.getLogger("ProtocolSend");
 			}
 			
 		} 
