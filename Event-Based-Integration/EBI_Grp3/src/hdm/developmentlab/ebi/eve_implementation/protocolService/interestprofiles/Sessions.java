@@ -111,12 +111,19 @@ public class Sessions extends AbstractInterestProfile {
 				Property<Integer> durationProp = new Property<>();
 
 				//Properties füllen
+				sessionIDProp.setKey("sessionID");
 				sessionIDProp.setValue(sessionEnd.getId());
+				startEvent.setKey("sessionStart");
 				startEvent.setValue(sessionStart);
-				endEvent.setValue(sessionEnd); 
+				endEvent.setKey("sessionEnd");
+				endEvent.setValue(sessionEnd);
+				userProp.setKey("user");
 				userProp.setValue(userList);
+				topicProp.setKey("topics");
 				topicProp.setValue(topicList);
+				projectProp.setKey("projects");
 				projectProp.setValue(projectList);
+				durationProp.setKey("duration"); 
 				durationProp.setValue(TimeUtils.getDifferenceInSeconds(sessionStart.getCreationDate(), sessionEnd.getCreationDate()));
 				
 				//Properties zu protocollEvent hinzufügen
