@@ -77,7 +77,7 @@ public class StartServices {
 		
 		String message = messageMapper.toJSON(event);	
 		if(message != null && topic != null) {
-			despatcher.deliver(message, topic);	
+			//despatcher.deliver(message, topic);	
 		}
 		
 	}
@@ -91,6 +91,7 @@ public class StartServices {
 				AbstractEvent event = eventFactory.createEvent("AtomicEvent");
 				event.setType("TokenEvent");
 				Property<String> projekt = new Property<String>("projekt", "Highnet");
+				Property<String> projekt2 = new Property<String>("projekt", "Highnet");
 				Property<String> thema = new Property<String>("thema", "Kosten");
 				Property<String> user = new Property<String>("user", "Robert Rapp"+i);
 				Property<String> user2 = new Property<String>("user", "Detlef Gabe"+i);
@@ -99,7 +100,12 @@ public class StartServices {
 				event.add(thema);			
 				event.add(user);			
 				event.add(user2);			
-				event.add(timereference);			
+				event.add(timereference);		
+				AbstractEvent event2 = eventFactory.createEvent("AtomicEvent");
+				event2.add(projekt2);
+				
+				
+				
 				
 				if( i == 10) {
 					Property<String> context = new Property<String>("contextupdate", "Das Token ändert den Kontext");

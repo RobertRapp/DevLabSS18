@@ -204,4 +204,15 @@ public abstract class AbstractEvent implements Serializable {
 		}
 		return null;
 	}
+	public Object getValueByKey(String key){
+		for(Property<?> p : this.getProperties()) {
+			if(p.getKey().equalsIgnoreCase(key)) {
+				return p.getValue();
+			}
+			else {
+				continue;
+			}
+		}
+		return null;
+	}
 }
