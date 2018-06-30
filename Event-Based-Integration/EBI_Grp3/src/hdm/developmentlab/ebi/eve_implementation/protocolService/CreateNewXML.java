@@ -141,7 +141,7 @@ public class CreateNewXML {
 				time.appendChild(doc.createTextNode(topics.getValue().get(i).getCreationDate().toString()));
 				type.appendChild(doc.createTextNode(topics.getValue().get(i).getType().toString()));
 				topic.appendChild(doc.createTextNode(topics.getValue().get(i).getPropertyByKey("topic").getValue().toString()));
-				action.appendChild(actionid);
+				action.appendChild(actionid); 
 			}
 
 			// write the content into xml file
