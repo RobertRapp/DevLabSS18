@@ -154,7 +154,23 @@ public final class EventUtils {
 			return null;
 		}
 	}
-
+	
+	public static AbstractEvent replacePropertyByKey(AbstractEvent event, String key, Property<?> property) {
+		AbstractEvent newEvent = event;
+		newEvent.remove(findPropertyByKey(event, (key)));
+		newEvent.add(property);
+		return newEvent;
+		}
+	
+	public boolean hasProperty(AbstractEvent event, String key) {
+		
+		Property<?> resultProperty = event.getProperties().stream()
+				.filter(property -> property.getKey().equals(key)).findFirst().get();
+		if(resultProperty != null) return true;
+		return false;
+		
+	}
+	
 	public static boolean isType(String type, AbstractEvent event) {
 		if (event != null) {
 			if (event.getType().equals(type)) {

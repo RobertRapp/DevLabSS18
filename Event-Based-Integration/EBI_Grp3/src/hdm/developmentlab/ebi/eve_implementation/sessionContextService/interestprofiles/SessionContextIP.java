@@ -34,9 +34,7 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 	 * Verarbeitung des empfangenen Events.
 	 * 
 	 * @param event
-	 */
-	
-	
+	 */	
 	
 	@Override
 	protected void doOnReceive(AbstractEvent event) {	
@@ -57,25 +55,29 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 	 * das über die eventFactory erzeugt wird. Es handelt sich dabei im Rahmen dieses Projekts um ein AtomicEvent
 	 */
 	
-	// Erzeugt über die Factory ein neues Event
-	AbstractEvent currentSessionContext = (AbstractEvent) sA.getSessionById(String.valueOf(event.getValueByKey("sessionID"))).getValueByKey("sessionContext");
-	
+	// Auslesen eines SessionContexts
+	AbstractEvent currentSession = (AbstractEvent) sA.getSessionById(String.valueOf(event.getValueByKey("sessionID")));
+	AbstractEvent currentSessionContext = (AbstractEvent) currentSession.getPropertyByKey("sessionContext").getValue();
 	AbstractEvent sessionContext = eventFactory.createEvent("AtomicEvent");
 	AbstractEvent tokenEvent = eventFactory.createEvent("AtomicEvent");
 	
 	sessionContext.setType("SessionContext");
 		
 	//Pr�fen, ob sich der SessionContext ge�ndert hat 
+	AbstractEvent newSessionContext = eventFactory.createEvent("AtomicEvent");
 	boolean abgeaendert = false;
 	for (Property<?> pro: currentSessionContext.getProperties()){
 		for(Property<?> pro2: event.getProperties()) {
 			if(!pro.equals(pro2)){
-				
+				//properties sind ungleich
+				if(pro.getKey() == pro2.getKey()) {
+					newSessionContext.add(pro2);
+				}
 			}
 		}
-			
-		};
 	}
-		}
+	
+}
+}
 
 
