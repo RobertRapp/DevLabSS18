@@ -60,7 +60,6 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 	AbstractEvent currentSessionContext = (AbstractEvent) currentSession.getPropertyByKey("sessionContext").getValue();
 	AbstractEvent sessionContext = eventFactory.createEvent("AtomicEvent");
 	AbstractEvent tokenEvent = eventFactory.createEvent("AtomicEvent");
-	
 	sessionContext.setType("SessionContext");
 		
 	//Pr�fen, ob sich der SessionContext ge�ndert hat 
@@ -76,8 +75,10 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 			}
 		}
 	}
-	
-}
+	Property<?> newSessionContextProperty = new Property<AbstractEvent>("sessionContext", newSessionContext);
+	AbstractEvent newSession = EventUtils.replacePropertyByKey(currentSession, "sessionContext", newSessionContextProperty);
+	sA.getSessions().set(sA.getSessions().indexOf(currentSession), newSession);
+	}
 }
 
 
