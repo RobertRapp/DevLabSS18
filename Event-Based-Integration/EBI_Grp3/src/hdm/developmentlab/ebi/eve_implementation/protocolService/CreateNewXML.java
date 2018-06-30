@@ -129,12 +129,18 @@ public class CreateNewXML {
 			//time element
 			Element time = doc.createElement("time");
 //			actionid.appendChild(actionid);
+			//type element
+			Element type = doc.createElement("type");
+			
+			//topic element
+			Element topic = doc.createElement("topic");
+			
 
 			for (int i = 0; i < topics.getValue().size(); i++) {
 				Element actionid = doc.createElement("ActionID" + i);
 				time.appendChild(doc.createTextNode(topics.getValue().get(i).getCreationDate().toString()));
-				actionid.appendChild(doc.createTextNode(topics.getValue().get(i).getType().toString()));
-				actionid.appendChild(doc.createTextNode(topics.getValue().get(i).getPropertyByKey("topic").getValue().toString()));
+				type.appendChild(doc.createTextNode(topics.getValue().get(i).getType().toString()));
+				topic.appendChild(doc.createTextNode(topics.getValue().get(i).getPropertyByKey("topic").getValue().toString()));
 				action.appendChild(actionid);
 			}
 
