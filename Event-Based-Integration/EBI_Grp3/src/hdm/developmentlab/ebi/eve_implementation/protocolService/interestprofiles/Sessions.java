@@ -119,8 +119,17 @@ public class Sessions extends AbstractInterestProfile {
 				projectProp.setValue(projectList);
 				durationProp.setValue(TimeUtils.getDifferenceInSeconds(sessionStart.getCreationDate(), sessionEnd.getCreationDate()));
 				
+				//Properties zu protocollEvent hinzufügen
+				protocolEvent.add(sessionIDProp);
+				protocolEvent.add(startEvent);
+				protocolEvent.add(endEvent);
+				protocolEvent.add(userProp);
+				protocolEvent.add(topicProp);
+				protocolEvent.add(projectProp);
+				protocolEvent.add(durationProp);
+				
 				CreateNewXML createxml = new CreateNewXML();
-				createxml.CreateNewXMl();
+				createxml.CreateNewXMl(protocolEvent);
 				
 				// Sendet das Event an DR (welches Topic ???) 
 				try {
