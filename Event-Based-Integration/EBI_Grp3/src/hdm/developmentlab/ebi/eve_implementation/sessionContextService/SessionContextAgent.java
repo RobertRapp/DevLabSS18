@@ -8,19 +8,9 @@ import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.agent.interestprofile.predicates.statement.GetEverything;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
-import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
-import eventprocessing.demo.ShowcaseValues;
-import eventprocessing.demo.agents.diagnosis.DiagnosisInterestProfile;
-import eventprocessing.utils.factory.AbstractFactory;
-import eventprocessing.utils.factory.FactoryProducer;
-import eventprocessing.utils.factory.FactoryValues;
-import eventprocessing.utils.factory.InterestProfileFactory;
-import eventprocessing.utils.factory.PredicateFactory;
 import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.TimeReference;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.Tokens;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
 
 
