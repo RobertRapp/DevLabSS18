@@ -1,5 +1,7 @@
 package startServices;
 
+import java.util.logging.Level;
+
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
@@ -42,7 +44,7 @@ public class StartServicesProtocolTest {
 		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
 		AbstractAgent protocolAgent = new ProtocolAgent();
 		
-		protocolAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "g"));
+		protocolAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "base"));
 		protocolAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		
 		
@@ -82,15 +84,33 @@ public class StartServicesProtocolTest {
 	private static void publishDemoEvents() throws InterruptedException {		
 			
 			for (int i = 0; i < 1; i++) {
-				
+				System.out.println(i);
 				AbstractEvent sessionStart = eventFactory.createEvent("AtomicEvent");
 				sessionStart.setType("sessionStart");
+				System.out.println("publish sessionstart");
+				System.out.println(sessionStart);
 				publish(sessionStart,"SessionInfo");
-				Thread.sleep(1100);
+				Thread.sleep(5000);
+				
 				AbstractEvent user = eventFactory.createEvent("AtomicEvent");
-				user.setType("User");
+				user.setType("user");
+				System.out.println("publish user");
+				Property<String> name = new Property<>();
+				name.setKey("name");
+				name.setValue("Mensch");
 				publish(user,"UserInfo");
-				Thread.sleep(1500);
+				Thread.sleep(5000);
+				
+				AbstractEvent user2 = eventFactory.createEvent("AtomicEvent");
+				user2.setType("user");
+				Property<String> name2 = new Property<>();
+				name2.setKey("name");
+				name2.setValue("Menz");
+				user2.add(name);
+				System.out.println("publish user2");
+				publish(user2,"UserInfo");
+				Thread.sleep(5000);
+				
 				AbstractEvent proposedDoc1 = eventFactory.createEvent("AtomicEvent");
 				proposedDoc1.setType("proposedDoc");
 				Property<String> dokumentName = new Property<>();
@@ -101,6 +121,7 @@ public class StartServicesProtocolTest {
 				erstellDatum.setValue("2012");
 				proposedDoc1.add(dokumentName);
 				proposedDoc1.add(erstellDatum);
+				System.out.println("publish prop doc");
 				publish(proposedDoc1,"proposedDoc");
 				Thread.sleep(5000);
 				
@@ -115,7 +136,7 @@ public class StartServicesProtocolTest {
 				proposedDoc2.add(dokumentName3);
 				proposedDoc2.add(erstellDatum);
 				publish(proposedDoc2,"proposedDoc");
-				Thread.sleep(7599);
+				Thread.sleep(5000);
 				
 				AbstractEvent clickedDoc = eventFactory.createEvent("AtomicEvent");
 				clickedDoc.setType("clickedDoc");
@@ -128,7 +149,7 @@ public class StartServicesProtocolTest {
 				clickedDoc.add(dokumentName2);
 				clickedDoc.add(erstellDatum);
 				publish(clickedDoc,"clickedDoc");
-				Thread.sleep(3422);
+				Thread.sleep(5000);
 				
 				AbstractEvent tokenEvent = eventFactory.createEvent("AtomicEvent");
 				tokenEvent.setType("TokenEvent");
@@ -141,20 +162,12 @@ public class StartServicesProtocolTest {
 				tokenEvent.add(topic);
 				tokenEvent.add(project);
 				publish(tokenEvent,"TokenGeneration");
-				Thread.sleep(2311);
+				Thread.sleep(5000);
 				
 				AbstractEvent sessionEnd = eventFactory.createEvent("AtomicEvent");
 				sessionEnd.setType("sessionEnd");
 				publish(sessionEnd,"SessionInfo");
 
-				
-//				AbstractEvent event2 = eventFactory.createEvent("AtomicEvent");
-//				event2.setType("SpeedEvent");
-//				Property<String> repo = new Property<String>("REPORT", "EVENT GEHT INS DIAGNOSIS IP");
-//				event2.add(repo);				
-//				publish(event2,"SessionState");					
-//				logger.log(Level.WARNING, "SESSIONSTATE AUF SESSIONSTATE GEPUSHT");				
-				Thread.sleep(1000);
 				
 			}
 			

@@ -78,7 +78,7 @@ public class Sessions extends AbstractInterestProfile {
 		} 
 		
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist. Wenn ja in TokenListe anfügen 
-		if (EventUtils.isType("User", event) && EventUtils.findPropertyByKey(event, "user") != null) {
+		if (EventUtils.isType("user", event)) {
 			System.out.println("User erkannt");
 			user = event;
 			userList.add(user);
@@ -86,6 +86,7 @@ public class Sessions extends AbstractInterestProfile {
 		
 		// Prüfe ob das empfangene Event ein vorgeschlagenenes Dokument ist. Wenn ja in RequestListe anfügen 
 		if (EventUtils.isType("proposedDoc", event)) {
+			System.out.println("prop Doc erkannt");
 			proposedDoc = event;
 			proposedDocList.add(proposedDoc);
 		}
@@ -102,7 +103,7 @@ public class Sessions extends AbstractInterestProfile {
 				System.out.println("Session Start erkannt");
 				sessionStart = event;
 			}
-			if(EventUtils.isType("SessionEnd", event)) {
+			if(EventUtils.isType("sessionEnd", event)) {
 				System.out.println("SessionEnd erkannt");
 				sessionEnd = event;
 				

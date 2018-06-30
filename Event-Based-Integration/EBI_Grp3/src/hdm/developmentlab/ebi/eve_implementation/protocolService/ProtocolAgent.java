@@ -47,14 +47,13 @@ public class ProtocolAgent extends AbstractAgent {
 		try {
 			AbstractInterestProfile ip = new Sessions();
 			try {
-				ip.add(new Or(new IsEventType("TokenEvent"), new IsEventType("User"), new IsEventType("proposedDoc"), new IsEventType("clickedDoc"), new IsEventType("sessionStart"), new IsEventType("sessionEnd")));
+				ip.add(new Or(new IsEventType("TokenEvent"), new IsEventType("user"), new IsEventType("proposedDoc"), new IsEventType("clickedDoc"), new IsEventType("sessionStart"), new IsEventType("sessionEnd")));
 			} catch (NullPredicateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 			this.add(ip);
-			
 			} catch (NoValidInterestProfileException e1) {
 				e1.printStackTrace();
 			}

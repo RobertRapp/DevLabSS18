@@ -80,7 +80,7 @@ public class StartServicesApplicationSend {
 	
 	private static void publishDemoEvents() throws InterruptedException {		
 			
-			for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < 5; i++) {
 				
 				
 				AbstractEvent event = eventFactory.createEvent("AtomicEvent");

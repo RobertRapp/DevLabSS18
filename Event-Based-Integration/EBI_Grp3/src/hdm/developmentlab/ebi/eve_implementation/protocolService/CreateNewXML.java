@@ -114,7 +114,7 @@ public class CreateNewXML {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("C:\\Users\\jonas\\Documents\\Studium\\Development Lab"));
+			StreamResult result = new StreamResult(new File("C:\\Users\\jonas\\Documents\\Studium\\Development Lab\\Protokoll.xml"));
 			transformer.transform(source, result);
 
 			// Output to console for testing
