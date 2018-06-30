@@ -87,29 +87,34 @@ public class StartServicesProtocolTest {
 				System.out.println(i);
 				AbstractEvent sessionStart = eventFactory.createEvent("AtomicEvent");
 				sessionStart.setType("sessionStart");
+				Property<String> sessionname = new Property<>();
+				sessionname.setKey("name");
+				sessionname.setValue("Session XAZ");
+				sessionStart.add(sessionname);
 				System.out.println("publish sessionstart");
 				System.out.println(sessionStart);
 				publish(sessionStart,"SessionInfo");
-				Thread.sleep(5000);
+				Thread.sleep(2000);
 				
 				AbstractEvent user = eventFactory.createEvent("AtomicEvent");
 				user.setType("user");
 				System.out.println("publish user");
 				Property<String> name = new Property<>();
 				name.setKey("name");
-				name.setValue("Mensch");
+				name.setValue("Nikolaus Eblenkamp");
+				user.add(name);
 				publish(user,"UserInfo");
-				Thread.sleep(5000);
+				Thread.sleep(2000);
 				
 				AbstractEvent user2 = eventFactory.createEvent("AtomicEvent");
 				user2.setType("user");
 				Property<String> name2 = new Property<>();
 				name2.setKey("name");
-				name2.setValue("Menz");
-				user2.add(name);
+				name2.setValue("Gero Menz");
+				user2.add(name2);
 				System.out.println("publish user2");
 				publish(user2,"UserInfo");
-				Thread.sleep(5000);
+				Thread.sleep(2000);
 				
 				AbstractEvent proposedDoc1 = eventFactory.createEvent("AtomicEvent");
 				proposedDoc1.setType("proposedDoc");
@@ -123,33 +128,33 @@ public class StartServicesProtocolTest {
 				proposedDoc1.add(erstellDatum);
 				System.out.println("publish prop doc");
 				publish(proposedDoc1,"proposedDoc");
-				Thread.sleep(5000);
+				Thread.sleep(2000);
 				
 				AbstractEvent proposedDoc2 = eventFactory.createEvent("AtomicEvent");
 				proposedDoc2.setType("proposedDoc");
-				Property<String> dokumentName3 = new Property<>();
-				Property<String> erstellDatum3 = new Property<>();
-				dokumentName3.setKey("dokumentName");
-				dokumentName3.setValue("WordDOkument");
-				erstellDatum.setKey("Erstelldatum");
-				erstellDatum.setValue("2012");
-				proposedDoc2.add(dokumentName3);
-				proposedDoc2.add(erstellDatum);
-				publish(proposedDoc2,"proposedDoc");
-				Thread.sleep(5000);
-				
-				AbstractEvent clickedDoc = eventFactory.createEvent("AtomicEvent");
-				clickedDoc.setType("clickedDoc");
 				Property<String> dokumentName2 = new Property<>();
 				Property<String> erstellDatum2 = new Property<>();
 				dokumentName2.setKey("dokumentName");
 				dokumentName2.setValue("WordDOkument");
-				erstellDatum.setKey("Erstelldatum");
-				erstellDatum.setValue("2012");
-				clickedDoc.add(dokumentName2);
-				clickedDoc.add(erstellDatum);
+				erstellDatum2.setKey("Erstelldatum");
+				erstellDatum2.setValue("2012");
+				proposedDoc2.add(dokumentName2);
+				proposedDoc2.add(erstellDatum2);
+				publish(proposedDoc2,"proposedDoc");
+				Thread.sleep(2000);
+				
+				AbstractEvent clickedDoc = eventFactory.createEvent("AtomicEvent");
+				clickedDoc.setType("clickedDoc");
+				Property<String> dokumentName3 = new Property<>();
+				Property<String> erstellDatum3 = new Property<>();
+				dokumentName3.setKey("dokumentName");
+				dokumentName3.setValue("WordDOkument");
+				erstellDatum3.setKey("Erstelldatum");
+				erstellDatum3.setValue("2020");
+				clickedDoc.add(dokumentName3);
+				clickedDoc.add(erstellDatum3);
 				publish(clickedDoc,"clickedDoc");
-				Thread.sleep(5000);
+				Thread.sleep(2000);
 				
 				AbstractEvent tokenEvent = eventFactory.createEvent("AtomicEvent");
 				tokenEvent.setType("TokenEvent");
@@ -162,7 +167,20 @@ public class StartServicesProtocolTest {
 				tokenEvent.add(topic);
 				tokenEvent.add(project);
 				publish(tokenEvent,"TokenGeneration");
-				Thread.sleep(5000);
+				Thread.sleep(2000);
+				
+				AbstractEvent tokenEvent2 = eventFactory.createEvent("AtomicEvent");
+				tokenEvent2.setType("TokenEvent");
+				Property<String> topic2 = new Property<>();
+				Property<String> project2 = new Property<>();
+				topic2.setKey("topic");
+				topic2.setValue("Bier");
+				project2.setKey("project");
+				project2.setValue("Rathke Projekt");
+				tokenEvent2.add(topic2);
+				tokenEvent2.add(project2);
+				publish(tokenEvent2,"TokenGeneration");
+				Thread.sleep(7000);
 				
 				AbstractEvent sessionEnd = eventFactory.createEvent("AtomicEvent");
 				sessionEnd.setType("sessionEnd");
