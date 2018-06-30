@@ -41,7 +41,7 @@ import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestp
 	
 		public class CreateNewXML {
 
-			public void CreateNewXMl(long sessionID, AbstractEvent startEvent, AbstractEvent EndEvent, Property<ArrayList<AbstractEvent>> user, Property<ArrayList<AbstractEvent>> topics, AbstractEvent project, Double duration) {
+			public void CreateNewXMl(long sessionID, AbstractEvent startEvent, AbstractEvent EndEvent, Property<ArrayList<AbstractEvent>> user, Property<ArrayList<AbstractEvent>> topics, AbstractEvent projects, int duration) {
 				try {
 			         DocumentBuilderFactory dbFactory =
 			         DocumentBuilderFactory.newInstance();
