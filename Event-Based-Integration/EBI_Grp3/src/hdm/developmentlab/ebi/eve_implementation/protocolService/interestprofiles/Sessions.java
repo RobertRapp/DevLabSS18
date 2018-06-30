@@ -52,6 +52,7 @@ public class Sessions extends AbstractInterestProfile {
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
 		System.out.println("IN RECEIVE VON ProtocollIP");
+	
 		//ProtocolEvent ist das Event, dass am Ende raus geschickt wird 
 		AbstractEvent protocolEvent = eventFactory.createEvent("AtomicEvent");
 		//Aus Tokens werden Topics ausgelesen 
@@ -60,8 +61,7 @@ public class Sessions extends AbstractInterestProfile {
 		AbstractEvent topic = eventFactory.createEvent("AtomicEvent");
 		AbstractEvent proposedDoc = eventFactory.createEvent("AtomicEvent");
 		AbstractEvent clickedDoc = eventFactory.createEvent("AtomicEvent");
-		AbstractEvent sessionStart = eventFactory.createEvent("AtomicEvent");
-		AbstractEvent sessionEnd = eventFactory.createEvent("AtomicEvent");
+
 		
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist. Wenn ja in TokenListe anfügen 
 		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "topic") != null) {
@@ -101,11 +101,16 @@ public class Sessions extends AbstractInterestProfile {
 		// Prüfe ob das empfangene Event vom Typ SessionEvent ist. Wenn ja, Sessioninfos speichern
 			if(EventUtils.isType("sessionStart", event)) {
 				System.out.println("Session Start erkannt");
+				System.out.println("TimeStamp SStart: " + event.getCreationDate());
 				sessionStart = event;
+				//sessionStart.setCreationDate(event.getCreationDate());
+				System.out.println(sessionStart.getCreationDate());
 			}
 			if(EventUtils.isType("sessionEnd", event)) {
 				System.out.println("SessionEnd erkannt");
+				System.out.println("TimeStamp SSEND: " + event.getCreationDate());
 				sessionEnd = event;
+				sessionEnd.setCreationDate(event.getCreationDate());
 				
 				//Properties vorbereiten
 				Property<Long> sessionIDProp = new Property<>();
@@ -136,7 +141,7 @@ public class Sessions extends AbstractInterestProfile {
 				proposedDocsProp.setValue(proposedDocList);
 				clickedDocsProp.setKey("clickedDocs");
 				clickedDocsProp.setValue(clickedDocList);
-				durationProp.setValue(TimeUtils.getDifferenceInSeconds(sessionStart.getCreationDate(), sessionEnd.getCreationDate()));
+				durationProp.setValue(TimeUtils.getDifferenceInSeconds(sessionEnd.getCreationDate(), sessionStart.getCreationDate()));
 				
 				//Properties zu protocollEvent hinzufügen
 				protocolEvent.add(sessionIDProp);
