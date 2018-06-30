@@ -101,10 +101,15 @@ public class CreateNewXML {
 			Element duration1 = doc.createElement("duration");
 			duration1.appendChild(doc.createTextNode(duration.toString()));
 			rootElement.appendChild(duration1);
+			
 			// action element
 			Element action = doc.createElement("actions");
 			// action.appendChild(doc.createTextNode("action ERSTELLEN"));
 			rootElement.appendChild(action);
+			
+			Attr attr2 = doc.createAttribute("Action ID");
+			attr2.setValue((topics.getValue().toString()));
+			id.setAttributeNode(attr2);
 
 			// loop the actionid child node
 			// Liste die den Inhalt wie "Dokument geöffnet", "Dokument geschlossen",
