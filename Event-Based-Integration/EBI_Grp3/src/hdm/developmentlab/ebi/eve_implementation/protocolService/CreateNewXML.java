@@ -20,6 +20,10 @@ import org.w3c.dom.NodeList;
 
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
+import eventprocessing.utils.model.EventUtils;
+import eventprocessing.utils.factory.AbstractFactory;
+import eventprocessing.utils.factory.FactoryProducer;
+import eventprocessing.utils.factory.FactoryValues;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
  
@@ -42,6 +46,7 @@ import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestp
 		public class CreateNewXML {
 			
 			public void CreateNewXMl(AbstractEvent protocolEvent) {
+								
 				try {
 			         DocumentBuilderFactory dbFactory =
 			         DocumentBuilderFactory.newInstance();

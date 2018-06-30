@@ -76,7 +76,7 @@ public class Sessions extends AbstractInterestProfile {
 		} 
 		
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist. Wenn ja in TokenListe anfügen 
-		if (EventUtils.isType("UserInfos", event) && EventUtils.findPropertyByKey(event, "user") != null) {
+		if (EventUtils.isType("User", event) && EventUtils.findPropertyByKey(event, "user") != null) {
 			user = event;
 			userList.add(user);
 		} 
@@ -94,20 +94,21 @@ public class Sessions extends AbstractInterestProfile {
 		}
 		
 		// Prüfe ob das empfangene Event vom Typ SessionEvent ist. Wenn ja, Sessioninfos speichern
-		if (EventUtils.isType("SessionInfo", event)) {
-			if(EventUtils.findPropertyByValue(event, "type").getValue().equals("SessionStart") == true) {
+			if(EventUtils.isType("sessionStart", event)) {
 				sessionStart = event;
 			}
-			if(EventUtils.findPropertyByValue(event, "type").getValue().equals("SessionEnd") == true) {
+			if(EventUtils.isType("SessionEnd", event)) {
 				sessionEnd = event;
 				
 				//Properties vorbereiten
-				Property<Long> sessionIDProp = new Property<>();;
+				Property<Long> sessionIDProp = new Property<>();
 				Property<AbstractEvent> startEvent = new Property<>();
 				Property<AbstractEvent> endEvent = new Property<>();
 				Property<ArrayList<AbstractEvent>> userProp = new Property<>();
 				Property<ArrayList<AbstractEvent>> topicProp = new Property<>();
 				Property<ArrayList<AbstractEvent>> projectProp = new Property<>();
+				Property<ArrayList<AbstractEvent>> proposedDocsProp = new Property<>();
+				Property<ArrayList<AbstractEvent>> clickedDocsProp = new Property<>();
 				Property<Integer> durationProp = new Property<>();
 
 				//Properties füllen
@@ -124,6 +125,10 @@ public class Sessions extends AbstractInterestProfile {
 				projectProp.setKey("projects");
 				projectProp.setValue(projectList);
 				durationProp.setKey("duration"); 
+				proposedDocsProp.setKey("propDocs");
+				proposedDocsProp.setValue(proposedDocList);
+				clickedDocsProp.setKey("clickedDocs");
+				clickedDocsProp.setValue(clickedDocList);
 				durationProp.setValue(TimeUtils.getDifferenceInSeconds(sessionStart.getCreationDate(), sessionEnd.getCreationDate()));
 				
 				//Properties zu protocollEvent hinzufügen
@@ -134,10 +139,13 @@ public class Sessions extends AbstractInterestProfile {
 				protocolEvent.add(topicProp);
 				protocolEvent.add(projectProp);
 				protocolEvent.add(durationProp);
+				protocolEvent.add(clickedDocsProp);
+				protocolEvent.add(proposedDocsProp);
 				
 				CreateNewXML createxml = new CreateNewXML();
 				createxml.CreateNewXMl(protocolEvent);
 				
+
 				// Sendet das Event an DR (welches Topic ???) 
 				try {
 					getAgent().send(protocolEvent, "TOPIC");
@@ -150,7 +158,7 @@ public class Sessions extends AbstractInterestProfile {
 				
 			}
 				
-		} 
+	
 				
 			
 
