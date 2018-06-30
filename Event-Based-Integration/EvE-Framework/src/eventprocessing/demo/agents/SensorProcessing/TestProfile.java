@@ -1,15 +1,9 @@
 package eventprocessing.demo.agents.SensorProcessing;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import eventprocessing.agent.NoValidEventException;
-import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.demo.ShowcaseValues;
-import eventprocessing.demo.events.SensorEvent;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.utils.TextUtils;
 import eventprocessing.utils.factory.LoggerFactory;
 
 /**

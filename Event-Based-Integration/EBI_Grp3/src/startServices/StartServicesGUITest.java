@@ -2,7 +2,6 @@ package startServices;
 
 import java.util.logging.Level;
 
-
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
@@ -27,7 +26,7 @@ import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionCo
  * @author RobertRapp
  *
  */
-public class StartServices {
+public class StartServicesGUITest {
 
 
 		
@@ -41,11 +40,11 @@ public class StartServices {
 	
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
-		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
 		AbstractAgent sessionContextAgent = new SessionContextAgent();
 		
-		sessionContextAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "SessionState"));
-		sessionContextAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		sessionContextAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "GUiTest"));
+		sessionContextAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 		
 			
 	
@@ -89,7 +88,7 @@ public class StartServices {
 				
 				
 				AbstractEvent event = eventFactory.createEvent("AtomicEvent");
-				event.setType("TokenEvent");
+				event.setType("DocProposalEvent");
 				Property<String> projekt = new Property<String>("projekt", "Highnet");
 				Property<String> thema = new Property<String>("thema", "Kosten");
 				Property<String> user = new Property<String>("user", "Robert Rapp"+i);
@@ -105,7 +104,7 @@ public class StartServices {
 					Property<String> context = new Property<String>("contextupdate", "Das Token ändert den Kontext");
 					event.add(context);
 				}
-				publish(event,"Tokens");
+				publish(event,"test");
 				
 				java.util.logging.Logger logger = LoggerFactory.getLogger("StartServices!");				
 				logger.log(Level.WARNING, "SESSIONSTATE AUF SESSIONSTATE GEPUSHT");
