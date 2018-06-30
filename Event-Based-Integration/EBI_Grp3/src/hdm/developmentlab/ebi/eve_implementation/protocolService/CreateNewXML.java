@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -51,6 +52,9 @@ public class CreateNewXML {
 			Document doc = dBuilder.newDocument();
 
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			Date datum = new Date();
+			
+			
 
 			// Complete new formatting
 			// root element
@@ -71,7 +75,7 @@ public class CreateNewXML {
 			
 			// date element
 			Element date = doc.createElement("date");
-			date.appendChild(doc.createTextNode(df.toString()));
+			date.appendChild(doc.createTextNode(datum.toString()));
 			rootElement.appendChild(date);
 			// starttime element
 			Element starttime = doc.createElement("starttime");
@@ -95,7 +99,7 @@ public class CreateNewXML {
 			rootElement.appendChild(project1);
 			// duration element
 			Element duration1 = doc.createElement("duration");
-			duration1.appendChild(doc.createTextNode("duration ERSTELLEN"));
+			duration1.appendChild(doc.createTextNode(duration.toString()));
 			rootElement.appendChild(duration1);
 			// action element
 			Element action = doc.createElement("actions");
