@@ -109,7 +109,7 @@ public class CreateNewXML {
 			
 			Attr attr2 = doc.createAttribute("Action ID");
 			attr2.setValue((topics.getValue().toString()));
-			id.setAttributeNode(attr2);
+			action.setAttributeNode(attr2);
 
 			// loop the actionid child node
 			// Liste die den Inhalt wie "Dokument geöffnet", "Dokument geschlossen",
