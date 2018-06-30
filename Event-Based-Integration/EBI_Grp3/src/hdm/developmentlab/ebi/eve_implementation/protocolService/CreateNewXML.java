@@ -69,11 +69,13 @@ public class CreateNewXML {
 			Element id = doc.createElement("ID");
 			// id.appendChild(doc.createTextNode("ID ERSTELLEN"));
 			//id.appendChild(doc.createTextNode(sessionID.getValue().toString()));
+			//id.setValue((sessionID.getValue().toString()));
+			id.appendChild(doc.createTextNode(sessionID.getValue().toString()));
 			rootElement.appendChild(id);
 			
-			Attr attr = doc.createAttribute("id");
-			attr.setValue((sessionID.getValue().toString()));
-			id.setAttributeNode(attr);
+//			Attr attr = doc.createAttribute("id");
+//			attr.setValue((sessionID.getValue().toString()));
+//			id.setAttributeNode(attr);
 			
 			
 			// date element
@@ -117,13 +119,14 @@ public class CreateNewXML {
 			// action.appendChild(doc.createTextNode("action ERSTELLEN"));
 			rootElement.appendChild(action);
 			
+// 			Falls Attribute benötigt werden
 //			Attr attr2 = doc.createAttribute("ActionID");
 //			attr2.setValue((topics.getValue().get(0).getPropertyByKey("topic").getValue().toString()));
 //			action.setAttributeNode(attr2);
 
 			
 			for (int i = 0; i < topics.getValue().size(); i++) {
-			Element actionid = doc.createElement("actionid"+i);
+			Element actionid = doc.createElement("actionid: "+i);
 			action.appendChild(actionid);
 			
 			Element time = doc.createElement("time");
@@ -140,34 +143,6 @@ public class CreateNewXML {
 
 			}
 			
-			
-			
-			// loop the actionid child node
-			// Liste die den Inhalt wie "Dokument geöffnet", "Dokument geschlossen",
-			// "Applikation aufgerufen",
-			// jegliche Action eben
-			
-			//time element
-			//Element time = doc.createElement("time");
-			//actionid.appendChild(actionid);
-			//type element
-//			Element type = doc.createElement("type");
-			
-			//topic element
-//			Element topic = doc.createElement("topic");
-			
-			
-
-//			for (int i = 0; i < topics.getValue().size(); i++) {
-//				Element actionid = doc.createElement("ActionID" + i);
-//				time.appendChild(doc.createTextNode(topics.getValue().get(i).getCreationDate().toString()));
-//				type.appendChild(doc.createTextNode(topics.getValue().get(i).getType().toString()));
-//				topic.appendChild(doc.createTextNode(topics.getValue().get(i).getPropertyByKey("topic").getValue().toString()));
-//				action.appendChild(actionid); 
-//				topic.appendChild(actionid);
-//				type.appendChild(actionid);
-//				time.appendChild(actionid);
-//			}
 
 			// write the content into xml file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
