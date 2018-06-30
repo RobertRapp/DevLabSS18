@@ -40,6 +40,7 @@ import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestp
 public class CreateNewXML {
 
 	public void CreateNewXMl(AbstractEvent protocolEvent) {
+		System.out.println("XML WIRD ERSTELLT! ");
 		Property<Long> sessionID = (Property<Long>) EventUtils.findPropertyByKey(protocolEvent, "sessionID");
 		Property<AbstractEvent> startEvent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(protocolEvent,
 				"sessionStart");
@@ -113,7 +114,7 @@ public class CreateNewXML {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("/dp/protocolagent/"));
+			StreamResult result = new StreamResult(new File("C:\\Users\\jonas\\Documents\\Studium\\Development Lab"));
 			transformer.transform(source, result);
 
 			// Output to console for testing

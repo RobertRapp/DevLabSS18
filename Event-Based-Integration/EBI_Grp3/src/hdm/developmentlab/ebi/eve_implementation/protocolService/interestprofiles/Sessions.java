@@ -51,7 +51,7 @@ public class Sessions extends AbstractInterestProfile {
 
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
-
+		System.out.println("IN RECEIVE VON ProtocollIP");
 		//ProtocolEvent ist das Event, dass am Ende raus geschickt wird 
 		AbstractEvent protocolEvent = eventFactory.createEvent("AtomicEvent");
 		//Aus Tokens werden Topics ausgelesen 
@@ -65,18 +65,21 @@ public class Sessions extends AbstractInterestProfile {
 		
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist. Wenn ja in TokenListe anfügen 
 		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "topic") != null) {
+			System.out.println("Topic erkannt");
 			topic = event;
 			topicList.add(topic);
 		} 
 		
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist. Wenn ja in TokenListe anfügen 
 		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "project") != null) {
+			System.out.println("Projekt erkannt");
 			project = event;
 			projectList.add(project);
 		} 
 		
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist. Wenn ja in TokenListe anfügen 
 		if (EventUtils.isType("User", event) && EventUtils.findPropertyByKey(event, "user") != null) {
+			System.out.println("User erkannt");
 			user = event;
 			userList.add(user);
 		} 
@@ -89,15 +92,18 @@ public class Sessions extends AbstractInterestProfile {
 		
 		// Prüfe ob das empfangene Event vom Typ RequestEvent ist. Wenn ja in RequestListe anfügen 
 		if (EventUtils.isType("clickedDoc", event)) {
+			System.out.println("Clicked Doc erkannt");
 			clickedDoc = event;
 			clickedDocList.add(clickedDoc);
 		}
 		
 		// Prüfe ob das empfangene Event vom Typ SessionEvent ist. Wenn ja, Sessioninfos speichern
 			if(EventUtils.isType("sessionStart", event)) {
+				System.out.println("Session Start erkannt");
 				sessionStart = event;
 			}
 			if(EventUtils.isType("SessionEnd", event)) {
+				System.out.println("SessionEnd erkannt");
 				sessionEnd = event;
 				
 				//Properties vorbereiten

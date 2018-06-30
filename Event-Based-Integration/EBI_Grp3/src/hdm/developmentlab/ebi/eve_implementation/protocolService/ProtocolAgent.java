@@ -21,6 +21,8 @@ public class ProtocolAgent extends AbstractAgent {
 	@Override
 	protected void doOnInit() {
 
+		
+		this.setId("ProtocolAgent");
 		/*
 		 * Angabe der Topics, die konsumiert werden sollen. Es können mehrere Topics
 		 * angegeben werden.
@@ -31,7 +33,6 @@ public class ProtocolAgent extends AbstractAgent {
 			this.add("UserInfo");
 			this.add("proposedDoc");
 			this.add("clickedDoc");
-			this.add("TokenGeneration");
 			
 			// + alle Topics also Doc Requests auch
 		} catch (NoValidConsumingTopicException e) {
