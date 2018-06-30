@@ -1,8 +1,6 @@
 package hdm.developmentlab.ebi.eve_implementation.protocolService;
 
-import java.awt.Event;
 import java.io.File;
-import java.security.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,13 +15,9 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
 import eventprocessing.utils.model.EventUtils;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
 /*
  * 
@@ -55,19 +49,26 @@ public class CreateNewXML {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.newDocument();
-			
-			//Complete new formatting
+
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+			// Complete new formatting
 			// root element
 			Element rootElement = doc.createElement("Protocol");
 			doc.appendChild(rootElement);
 
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
 			// id element
-			Element id = doc.createElement("id");
+			Element id = doc.createElement("ID");
 			// id.appendChild(doc.createTextNode("ID ERSTELLEN"));
-			id.appendChild(doc.createTextNode(sessionID.getValue().toString()));
+			//id.appendChild(doc.createTextNode(sessionID.getValue().toString()));
 			rootElement.appendChild(id);
+			
+			Attr attr = doc.createAttribute("id");
+			attr.setValue((sessionID.getValue().toString()));
+			id.setAttributeNode(attr);
+			
+			
 			// date element
 			Element date = doc.createElement("date");
 			date.appendChild(doc.createTextNode(df.toString()));
@@ -115,7 +116,8 @@ public class CreateNewXML {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("C:\\Users\\jonas\\Documents\\Studium\\Development Lab\\Protokoll.xml"));
+			StreamResult result = new StreamResult(
+					new File("C:\\Users\\jonas\\Documents\\Studium\\Development Lab\\Protokoll.xml"));
 			transformer.transform(source, result);
 
 			// Output to console for testing
