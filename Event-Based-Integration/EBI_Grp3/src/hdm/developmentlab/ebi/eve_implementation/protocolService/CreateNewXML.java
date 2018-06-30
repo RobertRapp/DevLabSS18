@@ -107,7 +107,7 @@ public class CreateNewXML {
 			// action.appendChild(doc.createTextNode("action ERSTELLEN"));
 			rootElement.appendChild(action);
 			
-			Attr attr2 = doc.createAttribute("Action ID");
+			Attr attr2 = doc.createAttribute("ActionID");
 			attr2.setValue((topics.getValue().toString()));
 			action.setAttributeNode(attr2);
 
