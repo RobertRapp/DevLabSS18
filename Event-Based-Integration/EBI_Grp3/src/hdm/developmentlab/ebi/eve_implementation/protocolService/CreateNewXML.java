@@ -38,7 +38,7 @@ import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestp
 		// TODO Auto-generated constructor stub
 	
 		public class CreateNewXML {
-
+			//HieR PARAMETER? WO VALUES? 
 			public void CreateNewXMl() {
 				try {
 			         DocumentBuilderFactory dbFactory =
