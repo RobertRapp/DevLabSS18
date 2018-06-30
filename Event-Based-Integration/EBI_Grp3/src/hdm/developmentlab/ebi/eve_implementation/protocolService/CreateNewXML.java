@@ -117,26 +117,28 @@ public class CreateNewXML {
 			// action.appendChild(doc.createTextNode("action ERSTELLEN"));
 			rootElement.appendChild(action);
 			
-			Attr attr2 = doc.createAttribute("ActionID");
-			attr2.setValue((topics.getValue().get(0).getPropertyByKey("topic").getValue().toString()));
-			action.setAttributeNode(attr2);
+//			Attr attr2 = doc.createAttribute("ActionID");
+//			attr2.setValue((topics.getValue().get(0).getPropertyByKey("topic").getValue().toString()));
+//			action.setAttributeNode(attr2);
 
-			Element actionid = doc.createElement("actionid");
+			
+			for (int i = 0; i < topics.getValue().size(); i++) {
+			Element actionid = doc.createElement("actionid"+i);
 			action.appendChild(actionid);
 			
 			Element time = doc.createElement("time");
-			time.appendChild(doc.createTextNode(topics.getValue().get(0).getCreationDate().toString()));
+			time.appendChild(doc.createTextNode(topics.getValue().get(i).getCreationDate().toString()));
 			actionid.appendChild(time);
 
 			Element type = doc.createElement("type");
-			type.appendChild(doc.createTextNode(topics.getValue().get(0).getType().toString()));
+			type.appendChild(doc.createTextNode(topics.getValue().get(i).getType().toString()));
 			actionid.appendChild(type);
 
 			Element topic = doc.createElement("topic");
-			topic.appendChild(doc.createTextNode(topics.getValue().get(0).getPropertyByKey("topic").getValue().toString()));
+			topic.appendChild(doc.createTextNode(topics.getValue().get(i).getPropertyByKey("topic").getValue().toString()));
 			actionid.appendChild(topic);
 
-			
+			}
 			
 			
 			
