@@ -130,7 +130,7 @@ public class CreateNewXML {
 			// Schleife für mehrere ActionIDs 
 			//actionid element
 			for (int i = 0; i < topics.getValue().size(); i++) {
-			Element actionid = doc.createElement("actionid: "+i);
+			Element actionid = doc.createElement("actionid"+i);
 			action.appendChild(actionid);
 			
 			// time element
