@@ -1,6 +1,7 @@
 package hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles;
 
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -8,15 +9,11 @@ import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.event.AtomicEvent;
 import eventprocessing.event.Property;
 import eventprocessing.utils.factory.AbstractFactory;
-import eventprocessing.utils.factory.EventFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
-import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
-import hdm.developmentlab.ebi.eve_implementation.events.SessionStateEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 
 
@@ -38,17 +35,29 @@ public class SessionState extends AbstractInterestProfile {
 	@Override
 	protected void doOnReceive(AbstractEvent abs) {
 		
-		Logger l = LoggerFactory.getLogger("DOONRECEIVE SESSIONSTATE");
-		l.log(Level.WARNING, "Event von test erhalten "+abs);
-		//SessionStateEvent arg0 = (SessionStateEvent) abs;		
-		SessionContextAgent agent = (SessionContextAgent) this.getAgent(); 			
-		AbstractEvent session = eventFactory.createEvent("AtomicEvent");
+		if(abs.getType().equalsIgnoreCase("SessionState")) {
+			SessionContextAgent sA = (SessionContextAgent) this.getAgent();
+			eventFactory.createEvent("AtomicEvent"); 
+			sA.addSession(abs);
+		}
 		
-		session.add(new Property<String>("Report", "Ich habe ein SessionStart erhalten, es war ein SessionStart"));
+		
+		
+		
+		
+		Logger l = LoggerFactory.getLogger("DOONRECEIVE SESSIONSTATE");
+		l.log(Level.WARNING, "Event "+abs);
+		
+		AbstractEvent session = eventFactory.createEvent("AtomicEvent");
+		ArrayList<Property> list = new ArrayList<>();
+		list.add(new Property<String>("kostendoc", "LInk"));
+		list.add(new Property<String>("kostendoc1", "LInk1"));
+		list.add(new Property<String>("kostendoc2", "LInk2"));
+		session.add(new Property<ArrayList<Property>>("docProposalList", list ));
 		
 		
 		try {
-			agent.send(session, "Sessions");			
+			this.getAgent().send(session, "DocProposal");			
 		} catch (NoValidEventException e) {
 			l.log(Level.WARNING, "SessionState Event konnte nicht publiziert werden"+e);
 			e.printStackTrace();

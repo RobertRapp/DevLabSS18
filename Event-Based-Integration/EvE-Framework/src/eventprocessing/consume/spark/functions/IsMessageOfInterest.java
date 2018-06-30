@@ -65,7 +65,7 @@ public final class IsMessageOfInterest implements Function<String, Boolean> {
 		Logger l = LoggerFactory.getLogger("ISMESSAGEOFINTEREST");
 		l.log(Level.WARNING,"ES kam die MESSAGE "+message +" an.");
 		
-	    Predicate<Function<String, Boolean>> antwort = filterPredicate.isMessageOfInterest(message);
+	    filterPredicate.isMessageOfInterest(message);
 		
 	    if ( (interestProfile.getAgent().getDispatcher().getFilterQueueOf(this.interestProfile).getFilters()).stream()
 				.allMatch(filterPredicate.isMessageOfInterest(message)) ) {

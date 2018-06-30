@@ -12,5 +12,6 @@
 		<module>EBI_Grp3
 	</module>	
 		<module>EvE-Framework</module>
+		<module>UX_Grp5</module>
 	</modules>
 </project>

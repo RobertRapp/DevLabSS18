@@ -2,21 +2,16 @@ package hdm.developmentlab.ebi.eve_implementation.activityService.interestprofil
 
 
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
-import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.event.Property;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
-import hdm.developmentlab.ebi.eve_implementation.events.ApplicationEvent;
-import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
 
 
 public class TokenApplicationIP extends eventprocessing.agent.interestprofile.AbstractInterestProfile {
@@ -38,22 +33,26 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 	
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
+		System.out.println("RECEIVED");
 		// Erzeugt über die Factory ein neues Event
-		AbstractEvent applicationEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
-			
+		AbstractEvent applicationEvent = eventFactory.createEvent("AtomicEvent");
+		
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist und eine Application beinhaltet
-		if (EventUtils.findPropertyByKey(event, "Type").getValue() == "Application") {
+		if (EventUtils.findPropertyByKey(event, "type") != null && EventUtils.findPropertyByKey(event, "type").getValue().equals("application")) {
 			applicationEvent = event; 	
 			applicationEvent.setType("ApplicationEvent");
 			
 			
-				// Sendet das Event an DR (welches Topic ???) 
+			//FRAGE: WIRD LINK VON DR GLEICH MIT GESCHICKT? 
+			
+			
+				// Sendet das Event an ? (welches Topic ???) 
 				try {
-					getAgent().send(applicationEvent, "TOPIC??");
+					getAgent().send(applicationEvent, "TOPIC");
 				} catch (NoValidEventException e1) {
-					java.util.logging.Logger logger = LoggerFactory.getLogger("ApplicationSend");
+					LoggerFactory.getLogger("ApplicationSend");
 				} catch (NoValidTargetTopicException e1) {
-					java.util.logging.Logger logger = LoggerFactory.getLogger("ApplicationSend");
+					LoggerFactory.getLogger("ApplicationSend");
 				}
 				
 		}
