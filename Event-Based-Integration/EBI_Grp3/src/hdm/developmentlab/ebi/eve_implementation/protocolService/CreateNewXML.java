@@ -57,7 +57,11 @@ public class CreateNewXML {
 			Date now = new Date();
 			SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:S.SSS");
 			dateformat.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
-			String strDate = dateformat.format(now);
+			String strDate = dateformat.format(now);	
+			String strEventDate = dateformat.format(startEvent.getValue().getCreationDate());
+			String endEventDate = dateformat.format(endEvent.getValue().getCreationDate());
+			
+
 			
 			// Complete new formatting
 			// root element
@@ -80,15 +84,15 @@ public class CreateNewXML {
 			
 			// date element
 			Element date = doc.createElement("date");
-			date.appendChild(doc.createTextNode(strDate.toString()));
+			date.appendChild(doc.createTextNode(strDate));
 			rootElement.appendChild(date);
 			// starttime element
 			Element starttime = doc.createElement("starttime");
-			starttime.appendChild(doc.createTextNode(startEvent.getValue().getCreationDate().toString()));
+			starttime.appendChild(doc.createTextNode(strEventDate));
 			rootElement.appendChild(starttime);
 			// endtime element
 			Element endtime = doc.createElement("endtime");
-			endtime.appendChild(doc.createTextNode(endEvent.getValue().getCreationDate().toString()));
+			endtime.appendChild(doc.createTextNode(endEventDate));
 			rootElement.appendChild(endtime);
 			// participant1 element
 			Element participant1 = doc.createElement("participant1");
@@ -116,7 +120,6 @@ public class CreateNewXML {
  */
 			// action element
 			Element action = doc.createElement("actions");
-			// action.appendChild(doc.createTextNode("action ERSTELLEN"));
 			rootElement.appendChild(action);
 			
 // 			Falls Attribute benötigt werden
@@ -124,23 +127,26 @@ public class CreateNewXML {
 //			attr2.setValue((topics.getValue().get(0).getPropertyByKey("topic").getValue().toString()));
 //			action.setAttributeNode(attr2);
 
-			
+			// Schleife für mehrere ActionIDs 
+			//actionid element
 			for (int i = 0; i < topics.getValue().size(); i++) {
 			Element actionid = doc.createElement("actionid: "+i);
 			action.appendChild(actionid);
 			
+			// time element
 			Element time = doc.createElement("time");
 			time.appendChild(doc.createTextNode(topics.getValue().get(i).getCreationDate().toString()));
 			actionid.appendChild(time);
-
+			
+			// type element
 			Element type = doc.createElement("type");
 			type.appendChild(doc.createTextNode(topics.getValue().get(i).getType().toString()));
 			actionid.appendChild(type);
-
+			
+			// topic element
 			Element topic = doc.createElement("topic");
 			topic.appendChild(doc.createTextNode(topics.getValue().get(i).getPropertyByKey("topic").getValue().toString()));
 			actionid.appendChild(topic);
-
 			}
 			
 
