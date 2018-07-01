@@ -44,10 +44,12 @@ public class CreateNewXML {
 		Property<AbstractEvent> endEvent = (Property<AbstractEvent>) EventUtils.findPropertyByKey(protocolEvent,
 				"sessionEnd");
 		Property<ArrayList<AbstractEvent>> user = (Property<ArrayList<AbstractEvent>>) EventUtils.findPropertyByKey(protocolEvent, "user");
-		Property<ArrayList<AbstractEvent>> topics = (Property<ArrayList<AbstractEvent>>) EventUtils.findPropertyByKey(protocolEvent, "topics");
-		Property<ArrayList<AbstractEvent>> projects = (Property<ArrayList<AbstractEvent>>) EventUtils.findPropertyByKey(protocolEvent, "projects");
+		Property<ArrayList<AbstractEvent>> topics = (Property<ArrayList<AbstractEvent>>) EventUtils.findPropertyByKey(protocolEvent, "topic");
+		Property<ArrayList<AbstractEvent>> projects = (Property<ArrayList<AbstractEvent>>) EventUtils.findPropertyByKey(protocolEvent, "project");
+		Property<ArrayList<AbstractEvent>> propDocs = (Property<ArrayList<AbstractEvent>>) EventUtils.findPropertyByKey(protocolEvent, "propDoc");
+		Property<ArrayList<AbstractEvent>> clickedDocs = (Property<ArrayList<AbstractEvent>>) EventUtils.findPropertyByKey(protocolEvent, "clickedDoc");
 		Property<Integer> duration = (Property<Integer>) EventUtils.findPropertyByKey(protocolEvent, "duration");
-
+		
 		
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -60,8 +62,6 @@ public class CreateNewXML {
 			String strDate = dateformat.format(now);	
 			String strEventDate = dateformat.format(startEvent.getValue().getCreationDate());
 			String endEventDate = dateformat.format(endEvent.getValue().getCreationDate());
-			
-
 			
 			// Complete new formatting
 			// root element
@@ -103,10 +103,7 @@ public class CreateNewXML {
 			Element participant2 = doc.createElement("participant2");
 			participant2.appendChild(doc.createTextNode(user.getValue().get(1).getPropertyByKey("name").getValue().toString()));
 			rootElement.appendChild(participant2);
-			// project element
-			Element project1 = doc.createElement("project");
-			project1.appendChild(doc.createTextNode(projects.getValue().get(1).getPropertyByKey("project").getValue().toString()));
-			rootElement.appendChild(project1);
+
 			// duration element
 			Element duration1 = doc.createElement("duration");
 			duration1.appendChild(doc.createTextNode(duration.getValue().toString() + " seconds"));
@@ -118,20 +115,51 @@ public class CreateNewXML {
  * *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  * *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++			
  */
-			// action element
-			Element action = doc.createElement("actions");
-			rootElement.appendChild(action);
+			// action2 element für Projekte
+			Element action1 = doc.createElement("projects");
+			rootElement.appendChild(action1);
 			
-// 			Falls Attribute benötigt werden
-//			Attr attr2 = doc.createAttribute("ActionID");
-//			attr2.setValue((topics.getValue().get(0).getPropertyByKey("topic").getValue().toString()));
-//			action.setAttributeNode(attr2);
+			// action element für Topics
+			Element action2 = doc.createElement("topics");
+			rootElement.appendChild(action2);
+			
+			// action2 element für vorgeschlagene Docs 
+			Element action3 = doc.createElement("proposedDocs");
+			rootElement.appendChild(action3);
+			
+			// action2 element für geöffnete Docs
+			Element action4 = doc.createElement("clickedDocs");
+			rootElement.appendChild(action4);
+			
 
+			
+	
+			for (int i = 0; i < projects.getValue().size(); i++) {
+			// project element
+			Element actionid0 = doc.createElement("project"+i);
+			action1.appendChild(actionid0);	
+			
+			// time element
+			Element timeP = doc.createElement("time");
+			timeP.appendChild(doc.createTextNode(projects.getValue().get(i).getCreationDate().toString()));
+			actionid0.appendChild(timeP);	
+			
+			// type element
+			Element typeP = doc.createElement("type");
+			typeP.appendChild(doc.createTextNode(projects.getKey().substring(0, 1).toUpperCase() + projects.getKey().substring(1)));
+			actionid0.appendChild(typeP);
+			
+			// project element
+			Element project1 = doc.createElement("project");
+			project1.appendChild(doc.createTextNode(projects.getValue().get(i).getPropertyByKey("project").getValue().toString()));
+			actionid0.appendChild(project1);
+			
+			}
 			// Schleife für mehrere ActionIDs 
 			//actionid element
 			for (int i = 0; i < topics.getValue().size(); i++) {
-			Element actionid = doc.createElement("actionid"+i);
-			action.appendChild(actionid);
+			Element actionid = doc.createElement("topic"+i);
+			action2.appendChild(actionid);
 			
 			// time element
 			Element time = doc.createElement("time");
@@ -140,13 +168,56 @@ public class CreateNewXML {
 			
 			// type element
 			Element type = doc.createElement("type");
-			type.appendChild(doc.createTextNode(topics.getValue().get(i).getType().toString()));
+			type.appendChild(doc.createTextNode(topics.getKey().substring(0, 1).toUpperCase() + topics.getKey().substring(1)));
 			actionid.appendChild(type);
 			
 			// topic element
 			Element topic = doc.createElement("topic");
 			topic.appendChild(doc.createTextNode(topics.getValue().get(i).getPropertyByKey("topic").getValue().toString()));
 			actionid.appendChild(topic);
+			
+			}
+			//Weitere dynamische Elemente:
+			for (int i = 0; i < propDocs.getValue().size(); i++) {
+			//vorgeschlagene Dokumente: 
+			Element actionid2 = doc.createElement("propDoc"+i);
+			action3.appendChild(actionid2);
+			
+			Element timePD = doc.createElement("time");
+			timePD.appendChild(doc.createTextNode(propDocs.getValue().get(i).getCreationDate().toString()));
+			actionid2.appendChild(timePD);
+			
+			// type element
+			Element typePD = doc.createElement("type");
+			typePD.appendChild(doc.createTextNode(propDocs.getKey().substring(0, 1).toUpperCase() + propDocs.getKey().substring(1)));
+			actionid2.appendChild(typePD);
+			
+			// topic element
+			Element docname = doc.createElement("docName");
+			docname.appendChild(doc.createTextNode(propDocs.getValue().get(i).getPropertyByKey("dokumentName").getValue().toString()));
+			actionid2.appendChild(docname);
+			
+			}
+			
+			//Geöffente Dokumente:
+			for (int i = 0; i < clickedDocs.getValue().size(); i++) {
+			Element actionid3 = doc.createElement("clickedDocs"+i);
+			action4.appendChild(actionid3);
+			
+			Element timeCD = doc.createElement("time");
+			timeCD.appendChild(doc.createTextNode(clickedDocs.getValue().get(i).getCreationDate().toString()));
+			actionid3.appendChild(timeCD);
+			
+			// type element
+			Element typeCD = doc.createElement("type");
+			typeCD.appendChild(doc.createTextNode(clickedDocs.getKey().substring(0, 1).toUpperCase() + propDocs.getKey().substring(1)));
+			actionid3.appendChild(typeCD);
+			
+			// topic element
+			Element docnameC = doc.createElement("docName");
+			docnameC.appendChild(doc.createTextNode(clickedDocs.getValue().get(i).getPropertyByKey("dokumentName").getValue().toString()));
+			actionid3.appendChild(docnameC);
+			
 			}
 			
 

@@ -94,7 +94,7 @@ public class StartServicesProtocolTest {
 				System.out.println("publish sessionstart");
 				System.out.println(sessionStart);
 				publish(sessionStart,"SessionInfo");
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 				
 				AbstractEvent user = eventFactory.createEvent("AtomicEvent");
 				user.setType("user");
@@ -104,7 +104,7 @@ public class StartServicesProtocolTest {
 				name.setValue("Nikolaus Eblenkamp");
 				user.add(name);
 				publish(user,"UserInfo");
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 				
 				AbstractEvent user2 = eventFactory.createEvent("AtomicEvent");
 				user2.setType("user");
@@ -114,7 +114,7 @@ public class StartServicesProtocolTest {
 				user2.add(name2);
 				System.out.println("publish user2");
 				publish(user2,"UserInfo");
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 				
 				AbstractEvent proposedDoc1 = eventFactory.createEvent("AtomicEvent");
 				proposedDoc1.setType("proposedDoc");
@@ -128,7 +128,7 @@ public class StartServicesProtocolTest {
 				proposedDoc1.add(erstellDatum);
 				System.out.println("publish prop doc");
 				publish(proposedDoc1,"proposedDoc");
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 				
 				AbstractEvent proposedDoc2 = eventFactory.createEvent("AtomicEvent");
 				proposedDoc2.setType("proposedDoc");
@@ -141,7 +141,7 @@ public class StartServicesProtocolTest {
 				proposedDoc2.add(dokumentName2);
 				proposedDoc2.add(erstellDatum2);
 				publish(proposedDoc2,"proposedDoc");
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 				
 				AbstractEvent clickedDoc = eventFactory.createEvent("AtomicEvent");
 				clickedDoc.setType("clickedDoc");
@@ -154,7 +154,7 @@ public class StartServicesProtocolTest {
 				clickedDoc.add(dokumentName3);
 				clickedDoc.add(erstellDatum3);
 				publish(clickedDoc,"clickedDoc");
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 				
 				AbstractEvent tokenEvent = eventFactory.createEvent("AtomicEvent");
 				tokenEvent.setType("TokenEvent");
@@ -167,7 +167,7 @@ public class StartServicesProtocolTest {
 				tokenEvent.add(topic);
 				tokenEvent.add(project);
 				publish(tokenEvent,"TokenGeneration");
-				Thread.sleep(2000);
+				Thread.sleep(1000);
 				
 				AbstractEvent tokenEvent2 = eventFactory.createEvent("AtomicEvent");
 				tokenEvent2.setType("TokenEvent");
@@ -180,7 +180,7 @@ public class StartServicesProtocolTest {
 				tokenEvent2.add(topic2);
 				tokenEvent2.add(project2);
 				publish(tokenEvent2,"TokenGeneration");
-				Thread.sleep(7000);
+				Thread.sleep(1000);
 				
 				AbstractEvent sessionEnd = eventFactory.createEvent("AtomicEvent");
 				sessionEnd.setType("sessionEnd");

@@ -132,14 +132,14 @@ public class Sessions extends AbstractInterestProfile {
 				endEvent.setValue(sessionEnd);
 				userProp.setKey("user");
 				userProp.setValue(userList);
-				topicProp.setKey("topics");
+				topicProp.setKey("topic");
 				topicProp.setValue(topicList);
-				projectProp.setKey("projects");
+				projectProp.setKey("project");
 				projectProp.setValue(projectList);
 				durationProp.setKey("duration"); 
-				proposedDocsProp.setKey("propDocs");
+				proposedDocsProp.setKey("propDoc");
 				proposedDocsProp.setValue(proposedDocList);
-				clickedDocsProp.setKey("clickedDocs");
+				clickedDocsProp.setKey("clickedDoc");
 				clickedDocsProp.setValue(clickedDocList);
 				durationProp.setValue(TimeUtils.getDifferenceInSeconds(sessionEnd.getCreationDate(), sessionStart.getCreationDate()));
 				
