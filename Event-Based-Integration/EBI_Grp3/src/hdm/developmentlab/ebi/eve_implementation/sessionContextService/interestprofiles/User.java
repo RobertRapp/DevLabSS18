@@ -1,6 +1,8 @@
 package hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles;
 
 
+import eventprocessing.agent.NoValidEventException;
+import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.event.AbstractEvent;
 
@@ -19,7 +21,21 @@ public class User extends AbstractInterestProfile {
 
 	@Override
 	protected void doOnReceive(AbstractEvent arg0) {
-		// TODO Auto-generated method stub
+		/*
+		 * 
+		 * DR FAKE. Bekommt ein SentenceEvent vom Topic ChunkGeneration
+		 */
+		
+		
+		try {
+			this.getAgent().send(arg0, "DocProposal");
+		} catch (NoValidEventException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoValidTargetTopicException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

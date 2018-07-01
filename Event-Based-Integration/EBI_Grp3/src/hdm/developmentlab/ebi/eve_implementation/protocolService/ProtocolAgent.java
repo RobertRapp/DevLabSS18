@@ -4,10 +4,11 @@ import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
+import eventprocessing.agent.interestprofile.predicates.NullPredicateException;
+import eventprocessing.agent.interestprofile.predicates.logical.Or;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenDocumentType;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.interestprofiles.Sessions;
-import startServices.ShowcaseValues;
 
 public class ProtocolAgent extends AbstractAgent {
 
@@ -20,13 +21,19 @@ public class ProtocolAgent extends AbstractAgent {
 	@Override
 	protected void doOnInit() {
 
+		
+		this.setId("ProtocolAgent");
 		/*
 		 * Angabe der Topics, die konsumiert werden sollen. Es können mehrere Topics
 		 * angegeben werden.
 		 */
 		try {
-			this.add("Sessions");
+			this.add("SessionInfo");
 			this.add("TokenGeneration");
+			this.add("UserInfo");
+			this.add("proposedDoc");
+			this.add("clickedDoc");
+			
 			// + alle Topics also Doc Requests auch
 		} catch (NoValidConsumingTopicException e) {
 			e.printStackTrace();
@@ -38,17 +45,17 @@ public class ProtocolAgent extends AbstractAgent {
 		 */
 		
 		try {
-			AbstractInterestProfile ip = new TokenDocumentType();
-			ip.add(new IsEventType("TokenEvent"));
-			ip.add(new IsEventType("ContextUpdate"));
-			ip.add(new IsEventType("RequestEvents"));
-			ip.add(new IsEventType("DocumentEvents"));
-			//Wenn Session endet:
-			ip.add(new IsEventType("SessionEvent"));
+			AbstractInterestProfile ip = new Sessions();
+			try {
+				ip.add(new Or(new IsEventType("TokenEvent"), new IsEventType("user"), new IsEventType("proposedDoc"), new IsEventType("clickedDoc"), new IsEventType("sessionStart"), new IsEventType("sessionEnd")));
+			} catch (NullPredicateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			this.add(ip);
-		} catch (NoValidInterestProfileException e1) {
-			e1.printStackTrace();
+			} catch (NoValidInterestProfileException e1) {
+				e1.printStackTrace();
+			}
 		}
-		
 	}
-}

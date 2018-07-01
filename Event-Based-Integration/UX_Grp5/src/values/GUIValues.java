@@ -25,9 +25,6 @@ public enum GUIValues {
 	private String groupIdTrafficAnalysis = null;
 	private String groupIdSensorProcessing = null;
 	private String groupIdUserInteraction = null;
-	private String groupIdSessionEnd = null;
-	private String groupIdDocProposal = null;
-	
 	private int speedLimit = 0;
 	private int distance = 500;
 	private String SeverityOk = null;

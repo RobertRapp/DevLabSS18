@@ -1,10 +1,6 @@
 package eventprocessing.events;
 
-import java.util.Formatter;
-
-import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.AtomicEvent;
-import eventprocessing.utils.SystemUtils;
 
 /**
  * Ein Ereignis, welches unmittelbar von der Sensorik im Verkehrsnetz

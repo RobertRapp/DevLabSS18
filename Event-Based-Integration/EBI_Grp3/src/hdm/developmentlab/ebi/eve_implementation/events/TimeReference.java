@@ -1,5 +1,6 @@
 package hdm.developmentlab.ebi.eve_implementation.events;
 
+
 public enum TimeReference {
 	INSTANCE;
 	
@@ -15,6 +16,7 @@ public enum TimeReference {
  }
 
 public String getFuture() {
+	
 	return future;
 }
 

@@ -3,31 +3,14 @@ package eventprocessing.agent.UserInteraction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import eventprocessing.demo.ShowcaseValues;
-import eventprocessing.events.DocProposalEvent;
 import eventprocessing.events.UserInteractionEvent;
-import eventprocessing.demo.events.SensorEvent;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.utils.TextUtils;
 import eventprocessing.utils.factory.LoggerFactory;
 
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.demo.ShowcaseValues;
-import eventprocessing.event.AbstractEvent;
-import eventprocessing.event.Property;
-import eventprocessing.utils.factory.AbstractFactory;
-import eventprocessing.utils.factory.FactoryProducer;
-import eventprocessing.utils.factory.FactoryValues;
-import eventprocessing.utils.factory.LoggerFactory;
-import eventprocessing.utils.model.EventUtils;
 import values.GUIValues;
-import eventprocessing.demo.ShowcaseValues;
-import eventprocessing.demo.events.SensorEvent;
-import eventprocessing.event.AbstractEvent;
-import eventprocessing.utils.TextUtils;
-import eventprocessing.utils.factory.LoggerFactory;
 
 /**
  * Dieses Interessenprofil führt die Reinigung sowie Filterung durch. Es wird

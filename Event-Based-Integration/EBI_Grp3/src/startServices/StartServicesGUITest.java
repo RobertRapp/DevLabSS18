@@ -2,14 +2,7 @@ package startServices;
 
 import java.util.logging.Level;
 
-import com.speechTokens.EvE.agents.SentenceAgent;
-import com.speechTokens.EvE.agents.TokenAgent;
-
-import edu.stanford.nlp.simple.Sentence;
 import eventprocessing.agent.AbstractAgent;
-import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
-import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
@@ -22,11 +15,8 @@ import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
-import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
 import hdm.developmentlab.ebi.eve_implementation.events.TimeReference;
-import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
 /**
  * Startpunkt der Anwendung.
@@ -36,7 +26,7 @@ import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestp
  * @author RobertRapp
  *
  */
-public class StartServices {
+public class StartServicesGUITest {
 
 
 		
@@ -50,52 +40,11 @@ public class StartServices {
 	
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
-		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
+		AbstractAgent sessionContextAgent = new SessionContextAgent();
 		
-		/*
-		 * 
-		 * Erstellung aller Agents:
-		 */
-		
-		//EBI
-		AbstractAgent sessionContextAgent1 = new SessionContextAgent();
-		AbstractAgent sessionContextAgent2 = new SessionContextAgent();
-		AbstractAgent sessionContextAgent3 = new SessionContextAgent(); 
-		AbstractAgent protocolAgent1 = new ProtocolAgent();
-		AbstractAgent activityAgent1 = new ActivityAgent();
-		AbstractAgent activityAgent2 = new ActivityAgent();	
-		
-		//ST
-		
-		AbstractAgent sentenceAgent = new SentenceAgent(); 
-		AbstractAgent tokenAgent = new TokenAgent(); 
-		
-		//DR
-		AbstractAgent drAgent  = new AbstractAgent() {
-			
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected void doOnInit() {
-				this.setId("DRAgent");
-				AbstractInterestProfile ip = new User();
-				ip.add(new IsEventType("SentenceEvent"));
-				this.add(ip);
-				this.add("ChunkGeneration");
-				
-			}
-		};
-				
-		//GUI
-		
-		
-		
-		
-		sessionContextAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "SessionState"));
-		sessionContextAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		sessionContextAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "GUiTest"));
+		sessionContextAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 		
 			
 	
@@ -127,7 +76,7 @@ public class StartServices {
 		
 		String message = messageMapper.toJSON(event);	
 		if(message != null && topic != null) {
-			//despatcher.deliver(message, topic);	
+			despatcher.deliver(message, topic);	
 		}
 		
 	}
@@ -139,9 +88,8 @@ public class StartServices {
 				
 				
 				AbstractEvent event = eventFactory.createEvent("AtomicEvent");
-				event.setType("TokenEvent");
+				event.setType("DocProposalEvent");
 				Property<String> projekt = new Property<String>("projekt", "Highnet");
-				Property<String> projekt2 = new Property<String>("projekt", "Highnet");
 				Property<String> thema = new Property<String>("thema", "Kosten");
 				Property<String> user = new Property<String>("user", "Robert Rapp"+i);
 				Property<String> user2 = new Property<String>("user", "Detlef Gabe"+i);
@@ -150,18 +98,13 @@ public class StartServices {
 				event.add(thema);			
 				event.add(user);			
 				event.add(user2);			
-				event.add(timereference);		
-				AbstractEvent event2 = eventFactory.createEvent("AtomicEvent");
-				event2.add(projekt2);
-				
-				
-				
+				event.add(timereference);			
 				
 				if( i == 10) {
 					Property<String> context = new Property<String>("contextupdate", "Das Token ändert den Kontext");
 					event.add(context);
 				}
-				publish(event,"Tokens");
+				publish(event,"test");
 				
 				java.util.logging.Logger logger = LoggerFactory.getLogger("StartServices!");				
 				logger.log(Level.WARNING, "SESSIONSTATE AUF SESSIONSTATE GEPUSHT");

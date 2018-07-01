@@ -2,7 +2,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>Framework_GUI</groupId>
   <artifactId>Framework_GUI</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>

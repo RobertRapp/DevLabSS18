@@ -1,9 +1,6 @@
 package eventprocessing.events;
 
-import java.util.Formatter;
-
 import eventprocessing.event.AtomicEvent;
-import eventprocessing.utils.SystemUtils;
 
 /**
 

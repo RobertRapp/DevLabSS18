@@ -1,15 +1,6 @@
 package startServices;
 
-import java.util.logging.Level;
-
-import com.speechTokens.EvE.agents.SentenceAgent;
-import com.speechTokens.EvE.agents.TokenAgent;
-
-import edu.stanford.nlp.simple.Sentence;
 import eventprocessing.agent.AbstractAgent;
-import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
-import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
@@ -22,11 +13,7 @@ import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
-import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
-import hdm.developmentlab.ebi.eve_implementation.events.TimeReference;
-import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
 /**
  * Startpunkt der Anwendung.
@@ -36,7 +23,7 @@ import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestp
  * @author RobertRapp
  *
  */
-public class StartServices {
+public class StartServicesSessionContext {
 
 
 		
@@ -51,55 +38,12 @@ public class StartServices {
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
 		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
+		AbstractAgent sessionContextAgent = new SessionContextAgent();
 		
-		/*
-		 * 
-		 * Erstellung aller Agents:
-		 */
-		
-		//EBI
-		AbstractAgent sessionContextAgent1 = new SessionContextAgent();
-		AbstractAgent sessionContextAgent2 = new SessionContextAgent();
-		AbstractAgent sessionContextAgent3 = new SessionContextAgent(); 
-		AbstractAgent protocolAgent1 = new ProtocolAgent();
-		AbstractAgent activityAgent1 = new ActivityAgent();
-		AbstractAgent activityAgent2 = new ActivityAgent();	
-		
-		//ST
-		
-		AbstractAgent sentenceAgent = new SentenceAgent(); 
-		AbstractAgent tokenAgent = new TokenAgent(); 
-		
-		//DR
-		AbstractAgent drAgent  = new AbstractAgent() {
-			
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected void doOnInit() {
-				this.setId("DRAgent");
-				AbstractInterestProfile ip = new User();
-				ip.add(new IsEventType("SentenceEvent"));
-				this.add(ip);
-				this.add("ChunkGeneration");
-				
-			}
-		};
-				
-		//GUI
-		
-		
-		
-		
-		sessionContextAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "SessionState"));
+		sessionContextAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "g"));
 		sessionContextAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		
-			
-	
-	
+		
 		//StreamingExecution.add(activityService);
 		//StreamingExecution.add(protocolService);
 		StreamingExecution.add(sessionContextAgent);
@@ -124,10 +68,10 @@ public class StartServices {
 
 	
 	private static void publish(AbstractEvent event, String topic) {
-		
+		LoggerFactory.getLogger("StartServices!");				
 		String message = messageMapper.toJSON(event);	
 		if(message != null && topic != null) {
-			//despatcher.deliver(message, topic);	
+			despatcher.deliver(message, topic);	
 		}
 		
 	}
@@ -135,36 +79,41 @@ public class StartServices {
 	
 	private static void publishDemoEvents() throws InterruptedException {		
 			
-			for (int i = 0; i < 20; i++) {
+			for (int i = 0; i < 3; i++) {
 				
 				
 				AbstractEvent event = eventFactory.createEvent("AtomicEvent");
 				event.setType("TokenEvent");
-				Property<String> projekt = new Property<String>("projekt", "Highnet");
-				Property<String> projekt2 = new Property<String>("projekt", "Highnet");
-				Property<String> thema = new Property<String>("thema", "Kosten");
-				Property<String> user = new Property<String>("user", "Robert Rapp"+i);
-				Property<String> user2 = new Property<String>("user", "Detlef Gabe"+i);
-				Property<TimeReference> timereference = new Property<TimeReference>("timereference", TimeReference.INSTANCE);
-				event.add(projekt);			
+				Property<String> project2 = new Property<String>("project", "Highnet");
+				Property<String> thema = new Property<String>("topic", "Kosten");
+				Property<String> type = new Property<String>("type", "application");
+				Property<String> link = new Property<String>("link", "application");
+				Property<String> user4 = new Property<String>("user", "Detlef Gabe"+i);
+				event.add(project2);			
 				event.add(thema);			
-				event.add(user);			
-				event.add(user2);			
-				event.add(timereference);		
+				event.add(type);			
+				event.add(link);
+				event.add(user4);				
+				publish(event,"TokenGeneration");
+				
+				Thread.sleep(5000);
+				
 				AbstractEvent event2 = eventFactory.createEvent("AtomicEvent");
-				event2.add(projekt2);
+				event2.setType("TokenEvent");
+				Property<String> project = new Property<String>("project", "TestnetNeu");
+				Property<String> thema2 = new Property<String>("topic", "Kosten");
+				Property<String> type2 = new Property<String>("type", "application");
+				Property<String> link2 = new Property<String>("link", "application");
+				Property<String> user5 = new Property<String>("user", "Detlef Gabe"+i);
+				event2.add(project);			
+				event2.add(thema2);			
+				event2.add(type2);			
+				event2.add(link2);
+				event2.add(user5);				
+
+				publish(event2,"TokenGeneration");
 				
-				
-				
-				
-				if( i == 10) {
-					Property<String> context = new Property<String>("contextupdate", "Das Token ändert den Kontext");
-					event.add(context);
-				}
-				publish(event,"Tokens");
-				
-				java.util.logging.Logger logger = LoggerFactory.getLogger("StartServices!");				
-				logger.log(Level.WARNING, "SESSIONSTATE AUF SESSIONSTATE GEPUSHT");
+
 				
 //				AbstractEvent event2 = eventFactory.createEvent("AtomicEvent");
 //				event2.setType("SpeedEvent");
