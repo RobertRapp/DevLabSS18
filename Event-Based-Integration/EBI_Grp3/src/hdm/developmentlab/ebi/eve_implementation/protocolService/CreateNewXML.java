@@ -225,7 +225,7 @@ public class CreateNewXML {
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(
-					new File("C:\\Users\\hier dein Pfad angeben\\Protokoll.xml"));
+					new File("C:\\Users\\jonas\\Documents\\Studium\\DevelopmentLab\\Protokoll.xml"));
 			transformer.transform(source, result);
 
 			// Output to console for testing
