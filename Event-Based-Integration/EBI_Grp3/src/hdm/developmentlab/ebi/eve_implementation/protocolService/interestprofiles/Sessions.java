@@ -29,16 +29,9 @@ public class Sessions extends AbstractInterestProfile {
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = LoggerFactory.getLogger(TokenApplicationIP.class);
 
-//	// Factory für die Erzeugung der Events
+	// Factory für die Erzeugung der Events
 	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
-//	private static ArrayList<AbstractEvent> topicList = new ArrayList<AbstractEvent>();
-//	private static ArrayList<AbstractEvent> userList = new ArrayList<AbstractEvent>();
-//	private static ArrayList<AbstractEvent> projectList = new ArrayList<AbstractEvent>();
-//	private static ArrayList<AbstractEvent> proposedDocList = new ArrayList<AbstractEvent>();
-//	private static ArrayList<AbstractEvent> clickedDocList = new ArrayList<AbstractEvent>();
-//	private static AbstractEvent sessionStart = eventFactory.createEvent("AtomicEvent");
-//	private static AbstractEvent sessionEnd = eventFactory.createEvent("AtomicEvent");
-//	
+
 	
 	
 	/**
@@ -56,11 +49,13 @@ public class Sessions extends AbstractInterestProfile {
 	protected void doOnReceive(AbstractEvent event) {
 		System.out.println("IN RECEIVE VON ProtocollIP");
 		
+		//Instanz von ProtocolAgent wird benötigt, um dort Attribute zwischenzuspeichern. 
 		ProtocolAgent protocolagent = (ProtocolAgent) this.getAgent();
 		 
 		//ProtocolEvent ist das Event, dass am Ende raus geschickt wird 
 		AbstractEvent protocolEvent = eventFactory.createEvent("AtomicEvent");
-		//Aus Tokens werden Topics ausgelesen 
+		
+		//Benötigte Events werden vorbereitet
 		AbstractEvent user = eventFactory.createEvent("AtomicEvent");
 		AbstractEvent project = eventFactory.createEvent("AtomicEvent");
 		AbstractEvent topic = eventFactory.createEvent("AtomicEvent");
@@ -84,7 +79,7 @@ public class Sessions extends AbstractInterestProfile {
 		if (EventUtils.isType("user", event)) {
 			user = event;
 			protocolagent.addUserList(user);
-		} 
+		}
 		
 		// Prüfe ob das empfangene Event ein vorgeschlagenenes Dokument ist. Wenn ja in RequestListe anfügen 
 		if (EventUtils.isType("proposedDoc", event)) {
@@ -117,36 +112,27 @@ public class Sessions extends AbstractInterestProfile {
 				Property<ArrayList<AbstractEvent>> clickedDocsProp = new Property<>();
 				Property<Integer> durationProp = new Property<>();
 
-				//Properties füllen
+				//Properties aus zwischengespeicherten Attributswerten des ProtocolAgent auslesen
 				sessionIDProp.setKey("sessionID");
 				sessionIDProp.setValue(protocolagent.getSessionEnd().getId());
 				startEvent.setKey("sessionStart");
 				startEvent.setValue(protocolagent.getSessionStart());
 				endEvent.setKey("sessionEnd");
 				endEvent.setValue(protocolagent.getSessionEnd());
-				//System.out.println("endEvent: " + endEvent.getValue());
 				userProp.setKey("user");
 				userProp.setValue(protocolagent.getUserList());
-				//System.out.println("userProp: " + userProp.getValue());
 				topicProp.setKey("topic");
 				topicProp.setValue(protocolagent.getTopicList());
-				//System.out.println("topicProp: " + topicProp.getValue());
 				projectProp.setKey("project");
 				projectProp.setValue(protocolagent.getProjectList());
-				//System.out.println("projectProp: " + projectProp.getValue());
 				durationProp.setKey("duration"); 
 				durationProp.setValue(TimeUtils.getDifferenceInSeconds(protocolagent.getSessionEnd().getCreationDate(), protocolagent.getSessionStart().getCreationDate()));
-				//System.out.println("durationProp: " + durationProp.getValue());
 				proposedDocsProp.setKey("propDoc");
 				proposedDocsProp.setValue(protocolagent.getProposedDocList());
-				System.out.println("__________________________");
-				System.out.println("proposedDocsProp: " + protocolagent.getProposedDocList());
-				System.out.println("____________________");
 				clickedDocsProp.setKey("clickedDoc");
 				clickedDocsProp.setValue(protocolagent.getClickedDocList());
-				//System.out.println("clickedDocsProp: " + clickedDocsProp.getValue());
-				
-				//Properties zu protocollEvent hinzufügen
+			
+				//Properties zu protocolEvent hinzufügen
 				protocolEvent.add(sessionIDProp);
 				protocolEvent.add(startEvent);
 				protocolEvent.add(endEvent);
