@@ -48,7 +48,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 	
 		//Hier if mit Zeitabprüfug und session context auf 30 sekunden oder so; TokenEvent ist es eigentlich schon
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist undeinen Dokumententyp beinhaltet 
-		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "topic") != null) {
+		if (EventUtils.isType("TokenEvent", event) && EventUtils.hasProperty(event, "topic")) {
 			System.out.println("ES ist ein TOPIC EVENT!!!! ");
 				requestEvent = event; 
 				requestEvent.setType("RequestEvent");
@@ -62,7 +62,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 					System.out.println("ES LIEGT IN DER ZEIT!! ");
 				
 					//Enthält TokenEvent keine Property namens project (oder eine der folgenden Namen) oder ist der jeweilige Wert gleich null, so wird das Projekt des SC angehängt 
-					if(EventUtils.findPropertyByKey(requestEvent, "project") == null) {
+					if(EventUtils.hasProperty(requestEvent, "project")) {
 						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "project"));
 					} else 
 						if(EventUtils.findPropertyByKey(requestEvent, "project").getValue() == null) {
@@ -71,7 +71,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 						
 					}
 					
-					if(EventUtils.findPropertyByKey(requestEvent, "timereference") == null) {
+					if(EventUtils.hasProperty(requestEvent, "timereference")) {
 						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "timereference"));
 
 						
@@ -82,7 +82,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 							System.out.println("ACHSO2");
 					}
 					
-					if(EventUtils.findPropertyByKey(requestEvent, "latestActivity") == null) {
+					if(EventUtils.hasProperty(requestEvent, "latestActivity")) {
 						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "latestActivity"));
 					} else 
 						if(EventUtils.findPropertyByKey(requestEvent, "latestActivity").getValue() == null) {
@@ -90,7 +90,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 							requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "latestActivity"));
 					}
 					
-					if(EventUtils.findPropertyByKey(requestEvent, "users") == null) {
+					if(EventUtils.hasProperty(requestEvent, "users")) {
 						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "users"));
 					} else 
 						if(EventUtils.findPropertyByKey(requestEvent, "users").getValue() == null) {
@@ -99,7 +99,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 						
 					}
 					
-					if(EventUtils.findPropertyByKey(requestEvent, "sessionId") == null) {
+					if(EventUtils.hasProperty(requestEvent, "sessionId")) {
 						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "sessionId"));
 					} else 
 						if(EventUtils.findPropertyByKey(requestEvent, "sessionId").getValue() == null) {

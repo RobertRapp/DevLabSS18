@@ -38,8 +38,8 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 		AbstractEvent applicationEvent = eventFactory.createEvent("AtomicEvent");
 		
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist und eine Application beinhaltet
-		if (EventUtils.findPropertyByKey(event, "type") != null && EventUtils.findPropertyByKey(event, "type").getValue().equals("application")) {
-			applicationEvent = event; 	
+		if (EventUtils.hasProperty(event, "type") && EventUtils.findPropertyByKey(event, "type").getValue().equals("application")) {
+			applicationEvent = event;
 			applicationEvent.setType("ApplicationEvent");
 			
 			
