@@ -162,7 +162,7 @@ public final class EventUtils {
 		return newEvent;
 		}
 	
-	public boolean hasProperty(AbstractEvent event, String key) {
+	public static boolean hasProperty(AbstractEvent event, String key) {
 		
 		Property<?> resultProperty = event.getProperties().stream()
 				.filter(property -> property.getKey().equals(key)).findFirst().get();

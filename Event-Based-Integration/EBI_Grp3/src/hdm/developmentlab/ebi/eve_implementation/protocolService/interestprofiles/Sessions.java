@@ -64,14 +64,14 @@ public class Sessions extends AbstractInterestProfile {
 
 		
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist. Wenn ja in TokenListe anfügen 
-		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "topic") != null) {
+		if (EventUtils.isType("TokenEvent", event) && EventUtils.hasProperty(event, "topic")) {
 			System.out.println("Topic erkannt");
 			topic = event;
 			topicList.add(topic);
 		} 
 		
 		// Prüfe ob das empfangene Event vom Typ TokenEvent ist. Wenn ja in TokenListe anfügen 
-		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "project") != null) {
+		if (EventUtils.isType("TokenEvent", event) && EventUtils.hasProperty(event, "project")) {
 			System.out.println("Projekt erkannt");
 			project = event;
 			projectList.add(project);
