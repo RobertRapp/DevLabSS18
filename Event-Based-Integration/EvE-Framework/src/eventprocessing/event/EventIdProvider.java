@@ -20,16 +20,10 @@ public enum EventIdProvider {
 	public long getUniqueId() {
 		String s = String.valueOf(nextId);
 		
-		// Wenn der Maximalwert überschritten wurde
-        if (nextId < 0) {
-        	// Wird eine Exception geworfen
-            throw new IllegalStateException("Out of IDs!");
-        }
         // Id wird inkrementell erhöht
         incrementId();
         // Gibt die Id zurück
-        nextId = s.hashCode() + nextId;
-        return nextId;
+        return s.hashCode() + nextId;
     }
 	
 	// Erhöht die Id um den Wert 1
