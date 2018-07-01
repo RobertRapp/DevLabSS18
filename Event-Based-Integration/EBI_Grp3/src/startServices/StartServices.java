@@ -1,20 +1,10 @@
 package startServices;
 
 import java.sql.Timestamp;
-import java.util.logging.Level;
-
-import com.speechTokens.EvE.agents.SentenceAgent;
-
-import com.speechTokens.EvE.agents.TokenizeAgent;
-
-import edu.stanford.nlp.simple.Sentence;
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
-import eventprocessing.agent.DocProposal.DocProposal;
-import eventprocessing.agent.GuiAgent.GuiAgent;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
@@ -26,10 +16,8 @@ import eventprocessing.produce.kafka.ProducerSettings;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
-import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
 import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
-import hdm.developmentlab.ebi.eve_implementation.events.TimeReference;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
@@ -73,10 +61,10 @@ public class StartServices {
 		
 		
 		//ST
-		
+		/*
 		AbstractAgent sentenceAgent = new SentenceAgent(); 
 		AbstractAgent tokenAgent = new TokenizeAgent(); 
-		
+		*/
 		//DR
 		AbstractAgent drAgent  = new AbstractAgent() {
 			
@@ -107,8 +95,11 @@ public class StartServices {
 		};
 				
 		//GUI
+		/*
 		AbstractAgent documentPro = new  DocProposal();
 		AbstractAgent guiAgent = new GuiAgent();
+		*/
+		
 		
 		/*
 		 * ConsumerSettings
@@ -123,12 +114,12 @@ public class StartServices {
 		
 		//ST
 		 //tokenAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "token"));
-		 sentenceAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "sentence"));
+		 //sentenceAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "sentence"));
 		//DR
 		 drAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "dr"));
 		//GUI
-		 documentPro.setConsumerSettings(new ConsumerSettings("localhost", "9092", "docPro"));
-		 guiAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "gui"));
+//		 documentPro.setConsumerSettings(new ConsumerSettings("localhost", "9092", "docPro"));
+//		 guiAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "gui"));
 		
 		
 		/*
@@ -146,12 +137,12 @@ public class StartServices {
 		
 		//ST
 		 //tokenAgent.setProducerSettings(pSet);
-		 sentenceAgent.setProducerSettings(pSet);
+		 //sentenceAgent.setProducerSettings(pSet);
 		//DR
 		 drAgent.setProducerSettings(pSet);
 		//GUI
-		 documentPro.setProducerSettings(pSet);
-		 guiAgent.setProducerSettings(pSet);	
+//		 documentPro.setProducerSettings(pSet);
+//		 guiAgent.setProducerSettings(pSet);	
 	
 		 /*
 		  * Hinzufügen StreamingExecution
@@ -167,7 +158,8 @@ public class StartServices {
 		
 		//ST
 		//StreamingExecution.add(tokenAgent);
-		StreamingExecution.add(sentenceAgent);
+		//StreamingExecution.add(sentenceAgent);
+		
 		//DR
 		StreamingExecution.add(drAgent);
 		//GUI
