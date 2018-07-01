@@ -50,7 +50,7 @@ public class SessionContextAgent extends AbstractAgent {
 	protected void doOnInit() {
 			
 		//Ohne ID geht der Agent nicht, bitte setzen
-		this.setId("SessionContextAgent");
+		this.setId("SessionContextAgent"+Math.random());
 		
 		
 		/*

@@ -2,8 +2,14 @@ package startServices;
 
 import java.util.logging.Level;
 
+import com.speechTokens.EvE.agents.SentenceAgent;
+import com.speechTokens.EvE.agents.TokenAgent;
 
+import edu.stanford.nlp.simple.Sentence;
 import eventprocessing.agent.AbstractAgent;
+import eventprocessing.agent.interestprofile.AbstractInterestProfile;
+import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
+import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
@@ -16,8 +22,11 @@ import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
+import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
 import hdm.developmentlab.ebi.eve_implementation.events.TimeReference;
+import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
+import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
 /**
  * Startpunkt der Anwendung.
@@ -42,7 +51,48 @@ public class StartServices {
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
 		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
-		AbstractAgent sessionContextAgent = new SessionContextAgent();
+		
+		/*
+		 * 
+		 * Erstellung aller Agents:
+		 */
+		
+		//EBI
+		AbstractAgent sessionContextAgent1 = new SessionContextAgent();
+		AbstractAgent sessionContextAgent2 = new SessionContextAgent();
+		AbstractAgent sessionContextAgent3 = new SessionContextAgent(); 
+		AbstractAgent protocolAgent1 = new ProtocolAgent();
+		AbstractAgent activityAgent1 = new ActivityAgent();
+		AbstractAgent activityAgent2 = new ActivityAgent();	
+		
+		//ST
+		
+		AbstractAgent sentenceAgent = new SentenceAgent(); 
+		AbstractAgent tokenAgent = new TokenAgent(); 
+		
+		//DR
+		AbstractAgent drAgent  = new AbstractAgent() {
+			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void doOnInit() {
+				this.setId("DRAgent");
+				AbstractInterestProfile ip = new User();
+				ip.add(new IsEventType("SentenceEvent"));
+				this.add(ip);
+				this.add("ChunkGeneration");
+				
+			}
+		};
+				
+		//GUI
+		
+		
+		
 		
 		sessionContextAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "SessionState"));
 		sessionContextAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
