@@ -21,6 +21,12 @@ public class User extends AbstractInterestProfile {
 
 	@Override
 	protected void doOnReceive(AbstractEvent arg0) {
+		/*
+		 * 
+		 * DR FAKE. Bekommt ein SentenceEvent vom Topic ChunkGeneration
+		 */
+		
+		
 		try {
 			this.getAgent().send(arg0, "DocProposal");
 		} catch (NoValidEventException e) {

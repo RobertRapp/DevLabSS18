@@ -10,9 +10,15 @@ import eventprocessing.agent.interestprofile.predicates.NullPredicateException;
 import eventprocessing.agent.interestprofile.predicates.logical.Or;
 import eventprocessing.agent.interestprofile.predicates.statement.GetEverything;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
+<<<<<<< HEAD
+import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
+import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
+import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.Tokens;
+=======
 import eventprocessing.event.AbstractEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionContextIP;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
+>>>>>>> master
 
 /*
  * Dieser Agent baut einen SessionContext auf, ein Sessionkontext besteht aus einem Set an Attributen,
@@ -50,7 +56,7 @@ public class SessionContextAgent extends AbstractAgent {
 	protected void doOnInit() {
 			
 		//Ohne ID geht der Agent nicht, bitte setzen
-		this.setId("SessionContextAgent");
+		this.setId("SessionContextAgent"+Math.random());
 		
 		
 		/*

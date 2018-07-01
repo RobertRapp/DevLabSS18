@@ -1,9 +1,21 @@
 package startServices;
 
+import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import com.speechTokens.EvE.agents.SentenceAgent;
 
+import com.speechTokens.EvE.agents.TokenizeAgent;
+
+import edu.stanford.nlp.simple.Sentence;
 import eventprocessing.agent.AbstractAgent;
+import eventprocessing.agent.NoValidConsumingTopicException;
+import eventprocessing.agent.DocProposal.DocProposal;
+import eventprocessing.agent.GuiAgent.GuiAgent;
+import eventprocessing.agent.dispatch.NoValidInterestProfileException;
+import eventprocessing.agent.interestprofile.AbstractInterestProfile;
+import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
+import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
@@ -16,8 +28,11 @@ import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
+import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
 import hdm.developmentlab.ebi.eve_implementation.events.TimeReference;
+import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
+import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
 /**
  * Startpunkt der Anwendung.
@@ -42,17 +57,123 @@ public class StartServices {
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
 		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
-		AbstractAgent sessionContextAgent = new SessionContextAgent();
 		
-		sessionContextAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "SessionState"));
-		sessionContextAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		/*
+		 * 
+		 * Erstellung aller Agents:
+		 */
 		
+		//EBI
+		AbstractAgent sessionContextAgent1 = new SessionContextAgent();
+		AbstractAgent sessionContextAgent2 = new SessionContextAgent();
+		AbstractAgent sessionContextAgent3 = new SessionContextAgent(); 
+		AbstractAgent protocolAgent1 = new ProtocolAgent();
+		AbstractAgent activityAgent1 = new ActivityAgent();
+		AbstractAgent activityAgent2 = new ActivityAgent();	
+		
+		
+		//ST
+		
+		AbstractAgent sentenceAgent = new SentenceAgent(); 
+		AbstractAgent tokenAgent = new TokenizeAgent(); 
+		
+		//DR
+		AbstractAgent drAgent  = new AbstractAgent() {
 			
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void doOnInit() {
+				this.setId("DRAgent");
+				AbstractInterestProfile ip = new User();
+				ip.add(new IsEventType("SentenceEvent"));
+				try {
+					this.add(ip);
+				} catch (NoValidInterestProfileException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					this.add("ChunkGeneration");
+				} catch (NoValidConsumingTopicException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		};
+				
+		//GUI
+		AbstractAgent documentPro = new  DocProposal();
+		AbstractAgent guiAgent = new GuiAgent();
+		
+		/*
+		 * ConsumerSettings
+		 */
+		//EBI 
+		 sessionContextAgent1.setConsumerSettings(new ConsumerSettings("localhost", "9092", "context"));
+		 sessionContextAgent2.setConsumerSettings(new ConsumerSettings("localhost", "9092", "context"));
+		 sessionContextAgent3.setConsumerSettings(new ConsumerSettings("localhost", "9092", "context"));
+		 protocolAgent1.setConsumerSettings(new ConsumerSettings("localhost", "9092", "protocol"));
+		 activityAgent1.setConsumerSettings(new ConsumerSettings("localhost", "9092", "acti"));
+		 activityAgent2.setConsumerSettings(new ConsumerSettings("localhost", "9092", "acti"));
+		
+		//ST
+		 //tokenAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "token"));
+		 sentenceAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "sentence"));
+		//DR
+		 drAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "dr"));
+		//GUI
+		 documentPro.setConsumerSettings(new ConsumerSettings("localhost", "9092", "docPro"));
+		 guiAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "gui"));
+		
+		
+		/*
+		 * ProducerSettings
+		 */
+		ProducerSettings pSet = new ProducerSettings("localhost","9092");
+		
+		//EBI 
+		 sessionContextAgent1.setProducerSettings(pSet);
+		 sessionContextAgent2.setProducerSettings(pSet);
+		 sessionContextAgent3.setProducerSettings(pSet);
+		 protocolAgent1.setProducerSettings(pSet);
+		 activityAgent1.setProducerSettings(pSet);
+		 activityAgent2.setProducerSettings(pSet);
+		
+		//ST
+		 //tokenAgent.setProducerSettings(pSet);
+		 sentenceAgent.setProducerSettings(pSet);
+		//DR
+		 drAgent.setProducerSettings(pSet);
+		//GUI
+		 documentPro.setProducerSettings(pSet);
+		 guiAgent.setProducerSettings(pSet);	
 	
-	
-		//StreamingExecution.add(activityService);
-		//StreamingExecution.add(protocolService);
-		StreamingExecution.add(sessionContextAgent);
+		 /*
+		  * Hinzufügen StreamingExecution
+		  * 
+		  */
+		//EBI
+		//StreamingExecution.add(sessionContextAgent1);
+		//StreamingExecution.add(sessionContextAgent2);
+		StreamingExecution.add(sessionContextAgent3);
+		StreamingExecution.add(protocolAgent1);
+		StreamingExecution.add(activityAgent1);
+		StreamingExecution.add(activityAgent2);
+		
+		//ST
+		//StreamingExecution.add(tokenAgent);
+		StreamingExecution.add(sentenceAgent);
+		//DR
+		StreamingExecution.add(drAgent);
+		//GUI
+		//StreamingExecution.add(documentPro);
+		//StreamingExecution.add(guiAgent);
+		
 
 		
 		Runnable myRunnable = new Runnable() {
@@ -85,68 +206,71 @@ public class StartServices {
 	
 	private static void publishDemoEvents() throws InterruptedException {		
 			
-			for (int i = 0; i < 20; i++) {
+			for (int i = 0; i < 9; i++) {
 				
-				
-				AbstractEvent event = eventFactory.createEvent("AtomicEvent");
-				event.setType("TokenEvent");
-				Property<String> projekt = new Property<String>("projekt", "Highnet");
-				Property<String> projekt2 = new Property<String>("projekt", "Highnet");
-				Property<String> thema = new Property<String>("thema", "Kosten");
-				Property<String> user = new Property<String>("user", "Robert Rapp"+i);
-				Property<String> user2 = new Property<String>("user", "Detlef Gabe"+i);
-				Property<TimeReference> timereference = new Property<TimeReference>("timereference", TimeReference.INSTANCE);
-				event.add(projekt);			
-				event.add(thema);			
-				event.add(user);			
-				event.add(user2);			
-				event.add(timereference);		
-				AbstractEvent event2 = eventFactory.createEvent("AtomicEvent");
-				event2.add(projekt2);
-				
-				
-				
-				
-				if( i == 10) {
-					Property<String> context = new Property<String>("contextupdate", "Das Token ändert den Kontext");
-					event.add(context);
+				// TODO: A response can be added in the future which is caught in the JS Script and shown on the website
+				// TODO: Parameter entsprechend im NodeJS anpassen
+				String JsSentence = ""; 
+				String userID = "";
+				switch (i) {
+				case 0:
+					 JsSentence = "Let´s talk about current activities concerning the HighNet project."; 
+					 userID = "lisa@gmail.com";
+					break;
+				case 1:
+					JsSentence = "Ok. Shall we look at the tasks leading to the milestone ahead?"; 
+					 userID = "haruki@gmail.com";
+					break;
+				case 2:
+					JsSentence = "Sure. We have been working on network issues for the diagnosis module. It is item 3 on the task list. I think, we will come up with something viable shortly."; 
+					 userID = "lisa@gmail.com";
+					break;
+				case 3:
+					JsSentence = "That sounds great. What about expenses? Do you think, you will be able to stay within the limits we aggreed upon last week?"; 
+					 userID = "haruki@gmail.com";
+					break;
+				case 4:
+					JsSentence = "That should be no problem. I'll leave a detailed report on Google drive."; 
+					 userID = "lisa@gmail.com";
+					break;
+				case 5:
+					JsSentence = "Ok, thanks. Let's make an appointment for our next meeting."; 
+					 userID = "haruki@gmail.com";
+					break;
+				case 6:
+					JsSentence = "Let me check my calendar …. How about next Thursday at 16 hours your time?"; 
+					 userID = "lisa@gmail.com";
+					break;
+				case 7:
+					JsSentence = "Perfect. See you then. Bye."; 
+					 userID = "haruki@gmail.com";
+				break;
+
+				default:
+					JsSentence = "Highnet, Daimler, costs, milestone, calendar, Google Drive, Google Calendar, Google Docs, Powerpoint, Word";
+					userID = "lisa@gmail.com";
+					break;
 				}
-				publish(event,"Tokens");
 				
-				java.util.logging.Logger logger = LoggerFactory.getLogger("StartServices!");				
-				logger.log(Level.WARNING, "SESSIONSTATE AUF SESSIONSTATE GEPUSHT");
+									
+				String sessionID = "Session1";
+				// To execute the other class and its dependencies it is important to add these dependencies under "Deployment Assembly"
+				System.out.println(JsSentence);
+				AbstractEvent wat = eventFactory.createEvent("AtomicEvent");
+				wat.setType("WatsonEvent");
+				wat.add(new Property<String>("sentence", JsSentence));
+				wat.add(new Property<String>("UserID", userID));// Hier die Properties an das neue Event übergebenübergeben
+				wat.add(new Property<Timestamp>("Timestamp", wat.getCreationDate()));
+				wat.add(new Property<String>("SessionID", sessionID));
+				String message = messageMapper.toJSON(wat);
+				despatcher.deliver(message, "ChunkGeneration");
 				
-//				AbstractEvent event2 = eventFactory.createEvent("AtomicEvent");
-//				event2.setType("SpeedEvent");
-//				Property<String> repo = new Property<String>("REPORT", "EVENT GEHT INS DIAGNOSIS IP");
-//				event2.add(repo);				
-//				publish(event2,"SessionState");					
-//				logger.log(Level.WARNING, "SESSIONSTATE AUF SESSIONSTATE GEPUSHT");				
+				
 				Thread.sleep(1000);
 				
 			}
 			
 
-			/*
-			TokenEvent event3 = (TokenEvent) new TokenEvent();
-			event.setSessionID("2");
-			Property<Long> sessionStart = new Property<Long>("sessionStart", System.currentTimeMillis());
-			event3.add(sessionStart);
-			int zaehler = 5;
-			for(int i = 0 ; i < zaehler; i++) {
-				Thread.sleep(ShowcaseValues.INSTANCE.getThreadSleep());
-				publish(event3,"test");
-				Logger l = LoggerFactory.getLogger("PUBLISHDEMOEVENTS");
-				l.log(Level.WARNING, "Event wurde direkt durch Dispatcher auf Test gepusht");
-			}
-			
-					
-			publish(event3,"test");
-			Logger l = LoggerFactory.getLogger("PUBLISHDEMOEVENTS");
-			l.log(Level.WARNING, "Event wurde direkt durch Dispatcher auf Test gepusht");
-			}
-			
-			*/
 	}	 
 	
 }
