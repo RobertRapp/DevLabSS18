@@ -4,8 +4,14 @@ import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
+import eventprocessing.agent.interestprofile.predicates.NullPredicateException;
+import eventprocessing.agent.interestprofile.predicates.logical.And;
+import eventprocessing.agent.interestprofile.predicates.logical.Or;
 import eventprocessing.agent.interestprofile.predicates.statement.GetEverything;
+import eventprocessing.agent.interestprofile.predicates.statement.HasProperty;
+import eventprocessing.agent.interestprofile.predicates.statement.HasPropertyContains;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
+import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationIP;
 
 
@@ -33,7 +39,12 @@ public class ActivityAgent extends AbstractAgent {
 		 */
 		try {
 			AbstractInterestProfile ip = new TokenApplicationIP();
-			ip.add(new GetEverything());
+			try {
+				ip.add(new Or(new IsEventType("CalendarEvent"), new HasProperty("ApplicationType")));
+			} catch (NullPredicateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			//ip.add(new IsEventType("DocumentEvent"));
 			this.add(ip);
 		

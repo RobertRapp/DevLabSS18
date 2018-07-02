@@ -63,13 +63,13 @@ public final class IsMessageOfInterest implements Function<String, Boolean> {
 		 */
 		
 		Logger l = LoggerFactory.getLogger("ISMESSAGEOFINTEREST");
-		l.log(Level.WARNING,"ES kam die MESSAGE "+message +" an.");
+		//l.log(Level.WARNING,"ES kam die MESSAGE "+message +" an.");
 		
 	    filterPredicate.isMessageOfInterest(message);
 		
 	    if ( (interestProfile.getAgent().getDispatcher().getFilterQueueOf(this.interestProfile).getFilters()).stream()
 				.allMatch(filterPredicate.isMessageOfInterest(message)) ) {
-	    	l.log(Level.WARNING, message +" WAR VON INTERESSE !!!");
+	    	//l.log(Level.WARNING, message +" WAR VON INTERESSE !!!");
 	    }else {
 	    	l.log(Level.WARNING, message +" WAR NICHT NICHT NICHT VON INTERESSE !!!");
 	    }

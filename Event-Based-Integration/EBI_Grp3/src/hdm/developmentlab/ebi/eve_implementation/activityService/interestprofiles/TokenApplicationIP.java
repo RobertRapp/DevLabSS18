@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.event.AbstractEvent;
+import eventprocessing.event.Property;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
@@ -33,23 +34,24 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 	
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
-		System.out.println("RECEIVED");
-		System.out.println(event);
-		// Erzeugt über die Factory ein neues Event
-		AbstractEvent applicationEvent = eventFactory.createEvent("AtomicEvent");
-		
-		// Prüfe ob das empfangene Event vom Typ TokenEvent ist und eine Application beinhaltet
-		if (EventUtils.hasProperty(event, "type") && EventUtils.findPropertyByKey(event, "type").getValue().equals("application")) {
-			applicationEvent = event;
-			applicationEvent.setType("ApplicationEvent");
 			
-			
-			//FRAGE: WIRD LINK VON DR GLEICH MIT GESCHICKT? 
-			
-			
-				// Sendet das Event an ? (welches Topic ???) 
+			if(event.getType().equalsIgnoreCase("CalendarEvent")) event.add(new Property<String>("URL","calendar.google.com"));
+			String type = (String) event.getPropertyByKey("ApplicationType").getValue();			
+			switch (type) {
+			case "presentation":
+				event.add(new Property<String>("URL","docs.google.com/presentation"));	
+				break;
+			case "spreadsheets":
+				event.add(new Property<String>("URL","docs.google.com/spreadsheets"));	
+				break;
+			default:
+				event.add(new Property<String>("URL",type+".google.com"));
+				break;
+			}
+			System.out.println("Wir schlagen vor auf "+event.getPropertyByKey("URL")+ " zu gehen!");
 				try {
-					getAgent().send(applicationEvent, "TOPIC");
+					event.setType("ApplicationEvent");
+					getAgent().send(event, "Applications");
 				} catch (NoValidEventException e1) {
 					LoggerFactory.getLogger("ApplicationSend");
 				} catch (NoValidTargetTopicException e1) {
@@ -60,6 +62,5 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 		
 		
 		
-	}
-
+	
 }

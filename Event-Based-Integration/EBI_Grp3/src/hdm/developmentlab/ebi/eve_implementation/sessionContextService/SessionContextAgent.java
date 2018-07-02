@@ -9,6 +9,7 @@ import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.agent.interestprofile.predicates.NullPredicateException;
 import eventprocessing.agent.interestprofile.predicates.logical.Or;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
+import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.event.AbstractEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionContextIP;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
@@ -63,7 +64,7 @@ public class SessionContextAgent extends AbstractAgent {
 		
 		AbstractInterestProfile sessionContextIP = new SessionContextIP();	
 		try {
-			sessionContextIP.add(new Or(new IsEventType("TokenEvent"),new IsEventType("SessionState")));
+			sessionContextIP.add(new Or(new IsFromTopic("TokenGeneration"),new IsFromTopic("SessionState")));
 		} catch (NullPredicateException e1) {
 			e1.printStackTrace();
 		}

@@ -149,7 +149,7 @@ public class StartServices {
 	
 	private static void publishDemoEvents() throws InterruptedException {		
 			
-			for (int i = 0; i < 1; i++) {
+			for (int i = 8; i < 9; i++) {
 					System.out.println(14);
 					// TODO: A response can be added in the future which is caught in the JS Script and shown on the website
 					// TODO: Parameter entsprechend im NodeJS anpassen
@@ -158,7 +158,7 @@ public class StartServices {
 					System.out.println(15);
 					switch (i) {
 					case 0:
-						 JsSentence = "Let's talk about current activities concerning HighNet project."; 
+						 JsSentence = "Let's talk about drive current activities concerning HighNet project."; 
 						 userID = "lisa@gmail.com";
 						break;
 					case 1:
@@ -191,7 +191,7 @@ public class StartServices {
 					break;
 
 					default:
-						JsSentence = "Highnet, Daimler, costs, milestone, calendar, Google Drive, Google Calendar, Google Docs, Powerpoint, Word";
+						JsSentence = "Highnet, Daimler, costs, milestone, calendar, Google Drive, Google Calendar, google docs, powerpoint, Word";
 						userID = "lisa@gmail.com";
 						break;
 					}

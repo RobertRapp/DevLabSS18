@@ -122,8 +122,6 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 		}
 		
 		
-		docRequestEvent = eventFactory.cre
-		
 		
 	}
 		
