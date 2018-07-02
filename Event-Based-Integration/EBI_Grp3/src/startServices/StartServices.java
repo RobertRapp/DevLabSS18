@@ -28,6 +28,8 @@ import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
 import eventprocessing.utils.model.EventUtils;
 import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
+import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
+import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
 /**
@@ -58,6 +60,8 @@ public class StartServices {
 		AbstractAgent sentenceAgent = new SentenceAgent(); 
 		AbstractAgent tokenAgent = new TokenizeAgent(); 
 		AbstractAgent applicationAgent = new ActivityAgent(); 
+		AbstractAgent requestAgent = new RequestAgent();
+		AbstractAgent protcolAgent = new ProtocolAgent();
 		AbstractAgent singleKeyWordAgent = new SingleKeywordAgent();
 		AbstractAgent noKeywordAgent = new NoKeywordAgent();
 		AbstractAgent severalKeywordsAgent = new SeveralKeywordsAgent();
@@ -101,6 +105,10 @@ public class StartServices {
 		singleKeyWordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "singleKeyWord"));
 		noKeywordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "noKeyword"));
 		severalKeywordsAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "severalKeywords"));
+		requestAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "requestAgent")); 
+		protcolAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "protcolAgent"));
+		
+		
 		
 		tokenAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		sentenceAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
@@ -109,7 +117,8 @@ public class StartServices {
 		singleKeyWordAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		noKeywordAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		severalKeywordsAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		
+		requestAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		protcolAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		
 		StreamingExecution.add(tokenAgent);
 		StreamingExecution.add(sentenceAgent);
@@ -118,6 +127,8 @@ public class StartServices {
 		StreamingExecution.add(singleKeyWordAgent);
 		StreamingExecution.add(noKeywordAgent);
 		StreamingExecution.add(severalKeywordsAgent);
+		StreamingExecution.add(requestAgent);
+		StreamingExecution.add(protcolAgent);
 		
 		Runnable myRunnable = new Runnable() {
 			public void run() {
