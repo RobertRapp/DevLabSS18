@@ -1,23 +1,30 @@
 package hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles;
 
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
+
+import com.speechTokens.tokenizer.Chunker;
 
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
+import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.event.AbstractEvent;
+import eventprocessing.event.Property;
 import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
+import eventprocessing.utils.model.OWLResultUtils;
+import javafx.event.Event;
 
 
 public class TokenDocumentType extends eventprocessing.agent.interestprofile.AbstractInterestProfile {
 
 	/**
-	 * 
+	 * Verarbeitet DocumentEvents, SessionContext, PersonEvent, ProjectEvent, UncertainEvent
 	 */
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = LoggerFactory.getLogger(TokenDocumentType.class);
@@ -36,6 +43,43 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
+		AbstractEvent output = eventFactory.createEvent("AtomicEvent");
+		output.setType("DocRequestEvent");
+		output.add(new Property<String>("teilnehmer1", (String) lastSessionContextEvent.getValueByKey("teilnehmer1")));
+		output.add(new Property<String>("teilnehmer2", (String) lastSessionContextEvent.getValueByKey("teilnehmer2")));
+		
+		if (EventUtils.isType("SessionContext", event)) {		
+			lastSessionContextEvent = event;
+			lastSessionContextEvent.setType("SessionContextEvent");
+			lastSessionContextEvent.setCreationDate(event.getCreationDate());
+		}else {
+			
+			ArrayList<Property<?>> allProperties = new ArrayList<>();
+			Chunker chunker = new Chunker();
+			chunker.parseArrayList((ArrayList<Object>)event.getPropertyByKey("chunks").getValue());
+			for(int i = 0; i < chunker.size(); i++ ) {
+				String semantic = (String) chunker.getSemanticAt(i);
+				allProperties.addAll(OWLResultUtils.convertBindingElementInPropertySet(semantic));			
+			}
+				
+			AbstractEvent randomevent = eventFactory.createEvent("AtomicEvent");
+			allProperties.forEach((prop) -> randomevent.add(prop));
+			String s = (String) randomevent.getValueByKey("Classname");
+			switch (s) {
+			case "Project":
+				output.add(new Property<>("project", randomevent.getValueByKey("Instanzname")));
+				break;
+			case "Person":
+				output.add(new Property<>("person", randomevent.getValueByKey("Instanzname")));
+				break;
+
+			default:
+				
+				output.add(new Property<>("keyword", randomevent.getValueByKey("Keyword").toString().split(";")[0]));
+				break;
+			}			
+			}
+					
 		System.out.println("Received" + event);
 		//Wird ein neues SessionContextEvent empfangen, so wird dies als letzter und damit aktuellster SessionContext abgespeichert
 		if (EventUtils.isType("SessionContext", event)) {

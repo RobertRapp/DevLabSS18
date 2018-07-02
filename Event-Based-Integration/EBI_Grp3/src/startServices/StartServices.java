@@ -27,6 +27,7 @@ import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
 import eventprocessing.utils.model.EventUtils;
+import eventprocessing.utils.model.OWLResultUtils;
 import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
@@ -54,6 +55,16 @@ public class StartServices {
 	 {
 		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
 		
+		System.out.println(OWLResultUtils.convertBindingElementInPropertySet("{\r\n" + 
+				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostStatement\" } ,\r\n" + 
+				"        \"Classname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectControlling\" } ,\r\n" + 
+				"        \"Oberklasse\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Document\" } ,\r\n" + 
+				"        \"Beziehung\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HasAuthor\" } ,\r\n" + 
+				"        \"Instanzname2\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Vanessa_Keller\" } ,\r\n" + 
+				"        \"Attribut\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FileName\" } ,\r\n" + 
+				"        \"Name\": { \"type\": \"literal\" , \"value\": \"cost statement\" } ,\r\n" + 
+				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"cost; costs; expense; expenses; statement\" }\r\n" + 
+				"      }"));
 		//ST
 		AbstractAgent sentenceAgent = new SentenceAgent(); 
 		AbstractAgent tokenAgent = new TokenizeAgent(); 

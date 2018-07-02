@@ -15,8 +15,8 @@ import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestp
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
 
 /*
- * Dieser Agent baut einen SessionContext auf, ein Sessionkontext besteht aus einem Set an Attributen,
- * die über empfangene Events gesetzt werden. 
+ * Dieser Agent baut einen SessionContext auf, ein Sessionkontext besteht aus SessionID, zwei Teilnehmern, Projekt, Thema
+ * die über empfangene Events gesetzt werden. Er implementiert zwei IPs 
  * 
  */
 

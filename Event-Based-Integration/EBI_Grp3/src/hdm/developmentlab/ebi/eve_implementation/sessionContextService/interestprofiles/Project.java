@@ -18,8 +18,8 @@ public class Project extends AbstractInterestProfile {
 	 * @param arg0
 	 */
 	@Override
-	protected void doOnReceive(AbstractEvent arg0) {
-		// TODO Auto-generated method stub
+	protected void doOnReceive(AbstractEvent event) {
+		
 		
 	}
 
