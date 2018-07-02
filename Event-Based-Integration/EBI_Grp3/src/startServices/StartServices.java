@@ -10,8 +10,6 @@ import com.speechTokens.EvE.agents.TokenizeAgent;
 import edu.stanford.nlp.simple.Sentence;
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
-import eventprocessing.agent.DocProposal.DocProposal;
-import eventprocessing.agent.GuiAgent.GuiAgent;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
@@ -65,93 +63,95 @@ public class StartServices {
 		
 		//EBI
 		AbstractAgent sessionContextAgent1 = new SessionContextAgent();
-		AbstractAgent sessionContextAgent2 = new SessionContextAgent();
-		AbstractAgent sessionContextAgent3 = new SessionContextAgent(); 
+		
 		AbstractAgent protocolAgent1 = new ProtocolAgent();
 		AbstractAgent activityAgent1 = new ActivityAgent();
-		AbstractAgent activityAgent2 = new ActivityAgent();	
 		
+		
+		System.out.println(2);
 		
 		//ST
 		
 		AbstractAgent sentenceAgent = new SentenceAgent(); 
 		AbstractAgent tokenAgent = new TokenizeAgent(); 
-		
+		System.out.println(3);
 		//DR
-		AbstractAgent drAgent  = new AbstractAgent() {
-			
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected void doOnInit() {
-				this.setId("DRAgent");
-				AbstractInterestProfile ip = new User();
-				ip.add(new IsEventType("SentenceEvent"));
-				try {
-					this.add(ip);
-				} catch (NoValidInterestProfileException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				try {
-					this.add("ChunkGeneration");
-				} catch (NoValidConsumingTopicException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-		};
-				
+//		AbstractAgent drAgent  = new AbstractAgent() {
+//			
+//			/**
+//			 * 
+//			 */
+//			private static final long serialVersionUID = 1L;
+//
+//			@Override
+//			protected void doOnInit() {
+//				this.setId("DRAgent");
+//				AbstractInterestProfile ip = new User();
+//				ip.add(new IsEventType("SentenceEvent"));
+//				try {
+//					this.add(ip);
+//				} catch (NoValidInterestProfileException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				try {
+//					this.add("ChunkGeneration");
+//				} catch (NoValidConsumingTopicException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				
+//			}
+//		};
+		System.out.println(4);
 		//GUI
-		AbstractAgent documentPro = new  DocProposal();
-		AbstractAgent guiAgent = new GuiAgent();
+		//AbstractAgent documentPro = new  DocProposal();
+		//AbstractAgent guiAgent = new GuiAgent();
 		
 		/*
 		 * ConsumerSettings
 		 */
 		//EBI 
+		System.out.println(5);
 		 sessionContextAgent1.setConsumerSettings(new ConsumerSettings("localhost", "9092", "context"));
-		 sessionContextAgent2.setConsumerSettings(new ConsumerSettings("localhost", "9092", "context"));
-		 sessionContextAgent3.setConsumerSettings(new ConsumerSettings("localhost", "9092", "context"));
-		 protocolAgent1.setConsumerSettings(new ConsumerSettings("localhost", "9092", "protocol"));
+//		 sessionContextAgent2.setConsumerSettings(new ConsumerSettings("localhost", "9092", "context"));
+//		 sessionContextAgent3.setConsumerSettings(new ConsumerSettings("localhost", "9092", "context"));
+//		 protocolAgent1.setConsumerSettings(new ConsumerSettings("localhost", "9092", "protocol"));
 		 activityAgent1.setConsumerSettings(new ConsumerSettings("localhost", "9092", "acti"));
-		 activityAgent2.setConsumerSettings(new ConsumerSettings("localhost", "9092", "acti"));
-		
+//		 activityAgent2.setConsumerSettings(new ConsumerSettings("localhost", "9092", "acti"));
+//		
+		 System.out.println(6);
 		//ST
 		 //tokenAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "token"));
 		 sentenceAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "sentence"));
 		//DR
-		 drAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "dr"));
+		 //drAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "dr"));
 		//GUI
-		 documentPro.setConsumerSettings(new ConsumerSettings("localhost", "9092", "docPro"));
-		 guiAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "gui"));
+		 //documentPro.setConsumerSettings(new ConsumerSettings("localhost", "9092", "docPro"));
+		 //guiAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "gui"));
 		
-		
+		 System.out.println(7);
 		/*
 		 * ProducerSettings
 		 */
 		ProducerSettings pSet = new ProducerSettings("localhost","9092");
-		
+		System.out.println(8);
 		//EBI 
 		 sessionContextAgent1.setProducerSettings(pSet);
-		 sessionContextAgent2.setProducerSettings(pSet);
-		 sessionContextAgent3.setProducerSettings(pSet);
+//		 sessionContextAgent2.setProducerSettings(pSet);
+//		 sessionContextAgent3.setProducerSettings(pSet);
 		 protocolAgent1.setProducerSettings(pSet);
 		 activityAgent1.setProducerSettings(pSet);
-		 activityAgent2.setProducerSettings(pSet);
-		
+//		 activityAgent2.setProducerSettings(pSet);
+		 System.out.println(9);
 		//ST
 		 //tokenAgent.setProducerSettings(pSet);
 		 sentenceAgent.setProducerSettings(pSet);
 		//DR
-		 drAgent.setProducerSettings(pSet);
+		 //drAgent.setProducerSettings(pSet);
 		//GUI
-		 documentPro.setProducerSettings(pSet);
-		 guiAgent.setProducerSettings(pSet);	
+		 //documentPro.setProducerSettings(pSet);
+		 //guiAgent.setProducerSettings(pSet);	
 	
 		 /*
 		  * Hinzufügen StreamingExecution
@@ -160,21 +160,21 @@ public class StartServices {
 		//EBI
 		//StreamingExecution.add(sessionContextAgent1);
 		//StreamingExecution.add(sessionContextAgent2);
-		StreamingExecution.add(sessionContextAgent3);
+		//StreamingExecution.add(sessionContextAgent3);
 		StreamingExecution.add(protocolAgent1);
 		StreamingExecution.add(activityAgent1);
-		StreamingExecution.add(activityAgent2);
-		
+//		StreamingExecution.add(activityAgent2);
+		System.out.println(9);
 		//ST
-		//StreamingExecution.add(tokenAgent);
+		StreamingExecution.add(tokenAgent);
 		StreamingExecution.add(sentenceAgent);
 		//DR
-		StreamingExecution.add(drAgent);
+		//StreamingExecution.add(drAgent);
 		//GUI
 		//StreamingExecution.add(documentPro);
 		//StreamingExecution.add(guiAgent);
 		
-
+		System.out.println(10);
 		
 		Runnable myRunnable = new Runnable() {
 			public void run() {
@@ -185,33 +185,34 @@ public class StartServices {
 				}
 			}
 		};
+		System.out.println(11);
 		// Thread wird erzeugt und gestartet
 		Thread thread = new Thread(myRunnable);
 		thread.start();
 
-		
+		System.out.println(12);
 		StreamingExecution.start();
 	}
 
 	
 	private static void publish(AbstractEvent event, String topic) {
-		
+		LoggerFactory.getLogger("StartServices!");				
 		String message = messageMapper.toJSON(event);	
 		if(message != null && topic != null) {
-			//despatcher.deliver(message, topic);	
+			despatcher.deliver(message, topic);	
 		}
-		
 	}
 
 	
 	private static void publishDemoEvents() throws InterruptedException {		
-			
-			for (int i = 0; i < 9; i++) {
-				
+		System.out.println(13);
+			for (int i = 0; i < 1; i++) {
+				System.out.println(14);
 				// TODO: A response can be added in the future which is caught in the JS Script and shown on the website
 				// TODO: Parameter entsprechend im NodeJS anpassen
 				String JsSentence = ""; 
 				String userID = "";
+				System.out.println(15);
 				switch (i) {
 				case 0:
 					 JsSentence = "Let´s talk about current activities concerning the HighNet project."; 
@@ -252,20 +253,22 @@ public class StartServices {
 					break;
 				}
 				
-									
+				System.out.println(16);				
 				String sessionID = "Session1";
 				// To execute the other class and its dependencies it is important to add these dependencies under "Deployment Assembly"
 				System.out.println(JsSentence);
 				AbstractEvent wat = eventFactory.createEvent("AtomicEvent");
+				System.out.println(17);
 				wat.setType("WatsonEvent");
-				wat.add(new Property<String>("sentence", JsSentence));
+				wat.add(new Property<String>("Sentence", JsSentence));
 				wat.add(new Property<String>("UserID", userID));// Hier die Properties an das neue Event übergebenübergeben
 				wat.add(new Property<Timestamp>("Timestamp", wat.getCreationDate()));
 				wat.add(new Property<String>("SessionID", sessionID));
-				String message = messageMapper.toJSON(wat);
-				despatcher.deliver(message, "ChunkGeneration");
-				
-				
+				//String message = messageMapper.toJSON(wat);
+				System.out.println(18);
+				//publish(wat, "ChunkGeneration");
+				//despatcher.deliver(message, "ChunkGeneration");
+				System.out.println(19);
 				Thread.sleep(1000);
 				
 			}

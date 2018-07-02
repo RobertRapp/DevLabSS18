@@ -1,5 +1,7 @@
 package startServices;
 
+import com.speechTokens.EvE.agents.TokenizeAgent;
+
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
@@ -39,15 +41,15 @@ public class StartServicesApplicationSend {
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
 		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
-		AbstractAgent activityAgent = new ActivityAgent();
+		AbstractAgent tokenAgent = new TokenizeAgent();
 		
-		activityAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "g"));
-		activityAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		tokenAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "g"));
+		tokenAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		
 		
 		//StreamingExecution.add(activityService);
 		//StreamingExecution.add(protocolService);
-		StreamingExecution.add(activityAgent);
+		StreamingExecution.add(tokenAgent);
 
 		
 		Runnable myRunnable = new Runnable() {
@@ -80,7 +82,7 @@ public class StartServicesApplicationSend {
 	
 	private static void publishDemoEvents() throws InterruptedException {		
 			
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 1; i++) {
 				
 				
 				AbstractEvent event = eventFactory.createEvent("AtomicEvent");
