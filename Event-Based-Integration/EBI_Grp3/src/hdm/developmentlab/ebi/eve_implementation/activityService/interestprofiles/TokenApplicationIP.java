@@ -33,7 +33,8 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 	
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
-		System.out.println("RECEIVED");
+		System.out.println("received das Event hier: ");
+		System.out.println(event);
 		// Erzeugt über die Factory ein neues Event
 		AbstractEvent applicationEvent = eventFactory.createEvent("AtomicEvent");
 		

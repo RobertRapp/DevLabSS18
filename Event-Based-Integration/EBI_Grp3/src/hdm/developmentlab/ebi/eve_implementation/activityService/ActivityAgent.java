@@ -4,6 +4,7 @@ import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
+import eventprocessing.agent.interestprofile.predicates.statement.GetEverything;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationIP;
 
@@ -32,7 +33,8 @@ public class ActivityAgent extends AbstractAgent {
 		 */
 		try {
 			AbstractInterestProfile ip = new TokenApplicationIP();
-			ip.add(new IsEventType("TokenEvent"));
+			ip.add(new GetEverything());
+			//ip.add(new IsEventType("DocumentEvent"));
 			this.add(ip);
 		
 		} catch (NoValidInterestProfileException e1) {
