@@ -38,8 +38,9 @@ public final class OWLResultUtils {
 				 for (Iterator<String> iterator = object.keys(); iterator.hasNext();) {
 					String key = (String) iterator.next();					
 					JSONObject singleobjekt = object.getJSONObject(key);
+					if(!singleobjekt.has("value")) continue;
 					String value = String.valueOf(singleobjekt.get("value")); //{ "type": "uri" , "value": "http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostPlan"
-					if(singleobjekt.get("type").toString().equalsIgnoreCase("uri")) {
+					if(singleobjekt.has("type") && singleobjekt.get("type").toString().equalsIgnoreCase("uri")) {
 						value = value.split("#")[1];
 					}
 					properties.add(new Property<String>(key, value));					
@@ -49,6 +50,7 @@ public final class OWLResultUtils {
 	}
 	
 public static AbstractEvent getDocProposalEventOfBindingElement(ArrayList<String> bindingList) {
+	
 		AbstractEvent docProposalEvent = eventFactory.createEvent("AtomicEvent");
 		for(String binding : bindingList) {
 			

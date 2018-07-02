@@ -71,17 +71,17 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 						
 					}
 					
-					if(EventUtils.hasProperty(requestEvent, "timereference")) {
-						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "timereference"));
-
-						
-					} else 
-						if(EventUtils.findPropertyByKey(requestEvent, "timereference").getValue() == null) {
-							requestEvent.remove(EventUtils.findPropertyByKey(requestEvent, "timereference"));
-							requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "timereference"));
-							System.out.println("ACHSO2");
-					}
-					
+//					if(EventUtils.hasProperty(requestEvent, "timereference")) {
+//						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "timereference"));
+//
+//						
+//					} else 
+//						if(EventUtils.findPropertyByKey(requestEvent, "timereference").getValue() == null) {
+//							requestEvent.remove(EventUtils.findPropertyByKey(requestEvent, "timereference"));
+//							requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "timereference"));
+//							System.out.println("ACHSO2");
+//					}
+//					
 					if(EventUtils.hasProperty(requestEvent, "latestActivity")) {
 						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "latestActivity"));
 					} else 
@@ -112,7 +112,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 				
 				// Sendet das Event an DR (welches Topic ???) 
 				try {
-					getAgent().send(requestEvent, "DRTopic");
+					getAgent().send(requestEvent, "DocRequest");
 				} catch (NoValidEventException e1) {
 					LoggerFactory.getLogger("RequestSend");
 				} catch (NoValidTargetTopicException e1) {
@@ -120,6 +120,9 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 				}
 				
 		}
+		
+		
+		docRequestEvent = eventFactory.cre
 		
 		
 	}
