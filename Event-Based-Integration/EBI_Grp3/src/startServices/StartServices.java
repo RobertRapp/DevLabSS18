@@ -52,12 +52,12 @@ public class StartServices {
 		 */
 		
 		//EBI
-		AbstractAgent sessionContextAgent1 = new SessionContextAgent();
-		AbstractAgent sessionContextAgent2 = new SessionContextAgent();
-		AbstractAgent sessionContextAgent3 = new SessionContextAgent(); 
+		//AbstractAgent sessionContextAgent1 = new SessionContextAgent();
+		//AbstractAgent sessionContextAgent2 = new SessionContextAgent();
+		//AbstractAgent sessionContextAgent3 = new SessionContextAgent(); 
 		AbstractAgent protocolAgent1 = new ProtocolAgent();
-		AbstractAgent activityAgent1 = new ActivityAgent();
-		AbstractAgent activityAgent2 = new ActivityAgent();	
+		//AbstractAgent activityAgent1 = new ActivityAgent();
+		//AbstractAgent activityAgent2 = new ActivityAgent();	
 		
 		
 		//ST
@@ -71,7 +71,7 @@ public class StartServices {
 			/**
 			 * 
 			 */
-			private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 123414151242L;
 
 			@Override
 			protected void doOnInit() {
@@ -105,12 +105,12 @@ public class StartServices {
 		 * ConsumerSettings
 		 */
 		//EBI 
-		 sessionContextAgent1.setConsumerSettings(new ConsumerSettings("localhost", "9092", "context"));
-		 sessionContextAgent2.setConsumerSettings(new ConsumerSettings("localhost", "9092", "context"));
-		 sessionContextAgent3.setConsumerSettings(new ConsumerSettings("localhost", "9092", "context"));
+//		 sessionContextAgent1.setConsumerSettings(new ConsumerSettings("localhost", "9092", "context"));
+//		 sessionContextAgent2.setConsumerSettings(new ConsumerSettings("localhost", "9092", "context"));
+//		 sessionContextAgent3.setConsumerSettings(new ConsumerSettings("localhost", "9092", "context"));
 		 protocolAgent1.setConsumerSettings(new ConsumerSettings("localhost", "9092", "protocol"));
-		 activityAgent1.setConsumerSettings(new ConsumerSettings("localhost", "9092", "acti"));
-		 activityAgent2.setConsumerSettings(new ConsumerSettings("localhost", "9092", "acti"));
+//		 activityAgent1.setConsumerSettings(new ConsumerSettings("localhost", "9092", "acti"));
+//		 activityAgent2.setConsumerSettings(new ConsumerSettings("localhost", "9092", "acti"));
 		
 		//ST
 		 //tokenAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "token"));
@@ -123,23 +123,23 @@ public class StartServices {
 		
 		
 		/*
-		 * ProducerSettings
+		 * ProducerSettings müssen für jeden Agenten einzelnd gesetzt sein sonst geht es nicht. 
 		 */
-		ProducerSettings pSet = new ProducerSettings("localhost","9092");
+		
 		
 		//EBI 
-		 sessionContextAgent1.setProducerSettings(pSet);
-		 sessionContextAgent2.setProducerSettings(pSet);
-		 sessionContextAgent3.setProducerSettings(pSet);
-		 protocolAgent1.setProducerSettings(pSet);
-		 activityAgent1.setProducerSettings(pSet);
-		 activityAgent2.setProducerSettings(pSet);
+//		 sessionContextAgent1.setProducerSettings(new ProducerSettings("localhost","9092"));
+//		 sessionContextAgent2.setProducerSettings(new ProducerSettings("localhost","9092"));
+//		 sessionContextAgent3.setProducerSettings(new ProducerSettings("localhost","9092"));
+		 protocolAgent1.setProducerSettings(new ProducerSettings("localhost","9092"));
+//		 activityAgent1.setProducerSettings(new ProducerSettings("localhost","9092"));
+//		 activityAgent2.setProducerSettings(new ProducerSettings("localhost","9092"));
 		
 		//ST
 		 //tokenAgent.setProducerSettings(pSet);
 		 //sentenceAgent.setProducerSettings(pSet);
 		//DR
-		 drAgent.setProducerSettings(pSet);
+		 drAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		//GUI
 //		 documentPro.setProducerSettings(pSet);
 //		 guiAgent.setProducerSettings(pSet);	
@@ -151,10 +151,10 @@ public class StartServices {
 		//EBI
 		//StreamingExecution.add(sessionContextAgent1);
 		//StreamingExecution.add(sessionContextAgent2);
-		StreamingExecution.add(sessionContextAgent3);
+//				StreamingExecution.add(sessionContextAgent3);
 		StreamingExecution.add(protocolAgent1);
-		StreamingExecution.add(activityAgent1);
-		StreamingExecution.add(activityAgent2);
+//		StreamingExecution.add(activityAgent1);
+//		StreamingExecution.add(activityAgent2);
 		
 		//ST
 		//StreamingExecution.add(tokenAgent);
@@ -190,7 +190,7 @@ public class StartServices {
 		
 		String message = messageMapper.toJSON(event);	
 		if(message != null && topic != null) {
-			//despatcher.deliver(message, topic);	
+			despatcher.deliver(message, topic);	
 		}
 		
 	}
@@ -247,7 +247,7 @@ public class StartServices {
 									
 				String sessionID = "Session1";
 				// To execute the other class and its dependencies it is important to add these dependencies under "Deployment Assembly"
-				System.out.println(JsSentence);
+				
 				AbstractEvent wat = eventFactory.createEvent("AtomicEvent");
 				wat.setType("WatsonEvent");
 				wat.add(new Property<String>("sentence", JsSentence));

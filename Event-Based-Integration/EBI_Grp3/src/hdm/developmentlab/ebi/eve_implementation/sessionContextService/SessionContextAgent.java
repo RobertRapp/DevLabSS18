@@ -31,7 +31,7 @@ public class SessionContextAgent extends AbstractAgent {
 	 *  gespeichert werden,
 	 */
 	
-	ArrayList<AbstractEvent> sessions = new ArrayList<AbstractEvent>();
+	static ArrayList<AbstractEvent> sessions = new ArrayList<AbstractEvent>();
 
 	
 	public ArrayList<AbstractEvent> getSessions() {
@@ -49,7 +49,8 @@ public class SessionContextAgent extends AbstractAgent {
 	protected void doOnInit() {
 			
 		//Ohne ID geht der Agent nicht, bitte setzen
-		this.setId("SessionContextAgent"+Math.random());
+		this.setId("SessionContextAgent");
+		
 		
 		
 		/*
