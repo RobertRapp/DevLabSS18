@@ -79,8 +79,8 @@ public class SessionState extends AbstractInterestProfile {
 		createdSessionContext.add(newSession.getPropertyByKey("sessionID"));
 		createdSessionContext.add(new Property<>("project"));
 		createdSessionContext.add(new Property<>("topic"));
-		createdSessionContext.add(new Property<>("timereference"));
-		createdSessionContext.add(new Property<Boolean>("docOpen", false));
+		createdSessionContext.add(new Property<>("teilnehmer1"));
+		createdSessionContext.add(new Property<Boolean>("teilnehmer2", false));
 		newSession.add(new Property<AbstractEvent>("sessionContext", createdSessionContext));
 		
 		

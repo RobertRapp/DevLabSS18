@@ -8,7 +8,6 @@ import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.agent.interestprofile.predicates.NullPredicateException;
 import eventprocessing.agent.interestprofile.predicates.logical.Or;
-import eventprocessing.agent.interestprofile.predicates.statement.GetEverything;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.event.AbstractEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionContextIP;
@@ -32,7 +31,7 @@ public class SessionContextAgent extends AbstractAgent {
 	 *  gespeichert werden,
 	 */
 	
-	ArrayList<AbstractEvent> sessions = new ArrayList<AbstractEvent>();
+	static ArrayList<AbstractEvent> sessions = new ArrayList<AbstractEvent>();
 
 	
 	public ArrayList<AbstractEvent> getSessions() {
@@ -51,6 +50,7 @@ public class SessionContextAgent extends AbstractAgent {
 			
 		//Ohne ID geht der Agent nicht, bitte setzen
 		this.setId("SessionContextAgent");
+		
 		
 		
 		/*

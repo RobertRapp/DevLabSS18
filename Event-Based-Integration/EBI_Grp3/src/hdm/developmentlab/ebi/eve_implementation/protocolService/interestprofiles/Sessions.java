@@ -2,9 +2,7 @@ package hdm.developmentlab.ebi.eve_implementation.protocolService.interestprofil
 
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
-
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
