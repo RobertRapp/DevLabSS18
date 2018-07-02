@@ -41,32 +41,115 @@ public class User extends AbstractInterestProfile {
 		 */
 		
 		//FeedbackEvent
-		String jsonString = "{\r\n" + 
-				"  \"head\": {\r\n" + 
-				"    \"vars\": [ \"Instanz\" , \"Keyword\" ]\r\n" + 
-				"  } ,\r\n" + 
-				"  \"results\": {\r\n" + 
-				"    \"bindings\": [\r\n" + 
-				"      {\r\n" + 
-				"        \"Instanz\": { \"type\": \"Document\", } ,\r\n" + 
-				"        \"Keyword\": { \"type\": \"Test\"}\r\n" + 
-				"      } ,\r\n" + 
-				"      {\r\n" + 
-				"        \"Instanz\": { \"type\": \"Document\"} ,\r\n" + 
-				"        \"Keyword\": { \"type\": \"afds\"}\r\n" + 
-				"      } ,\r\n" + 
-				"      {\r\n" + 
-				"        \"Instanz\": { \"type\": \"Wie\" } ,\r\n" + 
-				"        \"Keyword\": { \"type\": \"Test\" }\r\n" + 
-				"      } ,\r\n" + 
-				"      {\r\n" + 
-				"        \"Instanz\": { \"type\": \"es\"} ,\r\n" + 
-				"        \"Keyword\": { \"type\": \"Test\" }\r\n" + 
-				"      }\r\n" + 
-				"    ]\r\n" + 
-				"  }\r\n" + 
-				"}\r\n" + 
-				"";
+		String jsonString = "{\n" + 
+				"  \"head\": {\n" + 
+				"    \"vars\": [ \"Instanzname\" , \"Classname\" , \"Oberklasse\" , \"Beziehung\" , \"Instanzname2\" , \"Attribut\" , \"Name\" , \"Keyword\" ]\n" + 
+				"  } ,\n" + 
+				"  \"results\": {\n" + 
+				"    \"bindings\": [\n" + 
+				"      {\n" + 
+				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostPlan\" } ,\n" + 
+				"        \"Classname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectControlling\" } ,\n" + 
+				"        \"Oberklasse\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Document\" } ,\n" + 
+				"        \"Beziehung\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IsCreatedFor\" } ,\n" + 
+				"        \"Instanzname2\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HighNet\" } ,\n" + 
+				"        \"Attribut\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FileName\" } ,\n" + 
+				"        \"Name\": { \"type\": \"literal\" , \"value\": \"costplan\" } ,\n" + 
+				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"cost; expenses; expense; costs;\" }\n" + 
+				"      } ,\n" + 
+				"      {\n" + 
+				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostPlan\" } ,\n" + 
+				"        \"Classname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectControlling\" } ,\n" + 
+				"        \"Oberklasse\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Document\" } ,\n" + 
+				"        \"Beziehung\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HasAuthor\" } ,\n" + 
+				"        \"Instanzname2\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Jennifer_Tran\" } ,\n" + 
+				"        \"Attribut\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FileName\" } ,\n" + 
+				"        \"Name\": { \"type\": \"literal\" , \"value\": \"costplan\" } ,\n" + 
+				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"cost; expenses; expense; costs;\" }\n" + 
+				"      } ,\n" + 
+				"      {\n" + 
+				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostPlan\" } ,\n" + 
+				"        \"Classname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectControlling\" } ,\n" + 
+				"        \"Oberklasse\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Document\" } ,\n" + 
+				"        \"Beziehung\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IsChangedBy\" } ,\n" + 
+				"        \"Instanzname2\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Jennifer_Tran\" } ,\n" + 
+				"        \"Attribut\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FileName\" } ,\n" + 
+				"        \"Name\": { \"type\": \"literal\" , \"value\": \"costplan\" } ,\n" + 
+				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"cost; expenses; expense; costs;\" }\n" + 
+				"      } ,\n" + 
+				"      {\n" + 
+				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostStatement\" } ,\n" + 
+				"        \"Classname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectControlling\" } ,\n" + 
+				"        \"Oberklasse\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Document\" } ,\n" + 
+				"        \"Beziehung\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IsCreatedFor\" } ,\n" + 
+				"        \"Instanzname2\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation\" } ,\n" + 
+				"        \"Attribut\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FileName\" } ,\n" + 
+				"        \"Name\": { \"type\": \"literal\" , \"value\": \"cost statement\" } ,\n" + 
+				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"cost; costs; expense; expenses; statement\" }\n" + 
+				"      } ,\n" + 
+				"      {\n" + 
+				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostStatement\" } ,\n" + 
+				"        \"Classname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectControlling\" } ,\n" + 
+				"        \"Oberklasse\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Document\" } ,\n" + 
+				"        \"Beziehung\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HasAuthor\" } ,\n" + 
+				"        \"Instanzname2\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Vanessa_Keller\" } ,\n" + 
+				"        \"Attribut\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FileName\" } ,\n" + 
+				"        \"Name\": { \"type\": \"literal\" , \"value\": \"cost statement\" } ,\n" + 
+				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"cost; costs; expense; expenses; statement\" }\n" + 
+				"      } ,\n" + 
+				"      {\n" + 
+				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostStatement\" } ,\n" + 
+				"        \"Classname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectControlling\" } ,\n" + 
+				"        \"Oberklasse\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Document\" } ,\n" + 
+				"        \"Beziehung\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IsChangedBy\" } ,\n" + 
+				"        \"Instanzname2\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Vanessa_Keller\" } ,\n" + 
+				"        \"Attribut\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FileName\" } ,\n" + 
+				"        \"Name\": { \"type\": \"literal\" , \"value\": \"cost statement\" } ,\n" + 
+				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"cost; costs; expense; expenses; statement\" }\n" + 
+				"      } ,\n" + 
+				"      {\n" + 
+				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#BudgetPlan\" } ,\n" + 
+				"        \"Classname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectControlling\" } ,\n" + 
+				"        \"Oberklasse\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Document\" } ,\n" + 
+				"        \"Beziehung\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HasAuthor\" } ,\n" + 
+				"        \"Instanzname2\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Jennifer_Tran\" } ,\n" + 
+				"        \"Attribut\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FileName\" } ,\n" + 
+				"        \"Name\": { \"type\": \"literal\" , \"value\": \"budget plan\" } ,\n" + 
+				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"budget; cost; plan;\" }\n" + 
+				"      } ,\n" + 
+				"      {\n" + 
+				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#BudgetPlan\" } ,\n" + 
+				"        \"Classname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectControlling\" } ,\n" + 
+				"        \"Oberklasse\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Document\" } ,\n" + 
+				"        \"Beziehung\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IsChangedBy\" } ,\n" + 
+				"        \"Instanzname2\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Jennifer_Tran\" } ,\n" + 
+				"        \"Attribut\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FileName\" } ,\n" + 
+				"        \"Name\": { \"type\": \"literal\" , \"value\": \"budget plan\" } ,\n" + 
+				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"budget; cost; plan;\" }\n" + 
+				"      } ,\n" + 
+				"      {\n" + 
+				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Receipt\" } ,\n" + 
+				"        \"Classname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectControlling\" } ,\n" + 
+				"        \"Oberklasse\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Document\" } ,\n" + 
+				"        \"Beziehung\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HasAuthor\" } ,\n" + 
+				"        \"Instanzname2\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Jennifer_Tran\" } ,\n" + 
+				"        \"Attribut\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FileName\" } ,\n" + 
+				"        \"Name\": { \"type\": \"literal\" , \"value\": \"receipt\" } ,\n" + 
+				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"bill; receipt; cost; expense;\" }\n" + 
+				"      } ,\n" + 
+				"      {\n" + 
+				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Receipt\" } ,\n" + 
+				"        \"Classname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectControlling\" } ,\n" + 
+				"        \"Oberklasse\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Document\" } ,\n" + 
+				"        \"Beziehung\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IsChangedBy\" } ,\n" + 
+				"        \"Instanzname2\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Jennifer_Tran\" } ,\n" + 
+				"        \"Attribut\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FileName\" } ,\n" + 
+				"        \"Name\": { \"type\": \"literal\" , \"value\": \"receipt\" } ,\n" + 
+				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"bill; receipt; cost; expense;\" }\n" + 
+				"      }\n" + 
+				"    ]\n" + 
+				"  }\n" + 
+				"}";
 		System.out.println(20);
 		String jsonString1 = "{\r\n" + 
 				"  \"head\": {\r\n" + 
@@ -98,7 +181,7 @@ public class User extends AbstractInterestProfile {
 		Chunker chunker = new Chunker();
 		chunker.addChunkContent("welt"); // muss klein geschrieben sein!
 		chunker.addChunkContent("test");
-		chunker.addChunkContent("project");
+		chunker.addChunkContent("");
 		chunker.addSemanticToChunk("welt", jsonString);
 		chunker.addSemanticToChunk("test", jsonString1);
 		System.out.println(22);
