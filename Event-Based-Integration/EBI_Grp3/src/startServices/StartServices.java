@@ -1,6 +1,8 @@
 package startServices;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
@@ -17,9 +19,8 @@ import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.mapping.MessageMapper;
-import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
+import eventprocessing.utils.model.OWLResultUtils;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
 /**
@@ -45,6 +46,29 @@ public class StartServices {
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
 		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
+		ArrayList<String> jsonresult = new ArrayList<String>();
+		jsonresult.add("{\r\n" + 
+				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostPlan\" } ,\r\n" + 
+				"        \"Classname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectControlling\" } ,\r\n" + 
+				"        \"Oberklasse\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Document\" } ,\r\n" + 
+				"        \"Beziehung\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IsCreatedFor\" } ,\r\n" + 
+				"        \"Instanzname2\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HighNet\" } ,\r\n" + 
+				"        \"Attribut\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FileName\" } ,\r\n" + 
+				"        \"Name\": { \"type\": \"literal\" , \"value\": \"costplan\" } ,\r\n" + 
+				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"cost; expenses; expense; costs;\" }\r\n" + 
+				"      }");
+		jsonresult.add("{\r\n" + 
+				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DrutTes\" } ,\r\n" + 
+				"        \"Classname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectControlling\" } ,\r\n" + 
+				"        \"Oberklasse\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Document\" } ,\r\n" + 
+				"        \"Beziehung\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IsCreatedFor\" } ,\r\n" + 
+				"        \"Instanzname2\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Daimer\" } ,\r\n" + 
+				"        \"Attribut\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FileName\" } ,\r\n" + 
+				"        \"Name\": { \"type\": \"literal\" , \"value\": \"financeplan\" } ,\r\n" + 
+				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"cost; expenses; expense; costs;\" }\r\n" + 
+				"      }");
+		
+		System.out.println(OWLResultUtils.getDocProposalEventOfBindingElement(jsonresult));
 		
 		/*
 		 * 
@@ -180,7 +204,7 @@ public class StartServices {
 		// Thread wird erzeugt und gestartet
 		Thread thread = new Thread(myRunnable);
 		thread.start();
-
+		
 		
 		StreamingExecution.start();
 	}

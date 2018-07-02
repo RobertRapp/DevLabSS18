@@ -86,5 +86,7 @@ public final class MessageMapper implements Serializable {
 		// Bei Fehler wird null zurückgegeben
 		return null;
 	}
+	
+	
 
 }
