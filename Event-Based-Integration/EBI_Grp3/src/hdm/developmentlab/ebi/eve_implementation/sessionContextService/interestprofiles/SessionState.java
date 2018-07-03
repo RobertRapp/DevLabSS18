@@ -39,9 +39,7 @@ public class SessionState extends AbstractInterestProfile {
 	 */
 	@Override
 	protected void doOnReceive(AbstractEvent abs) {
-		
-		
-		
+			
 		/**
 		 * 
 		 * In dieser Methode wird die Verarbeitung eines Events gemacht. D. h. wie der Agent auf ein bestimmtes
@@ -113,8 +111,15 @@ public class SessionState extends AbstractInterestProfile {
 		 
 		 */
 		try {
+			AbstractEvent ersteAnfrage = eventFactory.createEvent("AtomicEvent");
+			ersteAnfrage.setType("DocRequestEvent");
+			ersteAnfrage.add(new Property<>("teilnehmer1", abs.getValueByKey("userID")));
+			ersteAnfrage.add(new Property<>("teilnehmer2", abs.getValueBySecoundMatch("userID")));
+			ersteAnfrage.add(new Property<String>("keyword", "protocol"));
 			//Publizieren von Events über die send-Methode des Agenten.
-			sA.send(createdSessionContext, "SessionContext");			
+			sA.send(createdSessionContext, "SessionContext");	
+						
+			sA.send(ersteAnfrage, "DocRequest");
 			sA.addSession(abs);	
 			
 		} catch (NoValidEventException e) {	

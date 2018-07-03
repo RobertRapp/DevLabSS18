@@ -9,7 +9,9 @@ import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.agent.interestprofile.predicates.NullPredicateException;
 import eventprocessing.agent.interestprofile.predicates.logical.Or;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
+import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.event.AbstractEvent;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
@@ -22,15 +24,15 @@ public class ProtocolAgent extends AbstractAgent {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-
-	private static ArrayList<AbstractEvent> topicList = new ArrayList<>();
-	private static ArrayList<AbstractEvent> userList = new ArrayList<>();
-	private static ArrayList<AbstractEvent> projectList = new ArrayList<>();
-	private static ArrayList<AbstractEvent> proposedDocList = new ArrayList<>();
-	private static ArrayList<AbstractEvent> clickedDocList = new ArrayList<>();
-	private static AbstractEvent sessionStart;
-	private static AbstractEvent sessionEnd;
+	private static final long serialVersionUID=1L;
+	private static String sessionId; 
+	private static ArrayList<String> topicList=new ArrayList<>();
+	private static ArrayList<String> userList=new ArrayList<>();
+	private static ArrayList<String> projectList=new ArrayList<>();
+	private static ArrayList<AbstractEvent> proposedDocList=new ArrayList<>();
+	private static ArrayList<AbstractEvent> clickedDocList=new ArrayList<>();
+	private static String sessionStart;
+	private static String sessionEnd;
 
 	@Override
 	protected void doOnInit() {
@@ -42,11 +44,9 @@ public class ProtocolAgent extends AbstractAgent {
 		 * angegeben werden.
 		 */
 		try {
-			this.add("SessionInfo");
-			this.add("TokenGeneration");
-			this.add("UserInfo");
-			this.add("proposedDoc");
-			this.add("clickedDoc");
+			this.add("SessionState");
+			this.add("SessionContext");
+			this.add("UserInteraction");
 			
 			// + alle Topics also Doc Requests auch
 		} catch (NoValidConsumingTopicException e) {
@@ -61,7 +61,7 @@ public class ProtocolAgent extends AbstractAgent {
 		try {
 			AbstractInterestProfile ip = new Sessions();
 			try {
-				ip.add(new Or(new IsEventType("TokenEvent"), new IsEventType("user"), new IsEventType("proposedDoc"), new IsEventType("clickedDoc"), new IsEventType("sessionStart"), new IsEventType("sessionEnd")));
+				ip.add(new Or(new IsEventType("SessionContext"), new IsEventType("SessionStartEvent"), new IsEventType("SessionEndEvent"), new IsFromTopic("UserInteraction")));
 			} catch (NullPredicateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -73,60 +73,86 @@ public class ProtocolAgent extends AbstractAgent {
 			}
 		}
 	
-	public ArrayList<AbstractEvent> getTopicList() {
-		return topicList;
-	}
-
-	public void addTopicList(AbstractEvent topicList) {
-		ProtocolAgent.topicList.add(topicList);
-	}
-
-	public ArrayList<AbstractEvent> getUserList() {
-		return userList;
-	}
-
-	public void addUserList(AbstractEvent userList) {
-		ProtocolAgent.userList.add(userList);
-	}
-
-	public ArrayList<AbstractEvent> getProjectList() {
-		return projectList;
-	}
-
-	public void addProjectList(AbstractEvent projectList) {
-		ProtocolAgent.projectList.add(projectList);
-	}
-
-	public ArrayList<AbstractEvent> getProposedDocList() {
-		return proposedDocList;
-	}
-
-	public void addProposedDocList(AbstractEvent proposedDocList) {
-		ProtocolAgent.proposedDocList.add(proposedDocList);
-	}
-
-	public ArrayList<AbstractEvent> getClickedDocList() {
-		return clickedDocList;
-	}
-
-	public void addClickedDocList(AbstractEvent clickedDocList) {
-		ProtocolAgent.clickedDocList.add(clickedDocList);
-	}
-
-	public AbstractEvent getSessionStart() {
+	
+	public String getSessionStart() {
 		return sessionStart;
 	}
 
-	public void setSessionStart(AbstractEvent sessionStart) {
-		ProtocolAgent.sessionStart = sessionStart;
+	public void setSessionStart(String sessionStart) {
+		ProtocolAgent.sessionStart= sessionStart;
 	}
 
-	public AbstractEvent getSessionEnd() {
+	public String getSessionEnd() {
 		return sessionEnd;
 	}
 
-	public void setSessionEnd(AbstractEvent sessionEnd) {
-		ProtocolAgent.sessionEnd = sessionEnd;
+	public void setSessionEnd(String sessionEnd) {
+		ProtocolAgent.sessionEnd= sessionEnd;
+	}
+
+
+	public  ArrayList<String> getTopicList() {
+		return topicList;
+	}
+
+
+	public  void addTopicList(String topicList) {
+		ProtocolAgent.topicList.add(topicList);
+	}
+
+
+	public  ArrayList<String> getUserList() {
+		return userList;
+	}
+
+
+	public void addUserList(String userList) {
+		ProtocolAgent.userList.add(userList);
+	}
+
+
+	public  ArrayList<String> getProjectList() {
+		return projectList;
+	}
+
+
+	public  void addProjectList(String projectList) {
+		ProtocolAgent.projectList.add(projectList);
+	}
+
+
+	public  ArrayList<AbstractEvent> getProposedDocList() {
+		return proposedDocList;
+	}
+
+
+	public  void addProposedDocList(AbstractEvent proposedDocList) {
+		ProtocolAgent.proposedDocList.add(proposedDocList);
+	}
+
+
+	public  ArrayList<AbstractEvent> getClickedDocList() {
+		return clickedDocList;
+	}
+
+
+	public  void addClickedDocList(AbstractEvent clickedDocList) {
+		ProtocolAgent.clickedDocList.add(clickedDocList);
+	}
+
+
+	public  long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+
+	public String getSessionId() {
+		return sessionId;
+	}
+
+
+	public  void setSessionId(String sessionId) {
+		ProtocolAgent.sessionId = sessionId;
 	}
 	
 	}
