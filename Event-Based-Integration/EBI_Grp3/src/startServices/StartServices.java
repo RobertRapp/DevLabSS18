@@ -35,6 +35,7 @@ import eventprocessing.utils.model.OWLResultUtils;
 import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
 import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
+import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 import semanticService.SemanticAgent;
 
@@ -82,6 +83,7 @@ public class StartServices {
 		AbstractAgent noKeywordAgent = new NoKeywordAgent();
 		AbstractAgent severalKeywordsAgent = new SeveralKeywordsAgent();
 		AbstractAgent semanticChunksIP = new SemanticAgent();
+		AbstractAgent sessionstateAgent = new SessionContextAgent();
 		
 		//DR AGENT -------------------------------------------
 		/*
@@ -117,7 +119,7 @@ public class StartServices {
 		requestAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "requestAgent")); 
 		protcolAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "protcolAgent"));
 		semanticChunksIP.setConsumerSettings(new ConsumerSettings("localhost", "9092", "semanticChunksIP"));
-		
+		sessionstateAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "sessionstateAgent"));
 		
 		tokenAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		sentenceAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
@@ -129,6 +131,7 @@ public class StartServices {
 		requestAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		protcolAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		semanticChunksIP.setProducerSettings(new ProducerSettings("localhost","9092"));
+		sessionstateAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		
 		StreamingExecution.add(tokenAgent);
 		StreamingExecution.add(sentenceAgent);
@@ -140,6 +143,8 @@ public class StartServices {
 		StreamingExecution.add(requestAgent);
 		StreamingExecution.add(protcolAgent);
 		StreamingExecution.add(semanticChunksIP);
+		StreamingExecution.add(sessionstateAgent);
+		
 		System.out.println("in StartService");
 		Runnable myRunnable = new Runnable() {
 			public void run() {

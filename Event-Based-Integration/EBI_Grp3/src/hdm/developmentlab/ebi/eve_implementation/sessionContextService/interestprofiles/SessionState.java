@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.speechTokens.EvE.interestProfiles.SingleKeywordIP;
+
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
@@ -27,7 +29,8 @@ public class SessionState extends AbstractInterestProfile {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
-	Logger l = LoggerFactory.getLogger("SessionState");
+	private static Logger LOGGER = LoggerFactory.getLogger(SessionState.class);
+
 
 	/**
 	 * Empfängt das Event, dass ein Gespräch gestartet ist und erzuegt dafür ein neues SessionEvent, das während
@@ -37,7 +40,7 @@ public class SessionState extends AbstractInterestProfile {
 	 */
 	@Override
 	protected void doOnReceive(AbstractEvent abs) {
-		
+		System.out.println("In IP SessionState");
 		/**
 		 * 
 		 * In dieser Methode wird die Verarbeitung eines Events gemacht. D. h. wie der Agent auf ein bestimmtes
@@ -87,7 +90,7 @@ public class SessionState extends AbstractInterestProfile {
 		/*
 		 * Der Logger kann verwendet werden um in der Console Nachrichten auszuprinten. 
 		 */
-		l.log(Level.WARNING, "Event "+abs);
+		LOGGER.log(Level.WARNING, "Event "+abs);
 				
 		/*
 		 * Im Send-try-catch-Block werden alle Events versendet die dieses Interessensprofil versenden möchte.
@@ -100,7 +103,7 @@ public class SessionState extends AbstractInterestProfile {
 			sA.addSession(abs);	
 			
 		} catch (NoValidEventException e) {	
-			l.log(Level.WARNING,  "Event konnte nicht publiziert werden"+e);
+			LOGGER.log(Level.WARNING,  "Event konnte nicht publiziert werden"+e);
 			e.printStackTrace();
 		} catch (NoValidTargetTopicException e) {			
 			e.printStackTrace();
