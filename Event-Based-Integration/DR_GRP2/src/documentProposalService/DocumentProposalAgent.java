@@ -1,32 +1,25 @@
-package hdm.developmentlab.ebi.eve_implementation.activityService;
+package documentProposalService;
 
+import documentProposalService.interestprofiles.DocumentProposalIP;
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.NullPredicateException;
-import eventprocessing.agent.interestprofile.predicates.logical.Or;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
-import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
-import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenDocumentType;
 
-
-public class RequestAgent extends AbstractAgent {
-
+public class DocumentProposalAgent extends AbstractAgent{
 	
 	private static final long serialVersionUID = 1L;
 
 	protected void doOnInit() {
 		
-		this.setId("RequestAgent");
-
+		this.setId("DocumentProposalAgent");
 		/*
 		 * Angabe der Topics, die konsumiert werden sollen. Es können mehrere Topics
 		 * angegeben werden.
 		 */
 		try {
-			this.add("TokenGeneration");
-			this.add("SessionContext");
+			this.add("DocRequest");
 		} catch (NoValidConsumingTopicException e) {
 			e.printStackTrace();
 		}
@@ -36,13 +29,8 @@ public class RequestAgent extends AbstractAgent {
 		 * InteressenProfile besitzen
 		 */
 		try {
-			AbstractInterestProfile ip = new TokenDocumentType();
-			try {
-				ip.add(new Or(new IsEventType("SessionContextEvent"), new IsFromTopic("TokenGeneration")));
-			} catch (NullPredicateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			AbstractInterestProfile ip = new DocumentProposalIP();
+			ip.add(new IsEventType("RequestEvent"));
 			this.add(ip);
 		
 		} catch (NoValidInterestProfileException e1) {
@@ -50,8 +38,5 @@ public class RequestAgent extends AbstractAgent {
 		}
 		
 	}
-	}
-	
 
-	
-
+}

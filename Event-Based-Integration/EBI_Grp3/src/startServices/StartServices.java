@@ -132,16 +132,16 @@ public class StartServices {
 		semanticChunksIP.setProducerSettings(new ProducerSettings("localhost","9092"));
 		sessionstateAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		
-		StreamingExecution.add(tokenAgent);
-		StreamingExecution.add(sentenceAgent);
+		//StreamingExecution.add(tokenAgent);
+		//StreamingExecution.add(sentenceAgent);
 		//StreamingExecution.add(drAgent);
-		StreamingExecution.add(applicationAgent);
-		StreamingExecution.add(singleKeyWordAgent);
-		StreamingExecution.add(noKeywordAgent);
-		StreamingExecution.add(severalKeywordsAgent);
-		StreamingExecution.add(requestAgent);
-		StreamingExecution.add(protcolAgent);
-		StreamingExecution.add(semanticChunksIP);
+		//StreamingExecution.add(applicationAgent);
+		//StreamingExecution.add(singleKeyWordAgent);
+		//StreamingExecution.add(noKeywordAgent);
+		//StreamingExecution.add(severalKeywordsAgent);
+		//StreamingExecution.add(requestAgent);
+		//StreamingExecution.add(protcolAgent);
+		//StreamingExecution.add(semanticChunksIP);
 		StreamingExecution.add(sessionstateAgent);
 		
 		System.out.println("in StartService");
@@ -238,6 +238,10 @@ public class StartServices {
 					//String message = messageMapper.toJSON(wat);
 					System.out.println(18);
 					publish(wat, "ChunkGeneration");
+					AbstractEvent sessionStart = eventFactory.createEvent("AtomicEvent");
+					sessionStart.setType("SessionStartEvent");
+					sessionStart.add(new Property<String>("12423432434", "sessionID"));
+					publish(sessionStart, "SessionState");
 					//despatcher.deliver(message, "ChunkGeneration");
 					System.out.println(19);
 					Thread.sleep(1000);

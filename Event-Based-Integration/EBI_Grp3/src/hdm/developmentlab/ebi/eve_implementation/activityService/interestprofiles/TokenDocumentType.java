@@ -105,10 +105,12 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 		}
 		}
 		System.out.println("Der letzte Session COntext ist: " + lastSessionContextEvent);
-		if(EventUtils.hasProperty(lastSessionContextEvent, "project") && !EventUtils.hasProperty(output, "project")) output.add(new Property<String>("project", (String) lastSessionContextEvent.getValueByKey("project")));
-		
+		if(lastSessionContextEvent.getProperties().size() > 0) {
+			if(EventUtils.hasProperty(lastSessionContextEvent, "project") && !EventUtils.hasProperty(output, "project")) output.add(new Property<String>("project", (String) lastSessionContextEvent.getValueByKey("project")));
+		}
 		try {
 			System.err.println("OUTPUT EVENT AN DR GRP"+output);
+			System.out.println("DoxRequest wird an DR geschickt");
 			this.getAgent().send(output, "DocRequest");
 		} catch (NoValidEventException e) {
 			// TODO Auto-generated catch block

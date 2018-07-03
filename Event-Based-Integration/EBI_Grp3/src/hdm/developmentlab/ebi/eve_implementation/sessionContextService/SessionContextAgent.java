@@ -67,7 +67,7 @@ public class SessionContextAgent extends AbstractAgent {
 		
 		AbstractInterestProfile sessionState = new SessionState();		
 		try {
-			sessionState.add( new Or(new IsEventType("SessionStartEvent"),new IsEventType("SessionEndEvent")));
+			sessionState.add(new Or(new IsEventType("SessionStartEvent"),new IsEventType("SessionEndEvent")));
 		} catch (NullPredicateException e1) {
 			
 			e1.printStackTrace();
