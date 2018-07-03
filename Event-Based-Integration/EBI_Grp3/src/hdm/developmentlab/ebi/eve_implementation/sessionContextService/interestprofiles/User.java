@@ -182,7 +182,7 @@ public class User extends AbstractInterestProfile {
 		chunker.addChunkContent("welt"); // muss klein geschrieben sein!
 		chunker.addChunkContent("test");
 		chunker.addChunkContent("");
-		chunker.addSemanticToChunk("welt", jsonString);
+		//chunker.addSemanticToChunk("welt", jsonString);
 		chunker.addSemanticToChunk("test", jsonString1);
 		System.out.println(22);
 		

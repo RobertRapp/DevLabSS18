@@ -11,9 +11,12 @@ import com.speechTokens.tokenizer.Chunker;
 
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
+import eventprocessing.agent.NoValidEventException;
+import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
+import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
@@ -78,34 +81,30 @@ public class StartServices {
 		AbstractAgent severalKeywordsAgent = new SeveralKeywordsAgent();
 		
 		//DR AGENT -------------------------------------------
-		AbstractAgent drAgent  = new AbstractAgent() {
-			
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			protected void doOnInit() {
-				System.out.println("Dr Agent initialisiert");
-				this.setId("DRAgent");
-				AbstractInterestProfile ip = new User();
-				ip.add(new IsEventType("SentenceEvent"));
-				try {
-					this.add(ip);
-				} catch (NoValidInterestProfileException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				try {
-					this.add("ChunkGeneration");
-				} catch (NoValidConsumingTopicException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-		};
+		/*
+		 * Alle Zeilen die linksbündig sind müssen bearbeitet werden.
+		 */
+			AbstractAgent drAgent  = new AbstractAgent() {
+private static final long serialVersionUID = 606360123599610899L;
+						@Override
+						protected void doOnInit() {
+this.setId("drAgent");
+						AbstractInterestProfile ip = new AbstractInterestProfile() {
+private static final long serialVersionUID = 6063600497599610899L;
+						@Override
+						protected void doOnReceive(AbstractEvent event) {try {	
+this.getAgent().send(event, "naechsterAgentenName"); //nächsterAgent
+						} catch (NoValidEventException e) {e.printStackTrace();
+						} catch (NoValidTargetTopicException e) {e.printStackTrace();
+						}}};
+						ip.add(new IsFromTopic(this.getId()));
+						try {this.add(ip);
+						} catch (NoValidInterestProfileException e) {e.printStackTrace();}
+						try {
+							this.add(this.getId());
+						} catch (NoValidConsumingTopicException e) {e.printStackTrace();}}};
+drAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", drAgent.getId()));
+drAgent.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
 		
 		//DR AGENT Ende -------------------------------------------
 		

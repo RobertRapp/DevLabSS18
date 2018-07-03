@@ -36,12 +36,7 @@ public class RequestAgent extends AbstractAgent {
 		 */
 		try {
 			AbstractInterestProfile ip = new TokenDocumentType();
-			try {
-				ip.add(new Or(new IsEventType("DocumentEvent"), new IsEventType("SessionContext"), new IsEventType("PersonEvent"), new IsEventType("ProjectEvent"), new IsEventType("UncertainEvent")));
-			} catch (NullPredicateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			ip.add(new IsEventType("ProjectEvent"));
 			this.add(ip);
 		
 		} catch (NoValidInterestProfileException e1) {
