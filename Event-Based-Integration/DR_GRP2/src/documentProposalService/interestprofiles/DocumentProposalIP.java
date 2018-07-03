@@ -30,26 +30,20 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
 		// TODO Auto-generated method stub
-
-		getModul(event);
-	
+		System.out.println("in IP von Dr mit dem Event: " + event);
+		String result = getModul(event);
+		
 		
 		// Pushen eines Events
+				System.out.println(result);
 				AbstractEvent docProposalEvent = eventFactory.createEvent("AtomicEvent");
 				docProposalEvent.setType("DocProposalEvent");
-				docProposalEvent.add(new Property<String>("Documentname",EventUtils.findPropertyByKey(event, "Document").getValue().toString()));
-				docProposalEvent.add(new Property<String>("Author",EventUtils.findPropertyByKey(event, "Author").getValue().toString()));
-				docProposalEvent.add(new Property<String>("Editor",EventUtils.findPropertyByKey(event, "Editor").getValue().toString()));
-				docProposalEvent.add(new Property<String>("Project",EventUtils.findPropertyByKey(event, "Project").getValue().toString()));
-				docProposalEvent.add(new Property<String>("Filename",EventUtils.findPropertyByKey(event, "Filename").getValue().toString()));
-				docProposalEvent.add(new Property<String>("URL",EventUtils.findPropertyByKey(event, "URL").getValue().toString()));
-				docProposalEvent.add(new Property<String>("LastChangeDate",EventUtils.findPropertyByKey(event, "LastChangeDate").getValue().toString()));
-				docProposalEvent.add(new Property<String>("Category",EventUtils.findPropertyByKey(event, "Category").getValue().toString()));
-				docProposalEvent.add(new Property<String>("FileID",EventUtils.findPropertyByKey(event, "FileID").getValue().toString()));
-
+				docProposalEvent.add(new Property<String>("Document",result));
+				
 				
 				try {
 					//Neue FeedbackEvent
+					System.out.println("Dieses Event wird raus geschickt: " + docProposalEvent);
 					this.getAgent().send(docProposalEvent, "DocProposal");
 					
 				} catch (NoValidEventException e) {
@@ -145,8 +139,7 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 		 }
 		 sFinishQuery = sFinishQuery + sQueryEnde; 
 		 System.out.println(sFinishQuery);
-		 getProposal(sFinishQuery);
-		 return sFinishQuery;
+		 return getProposal(sFinishQuery);
 	}
 	
 	public static String getProposal(String sQuery) {

@@ -10,6 +10,7 @@ import com.speechTokens.EvE.agents.TokenizeAgent;
 import com.speechTokens.semantic.simulation.SemanticData;
 import com.speechTokens.tokenizer.Chunker;
 
+import documentProposalService.DocumentProposalAgent;
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.NoValidEventException;
@@ -84,6 +85,9 @@ public class StartServices {
 		AbstractAgent severalKeywordsAgent = new SeveralKeywordsAgent();
 		AbstractAgent semanticChunksIP = new SemanticAgent();
 		AbstractAgent sessionstateAgent = new SessionContextAgent();
+		AbstractAgent documentProposalAgent = new DocumentProposalAgent();
+		
+		
 		//DR AGENT -------------------------------------------
 		/*
 		 * Alle Zeilen die linksbündig sind müssen bearbeitet werden.
@@ -109,16 +113,17 @@ public class StartServices {
 		
 
 		
-		tokenAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "tokenagent"));
-		sentenceAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "sentence"));
-		applicationAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "application"));
-		singleKeyWordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "singleKeyWord"));
-		noKeywordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "noKeyword"));
-		severalKeywordsAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "severalKeywords"));
-		requestAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "requestAgent")); 
-		protcolAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "protcolAgent"));
-		semanticChunksIP.setConsumerSettings(new ConsumerSettings("localhost", "9092", "semanticChunksIP"));
-		sessionstateAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "sessionstateAgent"));
+		tokenAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "1"));
+		sentenceAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "2"));
+		applicationAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "3"));
+		singleKeyWordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "4"));
+		noKeywordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "5"));
+		severalKeywordsAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "6"));
+		requestAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "7")); 
+		protcolAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "8"));
+		semanticChunksIP.setConsumerSettings(new ConsumerSettings("localhost", "9092", "9"));
+		sessionstateAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "10"));
+		documentProposalAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "11"));
 		
 		tokenAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		sentenceAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
@@ -131,18 +136,20 @@ public class StartServices {
 		protcolAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		semanticChunksIP.setProducerSettings(new ProducerSettings("localhost","9092"));
 		sessionstateAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		documentProposalAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		
-		//StreamingExecution.add(tokenAgent);
-		//StreamingExecution.add(sentenceAgent);
+		StreamingExecution.add(tokenAgent);
+		StreamingExecution.add(sentenceAgent);
 		//StreamingExecution.add(drAgent);
-		//StreamingExecution.add(applicationAgent);
-		//StreamingExecution.add(singleKeyWordAgent);
-		//StreamingExecution.add(noKeywordAgent);
-		//StreamingExecution.add(severalKeywordsAgent);
-		//StreamingExecution.add(requestAgent);
-		//StreamingExecution.add(protcolAgent);
-		//StreamingExecution.add(semanticChunksIP);
+		StreamingExecution.add(applicationAgent);
+		StreamingExecution.add(singleKeyWordAgent);
+		StreamingExecution.add(noKeywordAgent);
+		StreamingExecution.add(severalKeywordsAgent);
+		StreamingExecution.add(requestAgent);
+		StreamingExecution.add(protcolAgent);
+		StreamingExecution.add(semanticChunksIP);
 		StreamingExecution.add(sessionstateAgent);
+		StreamingExecution.add(documentProposalAgent);
 		
 		System.out.println("in StartService");
 		Runnable myRunnable = new Runnable() {
@@ -217,7 +224,7 @@ public class StartServices {
 
 					default:
 						//JsSentence = "Highnet, Daimler, costs, milestone, calendar, Google Drive, Google Calendar, google docs, powerpoint, Word";
-						JsSentence = "house document and milestones for costs coming soon";
+						JsSentence = "costs and milestones from document ahead";
 						
 						userID = "lisa@gmail.com";
 						break;

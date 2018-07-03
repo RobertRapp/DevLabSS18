@@ -85,8 +85,11 @@ public class SessionState extends AbstractInterestProfile {
 			}
 		//erzeugen einer SessionID wenn noch keine vorhanden ist. 
 		if(EventUtils.findPropertyByKey(newSession, "sessionID") == null) {
-			newSession.add(new Property<String>("sessionID" + abs.hashCode()+System.currentTimeMillis()));
+			System.out.println("In if1");
+			newSession.add(new Property<>("sessionID", abs.hashCode()+System.currentTimeMillis()));
+			System.out.println("neue Sessionid wird hinzugefügt " + EventUtils.findPropertyByKey(newSession, "sessionID").getValue());
 		}else if (EventUtils.findPropertyByKey(newSession, "sessionID").getValue() == "") {
+			System.out.println("Esle if es gibt schon : ");
 			newSession.getProperties().remove(newSession.getPropertyByKey("sessionID"));
 			newSession.add(new Property<String>("sessionID" + abs.hashCode()+System.currentTimeMillis()));
 		}
@@ -97,7 +100,7 @@ public class SessionState extends AbstractInterestProfile {
 		AbstractEvent createdSessionContext = eventFactory.createEvent(("AtomicEvent"));
 		createdSessionContext.setType("SessionContextEvent");
 		createdSessionContext.add(newSession.getPropertyByKey("sessionID"));
-		createdSessionContext.add(new Property<String>("project", "NoProjectKnownYet"));
+		createdSessionContext.add(new Property<String>("project", "highnet"));
 		createdSessionContext.add(new Property<String>("topic"));
 		createdSessionContext.add(new Property<>("teilnehmer1", abs.getValueByKey("userID")));
 		createdSessionContext.add(new Property<>("teilnehmer2", abs.getValueBySecoundMatch("userID")));
