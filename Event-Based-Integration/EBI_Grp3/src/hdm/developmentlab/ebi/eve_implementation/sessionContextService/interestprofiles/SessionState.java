@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.speechTokens.EvE.interestProfiles.SingleKeywordIP;
-
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
@@ -14,7 +12,9 @@ import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.AtomicEvent;
 import eventprocessing.event.EventIdProvider;
 import eventprocessing.event.Property;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.AbstractFactory;
+import eventprocessing.utils.factory.EventFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
@@ -29,8 +29,7 @@ public class SessionState extends AbstractInterestProfile {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
-	private static Logger LOGGER = LoggerFactory.getLogger(SessionState.class);
-
+	Logger l = LoggerFactory.getLogger("SessionState");
 
 	/**
 	 * Empfängt das Event, dass ein Gespräch gestartet ist und erzuegt dafür ein neues SessionEvent, das während
@@ -40,7 +39,7 @@ public class SessionState extends AbstractInterestProfile {
 	 */
 	@Override
 	protected void doOnReceive(AbstractEvent abs) {
-		System.out.println("In IP SessionState");
+			
 		/**
 		 * 
 		 * In dieser Methode wird die Verarbeitung eines Events gemacht. D. h. wie der Agent auf ein bestimmtes
@@ -53,6 +52,20 @@ public class SessionState extends AbstractInterestProfile {
 		 */
 		SessionContextAgent sA = (SessionContextAgent) this.getAgent();
 		
+		if(abs.getType().equalsIgnoreCase("sessionEndEvent")) {
+			AbstractEvent session = sA.getSessionById(abs.getValueByKey("sessionID").toString());
+			session.add(new Property<>("sessionEnd", TimeUtils.getCurrentTime()));
+			try {
+				sA.send(session, "SessionState");
+				sA.getSessions().remove(session);
+			} catch (NoValidEventException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoValidTargetTopicException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		/*
 		 * Ein Interessensprofil kann ebenfalls Events publizieren, hierfür wird erstmal ein Event erzeugt,
 		 * das über die eventFactory erzeugt wird. Es handelt sich dabei im Rahmen dieses Projekts um ein AtomicEvent
@@ -64,8 +77,8 @@ public class SessionState extends AbstractInterestProfile {
 		/*
 		 * Werden einzelne Attribute eines Events übernommen kann dafür eine Schleife über die Properties gehen.
 		 */
-		for(Property<?> p :abs.getProperties()) {
-				newSession.add(p);
+		for(Property<?> p : abs.getProperties()) {
+				newSession.addOrReplace(p);
 			}
 		//erzeugen einer SessionID wenn noch keine vorhanden ist. 
 		if(EventUtils.findPropertyByKey(newSession, "sessionID") == null) {
@@ -80,17 +93,17 @@ public class SessionState extends AbstractInterestProfile {
 		 */
 		AbstractEvent createdSessionContext = eventFactory.createEvent(("AtomicEvent"));
 		createdSessionContext.add(newSession.getPropertyByKey("sessionID"));
-		createdSessionContext.add(new Property<>("project"));
-		createdSessionContext.add(new Property<>("topic"));
-		createdSessionContext.add(new Property<>("teilnehmer1"));
-		createdSessionContext.add(new Property<Boolean>("teilnehmer2", false));
+		createdSessionContext.add(new Property<String>("project", "NoProjectKnownYet"));
+		createdSessionContext.add(new Property<String>("topic"));
+		createdSessionContext.add(new Property<>("teilnehmer1", abs.getValueByKey("userID")));
+		createdSessionContext.add(new Property<>("teilnehmer2", abs.getValueBySecoundMatch("userID")));
 		newSession.add(new Property<AbstractEvent>("sessionContext", createdSessionContext));
 		
 		
 		/*
 		 * Der Logger kann verwendet werden um in der Console Nachrichten auszuprinten. 
 		 */
-		LOGGER.log(Level.WARNING, "Event "+abs);
+		l.log(Level.WARNING, "Event "+abs);
 				
 		/*
 		 * Im Send-try-catch-Block werden alle Events versendet die dieses Interessensprofil versenden möchte.
@@ -98,12 +111,19 @@ public class SessionState extends AbstractInterestProfile {
 		 
 		 */
 		try {
+			AbstractEvent ersteAnfrage = eventFactory.createEvent("AtomicEvent");
+			ersteAnfrage.setType("DocRequestEvent");
+			ersteAnfrage.add(new Property<>("teilnehmer1", abs.getValueByKey("userID")));
+			ersteAnfrage.add(new Property<>("teilnehmer2", abs.getValueBySecoundMatch("userID")));
+			ersteAnfrage.add(new Property<String>("keyword", "protocol"));
 			//Publizieren von Events über die send-Methode des Agenten.
-			sA.send(createdSessionContext, "SessionContextUpdate");			
+			sA.send(createdSessionContext, "SessionContext");	
+						
+			sA.send(ersteAnfrage, "DocRequest");
 			sA.addSession(abs);	
 			
 		} catch (NoValidEventException e) {	
-			LOGGER.log(Level.WARNING,  "Event konnte nicht publiziert werden"+e);
+			l.log(Level.WARNING,  "Event konnte nicht publiziert werden"+e);
 			e.printStackTrace();
 		} catch (NoValidTargetTopicException e) {			
 			e.printStackTrace();

@@ -36,7 +36,8 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 	protected void doOnReceive(AbstractEvent event) {
 			System.out.println("Event das in TokenAppl ankomment: " + event);
 			if(event.getType().equalsIgnoreCase("CalendarEvent")) event.add(new Property<String>("URL","calendar.google.com"));
-			String type = (String) event.getPropertyByKey("ApplicationType").getValue();			
+			String type = (String) event.getPropertyByKey("ApplicationType").getValue();
+			
 			switch (type) {
 			case "presentation":
 				event.add(new Property<String>("URL","docs.google.com/presentation"));	
@@ -48,10 +49,24 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 				event.add(new Property<String>("URL",type+".google.com"));
 				break;
 			}
-			System.out.println("Wir schlagen vor auf "+event.getPropertyByKey("URL")+ " zu gehen!");
+			
 				try {
-					event.setType("ApplicationEvent");
-					getAgent().send(event, "Applications");
+					
+					event.setType("DocProposalEvent");
+					event.add(new Property<String>("Documentname",""));
+					event.add(new Property<String>("Author","Google"));
+					event.add(new Property<String>("Editor",(String) event.getValueByKey("userID")));
+					event.add(new Property<String>("Project","Google"));
+					event.add(new Property<String>("Filename",(String) event.getValueByKey("ApplicationType")));					;
+					event.add(new Property<String>("LastChangeDate",""));
+					event.add(new Property<String>("Category","Application"));
+					event.add(new Property<String>("FileID", String.valueOf(event.getId())));
+					event.add(new Property<String>("DocumentType","Application"));
+					
+					//Für die GUI Attribute type, docid, category, Author, URL, Filename, Category
+					
+					
+					getAgent().send(event, "DocProposal");
 				} catch (NoValidEventException e1) {
 					LoggerFactory.getLogger("ApplicationSend");
 				} catch (NoValidTargetTopicException e1) {

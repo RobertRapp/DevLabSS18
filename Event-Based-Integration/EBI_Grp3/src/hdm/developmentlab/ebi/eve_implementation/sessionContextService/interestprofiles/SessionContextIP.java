@@ -2,6 +2,7 @@ package hdm.developmentlab.ebi.eve_implementation.sessionContextService.interest
 
 
 
+import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,25 +60,91 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 	AbstractEvent currentSession = (AbstractEvent) sA.getSessionById(String.valueOf(event.getValueByKey("sessionID")));
 	AbstractEvent currentSessionContext = (AbstractEvent) currentSession.getPropertyByKey("sessionContext").getValue();
 	AbstractEvent sessionContext = eventFactory.createEvent("AtomicEvent");
-	AbstractEvent tokenEvent = eventFactory.createEvent("AtomicEvent");
 	sessionContext.setType("SessionContext");
-		
-	//Pr�fen, ob sich der SessionContext ge�ndert hat 
-	AbstractEvent newSessionContext = eventFactory.createEvent("AtomicEvent");
-	boolean abgeaendert = false;
-	for (Property<?> pro: currentSessionContext.getProperties()){
-		for(Property<?> pro2: event.getProperties()) {
-			if(!pro.equals(pro2)){
-				//properties sind ungleich
-				if(pro.getKey() == pro2.getKey()) {
-					newSessionContext.add(pro2);
-				}
+	
+	switch (event.getType()) {
+	case "ProjectEvent":
+		sessionContext.addOrReplace(EventUtils.findPropertyByKey(event, "SessionID"));
+		Property<?> sentenceID = EventUtils.findPropertyByKey(event, "SentenceID");
+		for(Property<?> p : event.getProperties()) {
+			switch (p.getKey().toLowerCase()) {
+			case "person":				
+				LinkedHashMap<String, ?> hashmap =  (LinkedHashMap<String, ?>) p.getValue();	
+				sessionContext.addOrReplace(new Property<>("topic","Satz-ID: "+sentenceID+" -> Thema ist die Person "+hashmap.get("key")));
+			break;
+			case "project": 					
+				LinkedHashMap<String, ?> hashmap1 =  (LinkedHashMap<String, ?>) p.getValue();	
+				sessionContext.addOrReplace(new Property<>("topic", "Satz-ID: "+sentenceID+" ->Thema ist das Projekt "+hashmap1.get("key")));
+			case "document":
+				LinkedHashMap<String, ?> hashmap2 =  (LinkedHashMap<String, ?>) p.getValue();	
+				sessionContext.addOrReplace(new Property<>("topic", "Satz-ID: "+sentenceID+" -> Thema ist das Document "+hashmap2.get("key")));
+			default:
+																
+				break;					
 			}
-		}
+			}
+		break;
+	case "PersonEvent":
+		sessionContext.addOrReplace(EventUtils.findPropertyByKey(event, "SessionID"));
+		Property<?> sentenceID1 = EventUtils.findPropertyByKey(event, "SentenceID");
+		for(Property<?> p : event.getProperties()) {
+			switch (p.getKey().toLowerCase()) {
+			case "person":				
+				LinkedHashMap<String, ?> hashmap =  (LinkedHashMap<String, ?>) p.getValue();	
+				sessionContext.addOrReplace(new Property<>("topic", "Satz-ID: "+sentenceID1+" ->Thema ist die Person "+hashmap.get("key")));
+			break;
+			case "project": 					
+				LinkedHashMap<String, ?> hashmap1 =  (LinkedHashMap<String, ?>) p.getValue();	
+				sessionContext.addOrReplace(new Property<>("topic","Satz-ID: "+sentenceID1+" -> Thema ist das Projekt "+hashmap1.get("key")));
+			case "document":
+				LinkedHashMap<String, ?> hashmap2 =  (LinkedHashMap<String, ?>) p.getValue();	
+				sessionContext.addOrReplace(new Property<>("topic", "Satz-ID: "+sentenceID1+" -> Thema ist das Dokument "+hashmap2.get("key")));
+			default:
+																
+				break;					
+			}
+			}
+			break;
+	case "DocumentEvent":
+		sessionContext.addOrReplace(EventUtils.findPropertyByKey(event, "SessionID"));
+		Property<?> sentenceID2 = EventUtils.findPropertyByKey(event, "SentenceID");
+		for(Property<?> p : event.getProperties()) {
+			switch (p.getKey().toLowerCase()) {
+			case "person":				
+				LinkedHashMap<String, ?> hashmap =  (LinkedHashMap<String, ?>) p.getValue();	
+				sessionContext.addOrReplace(new Property<>("topic","Satz-ID: "+sentenceID2+" -> Thema ist die Person "+hashmap.get("key")));
+			break;
+			case "project": 					
+				LinkedHashMap<String, ?> hashmap1 =  (LinkedHashMap<String, ?>) p.getValue();	
+				sessionContext.addOrReplace(new Property<>("topic", "Satz-ID: "+sentenceID2+" -> Thema ist das Projekt "+hashmap1.get("key")));
+			case "document":
+				LinkedHashMap<String, ?> hashmap2 =  (LinkedHashMap<String, ?>) p.getValue();	
+				sessionContext.addOrReplace(new Property<>("topic", "Satz-ID: "+sentenceID2+" -> Thema ist das Document "+hashmap2.get("key")));
+			default:
+																
+				break;					
+			}
+			}
+		break;
+
+	default:
+		break;
 	}
-	Property<?> newSessionContextProperty = new Property<AbstractEvent>("sessionContext", newSessionContext);
-	AbstractEvent newSession = EventUtils.replacePropertyByKey(currentSession, "sessionContext", newSessionContextProperty);
-	sA.getSessions().set(sA.getSessions().indexOf(currentSession), newSession);
+	
+	if(!currentSessionContext.equals(sessionContext)) {
+		Property<?> newSessionContextProperty = new Property<AbstractEvent>("sessionContext", sessionContext);
+		AbstractEvent newSession = EventUtils.replacePropertyByKey(currentSession, "sessionContext", newSessionContextProperty);
+		sA.getSessions().set(sA.getSessions().indexOf(currentSession), newSession);
+		try {
+			this.getAgent().send(sessionContext, "SessionContext");
+		} catch (NoValidEventException e) {
+			
+			e.printStackTrace();
+		} catch (NoValidTargetTopicException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}	
 	}
 }
 

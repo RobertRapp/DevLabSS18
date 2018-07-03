@@ -2,8 +2,10 @@ package hdm.developmentlab.ebi.eve_implementation.activityService.interestprofil
 
 
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.LinkedHashMap;
 import java.util.logging.Logger;
+
+import org.json.JSONObject;
 
 import com.speechTokens.tokenizer.Chunker;
 
@@ -19,6 +21,8 @@ import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
 import eventprocessing.utils.model.OWLResultUtils;
+import javafx.event.Event;
+import sun.java2d.pipe.OutlineTextRenderer;
 
 
 public class TokenDocumentType extends eventprocessing.agent.interestprofile.AbstractInterestProfile {
@@ -43,165 +47,76 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
-		System.out.println("In IP von TokenDocType");
+		System.out.println("TOKENDOCTYPE EVENT "+event);
+		
 		AbstractEvent output = eventFactory.createEvent("AtomicEvent");
 		output.setType("DocRequestEvent");
-		output.add(new Property<String>("teilnehmer1", (String) lastSessionContextEvent.getValueByKey("teilnehmer1")));
-		output.add(new Property<String>("teilnehmer2", (String) lastSessionContextEvent.getValueByKey("teilnehmer2")));
-		
-		Chunker chunks = new Chunker();
-		if (EventUtils.isType("ProjectEvent", event)) {	
-			System.out.println("Es ist ein Projekt");
-
-			ArrayList<Object> niklasliste = (ArrayList<Object>) EventUtils.findPropertyByKey(event, "Chunks").getValue();
-			chunks.parseArrayList(niklasliste);
-			ArrayList<String> list = chunks.readChunks();
-			System.out.println(list.size());
-			for (int i = 0; i < list.size(); i++) {
-				System.out.println("Hallo" + i+1);
-				
-				ArrayList<String> list1 = (ArrayList<String>) chunks.readSemanticOfChunk(list.get(i));
-				System.out.println("ListOutput: ");
-				System.out.println(list1.get(i));
-				list1.get(i).contains("project");
-				System.out.println("_______________________________________");
-				System.out.println("Hier projekt wert: ");
-				System.out.println(list1.get(i).contains("Project"));
-				System.out.println(list1.get(i).contains("Project"));
-				System.out.println("Ausgabe fertig");
-			}
-			chunks.printList();
-		} else {System.out.println("Es ist kein Projekt");}
-		
-		if (EventUtils.isType("PersonEvent", event)) {	
-			System.out.println("Es ist ein Person");
-			ArrayList<String> list = chunks.readChunks();
-			for (int i = 0; i < list.size(); i++) {
-				ArrayList<String> list1 = (ArrayList<String>) chunks.readSemanticOfChunk(list.get(i));
-				list1.get(i).contains("person");
-				System.out.println("Hier projekt wert: ");
-				System.out.println(list1.get(i).contains("project"));
-			}
-			chunks.printList();
+		if(lastSessionContextEvent.getProperties().size() < 1) {
+			lastSessionContextEvent.add(new Property<String>("teilnehmer1","Vanessa_Keller"));
+			lastSessionContextEvent.add(new Property<String>("teilnehmer2","Jennifer_Tran"));
 		}
+		if(EventUtils.hasProperty(lastSessionContextEvent, "teilnehmer1")) output.add(new Property<String>("participant1", (String) lastSessionContextEvent.getValueByKey("teilnehmer1")));
+		if(EventUtils.hasProperty(lastSessionContextEvent, "teilnehmer2")) output.add(new Property<String>("participant2", (String) lastSessionContextEvent.getValueByKey("teilnehmer2")));
 		
-		if (EventUtils.isType("SessionContext", event)) {		
-			lastSessionContextEvent = event;
-			lastSessionContextEvent.setType("SessionContextEvent");
-			lastSessionContextEvent.setCreationDate(event.getCreationDate());
+		if(event.getType().equalsIgnoreCase("uncertainEvent")) {
+			System.out.println("EVENT VOM NICHT FIXEN TYP"+event);
+			String key = null;
+			String value= null;
+			for(Property<?> p : event.getProperties()) {
+				switch (p.getKey().toLowerCase()) {
+				case "type":
+					key = (String)p.getValue();
+				break;
+				case "name": 
+					value = (String) p.getValue();
+				case "keyword":
+					//{ "type": "literal" , "value": "cost; expenses; expense; costs;" }
+					
+					JSONObject js = new JSONObject((String) p.getValue());
+					output.add(new Property<String>("keyword", js.get("value").toString().split(";")[0]));			
+					break;				
+					default:
+					//output.add(p);
+					break;					
+				}
+				output.add(new Property<String>(key, value));
+			}				
 		}else {
-			
-//			ArrayList<Property<?>> allProperties = new ArrayList<>();
-//			Chunker chunker = new Chunker();
-//			chunker.parseArrayList((ArrayList<Object>)event.getPropertyByKey("chunks").getValue());
-//			for(int i = 0; i < chunker.size(); i++ ) {
-//				String semantic = (String) chunker.getSemanticAt(i);
-//				allProperties.addAll(OWLResultUtils.convertBindingElementInPropertySet(semantic));			
-//			}
-				
-//			AbstractEvent randomevent = eventFactory.createEvent("AtomicEvent");
-//			//allProperties.forEach((prop) -> randomevent.add(prop));
-//			String s = (String) randomevent.getValueByKey("Classname");
-//			switch (s) {
-//			case "Project":
-//				output.add(new Property<>("project", randomevent.getValueByKey("Instanzname")));
-//				break;
-//			case "Person":
-//				output.add(new Property<>("person", randomevent.getValueByKey("Instanzname")));
-//				break;
-//
-//			default:
-//				
-//				output.add(new Property<>("keyword", randomevent.getValueByKey("Keyword").toString().split(";")[0]));
-//				break;
-//			}			
-			}
-					
-		System.out.println("Received" + event);
-		//Wird ein neues SessionContextEvent empfangen, so wird dies als letzter und damit aktuellster SessionContext abgespeichert
-		if (EventUtils.isType("SessionContext", event)) {
-			System.out.println("ES IST EIN SESSIONCONTEXT");
-			lastSessionContextEvent = event;
-			lastSessionContextEvent.setType("SessionContextEvent");
-			lastSessionContextEvent.setCreationDate(event.getCreationDate());
+						
+			for(Property<?> p : event.getProperties()) {
+				switch (p.getKey().toLowerCase()) {
+				case "person":					
+					LinkedHashMap<String, ?> hashmap =  (LinkedHashMap<String, ?>) p.getValue();
+					output.addOrReplace(new Property<>("keyword", hashmap.get("value").toString().split(";")[0]));
+					output.addOrReplace(new Property<>("person", hashmap.get("key").toString()));
+				break;
+				case "project": 
+						
+					LinkedHashMap<String, ?> hashmap1 =  (LinkedHashMap<String, ?>) p.getValue();
+					output.addOrReplace(new Property<>("keyword", hashmap1.get("value").toString().split(";")[0]));
+					output.addOrReplace(new Property<>("project", hashmap1.get("key").toString()));
+				default:
+						if(p.getValue() instanceof LinkedHashMap<?, ?>) {					
+							LinkedHashMap<String, ?> hashmap2 =  (LinkedHashMap<String, ?>) p.getValue();
+							output.addOrReplace(new Property<>("keyword", hashmap2.get("value").toString().split(";")[0]));	
+					break;					
+				}
+				}
+		}
 		}
 		
-	
-		//Hier if mit Zeitabprüfug und session context auf 30 sekunden oder so; TokenEvent ist es eigentlich schon
-		// Prüfe ob das empfangene Event vom Typ TokenEvent ist undeinen Dokumententyp beinhaltet 
-		if (EventUtils.isType("TokenEvent", event) && EventUtils.hasProperty(event, "topic")) {
-			System.out.println("ES ist ein TOPIC EVENT!!!! ");
-				requestEvent = event; 
-				requestEvent.setType("RequestEvent");
-				requestEvent.setCreationDate(event.getCreationDate());
-				
-				System.out.println("RequestEvent: " + requestEvent);
-				System.out.println("SC Event: " + lastSessionContextEvent);
-				
-				//Wenn letzter SessionContext existiert und nicht zu weit zurück liegt, wird das Tokenevent (bei Bedarf) um den aktuellen SC angereichert
-				if(lastSessionContextEvent != null && TimeUtils.getDifferenceInSeconds(requestEvent.getCreationDate(), lastSessionContextEvent.getCreationDate()) <= 10) {
-					System.out.println("ES LIEGT IN DER ZEIT!! ");
-				
-					//Enthält TokenEvent keine Property namens project (oder eine der folgenden Namen) oder ist der jeweilige Wert gleich null, so wird das Projekt des SC angehängt 
-					if(EventUtils.hasProperty(requestEvent, "project")) {
-						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "project"));
-					} else 
-						if(EventUtils.findPropertyByKey(requestEvent, "project").getValue() == null) {
-							requestEvent.remove(EventUtils.findPropertyByKey(requestEvent, "project"));
-							requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "project"));
-						
-					}
-					
-//					if(EventUtils.hasProperty(requestEvent, "timereference")) {
-//						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "timereference"));
-//
-//						
-//					} else 
-//						if(EventUtils.findPropertyByKey(requestEvent, "timereference").getValue() == null) {
-//							requestEvent.remove(EventUtils.findPropertyByKey(requestEvent, "timereference"));
-//							requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "timereference"));
-//							System.out.println("ACHSO2");
-//					}
-//					
-					if(EventUtils.hasProperty(requestEvent, "latestActivity")) {
-						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "latestActivity"));
-					} else 
-						if(EventUtils.findPropertyByKey(requestEvent, "latestActivity").getValue() == null) {
-							requestEvent.remove(EventUtils.findPropertyByKey(lastSessionContextEvent, "latestActivity"));
-							requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "latestActivity"));
-					}
-					
-					if(EventUtils.hasProperty(requestEvent, "users")) {
-						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "users"));
-					} else 
-						if(EventUtils.findPropertyByKey(requestEvent, "users").getValue() == null) {
-							requestEvent.remove(EventUtils.findPropertyByKey(requestEvent, "users"));
-							requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "users"));
-						
-					}
-					
-					if(EventUtils.hasProperty(requestEvent, "sessionId")) {
-						requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "sessionId"));
-					} else 
-						if(EventUtils.findPropertyByKey(requestEvent, "sessionId").getValue() == null) {
-							requestEvent.remove(EventUtils.findPropertyByKey(requestEvent, "sessionId"));
-							requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "sessionId"));
-					}
-				
-				
-				}
-				
-				// Sendet das Event an DR (welches Topic ???) 
-				try {
-					getAgent().send(requestEvent, "DocRequest");
-				} catch (NoValidEventException e1) {
-					LoggerFactory.getLogger("RequestSend");
-				} catch (NoValidTargetTopicException e1) {
-					LoggerFactory.getLogger("RequestSend");
-				}
-				
-		}
+		if(EventUtils.hasProperty(lastSessionContextEvent, "project") && !EventUtils.hasProperty(output, "project")) output.add(new Property<String>("project", (String) lastSessionContextEvent.getValueByKey("project")));
 		
+		try {
+			System.err.println("OUTPUT EVENT AN DR GRP"+output);
+			this.getAgent().send(output, "DocRequest");
+		} catch (NoValidEventException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoValidTargetTopicException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		
 		
 	}

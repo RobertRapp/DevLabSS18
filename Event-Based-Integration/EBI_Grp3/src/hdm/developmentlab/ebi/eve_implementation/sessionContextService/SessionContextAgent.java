@@ -63,23 +63,23 @@ public class SessionContextAgent extends AbstractAgent {
 		 */
 		
 		AbstractInterestProfile sessionContextIP = new SessionContextIP();	
-		try {
-			sessionContextIP.add(new Or(new IsFromTopic("TokenGeneration"),new IsFromTopic("SessionState")));
-		} catch (NullPredicateException e1) {
-			e1.printStackTrace();
-		}
+		sessionContextIP.add(new IsFromTopic("TokenGeneration"));
 		
 		AbstractInterestProfile sessionState = new SessionState();		
-		sessionState.add(new IsEventType("WatsonEvent"));
+		try {
+			sessionState.add( new Or(new IsEventType("SessionStartEvent"),new IsEventType("SessionEndEvent")));
+		} catch (NullPredicateException e1) {
+			
+			e1.printStackTrace();
+		}
 		
 		/*
 		 * Hier werden alle Interessensprofile des Agenten hinzugefügt.
 		 * Bitte darauf achten, dass davor die Predicates gesetzt wurden.  
 		 */
 		try {
-			this.add(sessionState);
 			this.add(sessionContextIP);			
-			
+			this.add(sessionState);
 
 		} catch (NoValidInterestProfileException e) {
 			e.printStackTrace();
@@ -91,7 +91,6 @@ public class SessionContextAgent extends AbstractAgent {
 		 * 
 		 */
 		try {
-			this.add("ChunkGeneration");
 			this.add("SessionState");	
 			this.add("TokenGeneration");
 			this.add("SessionContextUpdate");
