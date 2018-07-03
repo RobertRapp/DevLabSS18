@@ -1,6 +1,12 @@
 package hdm.developmentlab.ebi.eve_implementation.events;
 
-
+/**
+ * 
+ * Dieses ENUM wurde nicht weiter verfolgt, da eine zeitliche Referenz nach heutigen Standard noch nicht sicher aus gesprochenem ausgelesen werden kann.
+ * 
+ * @author rrapp
+ *
+ */
 public enum TimeReference {
 	INSTANCE;
 	

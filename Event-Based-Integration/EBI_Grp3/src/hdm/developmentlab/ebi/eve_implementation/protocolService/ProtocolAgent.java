@@ -22,8 +22,11 @@ public class ProtocolAgent extends AbstractAgent {
 
 
 	/**
-	 * 
+	 * Der Protokoll Agent erstellt ein Protokoll indem er von der Topics SessionState, SessionContext und UserInteraction konsumiert. 
+	 * Diese Informationen werden ausglesen formatiert und in ein XML Dokument geschrieben.
+	 * @author rrapp
 	 */
+	
 	private static final long serialVersionUID=1L;
 	private static String sessionId; 
 	private static ArrayList<String> topicList=new ArrayList<>();

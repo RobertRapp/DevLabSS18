@@ -10,6 +10,14 @@ import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenDocumentType;
 
+/**
+ * Der RequestAgent sorgt dafür dass Dokumentenanfragen an DR gesendet werden. Dafür konsumiert er vom Topic TokenGeneration und SessionContext
+ * 
+ * Er besitzt die IP TokenDocumentType. 
+ * 
+ * @author rrapp
+ *
+ */
 
 public class RequestAgent extends AbstractAgent {
 

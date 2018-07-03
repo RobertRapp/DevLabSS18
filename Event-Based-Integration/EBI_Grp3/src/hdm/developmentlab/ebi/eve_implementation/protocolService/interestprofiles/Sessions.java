@@ -31,7 +31,6 @@ import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationIP;
-import hdm.developmentlab.ebi.eve_implementation.protocolService.CreateNewXML;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 
 

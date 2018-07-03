@@ -14,10 +14,11 @@ import eventprocessing.event.AbstractEvent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionContextIP;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
 
-/*
- * Dieser Agent baut einen SessionContext auf, ein Sessionkontext besteht aus SessionID, zwei Teilnehmern, Projekt, Thema
- * die über empfangene Events gesetzt werden. Er implementiert zwei IPs 
+/**
  * 
+ * Dieser Agent baut einen SessionContext auf, ein Sessionkontext besteht aus SessionID, zwei Teilnehmern, Projekt, Thema
+ * die über empfangene Events gesetzt werden.  
+ * @author rrapp
  */
 
 
