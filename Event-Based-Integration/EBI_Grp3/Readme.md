@@ -21,24 +21,38 @@ Properties: Projekt, Teilnehmer, Set von Schlüsselwörtern (zu Projekt, Person 
 Wird mit Informationen über das Gespräch befüllt.
 
 
-`
 
-## TOPICS
-Das ist eine Übersicht aller Topics innerhalb des Projekts.
-
+# Agents
+Dieser Abschnitt zeigt eine Übersicht aller verwendeten Agents innerhalb der Projektgruppe "Eventbasierte Integration". 
 
 
-| Topic | Events | Publisher | Subscriber |
-| :---- | :---- | :---- |:---- |
-|  ChunkGeneration|  |  | SentenceAgent |
-| SessionInfo | |  | ProtocolAgent |
-| TokenGeneration |  | SeveralKeywordsAgent, SingleKeywordAgent |TokenizeAgent, ProtocolAgent, RequestAgent, SessionContextAgent, ActivityAgent
-| SessionContextUpdate |SessionContextEvent |  | SessionContextAgent, RequestAgent |
-| UserInfo | | - | ProtocolAgent |
-| Keywords | | SeveralKeywordsAgent, SingleKeywordAgent, NoKeywordAgent| TokenizeAgent |
-| Gui | | GUIAgent | GUIAgent |
-| SessionState |  |  | GUIAgent |
-| DocProposal |  |  | GUIAgent, DocProposal |
-| UserInteraction | | GUIAgent |  |
-| DocRequest |  |  |  |
-| SemanticChunks |  |  |  |
+##  
+- [SessionContextAgent](#SessionContextAgent)
+- [RequestAgent](#RequestAgent)
+- [ProtocolAgent](#ProtocolAgent)
+- [ActivityAgent](#ActivityAgent)
+
+
+
+## SessionContextAgent
+Beobachtet das Gespräch und identifiziert ob sich der Gesprächskontext innerhalb eines Gesprächs während der Laufzeit ändert. Jede Gesprächskontext-Änderung erzeugt ein Event auf das SessionContextUpdate Topic. 
+## RequestAgent
+Erzeugt Dokumentenanfragen mit Hilfe des aktuellen Sessionkontexts und semantisch angereicherten Chunks. 
+## ProtocolAgent
+Der ProtocolAgent sammelt Gesprächsinformationen und erstellt bei Session-Ende ein Protocol-Event, das auf das Protocol-Topic gepusht wird. Dieses löst die Abspeicherung des Protokolls durch DokumentenRepräsentation aus.
+## ActivityAgent
+Erstellt ein Application-Event das in der der GUI einen Applikationsaufruf auslöst.
+
+
+
+# Topics
+Dieser Abschnitt zeigt eine Übersicht aller verwendeten Topics innerhalb der Projektgruppe "Eventbasierte Integration". 
+
+
+##  
+- [Protocol]
+- [TokenGeneration]
+- [SessionContext]
+- [DocRequest]
+- [SessionState]
+- [DocProposal]
