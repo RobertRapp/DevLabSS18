@@ -47,7 +47,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
-		System.out.println("TOKENDOCTYPE EVENT "+event);
+		System.out.println("In TokenDocType "+event);
 		
 		AbstractEvent output = eventFactory.createEvent("AtomicEvent");
 		output.setType("DocRequestEvent");
@@ -104,7 +104,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 				}
 		}
 		}
-		
+		System.out.println("Der letzte Session COntext ist: " + lastSessionContextEvent);
 		if(EventUtils.hasProperty(lastSessionContextEvent, "project") && !EventUtils.hasProperty(output, "project")) output.add(new Property<String>("project", (String) lastSessionContextEvent.getValueByKey("project")));
 		
 		try {

@@ -1,3 +1,4 @@
+
 package hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles;
 
 
@@ -19,6 +20,7 @@ import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
+import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationIP;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 
 
@@ -29,7 +31,7 @@ public class SessionState extends AbstractInterestProfile {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
-	Logger l = LoggerFactory.getLogger("SessionState");
+	private static Logger LOGGER = LoggerFactory.getLogger(SessionState.class);
 
 	/**
 	 * Empfängt das Event, dass ein Gespräch gestartet ist und erzuegt dafür ein neues SessionEvent, das während
@@ -56,6 +58,7 @@ public class SessionState extends AbstractInterestProfile {
 			AbstractEvent session = sA.getSessionById(abs.getValueByKey("sessionID").toString());
 			session.add(new Property<>("sessionEnd", TimeUtils.getCurrentTime()));
 			try {
+				System.out.println("Neuer SessionState raus geschickt");
 				sA.send(session, "SessionState");
 				sA.getSessions().remove(session);
 			} catch (NoValidEventException e) {
@@ -103,7 +106,7 @@ public class SessionState extends AbstractInterestProfile {
 		/*
 		 * Der Logger kann verwendet werden um in der Console Nachrichten auszuprinten. 
 		 */
-		l.log(Level.WARNING, "Event "+abs);
+		//Logger.log(Level.WARNING, "Event "+abs);
 				
 		/*
 		 * Im Send-try-catch-Block werden alle Events versendet die dieses Interessensprofil versenden möchte.
@@ -123,7 +126,7 @@ public class SessionState extends AbstractInterestProfile {
 			sA.addSession(abs);	
 			
 		} catch (NoValidEventException e) {	
-			l.log(Level.WARNING,  "Event konnte nicht publiziert werden"+e);
+			//Logger.log(Level.WARNING,  "Event konnte nicht publiziert werden"+e);
 			e.printStackTrace();
 		} catch (NoValidTargetTopicException e) {			
 			e.printStackTrace();
