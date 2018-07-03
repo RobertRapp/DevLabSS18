@@ -34,7 +34,7 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 	
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
-			
+			System.out.println("Event das in TokenAppl ankomment: " + event);
 			if(event.getType().equalsIgnoreCase("CalendarEvent")) event.add(new Property<String>("URL","calendar.google.com"));
 			String type = (String) event.getPropertyByKey("ApplicationType").getValue();			
 			switch (type) {

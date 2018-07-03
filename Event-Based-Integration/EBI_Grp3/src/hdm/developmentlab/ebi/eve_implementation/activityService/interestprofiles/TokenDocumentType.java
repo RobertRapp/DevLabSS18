@@ -2,6 +2,7 @@ package hdm.developmentlab.ebi.eve_implementation.activityService.interestprofil
 
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import com.speechTokens.tokenizer.Chunker;
@@ -49,10 +50,35 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 		
 		Chunker chunks = new Chunker();
 		if (EventUtils.isType("ProjectEvent", event)) {	
+			System.out.println("Es ist ein Projekt");
+
+			ArrayList<Object> niklasliste = (ArrayList<Object>) EventUtils.findPropertyByKey(event, "Chunks").getValue();
+			chunks.parseArrayList(niklasliste);
+			ArrayList<String> list = chunks.readChunks();
+			System.out.println("Hallo0 das ist niklas penis größe: ");
+			System.out.println(list.size());
+			for (int i = 0; i < list.size(); i++) {
+				System.out.println("Hallo" + i+1);
+				
+				ArrayList<String> list1 = (ArrayList<String>) chunks.readSemanticOfChunk(list.get(i));
+				System.out.println("ListOutput: ");
+				System.out.println(list1.get(i));
+				list1.get(i).contains("project");
+				System.out.println("_______________________________________");
+				System.out.println("Hier projekt wert: ");
+				System.out.println(list1.get(i).contains("Project"));
+				System.out.println(list1.get(i).contains("Project"));
+				System.out.println("Ausgabe fertig");
+			}
+			chunks.printList();
+		} else {System.out.println("Es ist kein Projekt");}
+		
+		if (EventUtils.isType("PersonEvent", event)) {	
+			System.out.println("Es ist ein Person");
 			ArrayList<String> list = chunks.readChunks();
 			for (int i = 0; i < list.size(); i++) {
 				ArrayList<String> list1 = (ArrayList<String>) chunks.readSemanticOfChunk(list.get(i));
-				list1.get(i).contains("project");
+				list1.get(i).contains("person");
 				System.out.println("Hier projekt wert: ");
 				System.out.println(list1.get(i).contains("project"));
 			}
@@ -65,30 +91,30 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 			lastSessionContextEvent.setCreationDate(event.getCreationDate());
 		}else {
 			
-			ArrayList<Property<?>> allProperties = new ArrayList<>();
-			Chunker chunker = new Chunker();
-			chunker.parseArrayList((ArrayList<Object>)event.getPropertyByKey("chunks").getValue());
-			for(int i = 0; i < chunker.size(); i++ ) {
-				String semantic = (String) chunker.getSemanticAt(i);
-				allProperties.addAll(OWLResultUtils.convertBindingElementInPropertySet(semantic));			
-			}
+//			ArrayList<Property<?>> allProperties = new ArrayList<>();
+//			Chunker chunker = new Chunker();
+//			chunker.parseArrayList((ArrayList<Object>)event.getPropertyByKey("chunks").getValue());
+//			for(int i = 0; i < chunker.size(); i++ ) {
+//				String semantic = (String) chunker.getSemanticAt(i);
+//				allProperties.addAll(OWLResultUtils.convertBindingElementInPropertySet(semantic));			
+//			}
 				
-			AbstractEvent randomevent = eventFactory.createEvent("AtomicEvent");
-			allProperties.forEach((prop) -> randomevent.add(prop));
-			String s = (String) randomevent.getValueByKey("Classname");
-			switch (s) {
-			case "Project":
-				output.add(new Property<>("project", randomevent.getValueByKey("Instanzname")));
-				break;
-			case "Person":
-				output.add(new Property<>("person", randomevent.getValueByKey("Instanzname")));
-				break;
-
-			default:
-				
-				output.add(new Property<>("keyword", randomevent.getValueByKey("Keyword").toString().split(";")[0]));
-				break;
-			}			
+//			AbstractEvent randomevent = eventFactory.createEvent("AtomicEvent");
+//			//allProperties.forEach((prop) -> randomevent.add(prop));
+//			String s = (String) randomevent.getValueByKey("Classname");
+//			switch (s) {
+//			case "Project":
+//				output.add(new Property<>("project", randomevent.getValueByKey("Instanzname")));
+//				break;
+//			case "Person":
+//				output.add(new Property<>("person", randomevent.getValueByKey("Instanzname")));
+//				break;
+//
+//			default:
+//				
+//				output.add(new Property<>("keyword", randomevent.getValueByKey("Keyword").toString().split(";")[0]));
+//				break;
+//			}			
 			}
 					
 		System.out.println("Received" + event);
