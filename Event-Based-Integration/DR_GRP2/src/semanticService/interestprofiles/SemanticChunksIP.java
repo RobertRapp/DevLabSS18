@@ -71,12 +71,12 @@ public class SemanticChunksIP extends AbstractInterestProfile{
 		feedbackEvent.add(event.getPropertyByKey("SentenceID"));
 		//Unsere Semantic übergeben
 		feedbackEvent.add(new Property<ArrayList<Object>>("Chunks", chunkerObject.returnList()));
-		System.out.println("Chunkerlist: " + chunkerObject.returnList());
+		//System.out.println("Chunkerlist: " + chunkerObject.returnList());
 		
 		
 		try {
 			//Neue FeedbackEvent
-			System.out.println("Das wird gesendet vom SemantikAgent: " + feedbackEvent);
+			System.out.println("Das wird gesendet vom SemantikAgent: ");
 			this.getAgent().send(feedbackEvent, "SemanticChunks");
 			
 		} catch (NoValidEventException e) {
