@@ -1,124 +1,25 @@
 # Events
-Dieses Dokument zeigt eine Übersicht aller verwendeten Events innerhalb der Projektgruppe-Event-basierte Integration. 
+Dieser Abschnitt zeigt eine Übersicht aller verwendeten Events innerhalb der Projektgruppe "Eventbasierte Integration". 
 
 
 ##  
 - [ApplicationEvent](#applicationevent)
-- [CalendarEvent](#calendarevent)
-- [ContactEvent](#contactevent)
-- [DocProposalEvent](#docproposalevent)
-- [DocumentEvent](#documentevent)
-- [FeedbackEvent](#feedbackevent)
-- [GuiEvent](#guievent)
-- [JsonDocEvent](#guievent)
-- [NoKeywordEvent](#nokeywordevent)
-- [ProjectEvent](#projectevent)
 - [ProtocolEvent](#protocolevent)
 - [RequestEvent](#reqeustevent)
-- [SafeProtocolEvent](#safeprotocolevent)
-- [SentenceEvent](#sentenceevent)
 - [SessionContextEvent](#sessioncontextevent)
-- [SessionEndEvent](#sessionendevent)
-- [SessionStartEvent](#sessionstartevent)
-- [SeveralKeywordsevent](#severalkeywordsevent)
-- [SingleKeyword](#singlekeyword)
-- [UncertainEvent](#uncertainevent)
-- [UserInteractionEvent](#userinteractionevent)
-- [WatsonEvent](#watsonevent)
 
 
 
 ## ApplicationEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `löakjfalksödfjöalskjföslakjfölksdjf` | `XXXX` | `XXXX`
-
-## CalendarEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `XXXXX` | `XXXX` | `XXXX`
-
-## ContactEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `XXXXX` | `XXXX` | `XXXX`
-## DocProposalEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `Bei Empfang des Events von Topic DocProposal wird dieses in dem DocProposalInterestProfile in den JSON Format umgewandelt.` | `XXXX` | `XXXX`
-## DocumentEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `XXXXX` | `XXXX` | `XXXX`
-## FeedbackEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `XXXXX` | `XXXX` | `XXXX`
-## GuiEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `Noch nicht definiert, fliegt vielleicht wieder raus` | `XXXX` | `XXXX`
-## JsonDocEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `Dieses Event wird nach der Umwandlung in den JSON Format (zuvor DocProposalEvent) an das Topic Gui gesendet` | `XXXX` | `XXXX`
-## NoKeywordEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `XXXXX` | `XXXX` | `XXXX`
-## ProjectEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `XXXXX` | `XXXX` | `XXXX`
+Enthält die Applikations-Anforderungen. Das Topic “DocProposal” wird von der GUI konsumiert. 
 ## ProtocolEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `XXXXX` | `XXXX` | `XXXX`
+Enthält alle gesammelten Informationen zur aktuellen Session. Wird auf das Protocol-Topic gepusht. Dieses Topic wird von Dokumenten-Repräsentation abonniert. Erstellen daraus das Protokoll.
 ## RequestEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `XXXXX` | `XXXX` | `XXXX`
-## SafeProtocolEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `XXXXX` | `XXXX` | `XXXX`
-
-## SentenceEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `XXXXX` | `XXXX` | `XXXX`
+Enthält Dokumentenanfrage in Form von aktuellem Sessionkontext und semantisch angereicherten Chunks.
+Properties: Projekt, Teilnehmer, Set von Schlüsselwörtern (zu Projekt, Person oder Dokument)
 ## SessionContextEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `XXXXX` | `XXXX` | `XXXX`
-## SessionEndEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `Wird ausgelöst sobald eine Session beendet wird und an das Topic SessionState gesendet.` | `XXXX` | `XXXX`
-## SessionStartEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `Wird ausgelöst sobald eine Session gestartet wird und an das Topic SessionState gesendet` | `XXXX` | `XXXX`
-## SeveralKeywordsevent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `XXXXX` | `XXXX` | `XXXX`
-## SingleKeyword
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `XXXXX` | `XXXX` | `XXXX`
-## UncertainEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `XXXXX` | `XXXX` | `XXXX
-## UserInteractionEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `Wird ausgelöst sobald ein Dokument angeklickt wird und an das Topic UserInteraction gesendet` | `XXXX` | `XXXX`
-## WatsonEvent
-| Kurzbeschreibung | Properties |  Properties Datentyp |
-| :---- | :---- | :---- |
-| `XXXXX` | `XXXX` | `XXXX`
+Wird mit Informationen über das Gespräch befüllt.
+
 
 `
 
