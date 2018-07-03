@@ -84,7 +84,6 @@ public class StartServices {
 		AbstractAgent severalKeywordsAgent = new SeveralKeywordsAgent();
 		AbstractAgent semanticChunksIP = new SemanticAgent();
 		AbstractAgent sessionstateAgent = new SessionContextAgent();
-		
 		//DR AGENT -------------------------------------------
 		/*
 		 * Alle Zeilen die linksbündig sind müssen bearbeitet werden.
@@ -218,7 +217,7 @@ public class StartServices {
 
 					default:
 						//JsSentence = "Highnet, Daimler, costs, milestone, calendar, Google Drive, Google Calendar, google docs, powerpoint, Word";
-						JsSentence = "highnet project coming soon";
+						JsSentence = "house document and milestones for costs coming soon";
 						
 						userID = "lisa@gmail.com";
 						break;

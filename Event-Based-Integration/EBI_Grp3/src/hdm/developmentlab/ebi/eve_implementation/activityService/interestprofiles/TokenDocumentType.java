@@ -43,6 +43,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
+		System.out.println("In IP von TokenDocType");
 		AbstractEvent output = eventFactory.createEvent("AtomicEvent");
 		output.setType("DocRequestEvent");
 		output.add(new Property<String>("teilnehmer1", (String) lastSessionContextEvent.getValueByKey("teilnehmer1")));
