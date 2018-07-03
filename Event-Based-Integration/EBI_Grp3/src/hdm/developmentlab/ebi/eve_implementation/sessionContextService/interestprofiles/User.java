@@ -32,7 +32,7 @@ public class User extends AbstractInterestProfile {
 
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
-		System.out.println("in IP von DR ");
+		System.out.println("in Falsch IP von DR ");
 		System.out.println(event);
 		
 		/*

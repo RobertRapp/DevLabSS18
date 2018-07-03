@@ -7,6 +7,7 @@ import com.speechTokens.EvE.agents.SentenceAgent;
 import com.speechTokens.EvE.agents.SeveralKeywordsAgent;
 import com.speechTokens.EvE.agents.SingleKeywordAgent;
 import com.speechTokens.EvE.agents.TokenizeAgent;
+import com.speechTokens.semantic.simulation.SemanticData;
 import com.speechTokens.tokenizer.Chunker;
 
 import eventprocessing.agent.AbstractAgent;
@@ -35,6 +36,7 @@ import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
 import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
+import semanticService.SemanticAgent;
 
 /**
  * Startpunkt der Anwendung.
@@ -79,29 +81,30 @@ public class StartServices {
 		AbstractAgent singleKeyWordAgent = new SingleKeywordAgent();
 		AbstractAgent noKeywordAgent = new NoKeywordAgent();
 		AbstractAgent severalKeywordsAgent = new SeveralKeywordsAgent();
+		AbstractAgent semanticChunksIP = new SemanticAgent();
 		
 		//DR AGENT -------------------------------------------
 		/*
 		 * Alle Zeilen die linksbündig sind müssen bearbeitet werden.
 		 */
-			AbstractAgent drAgent  = new AbstractAgent() {
-private static final long serialVersionUID = 606360123599610899L;
-						@Override
-						protected void doOnInit() {
-this.setId("drAgent");
-						AbstractInterestProfile ip = new User();
-						//ip.add(new IsFromTopic(this.getId()));
-						ip.add(new IsEventType("SentenceEvent"));
-						try {this.add(ip);
-						} catch (NoValidInterestProfileException e) {e.printStackTrace();}
-						try {
-							//this.add(this.getId());
-							this.add("ChunkGeneration");
-						} catch (NoValidConsumingTopicException e) {e.printStackTrace();}}};
-drAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "drAgent"));
-drAgent.setProducerSettings(new ProducerSettings("localhost", "9092"));
-		
-		//DR AGENT Ende -------------------------------------------
+//			AbstractAgent drAgent  = new AbstractAgent() {
+//private static final long serialVersionUID = 606360123599610899L;
+//						@Override
+//						protected void doOnInit() {
+//this.setId("drAgent");
+//						AbstractInterestProfile ip = new User();
+//						//ip.add(new IsFromTopic(this.getId()));
+//						ip.add(new IsEventType("SentenceEvent"));
+//						try {this.add(ip);
+//						} catch (NoValidInterestProfileException e) {e.printStackTrace();}
+//						try {
+//							//this.add(this.getId());
+//							this.add("ChunkGeneration");
+//						} catch (NoValidConsumingTopicException e) {e.printStackTrace();}}};
+////drAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "drAgent"));
+////drAgent.setProducerSettings(new ProducerSettings("localhost", "9092"));
+//		
+//		//DR AGENT Ende -------------------------------------------
 		
 
 		
@@ -113,7 +116,7 @@ drAgent.setProducerSettings(new ProducerSettings("localhost", "9092"));
 		severalKeywordsAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "severalKeywords"));
 		requestAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "requestAgent")); 
 		protcolAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "protcolAgent"));
-		
+		semanticChunksIP.setConsumerSettings(new ConsumerSettings("localhost", "9092", "semanticChunksIP"));
 		
 		
 		tokenAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
@@ -125,17 +128,19 @@ drAgent.setProducerSettings(new ProducerSettings("localhost", "9092"));
 		severalKeywordsAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		requestAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		protcolAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		semanticChunksIP.setProducerSettings(new ProducerSettings("localhost","9092"));
 		
 		StreamingExecution.add(tokenAgent);
 		StreamingExecution.add(sentenceAgent);
-		StreamingExecution.add(drAgent);
+		//StreamingExecution.add(drAgent);
 		StreamingExecution.add(applicationAgent);
 		StreamingExecution.add(singleKeyWordAgent);
 		StreamingExecution.add(noKeywordAgent);
 		StreamingExecution.add(severalKeywordsAgent);
 		StreamingExecution.add(requestAgent);
 		StreamingExecution.add(protcolAgent);
-		
+		StreamingExecution.add(semanticChunksIP);
+		System.out.println("in StartService");
 		Runnable myRunnable = new Runnable() {
 			public void run() {
 				try {
@@ -207,7 +212,9 @@ drAgent.setProducerSettings(new ProducerSettings("localhost", "9092"));
 					break;
 
 					default:
-						JsSentence = "Highnet, Daimler, costs, milestone, calendar, Google Drive, Google Calendar, google docs, powerpoint, Word";
+						//JsSentence = "Highnet, Daimler, costs, milestone, calendar, Google Drive, Google Calendar, google docs, powerpoint, Word";
+						JsSentence = "costs, milestone";
+						
 						userID = "lisa@gmail.com";
 						break;
 					}

@@ -55,7 +55,6 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 			ArrayList<Object> niklasliste = (ArrayList<Object>) EventUtils.findPropertyByKey(event, "Chunks").getValue();
 			chunks.parseArrayList(niklasliste);
 			ArrayList<String> list = chunks.readChunks();
-			System.out.println("Hallo0 das ist niklas penis größe: ");
 			System.out.println(list.size());
 			for (int i = 0; i < list.size(); i++) {
 				System.out.println("Hallo" + i+1);
