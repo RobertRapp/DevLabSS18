@@ -74,14 +74,15 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 			"PREFIX as: <http://www.w3.org/ns/activitystreams#>\n" + 
 			"PREFIX ordf: <http://purl.org/NET/ordf/>\n" + 
 			"\n" + 
-			"SELECT DISTINCT ?Document ?Author ?Editor ?Project ?FileName ?URL ?LastChangeDate ?Category ?FileID\n" + 
+			"SELECT DISTINCT ?Document ?Author ?Editor ?Project ?FileName ?DocumentType ?URL ?LastChangeDate ?Category ?FileID\n" + 
 			"  \n" + 
 			"WHERE {\n" + 
 			"?Document asdf:HasAuthor ?Author.\n" + 
-			"?Document asdf:IsChangedBy ?Editor.\n" ;
+			"?Document asdf:IsChangedBy ?Editor.\n";
 			
 	static String sQueryEnde =	"	\n" + 
-			"?Document asdf:FileName ?FileName; \n" + 
+			"?Document asdf:FileName ?FileName ; \n" + 
+			"			asdf:DocumentType ?DocumentType ;\n"+
 			"          asdf:URL ?URL;\n" + 
 			"          asdf:LastChangeDate ?LastChangeDate;\n" + 
 			"          asdf:FileID ?FileID;\n" + 
@@ -123,6 +124,9 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 		 String sFinishQuery = sQueryAnfang + "";
 		// AbstractEvent event2 = eventFactory.createEvent("AtomicEvent");
 		 Property<ArrayList<AbstractEvent>> keywords = (Property<ArrayList<AbstractEvent>>) EventUtils.findPropertyByKey(event, "keyword");
+		 
+		 
+		 
 		 if(EventUtils.findPropertyByKey(event, "project") != null) {
 			 //event2.add(new Property<String>((String) event.getValueByKey("project")));
 			 sFinishQuery = sFinishQuery + addProject((String) event.getValueByKey("project"));
