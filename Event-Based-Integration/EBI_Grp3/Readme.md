@@ -1,14 +1,11 @@
 # Events
 Dieser Abschnitt zeigt eine Übersicht aller verwendeten Events innerhalb der Projektgruppe "Eventbasierte Integration". 
 
-
 ##  
 - [ApplicationEvent](#applicationevent)
 - [ProtocolEvent](#protocolevent)
 - [RequestEvent](#reqeustevent)
 - [SessionContextEvent](#sessioncontextevent)
-
-
 
 ## ApplicationEvent
 Enthält die Applikations-Anforderungen. Das Topic “DocProposal” wird von der GUI konsumiert. 
@@ -21,18 +18,14 @@ Properties: Projekt, Teilnehmer, Set von Schlüsselwörtern (zu Projekt, Person 
 Wird mit Informationen über das Gespräch befüllt.
 
 
-
 # Agents
 Dieser Abschnitt zeigt eine Übersicht aller verwendeten Agents innerhalb der Projektgruppe "Eventbasierte Integration". 
-
 
 ##  
 - [SessionContextAgent](#SessionContextAgent)
 - [RequestAgent](#RequestAgent)
 - [ProtocolAgent](#ProtocolAgent)
 - [ActivityAgent](#ActivityAgent)
-
-
 
 ## SessionContextAgent
 Beobachtet das Gespräch und identifiziert ob sich der Gesprächskontext innerhalb eines Gesprächs während der Laufzeit ändert. Jede Gesprächskontext-Änderung erzeugt ein Event auf das SessionContextUpdate Topic. 
@@ -44,15 +37,13 @@ Der ProtocolAgent sammelt Gesprächsinformationen und erstellt bei Session-Ende 
 Erstellt ein Application-Event das in der der GUI einen Applikationsaufruf auslöst.
 
 
-
 # Topics
 Dieser Abschnitt zeigt eine Übersicht aller verwendeten Topics innerhalb der Projektgruppe "Eventbasierte Integration". 
 
-
 ##  
-- [Protocol]
-- [TokenGeneration]
-- [SessionContext]
-- [DocRequest]
-- [SessionState]
-- [DocProposal]
+- Protocol
+- TokenGeneration
+- SessionContext
+- DocRequest
+- SessionState
+- DocProposal
