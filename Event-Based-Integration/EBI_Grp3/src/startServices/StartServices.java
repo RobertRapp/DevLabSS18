@@ -213,7 +213,7 @@ public class StartServices {
 
 					default:
 						//JsSentence = "Highnet, Daimler, costs, milestone, calendar, Google Drive, Google Calendar, google docs, powerpoint, Word";
-						JsSentence = "costs, milestone";
+						JsSentence = "cost from the milestone from niklas";
 						
 						userID = "lisa@gmail.com";
 						break;
