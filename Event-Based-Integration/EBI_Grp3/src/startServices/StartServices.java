@@ -121,7 +121,7 @@ public class StartServices {
 		
 		tokenAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		sentenceAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		drAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		//drAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		applicationAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		singleKeyWordAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		noKeywordAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
