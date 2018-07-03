@@ -7,6 +7,7 @@ import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.agent.interestprofile.predicates.NullPredicateException;
 import eventprocessing.agent.interestprofile.predicates.logical.Or;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
+import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenDocumentType;
 
 
@@ -36,7 +37,12 @@ public class RequestAgent extends AbstractAgent {
 		 */
 		try {
 			AbstractInterestProfile ip = new TokenDocumentType();
-			ip.add(new IsEventType("ProjectEvent"));
+			try {
+				ip.add(new Or(new IsFromTopic("TokenGeneration"), new IsFromTopic("SessionContext")));
+			} catch (NullPredicateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			this.add(ip);
 		
 		} catch (NoValidInterestProfileException e1) {
