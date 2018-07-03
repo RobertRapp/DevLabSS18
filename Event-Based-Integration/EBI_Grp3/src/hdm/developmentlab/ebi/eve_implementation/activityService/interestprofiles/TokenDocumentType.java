@@ -18,7 +18,6 @@ import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
 import eventprocessing.utils.model.OWLResultUtils;
-import javafx.event.Event;
 
 
 public class TokenDocumentType extends eventprocessing.agent.interestprofile.AbstractInterestProfile {
@@ -47,6 +46,18 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 		output.setType("DocRequestEvent");
 		output.add(new Property<String>("teilnehmer1", (String) lastSessionContextEvent.getValueByKey("teilnehmer1")));
 		output.add(new Property<String>("teilnehmer2", (String) lastSessionContextEvent.getValueByKey("teilnehmer2")));
+		
+		Chunker chunks = new Chunker();
+		if (EventUtils.isType("ProjectEvent", event)) {	
+			ArrayList<String> list = chunks.readChunks();
+			for (int i = 0; i < list.size(); i++) {
+				ArrayList<String> list1 = (ArrayList<String>) chunks.readSemanticOfChunk(list.get(i));
+				list1.get(i).contains("project");
+				System.out.println("Hier projekt wert: ");
+				System.out.println(list1.get(i).contains("project"));
+			}
+			chunks.printList();
+		}
 		
 		if (EventUtils.isType("SessionContext", event)) {		
 			lastSessionContextEvent = event;

@@ -84,29 +84,29 @@ public class StartServices {
 		/*
 		 * Alle Zeilen die linksbündig sind müssen bearbeitet werden.
 		 */
-			AbstractAgent drAgent  = new AbstractAgent() {
-private static final long serialVersionUID = 606360123599610899L;
-						@Override
-						protected void doOnInit() {
-this.setId("drAgent");
-						AbstractInterestProfile ip = new AbstractInterestProfile() {
-private static final long serialVersionUID = 6063600497599610899L;
-						@Override
-						protected void doOnReceive(AbstractEvent event) {try {	
-this.getAgent().send(event, "naechsterAgentenName"); //nächsterAgent
-						} catch (NoValidEventException e) {e.printStackTrace();
-						} catch (NoValidTargetTopicException e) {e.printStackTrace();
-						}}};
-						ip.add(new IsFromTopic(this.getId()));
-						try {this.add(ip);
-						} catch (NoValidInterestProfileException e) {e.printStackTrace();}
-						try {
-							this.add(this.getId());
-						} catch (NoValidConsumingTopicException e) {e.printStackTrace();}}};
-drAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", drAgent.getId()));
-drAgent.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
-		
-		//DR AGENT Ende -------------------------------------------
+//			AbstractAgent drAgent  = new AbstractAgent() {
+//private static final long serialVersionUID = 606360123599610899L;
+//						@Override
+//						protected void doOnInit() {
+//this.setId("drAgent");
+//						AbstractInterestProfile ip = new AbstractInterestProfile() {
+//private static final long serialVersionUID = 6063600497599610899L;
+//						@Override
+//						protected void doOnReceive(AbstractEvent event) {try {	
+//this.getAgent().send(event, "naechsterAgentenName"); //nächsterAgent
+//						} catch (NoValidEventException e) {e.printStackTrace();
+//						} catch (NoValidTargetTopicException e) {e.printStackTrace();
+//						}}};
+//						ip.add(new IsFromTopic(this.getId()));
+//						try {this.add(ip);
+//						} catch (NoValidInterestProfileException e) {e.printStackTrace();}
+//						try {
+//							this.add(this.getId());
+//						} catch (NoValidConsumingTopicException e) {e.printStackTrace();}}};
+//drAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", drAgent.getId()));
+//drAgent.setProducerSettings(new ProducerSettings("localhost", "9092"));
+//		
+//		//DR AGENT Ende -------------------------------------------
 		
 		
 		tokenAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "tokenagent"));
@@ -122,7 +122,7 @@ drAgent.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
 		
 		tokenAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		sentenceAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		drAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		//drAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		applicationAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		singleKeyWordAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		noKeywordAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
@@ -132,7 +132,7 @@ drAgent.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
 		
 		StreamingExecution.add(tokenAgent);
 		StreamingExecution.add(sentenceAgent);
-		StreamingExecution.add(drAgent);
+		//StreamingExecution.add(drAgent);
 		StreamingExecution.add(applicationAgent);
 		StreamingExecution.add(singleKeyWordAgent);
 		StreamingExecution.add(noKeywordAgent);
