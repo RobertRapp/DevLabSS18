@@ -93,6 +93,26 @@ public abstract class AbstractEvent implements Serializable {
 			throw new IllegalArgumentException(String.format("null values are not allowed"));
 		}
 	}
+	
+	public void addOrReplace(Property<?> property) {
+		// Wenn die Eigenschaft nicht null ist
+		if (property != null) {
+			// Wird sie der Liste hinzugefügt
+			boolean bereitesvorhanden = false;
+			for(Property property2 : this.properties) {
+				if(property2.equals(property)) {
+					bereitesvorhanden = true;
+				}
+			}
+			if(!bereitesvorhanden) {
+				this.properties.add(property);
+			}
+			
+			// Sonst wird eine Exception geworfen.
+		} else {
+			throw new IllegalArgumentException(String.format("null values are not allowed"));
+		}
+	}
 
 	/**
 	 * entfernt eine Eigenschaft aus der Liste.
@@ -208,6 +228,19 @@ public abstract class AbstractEvent implements Serializable {
 		for(Property<?> p : this.getProperties()) {
 			if(p.getKey().equalsIgnoreCase(key)) {
 				return p.getValue();
+			}
+			else {
+				continue;
+			}
+		}
+		return null;
+	}
+	public Object getValueBySecoundMatch(String key){
+		int i = 0;
+		for(Property<?> p : this.getProperties()) {
+			if(p.getKey().equalsIgnoreCase(key)) {
+				i++;
+				if(i==1)return p.getValue();
 			}
 			else {
 				continue;

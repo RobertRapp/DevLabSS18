@@ -12,7 +12,9 @@ import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.AtomicEvent;
 import eventprocessing.event.EventIdProvider;
 import eventprocessing.event.Property;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.AbstractFactory;
+import eventprocessing.utils.factory.EventFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
@@ -38,6 +40,8 @@ public class SessionState extends AbstractInterestProfile {
 	@Override
 	protected void doOnReceive(AbstractEvent abs) {
 		
+		
+		
 		/**
 		 * 
 		 * In dieser Methode wird die Verarbeitung eines Events gemacht. D. h. wie der Agent auf ein bestimmtes
@@ -50,6 +54,20 @@ public class SessionState extends AbstractInterestProfile {
 		 */
 		SessionContextAgent sA = (SessionContextAgent) this.getAgent();
 		
+		if(abs.getType().equalsIgnoreCase("sessionEndEvent")) {
+			AbstractEvent session = sA.getSessionById(abs.getValueByKey("sessionID").toString());
+			session.add(new Property<>("sessionEnd", TimeUtils.getCurrentTime()));
+			try {
+				sA.send(session, "SessionState");
+				sA.getSessions().remove(session);
+			} catch (NoValidEventException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoValidTargetTopicException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		/*
 		 * Ein Interessensprofil kann ebenfalls Events publizieren, hierfür wird erstmal ein Event erzeugt,
 		 * das über die eventFactory erzeugt wird. Es handelt sich dabei im Rahmen dieses Projekts um ein AtomicEvent
@@ -61,8 +79,8 @@ public class SessionState extends AbstractInterestProfile {
 		/*
 		 * Werden einzelne Attribute eines Events übernommen kann dafür eine Schleife über die Properties gehen.
 		 */
-		for(Property<?> p :abs.getProperties()) {
-				newSession.add(p);
+		for(Property<?> p : abs.getProperties()) {
+				newSession.addOrReplace(p);
 			}
 		//erzeugen einer SessionID wenn noch keine vorhanden ist. 
 		if(EventUtils.findPropertyByKey(newSession, "sessionID") == null) {
@@ -77,10 +95,10 @@ public class SessionState extends AbstractInterestProfile {
 		 */
 		AbstractEvent createdSessionContext = eventFactory.createEvent(("AtomicEvent"));
 		createdSessionContext.add(newSession.getPropertyByKey("sessionID"));
-		createdSessionContext.add(new Property<>("project"));
-		createdSessionContext.add(new Property<>("topic"));
-		createdSessionContext.add(new Property<>("teilnehmer1"));
-		createdSessionContext.add(new Property<Boolean>("teilnehmer2", false));
+		createdSessionContext.add(new Property<String>("project", "NoProjectKnownYet"));
+		createdSessionContext.add(new Property<String>("topic"));
+		createdSessionContext.add(new Property<>("teilnehmer1", abs.getValueByKey("userID")));
+		createdSessionContext.add(new Property<>("teilnehmer2", abs.getValueBySecoundMatch("userID")));
 		newSession.add(new Property<AbstractEvent>("sessionContext", createdSessionContext));
 		
 		
@@ -96,7 +114,7 @@ public class SessionState extends AbstractInterestProfile {
 		 */
 		try {
 			//Publizieren von Events über die send-Methode des Agenten.
-			sA.send(createdSessionContext, "SessionContextUpdate");			
+			sA.send(createdSessionContext, "SessionContext");			
 			sA.addSession(abs);	
 			
 		} catch (NoValidEventException e) {	

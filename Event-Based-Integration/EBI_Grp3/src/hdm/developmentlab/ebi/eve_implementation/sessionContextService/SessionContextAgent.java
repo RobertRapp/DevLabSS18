@@ -63,14 +63,15 @@ public class SessionContextAgent extends AbstractAgent {
 		 */
 		
 		AbstractInterestProfile sessionContextIP = new SessionContextIP();	
-		try {
-			sessionContextIP.add(new Or(new IsFromTopic("TokenGeneration"),new IsFromTopic("SessionState")));
-		} catch (NullPredicateException e1) {
-			e1.printStackTrace();
-		}
+		sessionContextIP.add(new IsFromTopic("TokenGeneration"));
 		
 		AbstractInterestProfile sessionState = new SessionState();		
-		sessionState.add(new IsEventType("sessionStart"));
+		try {
+			sessionState.add( new Or(new IsEventType("SessionStartEvent"),new IsEventType("SessionEndEvent")));
+		} catch (NullPredicateException e1) {
+			
+			e1.printStackTrace();
+		}
 		
 		/*
 		 * Hier werden alle Interessensprofile des Agenten hinzugefügt.

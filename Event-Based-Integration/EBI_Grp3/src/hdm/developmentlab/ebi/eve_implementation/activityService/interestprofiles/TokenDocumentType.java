@@ -2,6 +2,7 @@ package hdm.developmentlab.ebi.eve_implementation.activityService.interestprofil
 
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.logging.Logger;
 
 import org.json.JSONObject;
@@ -46,14 +47,19 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
-				
+		System.out.println("TOKENDOCTYPE EVENT "+event);
+		
 		AbstractEvent output = eventFactory.createEvent("AtomicEvent");
 		output.setType("DocRequestEvent");
-		if(EventUtils.hasProperty(lastSessionContextEvent, "teilnehmer1")) output.add(new Property<String>("teilnehmer1", (String) lastSessionContextEvent.getValueByKey("teilnehmer1")));
-		if(EventUtils.hasProperty(lastSessionContextEvent, "teilnehmer2")) output.add(new Property<String>("teilnehmer2", (String) lastSessionContextEvent.getValueByKey("teilnehmer2")));
+		if(lastSessionContextEvent.getProperties().size() < 1) {
+			lastSessionContextEvent.add(new Property<String>("teilnehmer1","Vanessa_Keller"));
+			lastSessionContextEvent.add(new Property<String>("teilnehmer2","Jennifer_Tran"));
+		}
+		if(EventUtils.hasProperty(lastSessionContextEvent, "teilnehmer1")) output.add(new Property<String>("participant1", (String) lastSessionContextEvent.getValueByKey("teilnehmer1")));
+		if(EventUtils.hasProperty(lastSessionContextEvent, "teilnehmer2")) output.add(new Property<String>("participant2", (String) lastSessionContextEvent.getValueByKey("teilnehmer2")));
 		
-		
-		if(!event.getType().equalsIgnoreCase("uncertainEvent")) {
+		if(event.getType().equalsIgnoreCase("uncertainEvent")) {
+			System.out.println("EVENT VOM NICHT FIXEN TYP"+event);
 			String key = null;
 			String value= null;
 			for(Property<?> p : event.getProperties()) {
@@ -65,46 +71,45 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 					value = (String) p.getValue();
 				case "keyword":
 					//{ "type": "literal" , "value": "cost; expenses; expense; costs;" }
+					
 					JSONObject js = new JSONObject((String) p.getValue());
 					output.add(new Property<String>("keyword", js.get("value").toString().split(";")[0]));			
 					break;				
 					default:
-					output.add(p);
+					//output.add(p);
 					break;					
 				}
 				output.add(new Property<String>(key, value));
 			}				
 		}else {
+						
 			for(Property<?> p : event.getProperties()) {
 				switch (p.getKey().toLowerCase()) {
-				case "person":
-					Property<?> person = (Property<?>) p.getValue();
-					output.add(new Property<>("person", person.getKey()));
-					JSONObject js = new JSONObject((String) person.getValue());
-					output.add(new Property<>("keyword", js.get("value").toString().split(";")[0]));
+				case "person":					
+					LinkedHashMap<String, ?> hashmap =  (LinkedHashMap<String, ?>) p.getValue();
+					output.addOrReplace(new Property<>("keyword", hashmap.get("value").toString().split(";")[0]));
+					output.addOrReplace(new Property<>("person", hashmap.get("key").toString()));
 				break;
 				case "project": 
-					Property<?> project = (Property<?>) p.getValue();
-					output.add(new Property<>("project", project.getKey()));
-					JSONObject js1 = new JSONObject((String) project.getValue());
-					output.add(new Property<>("keyword", js1.get("value").toString().split(";")[0]));
-				case "document":
-					Property<?> document = (Property<?>) p.getValue();
-					//output.add(new Property<>("document", document.getKey()));
-					JSONObject js2 = new JSONObject((String) document.getValue());
-					output.add(new Property<>("keyword", js2.get("value").toString().split(";")[0]));
-					break;				
-					default:
-					output.add(p);
+						
+					LinkedHashMap<String, ?> hashmap1 =  (LinkedHashMap<String, ?>) p.getValue();
+					output.addOrReplace(new Property<>("keyword", hashmap1.get("value").toString().split(";")[0]));
+					output.addOrReplace(new Property<>("project", hashmap1.get("key").toString()));
+				default:
+						if(p.getValue() instanceof LinkedHashMap<?, ?>) {					
+							LinkedHashMap<String, ?> hashmap2 =  (LinkedHashMap<String, ?>) p.getValue();
+							output.addOrReplace(new Property<>("keyword", hashmap2.get("value").toString().split(";")[0]));	
 					break;					
+				}
 				}
 		}
 		}
 		
-			if(EventUtils.hasProperty(lastSessionContextEvent, "project") && !EventUtils.hasProperty(output, "project")) output.add(new Property<String>("project", (String) lastSessionContextEvent.getValueByKey("project")));
+		if(EventUtils.hasProperty(lastSessionContextEvent, "project") && !EventUtils.hasProperty(output, "project")) output.add(new Property<String>("project", (String) lastSessionContextEvent.getValueByKey("project")));
 		
 		try {
-			this.getAgent().send(output, "DocRequests");
+			System.err.println("OUTPUT EVENT AN DR GRP"+output);
+			this.getAgent().send(output, "DocRequest");
 		} catch (NoValidEventException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
