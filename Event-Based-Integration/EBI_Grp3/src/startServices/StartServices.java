@@ -7,7 +7,6 @@ import com.speechTokens.EvE.agents.SentenceAgent;
 import com.speechTokens.EvE.agents.SeveralKeywordsAgent;
 import com.speechTokens.EvE.agents.SingleKeywordAgent;
 import com.speechTokens.EvE.agents.TokenizeAgent;
-import com.speechTokens.tokenizer.Chunker;
 
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
@@ -15,7 +14,6 @@ import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
@@ -29,12 +27,10 @@ import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
-import eventprocessing.utils.model.EventUtils;
 import eventprocessing.utils.model.OWLResultUtils;
 import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
 import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
 /**
  * Startpunkt der Anwendung.
