@@ -149,7 +149,7 @@ public class StartServices {
 		StreamingExecution.add(protcolAgent);
 		StreamingExecution.add(semanticChunksIP);
 		StreamingExecution.add(sessionstateAgent);
-		StreamingExecution.add(documentProposalAgent);
+		//StreamingExecution.add(documentProposalAgent);
 		
 		System.out.println("in StartService");
 		Runnable myRunnable = new Runnable() {

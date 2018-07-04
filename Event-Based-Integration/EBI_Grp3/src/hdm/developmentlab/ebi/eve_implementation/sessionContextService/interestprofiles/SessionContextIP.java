@@ -57,7 +57,7 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 	 */
 	
 	// Auslesen eines SessionContexts
-	System.out.println("Alle Sessions"+sA.getSessions().get(0) +"  Vergleichswert aus Event"+ event.getValueByKey("sessionID"));
+	//System.out.println("Alle Sessions"+sA.getSessions().get(0) +"  Vergleichswert aus Event"+ event.getValueByKey("sessionID"));
 	AbstractEvent currentSession = (AbstractEvent) sA.getSessions().get(0);
 	
 	AbstractEvent sessionContext = eventFactory.createEvent("AtomicEvent");
