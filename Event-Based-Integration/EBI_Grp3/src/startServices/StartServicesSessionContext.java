@@ -37,11 +37,11 @@ public class StartServicesSessionContext {
 	
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
-		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
 		AbstractAgent sessionContextAgent = new SessionContextAgent();
 		
-		sessionContextAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "g"));
-		sessionContextAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		sessionContextAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "g"));
+		sessionContextAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 		
 		
 		//StreamingExecution.add(activityService);

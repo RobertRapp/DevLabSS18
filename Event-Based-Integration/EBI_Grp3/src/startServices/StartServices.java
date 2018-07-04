@@ -66,7 +66,7 @@ public class StartServices {
 	
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
-		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
 		
 		System.out.println(OWLResultUtils.convertBindingElementInPropertySet("{\r\n" + 
 				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostStatement\" } ,\r\n" + 
@@ -113,42 +113,42 @@ public class StartServices {
 //							//this.add(this.getId());
 //							this.add("ChunkGeneration");
 //						} catch (NoValidConsumingTopicException e) {e.printStackTrace();}}};
-////drAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "drAgent"));
-////drAgent.setProducerSettings(new ProducerSettings("localhost", "9092"));
+////drAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "drAgent"));
+////drAgent.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
 //		
 //		//DR AGENT Ende -------------------------------------------
 		
 
 		
-		tokenAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "1"));
-		sentenceAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "2"));
-		applicationAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "3"));
-		singleKeyWordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "4"));
-		noKeywordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "5"));
-		severalKeywordsAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "6"));
-		requestAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "7")); 
-		protcolAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "8"));
-		semanticChunksIP.setConsumerSettings(new ConsumerSettings("localhost", "9092", "9"));
-		sessionstateAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "10"));
-		documentProposalAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "11"));
-		guiAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "12"));
-		docProposalAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "13"));
+		tokenAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "1"));
+		sentenceAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "2"));
+		applicationAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "3"));
+		singleKeyWordAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "4"));
+		noKeywordAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "5"));
+		severalKeywordsAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "6"));
+		requestAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "7")); 
+		protcolAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "8"));
+		semanticChunksIP.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "9"));
+		sessionstateAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "10"));
+		documentProposalAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "11"));
+		guiAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "12"));
+		docProposalAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "13"));
 		
 		
-		tokenAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		sentenceAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		//drAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		applicationAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		singleKeyWordAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		noKeywordAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		severalKeywordsAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		requestAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		protcolAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		semanticChunksIP.setProducerSettings(new ProducerSettings("localhost","9092"));
-		sessionstateAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		documentProposalAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		guiAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		docProposalAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		tokenAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+		sentenceAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+		//drAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+		applicationAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+		singleKeyWordAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+		noKeywordAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+		severalKeywordsAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+		requestAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+		protcolAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+		semanticChunksIP.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+		sessionstateAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+		documentProposalAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+		guiAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+		docProposalAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 		
 		StreamingExecution.add(tokenAgent);
 		StreamingExecution.add(sentenceAgent);

@@ -37,11 +37,11 @@ public class StartServicesDocRequest {
 	
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
-		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
 		AbstractAgent requestAgent = new RequestAgent();
 		
-		requestAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "g"));
-		requestAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		requestAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "g"));
+		requestAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 		
 		
 		//StreamingExecution.add(activityService);

@@ -38,8 +38,7 @@ public enum ProducerSettingsValues {
 	 */
 	private ProducerSettingsValues() {
 		//IPv4Bootstrap = "192.168.56.101";
-		IPv4Bootstrap = "localhost";
-		portBootstrap = "9092";
+		IPv4Bootstrap = "localho10.142.0.2ortBootstrap = "9092";
 		acks = "0";//"all";
 		retries = 0;
 		batchSize = 8000;//16384;

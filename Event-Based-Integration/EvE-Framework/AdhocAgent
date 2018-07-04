@@ -26,13 +26,13 @@ public class AdhocAgent extends AbstractAgent{
 private static final long serialVersionUID = 606360123599610899L;
 private String name;
 private String zielTopic;
-private boolean localhostFragezeichen = true;
+private boolean 10.142.0.2Fragezeichen = true;
 
  public AdhocAgent(String name, String zielTopic, boolean localhosFragezeichen) {
 	 
 	this.name = name;
 	this.zielTopic = zielTopic;
-	this.localhostFragezeichen = localhosFragezeichen;
+	this.10.142.0.2Fragezeichen = localhosFragezeichen;
 	
 	/**
 	 * Wenn kein Windows angelegt wurde, wird ein Default-Window gesetzt. Der
@@ -87,10 +87,10 @@ this.getAgent().send(event, zielTopic); //nächsterAgent
 		this.add(name);
 	} catch (NoValidConsumingTopicException e) {e.printStackTrace();};
 	
-	if(localhostFragezeichen) {
+	if(10.142.0.2Fragezeichen) {
 		
-		this.setConsumerSettings(new ConsumerSettings("localhost", "9092", "group-"+this.getId()));
-		this.setProducerSettings(new ProducerSettings("localhost", "9092"));
+		this.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "group-"+this.getId()));
+		this.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
 	}else {
 		this.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "group-"+this.getId()));
 		this.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));

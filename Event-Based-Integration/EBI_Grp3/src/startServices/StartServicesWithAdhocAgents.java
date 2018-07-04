@@ -55,13 +55,13 @@ public class StartServicesWithAdhocAgents {
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
 		
-		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
 		AbstractAgent request = new RequestAgent();
 		AbstractAgent singlekeywordAgent = new SeveralKeywordsAgent();
-		request.setConsumerSettings(new ConsumerSettings("localhost", "9092", "req"));
-		request.setProducerSettings(new ProducerSettings("localhost","9092"));
-		singlekeywordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "sk"));
-		singlekeywordAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		request.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "req"));
+		request.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+		singlekeywordAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "sk"));
+		singlekeywordAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 		StreamingExecution.add(request);				
 		StreamingExecution.add(singlekeywordAgent);
 //		StreamingExecution.add(getAdhocAgent("Agent2", "Agent3", false));

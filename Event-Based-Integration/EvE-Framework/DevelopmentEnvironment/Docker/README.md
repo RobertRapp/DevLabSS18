@@ -54,10 +54,10 @@ kafka-topics.sh --zookeeper zookeeper:2181 --list
 kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test
 
 # Publish Message
-kafka-console-producer.sh --broker-list localhost:9092 --topic test
+kafka-console-producer.sh --broker-list 10.142.0.2:9092 --topic test
 
 # Subscribe to Topic
-kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
+kafka-console-consumer.sh --bootstrap-server 10.142.0.2:9092 --topic test --from-beginning
 ```
 
 #### Unix
@@ -65,14 +65,14 @@ kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-
 ```
 # List Topics
 
-kafka-topics --zookeeper localhost:2181 --list
+kafka-topics --zookeeper 10.142.0.2:2181 --list
 
 # Create Topic
-kafka-topics --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+kafka-topics --create --zookeeper 10.142.0.2:2181 --replication-factor 1 --partitions 1 --topic test
 
 # Publish Message
-kafka-console-producer --broker-list localhost:9092 --topic test
+kafka-console-producer --broker-list 10.142.0.2:9092 --topic test
 
 # Subscribe to Topic
-kafka-console-consumer --bootstrap-server localhost:9092 --topic test --from-beginning
+kafka-console-consumer --bootstrap-server 10.142.0.2:9092 --topic test --from-beginning
 ```

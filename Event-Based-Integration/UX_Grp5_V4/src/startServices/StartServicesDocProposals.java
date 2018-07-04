@@ -52,15 +52,15 @@ public class StartServicesDocProposals {
 		*/	
 		
 //		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
-		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2 ","9092"));
 		
 		AbstractAgent DocProposalAgent = new DocProposalAgent();
-		DocProposalAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "DocProposal"));
-		DocProposalAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		DocProposalAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2 ","9092", "DocProposal"));
+		DocProposalAgent.setProducerSettings(new ProducerSettings("10.142.0.2 ","9092"));
 
 		AbstractAgent Gui = new GuiAgent();
-		Gui.setConsumerSettings(new ConsumerSettings("localhost","9092", "Gui"));
-		Gui.setProducerSettings(new ProducerSettings("localhost","9092"));
+		Gui.setConsumerSettings(new ConsumerSettings("10.142.0.2 ","9092", "Gui"));
+		Gui.setProducerSettings(new ProducerSettings("10.142.0.2 ","9092"));
 		
 //		AbstractAgent userInteraction = new UserInteraction();
 //		userInteraction.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "UserInteraction"));
