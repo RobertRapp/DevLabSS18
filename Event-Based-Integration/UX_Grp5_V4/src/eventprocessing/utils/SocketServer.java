@@ -36,7 +36,7 @@ public class SocketServer {
 	            // Add WebSocket endpoint to javax.websocket layer
 	            //Session session = wscontainer.connectToServer(server, "")
 	            wscontainer.addEndpoint(Websocket.class);
-	            wscontainer.setDefaultMaxSessionIdleTimeout(1000000L);
+	            wscontainer.setDefaultMaxSessionIdleTimeout(1500000L);
 
 	            server.start();
 	            server.dump(System.err);

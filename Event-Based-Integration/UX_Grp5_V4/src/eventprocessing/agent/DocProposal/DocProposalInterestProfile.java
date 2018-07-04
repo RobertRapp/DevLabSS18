@@ -47,7 +47,7 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 	 */
 	@Override
 	public void doOnReceive(AbstractEvent event) {
-		System.out.println("In IP von DocPropalal Gui");
+		System.out.println("In IP von DocProposalIP von Gui");
 //		System.out.println("Event: " + event.getValueByKey("FileID").toString());
 //		
 //		String docID = event.getValueByKey("FileID").toString();
@@ -115,7 +115,7 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 			}
 			
 		}
-		if(EventUtils.findPropertyByKey(event,"Category").getValue().equals("Application")) {
+		if(EventUtils.findPropertyByKey(event,"Category") == null || EventUtils.findPropertyByKey(event,"Category").getValue().equals("Application")) {
 			docListe.add(new Document(fileId, docname, doctype, url , "50", editor, lastChangeDate, category));
 		}
 		

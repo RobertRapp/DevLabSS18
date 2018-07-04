@@ -162,8 +162,7 @@ public class StartServices {
 		StreamingExecution.add(sessionstateAgent);
 		StreamingExecution.add(guiAgent);
 		StreamingExecution.add(docProposalAgent);
-		
-		//StreamingExecution.add(documentProposalAgent);
+		StreamingExecution.add(documentProposalAgent);
 		
 		Runnable myRunnable = new Runnable() {
 			public void run() {
