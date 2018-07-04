@@ -18,16 +18,16 @@
           <target>1.8</target>
         </configuration>
       </plugin>
-      <plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.4.11.v20180605</version>
-				<configuration>
-					<webApp>
-						<contextPath>/socketHandler</contextPath>
-					</webApp>
-				</configuration>
-			</plugin>
+<!--       <plugin> -->
+<!-- 				<groupId>org.eclipse.jetty</groupId> -->
+<!-- 				<artifactId>jetty-maven-plugin</artifactId> -->
+<!-- 				<version>9.4.11.v20180605</version> -->
+<!-- 				<configuration> -->
+<!-- 					<webApp> -->
+<!-- 						<contextPath>/socketHandler</contextPath> -->
+<!-- 					</webApp> -->
+<!-- 				</configuration> -->
+<!-- 			</plugin> -->
     </plugins>
   </build>
   <dependencies>
