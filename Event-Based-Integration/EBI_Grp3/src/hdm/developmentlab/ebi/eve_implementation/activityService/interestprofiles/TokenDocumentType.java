@@ -118,7 +118,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 			//EventUtils.hasProperty(lastSessionContextEvent, "project") && !EventUtils.hasProperty(output, "project")) output.add(new Property<String>("project", (String) lastSessionContextEvent.getValueByKey("project")));
 		}
 		try {
-			System.err.println("OUTPUT EVENT AN DR GRP"+output);
+			System.err.println("Daraus entsteht der Dokumentenvorschlag: "+output);
 			System.out.println("DoxRequest wird an DR geschickt");
 			this.getAgent().send(output, "DocRequest");
 		} catch (NoValidEventException e) {

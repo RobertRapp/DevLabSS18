@@ -1,6 +1,8 @@
 package documentProposalService.interestprofiles;
 
+import java.awt.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Logger;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
@@ -8,6 +10,9 @@ import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.query.ResultSetFormatter;
+import org.json.JSONObject;
+
+import com.google.api.client.json.Json;
 
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
@@ -19,6 +24,7 @@ import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
+import eventprocessing.utils.model.OWLResultUtils;
 
 public class DocumentProposalIP extends AbstractInterestProfile {
 	
@@ -32,14 +38,29 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 		// TODO Auto-generated method stub
 		System.out.println("in IP von Dr mit dem Event: " + event);
 		String result = getModul(event);
+
+		//_________________________________
+		JSONObject jsonObject = new JSONObject(result);
+		ArrayList<Document> docList = new ArrayList<>();
+		AbstractEvent outputEvent = eventFactory.createEvent("AtomicEvent");
+			for (int i = 0; i < jsonObject.getJSONObject("results").getJSONArray("bindings").length() ; i++) {
+				Document d = new Document(jsonObject.toString());
+				outputEvent.add(new Property<>("Document",d));
+				
+			}
+			System.out.println("OUTPUT ANSATZ "+outputEvent);
 		
+		//________________________________
 		
 		// Pushen eines Events
-				System.out.println(result);
+				System.out.println("bindinglist" + bindinglist);
 				AbstractEvent docProposalEvent = eventFactory.createEvent("AtomicEvent");
 				docProposalEvent.setType("DocProposalEvent");
+				AbstractEvent element = OWLResultUtils.getDocProposalEventOfBindingElement(bindinglist);
+				ArrayList<Property<String>> arrayprops = OWLResultUtils.convertBindingElementInPropertySet(result.toString());
+				System.out.println("arrayprops " + arrayprops);
 				docProposalEvent.add(new Property<String>("Document",result));
-				
+				System.out.println("element Event hier: " + element);
 				
 				try {
 					//Neue FeedbackEvent
