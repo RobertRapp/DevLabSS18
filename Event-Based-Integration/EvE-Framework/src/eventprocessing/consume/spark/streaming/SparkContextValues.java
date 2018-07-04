@@ -49,7 +49,9 @@ public enum SparkContextValues {
 	 * zu setzen.
 	 */
 	private SparkContextValues() {
-		batchDuration = 50;
+
+		batchDuration = 200;
+
 		sparkAppName = "Testanwendung";
 		dynamicAllocationEnable = "false";
 		sparkSerializer = "org.apache.spark.serializer.KryoSerializer";

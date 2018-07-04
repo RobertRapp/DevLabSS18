@@ -47,17 +47,21 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
-		System.out.println("TOKENDOCTYPE EVENT "+event);
+		if(event.getType().equalsIgnoreCase("SessionContextEvent")) {
+			System.out.println("Session geupdated: "+event);
+			lastSessionContextEvent = event;
+		}
+		System.out.println("In TokenDocType "+event);
 		
 		AbstractEvent output = eventFactory.createEvent("AtomicEvent");
-		output.setType("DocRequestEvent");
+		output.setType("RequestEvent");
 		if(lastSessionContextEvent.getProperties().size() < 1) {
 			lastSessionContextEvent.add(new Property<String>("teilnehmer1","Vanessa_Keller"));
 			lastSessionContextEvent.add(new Property<String>("teilnehmer2","Jennifer_Tran"));
 		}
 		if(EventUtils.hasProperty(lastSessionContextEvent, "teilnehmer1")) output.add(new Property<String>("participant1", (String) lastSessionContextEvent.getValueByKey("teilnehmer1")));
 		if(EventUtils.hasProperty(lastSessionContextEvent, "teilnehmer2")) output.add(new Property<String>("participant2", (String) lastSessionContextEvent.getValueByKey("teilnehmer2")));
-		
+		if(EventUtils.hasProperty(lastSessionContextEvent, "project")) output.add(new Property<String>("project", (String) lastSessionContextEvent.getValueByKey("project")));
 		if(event.getType().equalsIgnoreCase("uncertainEvent")) {
 			System.out.println("EVENT VOM NICHT FIXEN TYP"+event);
 			String key = null;
@@ -85,16 +89,19 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 						
 			for(Property<?> p : event.getProperties()) {
 				switch (p.getKey().toLowerCase()) {
-				case "person":					
+				case "person":		
+					if(p.getValue() instanceof LinkedHashMap<?, ?>) {
 					LinkedHashMap<String, ?> hashmap =  (LinkedHashMap<String, ?>) p.getValue();
 					output.addOrReplace(new Property<>("keyword", hashmap.get("value").toString().split(";")[0]));
 					output.addOrReplace(new Property<>("person", hashmap.get("key").toString()));
+					}
 				break;
 				case "project": 
-						
+					if(p.getValue() instanceof LinkedHashMap<?, ?>) {		
 					LinkedHashMap<String, ?> hashmap1 =  (LinkedHashMap<String, ?>) p.getValue();
 					output.addOrReplace(new Property<>("keyword", hashmap1.get("value").toString().split(";")[0]));
 					output.addOrReplace(new Property<>("project", hashmap1.get("key").toString()));
+					}
 				default:
 						if(p.getValue() instanceof LinkedHashMap<?, ?>) {					
 							LinkedHashMap<String, ?> hashmap2 =  (LinkedHashMap<String, ?>) p.getValue();
@@ -104,11 +111,15 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 				}
 		}
 		}
-		
-		if(EventUtils.hasProperty(lastSessionContextEvent, "project") && !EventUtils.hasProperty(output, "project")) output.add(new Property<String>("project", (String) lastSessionContextEvent.getValueByKey("project")));
-		
+		System.out.println("Der letzte Session COntext ist: " + lastSessionContextEvent);
+		if(lastSessionContextEvent.getProperties().size() > 0) {
+			System.out.println("lastsession Project"+EventUtils.hasProperty(lastSessionContextEvent, "project"));
+			System.out.println("outputSession"+ EventUtils.findPropertyByKey(output, "project"));
+			//EventUtils.hasProperty(lastSessionContextEvent, "project") && !EventUtils.hasProperty(output, "project")) output.add(new Property<String>("project", (String) lastSessionContextEvent.getValueByKey("project")));
+		}
 		try {
-			System.err.println("OUTPUT EVENT AN DR GRP"+output);
+			System.err.println("Daraus entsteht der Dokumentenvorschlag: "+output);
+			System.out.println("DoxRequest wird an DR geschickt");
 			this.getAgent().send(output, "DocRequest");
 		} catch (NoValidEventException e) {
 			// TODO Auto-generated catch block

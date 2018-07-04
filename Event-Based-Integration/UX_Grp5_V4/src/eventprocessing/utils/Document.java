@@ -43,12 +43,18 @@ public class Document {
 		
 		public String getColor(String type) {
 			switch(type) {
-			case "Word":
-					color = "blue";
+			case "presentation":
+				color = "#dc6141";
+				break;
+			case "text":
+					color = "#4269a5";
 					break;	
-			case "Powerpoint":
-					color = "red";
+			case "table":
+				color = "#39825a";
 					break;	
+			case "application":
+				color = "#E5B34F";
+				break;	
 			default:
 					color = "grey";
 					break;

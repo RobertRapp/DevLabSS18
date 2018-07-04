@@ -14,7 +14,6 @@ import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
 import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
-import hdm.developmentlab.ebi.eve_implementation.events.TimeReference;
 
 /**
  * Startpunkt der Anwendung.
@@ -90,13 +89,13 @@ public class StartServicesDocRequest {
 				Property<String> user = new Property<String>("user", "Robert Rapp"+i);
 				Property<String> user2 = new Property<String>("users", "Detlef Gabe"+i);
 				Property<String> latestAct = new Property<String>("latestActivity", "Activity Folfe");
-				Property<TimeReference> timereference = new Property<TimeReference>("timereference", null);
+				
 				sessioncontext.add(project);			
 				sessioncontext.add(topic);			
 				sessioncontext.add(user);		
 				sessioncontext.add(latestAct);
 				sessioncontext.add(user2);			
-				sessioncontext.add(timereference);			
+				
 				
 				publish(sessioncontext,"SessionContext");
 				

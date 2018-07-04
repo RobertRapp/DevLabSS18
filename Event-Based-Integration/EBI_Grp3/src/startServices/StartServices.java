@@ -7,8 +7,10 @@ import com.speechTokens.EvE.agents.SentenceAgent;
 import com.speechTokens.EvE.agents.SeveralKeywordsAgent;
 import com.speechTokens.EvE.agents.SingleKeywordAgent;
 import com.speechTokens.EvE.agents.TokenizeAgent;
+import com.speechTokens.semantic.simulation.SemanticData;
 import com.speechTokens.tokenizer.Chunker;
 
+import documentProposalService.DocumentProposalAgent;
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.NoValidEventException;
@@ -34,7 +36,9 @@ import eventprocessing.utils.model.OWLResultUtils;
 import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
 import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
+import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
+import semanticService.SemanticAgent;
 
 /**
  * Startpunkt der Anwendung.
@@ -79,67 +83,75 @@ public class StartServices {
 		AbstractAgent singleKeyWordAgent = new SingleKeywordAgent();
 		AbstractAgent noKeywordAgent = new NoKeywordAgent();
 		AbstractAgent severalKeywordsAgent = new SeveralKeywordsAgent();
+		AbstractAgent semanticChunksIP = new SemanticAgent();
+		AbstractAgent sessionstateAgent = new SessionContextAgent();
+		AbstractAgent documentProposalAgent = new DocumentProposalAgent();
+		
 		
 		//DR AGENT -------------------------------------------
 		/*
 		 * Alle Zeilen die linksbündig sind müssen bearbeitet werden.
 		 */
-			AbstractAgent drAgent  = new AbstractAgent() {
-private static final long serialVersionUID = 606360123599610899L;
-						@Override
-						protected void doOnInit() {
-this.setId("drAgent");
-						AbstractInterestProfile ip = new AbstractInterestProfile() {
-private static final long serialVersionUID = 6063600497599610899L;
-						@Override
-						protected void doOnReceive(AbstractEvent event) {try {	
-this.getAgent().send(event, "naechsterAgentenName"); //nächsterAgent
-						} catch (NoValidEventException e) {e.printStackTrace();
-						} catch (NoValidTargetTopicException e) {e.printStackTrace();
-						}}};
-						ip.add(new IsFromTopic(this.getId()));
-						try {this.add(ip);
-						} catch (NoValidInterestProfileException e) {e.printStackTrace();}
-						try {
-							this.add(this.getId());
-						} catch (NoValidConsumingTopicException e) {e.printStackTrace();}}};
-drAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", drAgent.getId()));
-drAgent.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
+//			AbstractAgent drAgent  = new AbstractAgent() {
+//private static final long serialVersionUID = 606360123599610899L;
+//						@Override
+//						protected void doOnInit() {
+//this.setId("drAgent");
+//						AbstractInterestProfile ip = new User();
+//						//ip.add(new IsFromTopic(this.getId()));
+//						ip.add(new IsEventType("SentenceEvent"));
+//						try {this.add(ip);
+//						} catch (NoValidInterestProfileException e) {e.printStackTrace();}
+//						try {
+//							//this.add(this.getId());
+//							this.add("ChunkGeneration");
+//						} catch (NoValidConsumingTopicException e) {e.printStackTrace();}}};
+////drAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "drAgent"));
+////drAgent.setProducerSettings(new ProducerSettings("localhost", "9092"));
+//		
+//		//DR AGENT Ende -------------------------------------------
 		
-		//DR AGENT Ende -------------------------------------------
+
 		
-		
-		tokenAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "tokenagent"));
-		sentenceAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "sentence"));
-		applicationAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "application"));
-		singleKeyWordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "singleKeyWord"));
-		noKeywordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "noKeyword"));
-		severalKeywordsAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "severalKeywords"));
-		requestAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "requestAgent")); 
-		protcolAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "protcolAgent"));
-		
-		
+		tokenAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "1"));
+		sentenceAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "2"));
+		applicationAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "3"));
+		singleKeyWordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "4"));
+		noKeywordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "5"));
+		severalKeywordsAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "6"));
+		requestAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "7")); 
+		protcolAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "8"));
+		semanticChunksIP.setConsumerSettings(new ConsumerSettings("localhost", "9092", "9"));
+		sessionstateAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "10"));
+		documentProposalAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "11"));
 		
 		tokenAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		sentenceAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		drAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		//drAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		applicationAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		singleKeyWordAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		noKeywordAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		severalKeywordsAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		requestAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		protcolAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		semanticChunksIP.setProducerSettings(new ProducerSettings("localhost","9092"));
+		sessionstateAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		documentProposalAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		
 		StreamingExecution.add(tokenAgent);
 		StreamingExecution.add(sentenceAgent);
-		StreamingExecution.add(drAgent);
+		//StreamingExecution.add(drAgent);
 		StreamingExecution.add(applicationAgent);
 		StreamingExecution.add(singleKeyWordAgent);
 		StreamingExecution.add(noKeywordAgent);
 		StreamingExecution.add(severalKeywordsAgent);
 		StreamingExecution.add(requestAgent);
 		StreamingExecution.add(protcolAgent);
+		StreamingExecution.add(semanticChunksIP);
+		StreamingExecution.add(sessionstateAgent);
+		//StreamingExecution.add(documentProposalAgent);
 		
+		System.out.println("in StartService");
 		Runnable myRunnable = new Runnable() {
 			public void run() {
 				try {
@@ -153,7 +165,6 @@ drAgent.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
 		Thread thread = new Thread(myRunnable);
 		thread.start();
 
-		
 		StreamingExecution.start();
 	}
 
@@ -212,7 +223,9 @@ drAgent.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
 					break;
 
 					default:
-						JsSentence = "Highnet, Daimler, costs, milestone, calendar, Google Drive, Google Calendar, google docs, powerpoint, Word";
+						//JsSentence = "Highnet, Daimler, costs, milestone, calendar, Google Drive, Google Calendar, google docs, powerpoint, Word";
+						JsSentence = "house project tasks leading to the milestone ahead?";
+						
 						userID = "lisa@gmail.com";
 						break;
 					}
@@ -232,6 +245,10 @@ drAgent.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
 					//String message = messageMapper.toJSON(wat);
 					System.out.println(18);
 					publish(wat, "ChunkGeneration");
+					AbstractEvent sessionStart = eventFactory.createEvent("AtomicEvent");
+					sessionStart.setType("SessionStartEvent");
+					sessionStart.add(new Property<String>("12423432434", "sessionID"));
+					publish(sessionStart, "SessionState");
 					//despatcher.deliver(message, "ChunkGeneration");
 					System.out.println(19);
 					Thread.sleep(1000);

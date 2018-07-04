@@ -57,8 +57,9 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 	 */
 	
 	// Auslesen eines SessionContexts
-	AbstractEvent currentSession = (AbstractEvent) sA.getSessionById(String.valueOf(event.getValueByKey("sessionID")));
-	AbstractEvent currentSessionContext = (AbstractEvent) currentSession.getPropertyByKey("sessionContext").getValue();
+	//System.out.println("Alle Sessions"+sA.getSessions().get(0) +"  Vergleichswert aus Event"+ event.getValueByKey("sessionID"));
+	AbstractEvent currentSession = (AbstractEvent) sA.getSessions().get(0);
+	
 	AbstractEvent sessionContext = eventFactory.createEvent("AtomicEvent");
 	sessionContext.setType("SessionContext");
 	
@@ -131,7 +132,7 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 		break;
 	}
 	
-	if(!currentSessionContext.equals(sessionContext)) {
+	
 		Property<?> newSessionContextProperty = new Property<AbstractEvent>("sessionContext", sessionContext);
 		AbstractEvent newSession = EventUtils.replacePropertyByKey(currentSession, "sessionContext", newSessionContextProperty);
 		sA.getSessions().set(sA.getSessions().indexOf(currentSession), newSession);
@@ -144,7 +145,7 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}	
+		
 	}
 }
 

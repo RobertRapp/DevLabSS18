@@ -1,3 +1,4 @@
+
 package hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles;
 
 
@@ -19,6 +20,7 @@ import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
+import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationIP;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 
 
@@ -29,7 +31,7 @@ public class SessionState extends AbstractInterestProfile {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
-	Logger l = LoggerFactory.getLogger("SessionState");
+	private static Logger LOGGER = LoggerFactory.getLogger(SessionState.class);
 
 	/**
 	 * Empfängt das Event, dass ein Gespräch gestartet ist und erzuegt dafür ein neues SessionEvent, das während
@@ -39,7 +41,7 @@ public class SessionState extends AbstractInterestProfile {
 	 */
 	@Override
 	protected void doOnReceive(AbstractEvent abs) {
-			
+			System.out.println("in IP von SessionState eventype: " + abs.getType());
 		/**
 		 * 
 		 * In dieser Methode wird die Verarbeitung eines Events gemacht. D. h. wie der Agent auf ein bestimmtes
@@ -56,6 +58,7 @@ public class SessionState extends AbstractInterestProfile {
 			AbstractEvent session = sA.getSessionById(abs.getValueByKey("sessionID").toString());
 			session.add(new Property<>("sessionEnd", TimeUtils.getCurrentTime()));
 			try {
+				System.out.println("Neuer SessionState raus geschickt");
 				sA.send(session, "SessionState");
 				sA.getSessions().remove(session);
 			} catch (NoValidEventException e) {
@@ -82,8 +85,11 @@ public class SessionState extends AbstractInterestProfile {
 			}
 		//erzeugen einer SessionID wenn noch keine vorhanden ist. 
 		if(EventUtils.findPropertyByKey(newSession, "sessionID") == null) {
-			newSession.add(new Property<String>("sessionID" + abs.hashCode()+System.currentTimeMillis()));
+			System.out.println("In if1");
+			newSession.add(new Property<>("sessionID", abs.hashCode()+System.currentTimeMillis()));
+			System.out.println("neue Sessionid wird hinzugefügt " + EventUtils.findPropertyByKey(newSession, "sessionID").getValue());
 		}else if (EventUtils.findPropertyByKey(newSession, "sessionID").getValue() == "") {
+			System.out.println("Esle if es gibt schon : ");
 			newSession.getProperties().remove(newSession.getPropertyByKey("sessionID"));
 			newSession.add(new Property<String>("sessionID" + abs.hashCode()+System.currentTimeMillis()));
 		}
@@ -92,8 +98,9 @@ public class SessionState extends AbstractInterestProfile {
 		 * Jede Session hat ebenfalls einen SessionContext, wovon die Attribute mittels Properties festgelegt werden.
 		 */
 		AbstractEvent createdSessionContext = eventFactory.createEvent(("AtomicEvent"));
+		createdSessionContext.setType("SessionContextEvent");
 		createdSessionContext.add(newSession.getPropertyByKey("sessionID"));
-		createdSessionContext.add(new Property<String>("project", "NoProjectKnownYet"));
+		createdSessionContext.add(new Property<String>("project", "highnet"));
 		createdSessionContext.add(new Property<String>("topic"));
 		createdSessionContext.add(new Property<>("teilnehmer1", abs.getValueByKey("userID")));
 		createdSessionContext.add(new Property<>("teilnehmer2", abs.getValueBySecoundMatch("userID")));
@@ -103,7 +110,7 @@ public class SessionState extends AbstractInterestProfile {
 		/*
 		 * Der Logger kann verwendet werden um in der Console Nachrichten auszuprinten. 
 		 */
-		l.log(Level.WARNING, "Event "+abs);
+		//Logger.log(Level.WARNING, "Event "+abs);
 				
 		/*
 		 * Im Send-try-catch-Block werden alle Events versendet die dieses Interessensprofil versenden möchte.
@@ -117,13 +124,14 @@ public class SessionState extends AbstractInterestProfile {
 			ersteAnfrage.add(new Property<>("teilnehmer2", abs.getValueBySecoundMatch("userID")));
 			ersteAnfrage.add(new Property<String>("keyword", "protocol"));
 			//Publizieren von Events über die send-Methode des Agenten.
+			System.out.println("SessionContext wird raus geschickt");
 			sA.send(createdSessionContext, "SessionContext");	
 						
 			sA.send(ersteAnfrage, "DocRequest");
 			sA.addSession(abs);	
 			
 		} catch (NoValidEventException e) {	
-			l.log(Level.WARNING,  "Event konnte nicht publiziert werden"+e);
+			//Logger.log(Level.WARNING,  "Event konnte nicht publiziert werden"+e);
 			e.printStackTrace();
 		} catch (NoValidTargetTopicException e) {			
 			e.printStackTrace();

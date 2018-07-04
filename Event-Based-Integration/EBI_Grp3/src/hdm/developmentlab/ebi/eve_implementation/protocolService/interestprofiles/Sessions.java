@@ -40,7 +40,7 @@ public class Sessions extends AbstractInterestProfile {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static Logger LOGGER = LoggerFactory.getLogger(TokenApplicationIP.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(Sessions.class);
 
 	// Factory für die Erzeugung der Events
 	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());

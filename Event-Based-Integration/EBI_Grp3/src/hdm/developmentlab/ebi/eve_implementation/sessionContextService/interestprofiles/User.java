@@ -32,7 +32,7 @@ public class User extends AbstractInterestProfile {
 
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
-		System.out.println("in IP von DR ");
+		System.out.println("in Falsch IP von DR ");
 		System.out.println(event);
 		
 		/*
@@ -181,7 +181,7 @@ public class User extends AbstractInterestProfile {
 		Chunker chunker = new Chunker();
 		chunker.addChunkContent("welt"); // muss klein geschrieben sein!
 		chunker.addChunkContent("test");
-		chunker.addChunkContent("");
+		chunker.addChunkContent("project");
 		//chunker.addSemanticToChunk("welt", jsonString);
 		chunker.addSemanticToChunk("test", jsonString1);
 		System.out.println(22);

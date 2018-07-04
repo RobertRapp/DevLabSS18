@@ -46,7 +46,7 @@ public class ActivityAgent extends AbstractAgent {
 		try {
 			AbstractInterestProfile ip = new TokenApplicationIP();
 			try {
-				ip.add(new Or(new IsEventType("CalendarEvent"), new HasProperty("ApplicationType")));
+				ip.add(new Or(new IsEventType("CalendarEvent"), new IsEventType("ApplicationEvent"), new HasProperty("ApplicationType")));
 			} catch (NullPredicateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

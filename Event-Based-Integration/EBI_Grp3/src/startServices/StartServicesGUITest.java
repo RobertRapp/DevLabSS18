@@ -15,7 +15,7 @@ import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
-import hdm.developmentlab.ebi.eve_implementation.events.TimeReference;
+
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 
 /**
@@ -93,13 +93,12 @@ public class StartServicesGUITest {
 				Property<String> thema = new Property<String>("thema", "Kosten");
 				Property<String> user = new Property<String>("user", "Robert Rapp"+i);
 				Property<String> user2 = new Property<String>("user", "Detlef Gabe"+i);
-				Property<TimeReference> timereference = new Property<TimeReference>("timereference", TimeReference.INSTANCE);
+				
 				event.add(projekt);			
 				event.add(thema);			
 				event.add(user);			
 				event.add(user2);			
-				event.add(timereference);			
-				
+			
 				if( i == 10) {
 					Property<String> context = new Property<String>("contextupdate", "Das Token ändert den Kontext");
 					event.add(context);

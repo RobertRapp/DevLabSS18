@@ -16,7 +16,6 @@ import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
 import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
-import hdm.developmentlab.ebi.eve_implementation.events.TimeReference;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 
 /**
