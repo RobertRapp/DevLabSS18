@@ -3,6 +3,7 @@ package eventprocessing.agent.DocProposal;
 
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,6 +20,7 @@ import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
+import eventprocessing.utils.model.EventUtils;
 
 /**
  * Dieses Interessenprofil führt die Reinigung sowie Filterung durch. Es wird
@@ -45,7 +47,7 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 	 */
 	@Override
 	public void doOnReceive(AbstractEvent event) {
-		
+		System.out.println("In IP von DocProposalIP von Gui");
 //		System.out.println("Event: " + event.getValueByKey("FileID").toString());
 //		
 //		String docID = event.getValueByKey("FileID").toString();
@@ -59,8 +61,77 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 //		
 		
 		
-		ArrayList<Document> docListe = new ArrayList<Document>();
-		event.getProperties().forEach((property) -> docListe.add((Document)property.getValue()));
+		ArrayList<Document> docListe = new ArrayList<Document>(); //property.getValue() L9inked Hashmap
+		
+		String docname = "";
+		String editor= "";
+		String author= "";
+		String project= "";
+		String filename= "";
+		String lastChangeDate= "";
+		String category= "";
+		String fileId= "";
+		String doctype= "";
+		String url = "";
+		for(Property<?> pro : event.getProperties()) {
+			if (pro.getValue() instanceof LinkedHashMap) {				
+				docListe.add(new Document((LinkedHashMap<?, ?>) pro.getValue()));	
+			}else {				
+				switch (pro.getKey()) {
+				case "Documentname":
+					docname= pro.getValue().toString();
+									break;
+				case "Author":
+					author= pro.getValue().toString();			
+									break;
+				case "Editor":
+					editor= pro.getValue().toString();
+					break;
+				case "Project":
+					project= pro.getValue().toString();
+					break;
+				case "Filename":
+					filename= pro.getValue().toString();
+					break;
+				case "LastChangeDate":
+					lastChangeDate= pro.getValue().toString();
+					break;
+				case "Category":
+					category= pro.getValue().toString();
+					break;
+					case "FileID":
+						fileId= pro.getValue().toString();	
+						break;
+					case "DocumentType":
+					doctype= pro.getValue().toString();
+						break;
+					case "URL":
+						url = pro.getValue().toString();
+						break;
+				default:
+					break;
+				}
+					
+			}
+			
+		}
+		if(EventUtils.findPropertyByKey(event,"Category") == null || EventUtils.findPropertyByKey(event,"Category").getValue().equals("Application")) {
+			docListe.add(new Document(fileId, docname, doctype, url , "50", editor, lastChangeDate, category));
+		}
+		
+//		for(Property<?> p :event.getProperties()) {
+//			
+//			if(p.getValue() instanceof LinkedHashMap<?, ?>) {
+//				
+//				System.out.println("ist eine HASHMAP"+p.toString());
+//				LinkedHashMap<String, ?> hashmap1 =  (LinkedHashMap<String, ?>) p.getValue();
+//				String value = (String) hashmap1.get("type");
+//				System.out.println("value:"+value);
+//		}else {
+			
+		
+			
+		
 		DocProposalAgent dPA = (DocProposalAgent) this.getAgent();
 		DocumentProposal currentProposal = dPA.getProposal();
 		
@@ -82,7 +153,7 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 		System.out.println("Test DPI: "+jsonDocEvent.getPropertyByKey("json"));
 		
 		try {
-			getAgent().send(jsonDocEvent, "Gui");
+			this.getAgent().send(jsonDocEvent, "Gui");
 		} catch (NoValidEventException e) {
 			e.printStackTrace();
 		} catch (NoValidTargetTopicException e) {

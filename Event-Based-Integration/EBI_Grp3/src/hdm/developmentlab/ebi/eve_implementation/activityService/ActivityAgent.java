@@ -18,7 +18,7 @@ import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofile
  * Der ActivityAgent sorgt dafür dass Applikationen der GUI vorgeschlagen werden, er konsumiert vom Topic TokenGeneration und verwendet die dort ankommenden
  * ApplicationType und CalendarEvent im Interessenprofil TokenApplicationIP.
  * 
- * @author rrapp
+ * @author rrapp, birk
  *
  */
 public class ActivityAgent extends AbstractAgent {
@@ -46,7 +46,7 @@ public class ActivityAgent extends AbstractAgent {
 		try {
 			AbstractInterestProfile ip = new TokenApplicationIP();
 			try {
-				ip.add(new Or(new IsEventType("CalendarEvent"), new HasProperty("ApplicationType")));
+				ip.add(new Or(new IsEventType("CalendarEvent"), new IsEventType("ApplicationEvent"), new HasProperty("ApplicationType")));
 			} catch (NullPredicateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

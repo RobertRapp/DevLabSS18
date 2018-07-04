@@ -20,16 +20,17 @@ public class DocumentProposal {
 			return categories;
 		}
 		public void addDocuments(ArrayList<Document> newDocuments) {
-			//Prüfen ob Gesamtsumme der Dokumente die maximale Anzahl übertrifft
+			//Prï¿½fen ob Gesamtsumme der Dokumente die maximale Anzahl ï¿½bertrifft
 			 if(documents.size() + newDocuments.size() >maxDocuments) {
 				  int sumDeleteDocuments =  documents.size() + newDocuments.size() - maxDocuments;
 				  	for (int i=0; i < sumDeleteDocuments; i++) {
 					  documents.remove(i);
+					  
 				  	}					  
 				}
 					
 			for (Document doc : newDocuments) {
-				//Prüfen ob ein Dokument einer neuen Kategorie zugeordnet ist. Wenn ja, dann Kategorienliste aktualisieren
+				//Prï¿½fen ob ein Dokument einer neuen Kategorie zugeordnet ist. Wenn ja, dann Kategorienliste aktualisieren
 				  if (!categories.contains(doc.categorie)) {
 					   categories.add(doc.categorie);
 				   }
@@ -43,7 +44,7 @@ public class DocumentProposal {
 			
 //			JSONObject categoryInformation= new JSONObject();
 			JSONObject document= new JSONObject();
-			// Array für alle
+			// Array fï¿½r alle
 			JSONArray childrenAllCategory = new JSONArray();
 			
 			for (String category : categories) {
@@ -67,7 +68,7 @@ public class DocumentProposal {
 					//JSONObject categoryInformation= new JSONObject();
 					childrenOneCategory.put("children", docsOneCategory);
 					childrenOneCategory.put("fontcolor", "white");
-					childrenOneCategory.put("color", "green");
+					childrenOneCategory.put("color", "#B768F6");
 					childrenOneCategory.put("name", category);
 					//childrenOneCategory.put(categoryInformation);
 					childrenAllCategory.put(childrenOneCategory);

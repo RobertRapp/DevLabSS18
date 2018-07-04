@@ -16,7 +16,6 @@ import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
 import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
-
 import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 
 /**
@@ -41,11 +40,11 @@ public class StartServicesProtocolTest {
 	
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
-		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
 		AbstractAgent protocolAgent = new ProtocolAgent();
 		
-		protocolAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "base"));
-		protocolAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		protocolAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "base"));
+		protocolAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 		
 		
 		//StreamingExecution.add(activityService);

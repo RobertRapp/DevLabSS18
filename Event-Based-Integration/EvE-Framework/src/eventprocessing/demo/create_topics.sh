@@ -7,6 +7,6 @@ echo "Create topics..."
 	for TOPIC in Sensor-1 Sensor-2 TrafficData Diagnosis Storage Logging
 	do
 		echo "Create topic $TOPIC."
-		$KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic $TOPIC
+		$KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper 10.142.0.2:2181 --replication-factor 1 --partitions 1 --topic $TOPIC
 	done
 echo "Done."

@@ -51,6 +51,7 @@ public class GuiInterestProfileDocProposal extends AbstractInterestProfile {
 	 */
 	@Override
 	public void doOnReceive(AbstractEvent event) {
+		System.out.println("in IP von Gui DocProposal");
 //		ArrayList<Document> newDocuments = new ArrayList<Document>();
 //		newDocuments.add(new Document(event.getPropertyByKey("json").toString()));
 //		System.out.println("TestTest");
@@ -58,7 +59,7 @@ public class GuiInterestProfileDocProposal extends AbstractInterestProfile {
 		//String jsonString = event.getPropertyByKey("json").getValue().toString();
 		
 		JSONObject returnJson = new JSONObject(event.getValueByKey("json").toString());
-		//System.out.println("NIGGER:   "+event.getValueByKey("json"));
+		
 		returnJson.put("type", "newDocProposal");
 		System.out.println("return JSON "+returnJson.toString());
 		Websocket.broadcast(returnJson.toString());

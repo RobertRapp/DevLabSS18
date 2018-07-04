@@ -5,6 +5,8 @@ import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.agent.interestprofile.predicates.NullPredicateException;
+import eventprocessing.agent.interestprofile.predicates.logical.And;
+import eventprocessing.agent.interestprofile.predicates.logical.Not;
 import eventprocessing.agent.interestprofile.predicates.logical.Or;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
@@ -15,7 +17,7 @@ import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofile
  * 
  * Er besitzt die IP TokenDocumentType. 
  * 
- * @author rrapp
+ * @author rrapp, birk
  *
  */
 
@@ -45,7 +47,12 @@ public class RequestAgent extends AbstractAgent {
 		 */
 		try {
 			AbstractInterestProfile ip = new TokenDocumentType();
-			ip.add(new IsFromTopic("TokenGeneration"));
+			try {
+				ip.add(new Or(new IsEventType("SessionContextEvent"), (new And(new IsFromTopic("TokenGeneration"), new Not(new IsEventType("ApplicationEvent"))))));
+			} catch (NullPredicateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			this.add(ip);
 		
 		} catch (NoValidInterestProfileException e1) {

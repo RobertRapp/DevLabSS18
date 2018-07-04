@@ -37,8 +37,8 @@ public enum ProducerSettingsGui {
 	 * setzen der Parameter im Konstruktor bei der Erzeugung.
 	 */
 	private ProducerSettingsGui() {
-		IPv4Bootstrap = "localhost";
-		portBootstrap = "9092";
+		IPv4Bootstrap = "10.142.0.2";		
+		portBootstrap =  "9092";
 		acks = "0";//"all";
 		retries = 0;
 		batchSize = 8000;//16384;

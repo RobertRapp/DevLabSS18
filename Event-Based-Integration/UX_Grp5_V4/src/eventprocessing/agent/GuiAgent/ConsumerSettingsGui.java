@@ -32,7 +32,7 @@ public enum ConsumerSettingsGui {
 	private String partitionAssignmentStrategy = null;
 
 	private ConsumerSettingsGui() {
-		IPv4Bootstrap = "localhost";
+		IPv4Bootstrap = "10.142.0.2";
 		portBootstrap = "9092";
 		groupID = "Gui";
 		keyDeserializer = StringDeserializer.class.getName();

@@ -55,11 +55,11 @@ public class StartServices {
 		GuiAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 		*/	
 		
-		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2 ","9092"));
 		AbstractAgent GuiAgent = new GuiAgent();
 		
-		GuiAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "Gui"));
-		GuiAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		GuiAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2 ","9092", "Gui"));
+		GuiAgent.setProducerSettings(new ProducerSettings("10.142.0.2 ","9092"));
 		
 	
 		//StreamingExecution.add(activityService);

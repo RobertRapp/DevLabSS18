@@ -11,6 +11,7 @@ import eventprocessing.agent.interestprofile.predicates.logical.Or;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.event.AbstractEvent;
+import eventprocessing.utils.model.EventUtils;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionContextIP;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
 
@@ -42,7 +43,8 @@ public class SessionContextAgent extends AbstractAgent {
 	
 	public AbstractEvent getSessionById(String sessionID) {
 		for(AbstractEvent e:this.getSessions()) {
-			if( sessionID.equals(e.getPropertyByKey("sessionID").getValue())) return e;
+			System.out.println(EventUtils.findPropertyByKey(e,"sessionID").getValue());
+			if( sessionID.equals(EventUtils.findPropertyByKey(e, "sessionID").getValue())) return e;
 		}
 		return null;
 	}
@@ -68,7 +70,7 @@ public class SessionContextAgent extends AbstractAgent {
 		
 		AbstractInterestProfile sessionState = new SessionState();		
 		try {
-			sessionState.add( new Or(new IsEventType("SessionStartEvent"),new IsEventType("SessionEndEvent")));
+			sessionState.add(new Or(new IsEventType("SessionStartEvent"),new IsEventType("SessionEndEvent")));
 		} catch (NullPredicateException e1) {
 			
 			e1.printStackTrace();

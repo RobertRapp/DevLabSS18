@@ -32,7 +32,7 @@ public enum ConsumerSettingsDefaultValues {
 	private String partitionAssignmentStrategy = null;
 
 	private ConsumerSettingsDefaultValues() {
-		IPv4Bootstrap = "localhost";
+		IPv4Bootstrap = "10.142.0.2";
 		portBootstrap = "9092";
 		groupID = "No group id was set";
 		keyDeserializer = StringDeserializer.class.getName();

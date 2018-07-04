@@ -83,7 +83,7 @@ public class Websocket {
 //	private static DocumentProposal proposal = new DocumentProposal();
 	private static DocumentProposal proposal = new DocumentProposal();
 	
-	private static Despatcher despatcher = null;
+	private static Despatcher despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
 	private static final MessageMapper messageMapper = new MessageMapper();
 	String nachricht = null;
 	static ScheduledExecutorService timer = Executors.newSingleThreadScheduledExecutor();
@@ -146,7 +146,7 @@ usersJSON.put("users", usersArray);
 		    	userInteractionEvent.add(new Property <>("userID", requestJSON.getString("userID")));
 		    	userInteractionEvent.add(new Property <>("FileID", requestJSON.getString("docID")));
 		    	userInteractionEvent.add(new Property <>("DocumentName", requestJSON.getString("docName")));
-		    	
+		    	System.out.println("UserInteractionEvent " + userInteractionEvent);
 		    	nachricht = messageMapper.toJSON(userInteractionEvent);
 		 		despatcher.deliver(nachricht, "UserInteraction");
 
@@ -180,6 +180,7 @@ usersJSON.put("users", usersArray);
 		    	sessionStartEvent.add(new Property <>("SessionID",requestJSON.getString("sessionID")));
 		    	sessionStartEvent.add(new Property <>("UserID",requestJSON.getString("userID")));
 		    	
+		    	System.out.println(sessionStartEvent);
 		    	nachricht = messageMapper.toJSON(sessionStartEvent);
 			 	despatcher.deliver(nachricht, "SessionState");
 		    	
@@ -187,7 +188,7 @@ usersJSON.put("users", usersArray);
 			case "sessionEnd":
 				//Messages an Websocket
 				System.out.println("Session "+requestJSON.getString("sessionID")+ " beendet von: "+requestJSON.getString("userID"));
-				requestJSON = new JSONObject();
+//				requestJSON = new JSONObject();
 				requestJSON.put("type", "sessionEnded");
 				requestJSON.put("sessionID", requestJSON.getString("sessionID"));
 				broadcastOthers(requestJSON.toString(), userSession);
