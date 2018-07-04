@@ -1,5 +1,7 @@
 package eventprocessing.utils;
 
+import java.util.LinkedHashMap;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -38,8 +40,23 @@ public class Document {
 			this.name = jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("FileName").getString("value");
 			this.path = jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("URL").getString("value");
 			this.type = jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("DocumentType").getString("value");
-			this.categorie = jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("Category").getString("value").split("#")[0];
-			this.lastEditor = jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("Editor").getString("value").split("#")[0];
+			this.categorie = jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("Category").getString("value").split("#")[1];
+			this.lastEditor = jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("Editor").getString("value").split("#")[1];
+			this.setColor(this.getColor(type));
+		}
+		public Document(LinkedHashMap map) {
+			
+			
+//			JSONArray bindings = jsonObject.getJSONObject("results").getJSONArray("bindings");
+//			bindings.getJSONObject(0).get("Name");
+//			System.out.println(jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("FileID").getString("value"));
+//			System.out.println(jsonObject.getJSONObject("FileID").get("value").toString());
+			this.docID = map.get("path").toString().split("/")[5];
+			this.name = (String) map.get("name");
+			this.path = (String) map.get("path");
+			this.type = (String) map.get("type");
+			this.categorie = (String) map.get("category");
+			this.lastEditor = (String) map.get("lastEditor");
 			this.setColor(this.getColor(type));
 		}
 		

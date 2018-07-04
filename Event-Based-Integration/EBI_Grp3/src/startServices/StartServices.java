@@ -161,8 +161,8 @@ public class StartServices {
 		StreamingExecution.add(protcolAgent);
 		StreamingExecution.add(semanticChunksIP);
 		StreamingExecution.add(sessionstateAgent);
-		//StreamingExecution.add(guiAgent);
-		//StreamingExecution.add(docProposalAgent);
+		StreamingExecution.add(guiAgent);
+		StreamingExecution.add(docProposalAgent);
 		
 		StreamingExecution.add(documentProposalAgent);
 		

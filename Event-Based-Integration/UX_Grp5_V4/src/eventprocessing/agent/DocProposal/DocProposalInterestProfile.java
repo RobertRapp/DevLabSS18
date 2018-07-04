@@ -3,6 +3,7 @@ package eventprocessing.agent.DocProposal;
 
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,8 +60,26 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 //		
 		
 		
-		ArrayList<Document> docListe = new ArrayList<Document>();
-		event.getProperties().forEach((property) -> docListe.add((Document)property.getValue()));
+		ArrayList<Document> docListe = new ArrayList<Document>(); //property.getValue() L9inked Hashmap
+		
+		for(Property<?> pro : event.getProperties()) {
+			System.out.println("property: "+pro);
+			docListe.add(new Document((LinkedHashMap<?, ?>) pro.getValue()));	
+		}
+		
+//		for(Property<?> p :event.getProperties()) {
+//			
+//			if(p.getValue() instanceof LinkedHashMap<?, ?>) {
+//				
+//				System.out.println("ist eine HASHMAP"+p.toString());
+//				LinkedHashMap<String, ?> hashmap1 =  (LinkedHashMap<String, ?>) p.getValue();
+//				String value = (String) hashmap1.get("type");
+//				System.out.println("value:"+value);
+//		}else {
+			
+		
+			
+		
 		DocProposalAgent dPA = (DocProposalAgent) this.getAgent();
 		DocumentProposal currentProposal = dPA.getProposal();
 		

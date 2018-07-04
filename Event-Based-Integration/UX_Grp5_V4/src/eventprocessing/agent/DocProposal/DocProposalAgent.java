@@ -52,7 +52,7 @@ public class DocProposalAgent extends AbstractAgent {
 		 * angegeben werden.
 		*/
 		try {
-			this.add("DocumentProposal");
+			this.add("DocProposal");
 		} catch (NoValidConsumingTopicException e) {
 			e.printStackTrace();
 		}
