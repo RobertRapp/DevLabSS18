@@ -61,5 +61,5 @@ Dieser Abschnitt zeigt ist eine Übersicht aller Topics innerhalb des Projekts.
 | DocRequest | RequestEvent | RequestAgent | DocProposalAgent |
 | Protocol | ProtocolEvent | ProtocolAgent | SaveDocumentAgent |
 | SessionState | SessionStartEvent, SessionEndEvent  | GuiAgent | ProtocolAgent, SessionContextAgent |
-| UserInteraction | UserInteractionEvent| GUIAgent |  
+| UserInteraction | UserInteractionEvent| GuiAgent |  
 
