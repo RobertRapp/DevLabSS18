@@ -44,3 +44,22 @@ Dieser Abschnitt zeigt eine Übersicht aller verwendeten Topics innerhalb der Pr
 - DocRequest
 - SessionState
 - DocProposal
+
+#
+Dieser Abschnitt zeigt ist eine Übersicht aller Topics innerhalb des Projekts.
+
+
+
+| Topic | Events | Publisher | Subscriber |
+| :---- | :---- | :---- |:---- |
+|  ChunkGeneration|WatsonEvent, SentenceEvent|GuiAgent, SentenceAgent| SentenceAgent, SemanticAgent |
+| SemanticChunks |FeedbackEvent|SemanticAgent  | TokenizeAgent |
+| Keywords | SingleKeywordEvent, SeveralKeywordAgent, NoKeywordEvent | TokenizeAgent |SingleKeywordAgent, SeveralKeywordAgent, NoKeywordAgent, SessionContextAgent, ActivityAgent
+| TokenGeneration |DocumentEvent, ContactEvent, ProjectEvent, UncertainEvent | SeveralKeywordAgent, SingleKeywordAgent, NoKeywordAgent | ProtocolAgent, RequestAgent, SessionContextAgent, ActivityAgent |
+| SessionContext | SessionContextEvent | SessionContextAgent | RequestAgent |
+| DocProposal | ApplicationEvent, DocProposalEvent | ActivityAgent, DocProposalAgent | DocumentProposalAgent, DocProposalAgent |
+| DocRequest | RequestEvent | RequestAgent | DocProposalAgent |
+| Protocol | ProtocolEvent | ProtocolAgent | SaveDocumentAgent |
+| SessionState | SessionStartEvent, SessionEndEvent  | GuiAgent | ProtocolAgent, SessionContextAgent |
+| UserInteraction | UserInteractionEvent| GUIAgent |  
+
