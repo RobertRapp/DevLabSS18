@@ -44,7 +44,8 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 		JSONObject jsonObject = new JSONObject(result);
 		ArrayList<Document> docList = new ArrayList<Document>();
 		AbstractEvent outputEvent = eventFactory.createEvent("AtomicEvent");
-			for (int i = 0; i < jsonObject.getJSONObject("results").getJSONArray("bindings").length() ; i++) {
+		outputEvent.setType("DocProposalEvent");	
+		for (int i = 0; i < jsonObject.getJSONObject("results").getJSONArray("bindings").length() ; i++) {
 				Document d = new Document(jsonObject.toString());
 				outputEvent.add(new Property<Document>("Document",d));
 				

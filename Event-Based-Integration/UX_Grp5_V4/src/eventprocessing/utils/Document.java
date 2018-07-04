@@ -32,12 +32,14 @@ public class Document {
 			JSONObject jsonObject = new JSONObject(json);
 //			JSONArray bindings = jsonObject.getJSONObject("results").getJSONArray("bindings");
 //			bindings.getJSONObject(0).get("Name");
-			this.docID = jsonObject.getString("FileID");
-			this.name = jsonObject.getString("Documentname");
-			this.path = jsonObject.getString("URL");
-			this.type = jsonObject.getString("DocumentType");
-			this.categorie = jsonObject.getString("Category");
-			this.lastEditor = jsonObject.getString("Editor");
+//			System.out.println(jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("FileID").getString("value"));
+//			System.out.println(jsonObject.getJSONObject("FileID").get("value").toString());
+			this.docID = jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("FileID").getString("value");
+			this.name = jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("FileName").getString("value");
+			this.path = jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("URL").getString("value");
+			this.type = jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("DocumentType").getString("value");
+			this.categorie = jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("Category").getString("value").split("#")[0];
+			this.lastEditor = jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("Editor").getString("value").split("#")[0];
 			this.setColor(this.getColor(type));
 		}
 		

@@ -25,6 +25,7 @@ public class DocumentProposal {
 				  int sumDeleteDocuments =  documents.size() + newDocuments.size() - maxDocuments;
 				  	for (int i=0; i < sumDeleteDocuments; i++) {
 					  documents.remove(i);
+					  
 				  	}					  
 				}
 					
