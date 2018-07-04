@@ -38,11 +38,11 @@ public class StartServicesApplicationSend {
 	
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
-		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
 		AbstractAgent activityAgent = new ActivityAgent();
 		
-		activityAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "g"));
-		activityAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		activityAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "g"));
+		activityAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 		
 		
 		//StreamingExecution.add(activityService);

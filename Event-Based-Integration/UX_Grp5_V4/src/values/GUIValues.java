@@ -49,7 +49,7 @@ public enum GUIValues {
 		amountEvents = 20;
 		threadSleep = 1000;
 		//ipKafka = "192.168.56.101";
-		ipKafka = "localhost";
+		ipKafka = "10.142.0.2";
 		portKafka = "9092";
 		groupIdDiagnosis = "Diagnosis";
 		groupIdTrafficAnalysis = "TrafficAnalysis";

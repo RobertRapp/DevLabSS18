@@ -89,8 +89,8 @@ this.getAgent().send(event, zielTopic); //nächsterAgent
 	
 	if(localhostFragezeichen) {
 		
-		this.setConsumerSettings(new ConsumerSettings("localhost", "9092", "group-"+this.getId()));
-		this.setProducerSettings(new ProducerSettings("localhost", "9092"));
+		this.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "group-"+this.getId()));
+		this.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
 	}else {
 		this.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "group-"+this.getId()));
 		this.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
