@@ -15,9 +15,12 @@ public class SocketServer {
 	 public static void main(String[] args)
 	    {
 	        Server server = new Server();
+	        server.setStopTimeout(1000000L);
+	        
 	        ServerConnector connector = new ServerConnector(server);
 	        connector.setPort(8090);
 	        server.addConnector(connector);
+	        
 
 	        // Setup the basic application "context" for this application at "/"
 	        // This is also known as the handler tree (in jetty speak)
@@ -31,7 +34,9 @@ public class SocketServer {
 	            ServerContainer wscontainer = WebSocketServerContainerInitializer.configureContext(context);
 
 	            // Add WebSocket endpoint to javax.websocket layer
+	            //Session session = wscontainer.connectToServer(server, "")
 	            wscontainer.addEndpoint(Websocket.class);
+	            wscontainer.setDefaultMaxSessionIdleTimeout(1000000L);
 
 	            server.start();
 	            server.dump(System.err);

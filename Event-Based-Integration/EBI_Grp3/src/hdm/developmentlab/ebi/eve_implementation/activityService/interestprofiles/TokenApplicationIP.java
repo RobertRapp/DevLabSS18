@@ -41,21 +41,21 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 			
 			switch (type) {
 			case "presentation":
-				event.add(new Property<String>("URL","docs.google.com/presentation"));	
+				event.add(new Property<String>("URL","http://docs.google.com/presentation"));	
 				break;
 			case "spreadsheets":
-				event.add(new Property<String>("URL","docs.google.com/spreadsheets"));	
+				event.add(new Property<String>("URL","http://docs.google.com/spreadsheets"));	
 				break;
 			default:
 				System.out.println("URL wird in Default angehängt");
-				event.add(new Property<String>("URL",type+".google.com"));
+				event.add(new Property<String>("URL","http://"+type+".google.com"));
 				break;
 			}
 			
 				try {
 					
 					event.setType("DocProposalEvent");
-					event.add(new Property<String>("Documentname",""));
+					event.add(new Property<String>("Documentname","Google "+event.getPropertyByKey("ApplicationType").getValue()));
 					event.add(new Property<String>("Author","Google"));
 					event.add(new Property<String>("Editor",(String) event.getValueByKey("userID")));
 					event.add(new Property<String>("Project","Google"));

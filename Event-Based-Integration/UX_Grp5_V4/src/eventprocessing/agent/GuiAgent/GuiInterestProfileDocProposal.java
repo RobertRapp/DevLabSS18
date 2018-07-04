@@ -59,7 +59,7 @@ public class GuiInterestProfileDocProposal extends AbstractInterestProfile {
 		//String jsonString = event.getPropertyByKey("json").getValue().toString();
 		
 		JSONObject returnJson = new JSONObject(event.getValueByKey("json").toString());
-		//System.out.println("NIGGER:   "+event.getValueByKey("json"));
+		
 		returnJson.put("type", "newDocProposal");
 		System.out.println("return JSON "+returnJson.toString());
 		Websocket.broadcast(returnJson.toString());

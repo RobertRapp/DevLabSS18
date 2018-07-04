@@ -46,7 +46,6 @@ public class Document {
 		}
 		public Document(LinkedHashMap map) {
 			
-			
 //			JSONArray bindings = jsonObject.getJSONObject("results").getJSONArray("bindings");
 //			bindings.getJSONObject(0).get("Name");
 //			System.out.println(jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("FileID").getString("value"));
@@ -71,7 +70,7 @@ public class Document {
 			case "table":
 				color = "#39825a";
 					break;	
-			case "application":
+			case "Application":
 				color = "#E5B34F";
 				break;	
 			default:

@@ -188,7 +188,7 @@ usersJSON.put("users", usersArray);
 			case "sessionEnd":
 				//Messages an Websocket
 				System.out.println("Session "+requestJSON.getString("sessionID")+ " beendet von: "+requestJSON.getString("userID"));
-				requestJSON = new JSONObject();
+//				requestJSON = new JSONObject();
 				requestJSON.put("type", "sessionEnded");
 				requestJSON.put("sessionID", requestJSON.getString("sessionID"));
 				broadcastOthers(requestJSON.toString(), userSession);
