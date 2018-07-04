@@ -41,8 +41,9 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 	
 	
 	/**
-	 * Empfängt Tokentypen und leitet damit eine neue Dokumentenvorschlagsanfrage ein.
-	 * @param arg0
+	 * Empfängt Tokentypen und leitet damit eine neue Dokumentenvorschlagsanfrage ein. Der aktuelle Sessioncontext, der ebenso von diesem 
+	 * IP emfangen wird, dient dazu, die Anfrage ggf. zu ergänzen.
+	 * @param rrapp, birk, pokorski
 	 */
 
 	@Override

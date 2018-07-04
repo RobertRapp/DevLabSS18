@@ -146,7 +146,7 @@ usersJSON.put("users", usersArray);
 		    	userInteractionEvent.add(new Property <>("userID", requestJSON.getString("userID")));
 		    	userInteractionEvent.add(new Property <>("FileID", requestJSON.getString("docID")));
 		    	userInteractionEvent.add(new Property <>("DocumentName", requestJSON.getString("docName")));
-		    	
+		    	System.out.println("UserInteractionEvent " + userInteractionEvent);
 		    	nachricht = messageMapper.toJSON(userInteractionEvent);
 		 		despatcher.deliver(nachricht, "UserInteraction");
 

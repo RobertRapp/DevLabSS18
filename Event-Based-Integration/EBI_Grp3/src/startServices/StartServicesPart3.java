@@ -51,7 +51,7 @@ import semanticService.SemanticAgent;
  * @author RobertRapp
  *
  */
-public class StartServices {
+public class StartServicesPart3 {
 
 
 		
@@ -77,56 +77,14 @@ public class StartServices {
 				"        \"Name\": { \"type\": \"literal\" , \"value\": \"cost statement\" } ,\r\n" + 
 				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"cost; costs; expense; expenses; statement\" }\r\n" + 
 				"      }"));
-		//ST
-		AbstractAgent sentenceAgent = new SentenceAgent(); //
-		AbstractAgent tokenAgent = new TokenizeAgent(); //
-		AbstractAgent applicationAgent = new ActivityAgent(); //
-		AbstractAgent requestAgent = new RequestAgent(); //
-		AbstractAgent protcolAgent = new ProtocolAgent();
-		AbstractAgent singleKeyWordAgent = new SingleKeywordAgent();
-		AbstractAgent noKeywordAgent = new NoKeywordAgent();
-		AbstractAgent severalKeywordsAgent = new SeveralKeywordsAgent();
+		
 		AbstractAgent semanticChunksIP = new SemanticAgent();
 		AbstractAgent sessionstateAgent = new SessionContextAgent();
 		AbstractAgent documentProposalAgent = new DocumentProposalAgent();
 		AbstractAgent guiAgent = new GuiAgent();
 		AbstractAgent docProposalAgent = new DocProposalAgent();
-		
-		
-		
-		//DR AGENT -------------------------------------------
-		/*
-		 * Alle Zeilen die linksbündig sind müssen bearbeitet werden.
-		 */
-//			AbstractAgent drAgent  = new AbstractAgent() {
-//private static final long serialVersionUID = 606360123599610899L;
-//						@Override
-//						protected void doOnInit() {
-//this.setId("drAgent");
-//						AbstractInterestProfile ip = new User();
-//						//ip.add(new IsFromTopic(this.getId()));
-//						ip.add(new IsEventType("SentenceEvent"));
-//						try {this.add(ip);
-//						} catch (NoValidInterestProfileException e) {e.printStackTrace();}
-//						try {
-//							//this.add(this.getId());
-//							this.add("ChunkGeneration");
-//						} catch (NoValidConsumingTopicException e) {e.printStackTrace();}}};
-////drAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "drAgent"));
-////drAgent.setProducerSettings(new ProducerSettings("localhost", "9092"));
-//		
-//		//DR AGENT Ende -------------------------------------------
-		
 
 		
-		tokenAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "1"));
-		sentenceAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "2"));
-		applicationAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "3"));
-		singleKeyWordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "4"));
-		noKeywordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "5"));
-		severalKeywordsAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "6"));
-		requestAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "7")); 
-		protcolAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "8"));
 		semanticChunksIP.setConsumerSettings(new ConsumerSettings("localhost", "9092", "9"));
 		sessionstateAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "10"));
 		documentProposalAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "11"));
@@ -134,36 +92,17 @@ public class StartServices {
 		docProposalAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "13"));
 		
 		
-		tokenAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		sentenceAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		//drAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		applicationAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		singleKeyWordAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		noKeywordAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		severalKeywordsAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		requestAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		protcolAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		semanticChunksIP.setProducerSettings(new ProducerSettings("localhost","9092"));
 		sessionstateAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		documentProposalAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		guiAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		docProposalAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		
-		StreamingExecution.add(tokenAgent);
-		StreamingExecution.add(sentenceAgent);
-		//StreamingExecution.add(drAgent);
-		StreamingExecution.add(applicationAgent);
-		StreamingExecution.add(singleKeyWordAgent);
-		StreamingExecution.add(noKeywordAgent);
-		StreamingExecution.add(severalKeywordsAgent);
-		StreamingExecution.add(requestAgent);
-		StreamingExecution.add(protcolAgent);
 		StreamingExecution.add(semanticChunksIP);
 		StreamingExecution.add(sessionstateAgent);
 		StreamingExecution.add(guiAgent);
 		StreamingExecution.add(docProposalAgent);
-		
-		//StreamingExecution.add(documentProposalAgent);
+		StreamingExecution.add(documentProposalAgent);
 		
 		Runnable myRunnable = new Runnable() {
 			public void run() {

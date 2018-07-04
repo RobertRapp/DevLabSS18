@@ -35,10 +35,7 @@ import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 
 
 public class Sessions extends AbstractInterestProfile {
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = LoggerFactory.getLogger(Sessions.class);
 
@@ -51,32 +48,37 @@ public class Sessions extends AbstractInterestProfile {
 	 *
 	 * In dieser Methode wird ein Gesprächskontext empfangen, sobald ein Gespräch abgeschlossen wird.
 	 * Anhand der Informationen die innerhalb des empfangenen Events gespeichert sind, wird ein Protokoll erzeugt.
-	 * Das ausgehende Format ist machinell analysiserbar und wird an den Agenten weiter gegeben, damit dieser das Event
-	 * auf Google Drive abspeichern kann.
+	 * Das ausgehende Format ist machinell analysiserbar und die Infos können im späteren Verlauf auch auf Google Drive gespeichert werden.
 	 *
-	 * @param arg0
+	 * @author rrapp, birk, pokorski
 	 */
 
 
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
 		
+		System.out.println("in Protokoll IP");
 		
 		ProtocolAgent protocolagent = (ProtocolAgent) this.getAgent();
 		
 		switch(event.getType()) {
-		case "DocProposal": 
+		case "DocProposalEvent": 
 			protocolagent.addProposedDocList(event);			
 			break;
 		
-		case "UserInteraction":
+		case "UserInteractionEvent":
 			protocolagent.addClickedDocList(event);
+			break;
+			
+		case "SessionEndEvent":
+			protocolagent.setSessionEnd(event.getPropertyByKey("SessionEnd").getValue().toString());
+			CreateNewXMl();
 			break;
 		
 		default:
 		for(Property<?> property :event.getProperties()) {
 			switch (property.getKey().toLowerCase()) {
-				
+			
 			case "participant1":
 				protocolagent.addUserList(property.getValue().toString());				
 				break;
@@ -91,6 +93,7 @@ public class Sessions extends AbstractInterestProfile {
 				break;
 			case "sessionend":
 				protocolagent.setSessionEnd(property.getValue().toString());
+				CreateNewXMl();
 				break;
 			case "project":
 				protocolagent.addProjectList(property.getValue().toString());
@@ -104,11 +107,11 @@ public class Sessions extends AbstractInterestProfile {
 		}
 		break;
 		} 
+		//System.out.println("Protokoll: " + protocolagent);
 		}
 		
-	
-	
-	public void CreateNewXMl() {
+		
+		public void CreateNewXMl() {
 		System.out.println("XML WIRD ERSTELLT! ");
 		ProtocolAgent protokollAgent = (ProtocolAgent) this.getAgent();
 		String sessionID = protokollAgent.getSessionId();	
@@ -217,21 +220,9 @@ public class Sessions extends AbstractInterestProfile {
 			action1.appendChild(actionid0);	
 			}
 			
-			/*
-			 * 
-			 * 
-			 * 
-			 */
-			
-			
 			for (int i = 0; i < topics.size(); i++) {				
 				action2.appendChild(doc.createTextNode(topics.get(i)));				
 				}
-			/*
-			 * 
-			 * 
-			 * 
-			 */
 			
 			//Weitere dynamische Elemente:
 			for (int i = 0; i < propDocs.size(); i++) {
@@ -287,6 +278,7 @@ public class Sessions extends AbstractInterestProfile {
 			protocolOutput.setType("ProtocolEvent");
 			protocolOutput.add(new Property<Document>("document", doc));
 			protocolOutput.add(new Property<>("DOM", source));
+			System.out.println(protocolOutput);
 			protokollAgent.send(protocolOutput, "Protocol");
 			StreamResult result = new StreamResult(
 					new File("C:\\Users\\jonas\\Documents\\Studium\\DevelopmentLab\\Protokoll.xml"));

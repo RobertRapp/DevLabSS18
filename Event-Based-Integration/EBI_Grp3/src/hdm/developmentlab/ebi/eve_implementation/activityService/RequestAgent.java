@@ -17,7 +17,7 @@ import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofile
  * 
  * Er besitzt die IP TokenDocumentType. 
  * 
- * @author rrapp
+ * @author rrapp, birk
  *
  */
 

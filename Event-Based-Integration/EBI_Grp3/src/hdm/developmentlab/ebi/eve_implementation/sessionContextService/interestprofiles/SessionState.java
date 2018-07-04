@@ -96,6 +96,7 @@ public class SessionState extends AbstractInterestProfile {
 			
 		/*
 		 * Jede Session hat ebenfalls einen SessionContext, wovon die Attribute mittels Properties festgelegt werden.
+		 * Hier werden Default-Werte festgelegt
 		 */
 		AbstractEvent createdSessionContext = eventFactory.createEvent(("AtomicEvent"));
 		createdSessionContext.setType("SessionContextEvent");
@@ -125,9 +126,7 @@ public class SessionState extends AbstractInterestProfile {
 			ersteAnfrage.add(new Property<String>("keyword", "protocol"));
 			//Publizieren von Events über die send-Methode des Agenten.
 			System.out.println("SessionContext wird raus geschickt");
-			sA.send(createdSessionContext, "SessionContext");	
-						
-			sA.send(ersteAnfrage, "DocRequest");
+			sA.send(createdSessionContext, "SessionContext");		
 			sA.addSession(abs);	
 			
 		} catch (NoValidEventException e) {	

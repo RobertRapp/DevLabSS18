@@ -36,7 +36,6 @@ import eventprocessing.utils.model.OWLResultUtils;
 import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
 import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
 /**
  * Startpunkt der Anwendung.
