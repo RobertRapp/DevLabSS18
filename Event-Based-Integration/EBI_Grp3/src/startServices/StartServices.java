@@ -15,6 +15,9 @@ import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
+import eventprocessing.agent.DocProposal.DocProposalAgent;
+import eventprocessing.agent.GuiAgent.GuiAgent;
+import eventprocessing.agent.UserInteraction.UserInteraction;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
@@ -26,6 +29,7 @@ import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
 import eventprocessing.produce.kafka.Despatcher;
 import eventprocessing.produce.kafka.ProducerSettings;
+import eventprocessing.utils.SocketServer;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
@@ -86,6 +90,9 @@ public class StartServices {
 		AbstractAgent semanticChunksIP = new SemanticAgent();
 		AbstractAgent sessionstateAgent = new SessionContextAgent();
 		AbstractAgent documentProposalAgent = new DocumentProposalAgent();
+		AbstractAgent guiAgent = new GuiAgent();
+		AbstractAgent docProposalAgent = new DocProposalAgent();
+		
 		
 		
 		//DR AGENT -------------------------------------------
@@ -124,6 +131,9 @@ public class StartServices {
 		semanticChunksIP.setConsumerSettings(new ConsumerSettings("localhost", "9092", "9"));
 		sessionstateAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "10"));
 		documentProposalAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "11"));
+		guiAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "12"));
+		docProposalAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "13"));
+		
 		
 		tokenAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		sentenceAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
@@ -137,6 +147,8 @@ public class StartServices {
 		semanticChunksIP.setProducerSettings(new ProducerSettings("localhost","9092"));
 		sessionstateAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		documentProposalAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		guiAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+		docProposalAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
 		
 		StreamingExecution.add(tokenAgent);
 		StreamingExecution.add(sentenceAgent);
@@ -149,24 +161,49 @@ public class StartServices {
 		StreamingExecution.add(protcolAgent);
 		StreamingExecution.add(semanticChunksIP);
 		StreamingExecution.add(sessionstateAgent);
+		StreamingExecution.add(guiAgent);
+		StreamingExecution.add(docProposalAgent);
+		
 		//StreamingExecution.add(documentProposalAgent);
 		
-		System.out.println("in StartService");
 		Runnable myRunnable = new Runnable() {
 			public void run() {
 				try {
-					publishDemoEvents();
+					StreamingExecution.start();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-				}
+				} 
 			}
 		};
+		Runnable webSocketserver = new Runnable() {
+			public void run() {
+				SocketServer.main(null); 
+				
+				
+			}
+		};
+		Runnable dritterthread = new Runnable() {
+			public void run() {
+//				try {
+//					//publishDemoEvents();
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} 
+				
+				
+			}
+		};
+		
 		// Thread wird erzeugt und gestartet
 		Thread thread = new Thread(myRunnable);
+		Thread thread2 = new Thread(webSocketserver);
+		Thread thread3 = new Thread(dritterthread);
+		
 		thread.start();
-
-		StreamingExecution.start();
-	}
+		thread2.start();
+		thread3.start();
+	 }
 
 	
 	private static void publish(AbstractEvent event, String topic) {
@@ -230,28 +267,28 @@ public class StartServices {
 						break;
 					}
 			
-					System.out.println(16);				
-					String sessionID = "Session1";
-					// To execute the other class and its dependencies it is important to add these dependencies under "Deployment Assembly"
-					System.out.println(JsSentence);
-					AbstractEvent wat = eventFactory.createEvent("AtomicEvent");
-					System.out.println(17);
-					wat.setType("WatsonEvent");
-					wat.add(new Property<String>("Sentence", JsSentence));
-					wat.add(new Property<String>("UserID", userID));// Hier die Properties an das neue Event Ã¼bergebenÃ¼bergeben
-					wat.add(new Property<String>("SentenceID", "5"));// Hier die Properties an das neue Event Ã¼bergebenÃ¼bergeben
-					wat.add(new Property<Timestamp>("Timestamp", wat.getCreationDate()));
-					wat.add(new Property<String>("SessionID", sessionID));
-					//String message = messageMapper.toJSON(wat);
-					System.out.println(18);
-					publish(wat, "ChunkGeneration");
-					AbstractEvent sessionStart = eventFactory.createEvent("AtomicEvent");
-					sessionStart.setType("SessionStartEvent");
-					sessionStart.add(new Property<String>("12423432434", "sessionID"));
-					publish(sessionStart, "SessionState");
-					//despatcher.deliver(message, "ChunkGeneration");
-					System.out.println(19);
-					Thread.sleep(1000);
+//					System.out.println(16);				
+//					String sessionID = "Session1";
+//					// To execute the other class and its dependencies it is important to add these dependencies under "Deployment Assembly"
+//					System.out.println(JsSentence);
+//					AbstractEvent wat = eventFactory.createEvent("AtomicEvent");
+//					System.out.println(17);
+//					wat.setType("WatsonEvent");
+//					wat.add(new Property<String>("Sentence", JsSentence));
+//					wat.add(new Property<String>("UserID", userID));// Hier die Properties an das neue Event Ã¼bergebenÃ¼bergeben
+//					wat.add(new Property<String>("SentenceID", "5"));// Hier die Properties an das neue Event Ã¼bergebenÃ¼bergeben
+//					wat.add(new Property<Timestamp>("Timestamp", wat.getCreationDate()));
+//					wat.add(new Property<String>("SessionID", sessionID));
+//					//String message = messageMapper.toJSON(wat);
+//					System.out.println(18);
+//					publish(wat, "ChunkGeneration");
+//					AbstractEvent sessionStart = eventFactory.createEvent("AtomicEvent");
+//					sessionStart.setType("SessionStartEvent");
+//					sessionStart.add(new Property<String>("12423432434", "sessionID"));
+//					publish(sessionStart, "SessionState");
+//					//despatcher.deliver(message, "ChunkGeneration");
+//					System.out.println(19);
+//					Thread.sleep(1000);
 					
 
 				}

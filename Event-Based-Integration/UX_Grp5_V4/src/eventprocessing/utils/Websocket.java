@@ -83,7 +83,7 @@ public class Websocket {
 //	private static DocumentProposal proposal = new DocumentProposal();
 	private static DocumentProposal proposal = new DocumentProposal();
 	
-	private static Despatcher despatcher = null;
+	private static Despatcher despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
 	private static final MessageMapper messageMapper = new MessageMapper();
 	String nachricht = null;
 	static ScheduledExecutorService timer = Executors.newSingleThreadScheduledExecutor();
@@ -180,6 +180,7 @@ usersJSON.put("users", usersArray);
 		    	sessionStartEvent.add(new Property <>("SessionID",requestJSON.getString("sessionID")));
 		    	sessionStartEvent.add(new Property <>("UserID",requestJSON.getString("userID")));
 		    	
+		    	System.out.println(sessionStartEvent);
 		    	nachricht = messageMapper.toJSON(sessionStartEvent);
 			 	despatcher.deliver(nachricht, "SessionState");
 		    	

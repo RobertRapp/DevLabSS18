@@ -23,5 +23,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/SpeechTokenization"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Framework_GUI"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
