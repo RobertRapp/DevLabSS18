@@ -41,6 +41,7 @@ import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
 import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
+import saveDocumentService.SaveDocumentAgent;
 import semanticService.SemanticAgent;
 
 /**
@@ -65,32 +66,132 @@ public class StartServices {
 	
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
-		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
+//		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));		
+//		System.out.println(OWLResultUtils.convertBindingElementInPropertySet("{\r\n" + 
+//				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostStatement\" } ,\r\n" + 
+//				"        \"Classname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectControlling\" } ,\r\n" + 
+//				"        \"Oberklasse\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Document\" } ,\r\n" + 
+//				"        \"Beziehung\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HasAuthor\" } ,\r\n" + 
+//				"        \"Instanzname2\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Vanessa_Keller\" } ,\r\n" + 
+//				"        \"Attribut\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FileName\" } ,\r\n" + 
+//				"        \"Name\": { \"type\": \"literal\" , \"value\": \"cost statement\" } ,\r\n" + 
+//				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"cost; costs; expense; expenses; statement\" }\r\n" + 
+//				"      }"));
 		
-		System.out.println(OWLResultUtils.convertBindingElementInPropertySet("{\r\n" + 
-				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostStatement\" } ,\r\n" + 
-				"        \"Classname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectControlling\" } ,\r\n" + 
-				"        \"Oberklasse\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Document\" } ,\r\n" + 
-				"        \"Beziehung\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HasAuthor\" } ,\r\n" + 
-				"        \"Instanzname2\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Vanessa_Keller\" } ,\r\n" + 
-				"        \"Attribut\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FileName\" } ,\r\n" + 
-				"        \"Name\": { \"type\": \"literal\" , \"value\": \"cost statement\" } ,\r\n" + 
-				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"cost; costs; expense; expenses; statement\" }\r\n" + 
-				"      }"));
-		//ST
-		AbstractAgent sentenceAgent = new SentenceAgent(); //
-		AbstractAgent tokenAgent = new TokenizeAgent(); //
-		AbstractAgent applicationAgent = new ActivityAgent(); //
-		AbstractAgent requestAgent = new RequestAgent(); //
-		AbstractAgent protcolAgent = new ProtocolAgent();
-		AbstractAgent singleKeyWordAgent = new SingleKeywordAgent();
-		AbstractAgent noKeywordAgent = new NoKeywordAgent();
-		AbstractAgent severalKeywordsAgent = new SeveralKeywordsAgent();
-		AbstractAgent semanticChunksIP = new SemanticAgent();
-		AbstractAgent sessionstateAgent = new SessionContextAgent();
-		AbstractAgent documentProposalAgent = new DocumentProposalAgent();
-		AbstractAgent guiAgent = new GuiAgent();
-		AbstractAgent docProposalAgent = new DocProposalAgent();
+		Thread thread2;
+		switch (args[0].toLowerCase()) {
+		case "tomcat":
+			//TOMCAT 
+			AbstractAgent semanticAgent = new SemanticAgent();
+			AbstractAgent saveDocAgent = new SaveDocumentAgent();
+			AbstractAgent documentProposalAgent = new DocumentProposalAgent();
+				
+			
+			//TOMCAT CONSUMER / PRODUCER SETTINGS
+			
+			semanticAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "9"));			
+			documentProposalAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "11"));		
+			saveDocAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "14"));			
+			saveDocAgent.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
+			documentProposalAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+			semanticAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+			
+			//TOMCAT
+			StreamingExecution.add(semanticAgent);			
+			StreamingExecution.add(documentProposalAgent);
+			StreamingExecution.add(saveDocAgent);
+			
+			Runnable ontologyServer = new Runnable() {
+				public void run() {
+					//Platzhalter für den ontologyServer			
+				}
+			};
+			
+			break;
+		case "ux":
+			//UX
+			
+			AbstractAgent singleKeyWordAgent = new SingleKeywordAgent();
+			AbstractAgent noKeywordAgent = new NoKeywordAgent();
+			AbstractAgent severalKeywordsAgent = new SeveralKeywordsAgent();	
+			AbstractAgent sentenceAgent = new SentenceAgent();
+			AbstractAgent tokenAgent = new TokenizeAgent(); //
+			AbstractAgent applicationAgent = new ActivityAgent();
+
+			//UX CONSUMER / PRODUCER SETTINGS
+			
+			tokenAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "1"));
+			sentenceAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "2"));
+			applicationAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "3"));
+			singleKeyWordAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "4"));
+			noKeywordAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "5"));
+			severalKeywordsAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "6"));
+			
+			tokenAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+			sentenceAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));		
+			applicationAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+			singleKeyWordAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+			noKeywordAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+			severalKeywordsAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+			
+			//UX
+			StreamingExecution.add(tokenAgent);
+			StreamingExecution.add(sentenceAgent);
+			StreamingExecution.add(applicationAgent);
+			StreamingExecution.add(singleKeyWordAgent);
+			StreamingExecution.add(noKeywordAgent);
+			StreamingExecution.add(severalKeywordsAgent);	
+			
+			
+			
+			break;
+
+		case "spark":
+			//SPARK
+			
+			AbstractAgent sessionstateAgent = new SessionContextAgent();
+			AbstractAgent guiAgent = new GuiAgent();
+			AbstractAgent protcolAgent = new ProtocolAgent();
+			AbstractAgent requestAgent = new RequestAgent();
+			AbstractAgent docProposalAgent = new DocProposalAgent();
+			
+			requestAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "7")); 
+			protcolAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "8"));
+			guiAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "12"));
+			docProposalAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "13"));
+			
+			requestAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+			protcolAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+			guiAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+			docProposalAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));			
+			sessionstateAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "10"));
+			sessionstateAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+			
+			//SPARK
+			StreamingExecution.add(guiAgent);
+			StreamingExecution.add(docProposalAgent);
+			StreamingExecution.add(requestAgent);
+			StreamingExecution.add(protcolAgent);
+			StreamingExecution.add(sessionstateAgent);		
+			
+			Runnable webSocketserver = new Runnable() {
+				public void run() {
+					SocketServer.main(null); 					
+				}
+			};
+			thread2 = new Thread(webSocketserver);
+			thread2.start();
+			break;
+			
+		default:
+			System.out.println("ACHTUNG: Es muss je nach Server tomcat, ux oder spark als args Parameter angegeben werden. ");
+			break;
+		}
+		
+		
+		
+		
+	
 		
 		
 		
@@ -115,55 +216,7 @@ public class StartServices {
 ////drAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "drAgent"));
 ////drAgent.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
 //		
-//		//DR AGENT Ende -------------------------------------------
-		
 
-		
-		tokenAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "1"));
-		sentenceAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "2"));
-		applicationAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "3"));
-		singleKeyWordAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "4"));
-		noKeywordAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "5"));
-		severalKeywordsAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "6"));
-		requestAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "7")); 
-		protcolAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "8"));
-		semanticChunksIP.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "9"));
-		sessionstateAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "10"));
-		documentProposalAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "11"));
-		guiAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "12"));
-		docProposalAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "13"));
-		
-		
-		tokenAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-		sentenceAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-		//drAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-		applicationAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-		singleKeyWordAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-		noKeywordAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-		severalKeywordsAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-		requestAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-		protcolAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-		semanticChunksIP.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-		sessionstateAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-		documentProposalAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-		guiAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-		docProposalAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-		
-		StreamingExecution.add(tokenAgent);
-		StreamingExecution.add(sentenceAgent);
-		//StreamingExecution.add(drAgent);
-		StreamingExecution.add(applicationAgent);
-		StreamingExecution.add(singleKeyWordAgent);
-		StreamingExecution.add(noKeywordAgent);
-		StreamingExecution.add(severalKeywordsAgent);
-		StreamingExecution.add(requestAgent);
-		StreamingExecution.add(protcolAgent);
-		StreamingExecution.add(semanticChunksIP);
-		StreamingExecution.add(sessionstateAgent);
-		StreamingExecution.add(guiAgent);
-		StreamingExecution.add(docProposalAgent);
-		StreamingExecution.add(documentProposalAgent);
-		
 		Runnable myRunnable = new Runnable() {
 			public void run() {
 				try {
@@ -173,13 +226,7 @@ public class StartServices {
 				} 
 			}
 		};
-		Runnable webSocketserver = new Runnable() {
-			public void run() {
-				SocketServer.main(null); 
-				
-				
-			}
-		};
+		
 		Runnable dritterthread = new Runnable() {
 			public void run() {
 //				try {
@@ -191,15 +238,13 @@ public class StartServices {
 				
 				
 			}
-		};
-		
+		};		
 		// Thread wird erzeugt und gestartet
-		Thread thread = new Thread(myRunnable);
-		Thread thread2 = new Thread(webSocketserver);
+		Thread thread = new Thread(myRunnable);	
 		Thread thread3 = new Thread(dritterthread);
 		
 		thread.start();
-		thread2.start();
+		
 		thread3.start();
 	 }
 
