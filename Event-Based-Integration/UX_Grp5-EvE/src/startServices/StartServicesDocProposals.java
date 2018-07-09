@@ -43,15 +43,15 @@ public class StartServicesDocProposals {
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
 		
-		despatcher = new Despatcher(new ProducerSettings("localhost ","9092"));
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2 ","9092"));
 		
 		AbstractAgent docProposalAgent = new DocProposalAgent();
-		docProposalAgent.setConsumerSettings(new ConsumerSettings("localhost ","9092", "DocProposal"));
-		docProposalAgent.setProducerSettings(new ProducerSettings("localhost ","9092"));
+		docProposalAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2 ","9092", "DocProposal"));
+		docProposalAgent.setProducerSettings(new ProducerSettings("10.142.0.2 ","9092"));
 
 		AbstractAgent guiAgent = new GuiAgent();
-		guiAgent.setConsumerSettings(new ConsumerSettings("localhost ","9092", "Gui"));
-		guiAgent.setProducerSettings(new ProducerSettings("localhost ","9092"));
+		guiAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2 ","9092", "Gui"));
+		guiAgent.setProducerSettings(new ProducerSettings("10.142.0.2 ","9092"));
 		
 //		AbstractAgent userInteraction = new UserInteraction();
 //		userInteraction.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "UserInteraction"));
