@@ -1,7 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>Framework_GUI</groupId>
-  <artifactId>Framework_GUI</artifactId>
+  <artifactId>UX_Grp5-EvE</artifactId>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jetty-version>9.2.7.v20150116</jetty-version>
@@ -98,4 +97,5 @@
   	<version>0.0.1-SNAPSHOT</version>
   	<relativePath>..</relativePath>
   </parent>
+  <groupId>hdm.developementlab.ebi</groupId>
 </project>
