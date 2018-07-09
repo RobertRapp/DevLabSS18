@@ -1,32 +1,13 @@
 package startServices;
 
-import java.sql.Timestamp;
-
-import com.speechTokens.EvE.agents.NoKeywordAgent;
 import com.speechTokens.EvE.agents.SentenceAgent;
-import com.speechTokens.EvE.agents.SeveralKeywordsAgent;
-import com.speechTokens.EvE.agents.SingleKeywordAgent;
 import com.speechTokens.EvE.agents.TokenizeAgent;
-import com.speechTokens.semantic.simulation.SemanticData;
-import com.speechTokens.tokenizer.Chunker;
 
-import documentProposalService.DocumentProposalAgent;
 import eventprocessing.agent.AbstractAgent;
-import eventprocessing.agent.NoValidConsumingTopicException;
-import eventprocessing.agent.NoValidEventException;
-import eventprocessing.agent.NoValidTargetTopicException;
-import eventprocessing.agent.DocProposal.DocProposalAgent;
-import eventprocessing.agent.GuiAgent.GuiAgent;
-import eventprocessing.agent.UserInteraction.UserInteraction;
-import eventprocessing.agent.dispatch.NoValidInterestProfileException;
-import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
-import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.event.Property;
 import eventprocessing.produce.kafka.Despatcher;
 import eventprocessing.produce.kafka.ProducerSettings;
 import eventprocessing.utils.SocketServer;
@@ -35,13 +16,9 @@ import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
-import eventprocessing.utils.model.EventUtils;
 import eventprocessing.utils.model.OWLResultUtils;
 import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
 import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
-import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
-import semanticService.SemanticAgent;
 
 /**
  * Startpunkt der Anwendung.

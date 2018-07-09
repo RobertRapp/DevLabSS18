@@ -16,13 +16,13 @@
 			<accessrule kind="accessible" pattern="**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/DR_GRP2"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/DR_GRP2"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/UX_Grp5-EvE"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SpeechTokenization"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Framework_GUI"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

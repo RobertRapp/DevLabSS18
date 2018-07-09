@@ -12,7 +12,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/EvE"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Framework_GUI"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/SpeechTokenization"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/UX_Grp5-EvE"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
