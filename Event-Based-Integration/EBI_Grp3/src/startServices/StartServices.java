@@ -43,6 +43,7 @@ import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 import saveDocumentService.SaveDocumentAgent;
 import semanticService.SemanticAgent;
+import startFuseki.StartFusekiAndOntology;
 
 /**
  * Startpunkt der Anwendung.
@@ -81,6 +82,7 @@ public class StartServices {
 		Thread thread2;
 		switch (args[0].toLowerCase()) {
 		case "tomcat":
+			System.out.println("Parameter tomcat aufgerufen: semanticAgent, saveDocumentAgent, documentProposalAgent und der FusekiServer gestartet");
 			//TOMCAT 
 			AbstractAgent semanticAgent = new SemanticAgent();
 			AbstractAgent saveDocAgent = new SaveDocumentAgent();
@@ -103,10 +105,11 @@ public class StartServices {
 			
 			Runnable ontologyServer = new Runnable() {
 				public void run() {
-					//Platzhalter für den ontologyServer			
+					StartFusekiAndOntology.main(null);	
 				}
 			};
-			
+			Thread ontologythread = new Thread(ontologyServer);
+			ontologythread.start();
 			break;
 		case "ux":
 			//UX
