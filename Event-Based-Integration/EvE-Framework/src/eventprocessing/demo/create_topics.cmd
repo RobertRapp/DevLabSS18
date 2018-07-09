@@ -8,7 +8,7 @@ SET topics=Sensor-1 Sensor-2 TrafficData Diagnosis Storage Logging
 
 (FOR %%a IN (%topics%) DO (
 	ECHO Create topic %%a.
-	kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic %%a
+	kafka-topics.bat --create --zookeeper 10.142.0.2:2181 --replication-factor 1 --partitions 1 --topic %%a
 ))
 		
 PAUSE

@@ -48,7 +48,7 @@ import eventprocessing.utils.TextUtils;
 public abstract class AbstractAgent implements Serializable {
 
 	private static final long serialVersionUID = 200553511808766459L;
-	private static Logger LOGGER = LoggerFactory.getLogger(AbstractAgent.class.getName());
+	protected static Logger LOGGER = LoggerFactory.getLogger(AbstractAgent.class.getName());
 	// private static AbstractFactory eventFactory =
 	// FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
 
@@ -60,9 +60,9 @@ public abstract class AbstractAgent implements Serializable {
 	 * Der MessageMapper formatiert die Events in ein JSON-String, damit diese an
 	 * die Topics geleitet werden können.
 	 */
-	private MessageMapper messageMapper = null;
+	protected MessageMapper messageMapper = null;
 	// Für den Versand der Nachrichten zuständig
-	private Despatcher despatcher = null;
+	protected Despatcher despatcher = null;
 	// Verteilt die eingehenden Nachrichten an die InterestProfiles
 	private Dispatcher dispatcher = new Dispatcher();
 	// Die Liste hält alle InterestProfiles vor
@@ -74,7 +74,7 @@ public abstract class AbstractAgent implements Serializable {
 	// Benötigt der Dispatcher, um die Nachrichten an die Topics senden zu können
 	private ProducerSettings producerSettings = null;
 	// repräsentiert den Status des Agenten
-	private State state = null;
+	protected State state = null;
 	/*
 	 * der accumulator hält die Events vor, die von dem Agenten für die spätere
 	 * Verarbeitung benötigt wird. volatile wird benötigt, damit die Informationen
@@ -87,7 +87,7 @@ public abstract class AbstractAgent implements Serializable {
 	 * Window die Betrachtung der Events auf der zeitlichen Achse betrachtet werden.
 	 * Hier wird nicht die Eventzeit berücksichtigt, sondern die Systemzeit.
 	 */
-	private transient AbstractWindow window = null;
+	protected transient AbstractWindow window = null;
 
 	/**
 	 * Bei der Erzeugung ist der Startzustand: "Not Initialized" Dieser Zustand wird

@@ -37,7 +37,7 @@ public enum ProducerSettingsDefaultValues {
 	 * setzen der Parameter im Konstruktor bei der Erzeugung.
 	 */
 	private ProducerSettingsDefaultValues() {
-		IPv4Bootstrap = "localhost";
+		IPv4Bootstrap = "10.142.0.2";
 		portBootstrap = "9092";
 		acks = "0";//"all";
 		retries = 0;

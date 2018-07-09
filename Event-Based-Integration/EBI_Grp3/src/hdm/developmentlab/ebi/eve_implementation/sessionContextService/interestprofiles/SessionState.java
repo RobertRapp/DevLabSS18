@@ -1,3 +1,4 @@
+
 package hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles;
 
 
@@ -10,14 +11,16 @@ import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.AtomicEvent;
+import eventprocessing.event.EventIdProvider;
 import eventprocessing.event.Property;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.EventFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
-import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
-import hdm.developmentlab.ebi.eve_implementation.events.SessionStateEvent;
+import eventprocessing.utils.model.EventUtils;
+import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationIP;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
 
 
@@ -28,7 +31,7 @@ public class SessionState extends AbstractInterestProfile {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
-
+	private static Logger LOGGER = LoggerFactory.getLogger(SessionState.class);
 
 	/**
 	 * Empfängt das Event, dass ein Gespräch gestartet ist und erzuegt dafür ein neues SessionEvent, das während
@@ -38,25 +41,98 @@ public class SessionState extends AbstractInterestProfile {
 	 */
 	@Override
 	protected void doOnReceive(AbstractEvent abs) {
+			System.out.println("in IP von SessionState eventype: " + abs.getType());
+		/**
+		 * 
+		 * In dieser Methode wird die Verarbeitung eines Events gemacht. D. h. wie der Agent auf ein bestimmtes
+		 * Event reagieren soll. Hierfür ist keine weitere Abprüfung nötig, ob das Event dem entspricht
+		 * was als Predicates für das Interessensprofile festgelegt wurde.
+		 */
 		
-		Logger l = LoggerFactory.getLogger("DOONRECEIVE SESSIONSTATE");
-		l.log(Level.WARNING, "Event "+abs);
+		/*
+		 * Innerhalb des Interessensprofils kann der Agent verwendet werden, dem dieses IP zugewiesen ist. 
+		 */
+		SessionContextAgent sA = (SessionContextAgent) this.getAgent();
 		
-		AbstractEvent session = eventFactory.createEvent("AtomicEvent");
-		ArrayList<Property> list = new ArrayList<>();
-		list.add(new Property<String>("kostendoc", "LInk"));
-		list.add(new Property<String>("kostendoc1", "LInk1"));
-		list.add(new Property<String>("kostendoc2", "LInk2"));
-		session.add(new Property<ArrayList<Property>>("docProposalList", list ));
+		if(abs.getType().equalsIgnoreCase("sessionEndEvent")) {
+			AbstractEvent session = sA.getSessionById(abs.getValueByKey("sessionID").toString());
+			session.add(new Property<>("sessionEnd", TimeUtils.getCurrentTime()));
+			try {
+				System.out.println("Neuer SessionState raus geschickt");
+				sA.send(session, "SessionState");
+				sA.getSessions().remove(session);
+			} catch (NoValidEventException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoValidTargetTopicException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		/*
+		 * Ein Interessensprofil kann ebenfalls Events publizieren, hierfür wird erstmal ein Event erzeugt,
+		 * das über die eventFactory erzeugt wird. Es handelt sich dabei im Rahmen dieses Projekts um ein AtomicEvent
+		 */
+		
+		AbstractEvent newSession = eventFactory.createEvent("AtomicEvent");
 		
 		
+		/*
+		 * Werden einzelne Attribute eines Events übernommen kann dafür eine Schleife über die Properties gehen.
+		 */
+		for(Property<?> p : abs.getProperties()) {
+				newSession.addOrReplace(p);
+			}
+		//erzeugen einer SessionID wenn noch keine vorhanden ist. 
+		if(EventUtils.findPropertyByKey(newSession, "sessionID") == null) {
+			System.out.println("In if1");
+			newSession.add(new Property<>("sessionID", abs.hashCode()+System.currentTimeMillis()));
+			System.out.println("neue Sessionid wird hinzugefügt " + EventUtils.findPropertyByKey(newSession, "sessionID").getValue());
+		}else if (EventUtils.findPropertyByKey(newSession, "sessionID").getValue() == "") {
+			System.out.println("Esle if es gibt schon : ");
+			newSession.getProperties().remove(newSession.getPropertyByKey("sessionID"));
+			newSession.add(new Property<String>("sessionID" + abs.hashCode()+System.currentTimeMillis()));
+		}
+			
+		/*
+		 * Jede Session hat ebenfalls einen SessionContext, wovon die Attribute mittels Properties festgelegt werden.
+		 * Hier werden Default-Werte festgelegt
+		 */
+		AbstractEvent createdSessionContext = eventFactory.createEvent(("AtomicEvent"));
+		createdSessionContext.setType("SessionContextEvent");
+		createdSessionContext.add(newSession.getPropertyByKey("sessionID"));
+		createdSessionContext.add(new Property<String>("project", "highnet"));
+		createdSessionContext.add(new Property<String>("topic"));
+		createdSessionContext.add(new Property<>("teilnehmer1", abs.getValueByKey("userID")));
+		createdSessionContext.add(new Property<>("teilnehmer2", abs.getValueBySecoundMatch("userID")));
+		newSession.add(new Property<AbstractEvent>("sessionContext", createdSessionContext));
+		
+		
+		/*
+		 * Der Logger kann verwendet werden um in der Console Nachrichten auszuprinten. 
+		 */
+		//Logger.log(Level.WARNING, "Event "+abs);
+				
+		/*
+		 * Im Send-try-catch-Block werden alle Events versendet die dieses Interessensprofil versenden möchte.
+		 * Es werden zwei Fehler abgefangen, wenn es sich nicht um ein valides Event handelt oder das Topic nicht valide ist.
+		 
+		 */
 		try {
-			this.getAgent().send(session, "DocProposal");			
-		} catch (NoValidEventException e) {
-			l.log(Level.WARNING, "SessionState Event konnte nicht publiziert werden"+e);
+			AbstractEvent ersteAnfrage = eventFactory.createEvent("AtomicEvent");
+			ersteAnfrage.setType("DocRequestEvent");
+			ersteAnfrage.add(new Property<>("teilnehmer1", abs.getValueByKey("userID")));
+			ersteAnfrage.add(new Property<>("teilnehmer2", abs.getValueBySecoundMatch("userID")));
+			ersteAnfrage.add(new Property<String>("keyword", "protocol"));
+			//Publizieren von Events über die send-Methode des Agenten.
+			System.out.println("SessionContext wird raus geschickt");
+			sA.send(createdSessionContext, "SessionContext");		
+			sA.addSession(abs);	
+			
+		} catch (NoValidEventException e) {	
+			//Logger.log(Level.WARNING,  "Event konnte nicht publiziert werden"+e);
 			e.printStackTrace();
-		} catch (NoValidTargetTopicException e) {
-			// TODO Auto-generated catch block
+		} catch (NoValidTargetTopicException e) {			
 			e.printStackTrace();
 		}
 	}

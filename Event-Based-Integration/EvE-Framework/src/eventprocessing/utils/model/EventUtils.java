@@ -127,7 +127,7 @@ public final class EventUtils {
 		if (event != null) {
 			try {
 				Property<?> resultProperty = event.getProperties().stream()
-						.filter(property -> property.getKey().equals(key)).findFirst().get();
+						.filter(property -> property.getKey().equalsIgnoreCase(key)).findFirst().get();
 				return resultProperty;
 			} catch (NoSuchElementException e) {
 				LOGGER.log(Level.WARNING, () -> String.format("no matching property was found. Committed key: %s%s",
@@ -154,7 +154,23 @@ public final class EventUtils {
 			return null;
 		}
 	}
-
+	
+	public static AbstractEvent replacePropertyByKey(AbstractEvent event, String key, Property<?> property) {
+		AbstractEvent newEvent = event;
+		newEvent.remove(findPropertyByKey(event, (key)));
+		newEvent.add(property);
+		return newEvent;
+		}
+	
+	public static boolean hasProperty(AbstractEvent event, String key) {
+		
+		Property<?> resultProperty = event.getProperties().stream()
+				.filter(property -> property.getKey().equalsIgnoreCase(key)).findFirst().get();
+		if(resultProperty != null) return true;
+		return false;
+		
+	}
+	
 	public static boolean isType(String type, AbstractEvent event) {
 		if (event != null) {
 			if (event.getType().equals(type)) {
