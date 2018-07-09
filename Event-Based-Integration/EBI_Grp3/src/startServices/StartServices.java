@@ -151,7 +151,8 @@ public class StartServices {
 
 		case "spark":
 			//SPARK
-			
+			System.out.print("Spark als Parameter eingegeben. sessionStateAgent, GuiAgent, ProtocolAgent,"
+					+ " RequestAgent, DocProposalAgent und Websocket gestartet.");
 			AbstractAgent sessionstateAgent = new SessionContextAgent();
 			AbstractAgent guiAgent = new GuiAgent();
 			AbstractAgent protcolAgent = new ProtocolAgent();
@@ -183,11 +184,30 @@ public class StartServices {
 				}
 			};
 			thread2 = new Thread(webSocketserver);
+			
+			System.out.println("Websocket Thread Status: "+thread2.getState());
+			
+			Runnable myRunnable = new Runnable() {
+				public void run() {
+					try {
+						StreamingExecution.start();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} 
+				}
+			};
+					
+			// Thread wird erzeugt und gestartet
+			Thread thread = new Thread(myRunnable);		
 			thread2.start();
+			System.out.println("Websocket Thread Status: "+thread2.getState());
+			thread.start();		
+			System.out.println("Spark Thread Status: "+thread.getState());
 			break;
 			
 		default:
 			System.out.println("ACHTUNG: Es muss je nach Server tomcat, ux oder spark als args Parameter angegeben werden. ");
+			
 			break;
 		}
 		
@@ -220,35 +240,8 @@ public class StartServices {
 ////drAgent.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
 //		
 
-		Runnable myRunnable = new Runnable() {
-			public void run() {
-				try {
-					StreamingExecution.start();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				} 
-			}
-		};
 		
-		Runnable dritterthread = new Runnable() {
-			public void run() {
-//				try {
-//					//publishDemoEvents();
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				} 
-				
-				
-			}
-		};		
-		// Thread wird erzeugt und gestartet
-		Thread thread = new Thread(myRunnable);	
-		Thread thread3 = new Thread(dritterthread);
 		
-		thread.start();
-		
-		thread3.start();
 	 }
 
 	
