@@ -60,7 +60,7 @@ public class SessionStartInterestProfile extends AbstractInterestProfile {
 	/*	
 				try {
 					getAgent().send(event, "SessionState");
-				} catch (NoValidEventException e1) {
+				System.out.println(this.getClass().getSimpleName()+" : Event versendet "+TimeUtils.getCurrentTime()+" - "+ event.getType());} catch (NoValidEventException e1) {
 					LOGGER.log(Level.WARNING, () -> String.format("%s", event));
 				} catch (NoValidTargetTopicException e1) {
 					LOGGER.log(Level.WARNING, () -> String.format("%s", "SessionState"));
@@ -78,7 +78,7 @@ public class SessionStartInterestProfile extends AbstractInterestProfile {
 				try {
 					// Das erzeugte Event wird über den Agenten an das Topic "TrafficData" versendet
 					getAgent().send(e, ShowcaseValues.INSTANCE.getTrafficDataTopic());
-				} catch (NoValidEventException e1) {
+				System.out.println(this.getClass().getSimpleName()+" : Event versendet "+TimeUtils.getCurrentTime()+" - "+ event.getType());} catch (NoValidEventException e1) {
 					LOGGER.log(Level.WARNING, () -> String.format("%s", e));
 				} catch (NoValidTargetTopicException e1) {
 					LOGGER.log(Level.WARNING, () -> String.format("%s", e));

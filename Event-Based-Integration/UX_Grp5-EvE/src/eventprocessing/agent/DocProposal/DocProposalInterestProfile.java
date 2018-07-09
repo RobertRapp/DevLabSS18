@@ -163,7 +163,7 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 			e.printStackTrace();
 		}
 	}
-//				} catch (NoValidEventException e1) {
+//				System.out.println(this.getClass().getSimpleName()+" : Event versendet "+TimeUtils.getCurrentTime()+" - "+ event.getType());} catch (NoValidEventException e1) {
 //					LOGGER.log(Level.WARNING, () -> String.format("%s", event));
 //				} catch (NoValidTargetTopicException e1) {
 //					LOGGER.log(Level.WARNING, () -> String.format("%s", "Gui"));

@@ -47,7 +47,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 	 */
 
 	@Override
-	protected void doOnReceive(AbstractEvent event) {
+	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
 		if(event.getType().equalsIgnoreCase("SessionContextEvent")) {
 			System.out.println("Session geupdated: "+event);
 			lastSessionContextEvent = event;

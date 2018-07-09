@@ -1,32 +1,19 @@
 package startServices;
 
-import java.sql.Timestamp;
-
 import com.speechTokens.EvE.agents.NoKeywordAgent;
 import com.speechTokens.EvE.agents.SentenceAgent;
 import com.speechTokens.EvE.agents.SeveralKeywordsAgent;
 import com.speechTokens.EvE.agents.SingleKeywordAgent;
 import com.speechTokens.EvE.agents.TokenizeAgent;
-import com.speechTokens.semantic.simulation.SemanticData;
-import com.speechTokens.tokenizer.Chunker;
 
 import documentProposalService.DocumentProposalAgent;
 import eventprocessing.agent.AbstractAgent;
-import eventprocessing.agent.NoValidConsumingTopicException;
-import eventprocessing.agent.NoValidEventException;
-import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.DocProposal.DocProposalAgent;
 import eventprocessing.agent.GuiAgent.GuiAgent;
-import eventprocessing.agent.UserInteraction.UserInteraction;
-import eventprocessing.agent.dispatch.NoValidInterestProfileException;
-import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
-import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.event.Property;
 import eventprocessing.produce.kafka.Despatcher;
 import eventprocessing.produce.kafka.ProducerSettings;
 import eventprocessing.utils.SocketServer;
@@ -35,8 +22,6 @@ import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
-import eventprocessing.utils.model.EventUtils;
-import eventprocessing.utils.model.OWLResultUtils;
 import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
 import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
@@ -49,7 +34,7 @@ import startFuseki.StartFusekiAndOntology;
  * Startpunkt der Anwendung.
  * 
  * hier werden die Agenten initialisiert und die Sparkumgebung ausgefÃƒÂ¼hrt.
- * 
+ *  
  * @author RobertRapp
  *
  */
@@ -67,19 +52,8 @@ public class StartServices {
 	
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
-//		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));		
-//		System.out.println(OWLResultUtils.convertBindingElementInPropertySet("{\r\n" + 
-//				"        \"Instanzname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostStatement\" } ,\r\n" + 
-//				"        \"Classname\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectControlling\" } ,\r\n" + 
-//				"        \"Oberklasse\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Document\" } ,\r\n" + 
-//				"        \"Beziehung\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HasAuthor\" } ,\r\n" + 
-//				"        \"Instanzname2\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Vanessa_Keller\" } ,\r\n" + 
-//				"        \"Attribut\": { \"type\": \"uri\" , \"value\": \"http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FileName\" } ,\r\n" + 
-//				"        \"Name\": { \"type\": \"literal\" , \"value\": \"cost statement\" } ,\r\n" + 
-//				"        \"Keyword\": { \"type\": \"literal\" , \"value\": \"cost; costs; expense; expenses; statement\" }\r\n" + 
-//				"      }"));
+
 		
-		Thread thread2;
 		switch (args[0].toLowerCase()) {
 		case "tomcat":
 			System.out.println("Parameter tomcat aufgerufen: semanticAgent, saveDocumentAgent, documentProposalAgent und der FusekiServer gestartet");
@@ -108,11 +82,26 @@ public class StartServices {
 					StartFusekiAndOntology.main(null);	
 				}
 			};
+			
+			Runnable tomcat = new Runnable() {
+				public void run() {
+					try {
+						StreamingExecution.start();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} 
+				}
+			};
+			
+			Thread thread = new Thread(tomcat);					
+			thread.start();	
 			Thread ontologythread = new Thread(ontologyServer);
 			ontologythread.start();
 			break;
 		case "ux":
 			//UX
+			System.out.print("ux als Parameter eingegeben. singleKeyWordAgent, noKeywordAgent, severalKeywordsAgent,"
+					+ " sentenceAgent, tokenAgent und applicationAgent gestartet.");
 			
 			AbstractAgent singleKeyWordAgent = new SingleKeywordAgent();
 			AbstractAgent noKeywordAgent = new NoKeywordAgent();
@@ -145,7 +134,17 @@ public class StartServices {
 			StreamingExecution.add(noKeywordAgent);
 			StreamingExecution.add(severalKeywordsAgent);	
 			
-			
+			Runnable ux = new Runnable() {
+				public void run() {
+					try {
+						StreamingExecution.start();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} 
+				}
+			};
+			Thread thread1 = new Thread(ux);					
+			thread1.start();	
 			
 			break;
 
@@ -176,18 +175,9 @@ public class StartServices {
 			StreamingExecution.add(docProposalAgent);
 			StreamingExecution.add(requestAgent);
 			StreamingExecution.add(protcolAgent);
-			StreamingExecution.add(sessionstateAgent);		
+			StreamingExecution.add(sessionstateAgent);			
 			
-			Runnable webSocketserver = new Runnable() {
-				public void run() {
-					SocketServer.main(null); 					
-				}
-			};
-			thread2 = new Thread(webSocketserver);
-			
-			System.out.println("Websocket Thread Status: "+thread2.getState());
-			
-			Runnable myRunnable = new Runnable() {
+			Runnable spark = new Runnable() {
 				public void run() {
 					try {
 						StreamingExecution.start();
@@ -198,51 +188,30 @@ public class StartServices {
 			};
 					
 			// Thread wird erzeugt und gestartet
-			Thread thread = new Thread(myRunnable);		
-			thread2.start();
-			System.out.println("Websocket Thread Status: "+thread2.getState());
-			thread.start();		
-			System.out.println("Spark Thread Status: "+thread.getState());
+			Thread thread3 = new Thread(spark);					
+			thread3.start();		
+			System.out.println("Spark Thread Status: "+thread3.getState());
 			break;
 			
+		case "websocket":
+			Thread thread2;
+			System.out.println("Websocket als Parameter -- starte Websocket");
+			Runnable webSocketserver = new Runnable() {
+				public void run() {
+					SocketServer.main(null); 					
+				}
+			};
+			thread2 = new Thread(webSocketserver);
+			thread2.start();
+			System.out.println("Websocket Thread Status: "+thread2.getState());
+			break;
 		default:
 			System.out.println("ACHTUNG: Es muss je nach Server tomcat, ux oder spark als args Parameter angegeben werden. ");
 			
 			break;
 		}
-		
-		
-		
-		
-	
-		
-		
-		
-		//DR AGENT -------------------------------------------
-		/*
-		 * Alle Zeilen die linksbündig sind müssen bearbeitet werden.
-		 */
-//			AbstractAgent drAgent  = new AbstractAgent() {
-//private static final long serialVersionUID = 606360123599610899L;
-//						@Override
-//						protected void doOnInit() {
-//this.setId("drAgent");
-//						AbstractInterestProfile ip = new User();
-//						//ip.add(new IsFromTopic(this.getId()));
-//						ip.add(new IsEventType("SentenceEvent"));
-//						try {this.add(ip);
-//						} catch (NoValidInterestProfileException e) {e.printStackTrace();}
-//						try {
-//							//this.add(this.getId());
-//							this.add("ChunkGeneration");
-//						} catch (NoValidConsumingTopicException e) {e.printStackTrace();}}};
-////drAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "drAgent"));
-////drAgent.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
-//		
-
-		
-		
-	 }
+				
+}
 
 	
 	private static void publish(AbstractEvent event, String topic) {

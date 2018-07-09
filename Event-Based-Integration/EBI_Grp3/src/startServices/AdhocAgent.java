@@ -19,6 +19,7 @@ import eventprocessing.event.AbstractEvent;
 import eventprocessing.produce.kafka.Despatcher;
 import eventprocessing.produce.kafka.ProducerSettings;
 import eventprocessing.utils.SystemUtils;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.mapping.MessageMapper;
 
 public class AdhocAgent extends AbstractAgent{
@@ -71,7 +72,8 @@ this.setId(name);
 	AbstractInterestProfile ip = new AbstractInterestProfile() {
 private static final long serialVersionUID = 6063600497599610899L;
 	@Override
-	protected void doOnReceive(AbstractEvent event) {try {	
+	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
+	try {	
 		System.out.println("Agent: "+name+" onReceive");
 		LOGGER.log(Level.WARNING, event.toString());
 		LOGGER.log(Level.WARNING, event.toString());

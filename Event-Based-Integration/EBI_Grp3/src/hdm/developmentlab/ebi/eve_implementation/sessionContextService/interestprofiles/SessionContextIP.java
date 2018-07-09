@@ -10,6 +10,7 @@ import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
@@ -36,9 +37,8 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 	 * 
 	 * @param event
 	 */	
-	
 	@Override
-	protected void doOnReceive(AbstractEvent event) {	
+	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName()+" : Event angekommen "+event.getType()+" - um: " + TimeUtils.getCurrentTime());	
 	/**
 	 * 
 	 * In dieser Methode wird die Verarbeitung eines Events gemacht. D. h. wie der Agent auf ein bestimmtes

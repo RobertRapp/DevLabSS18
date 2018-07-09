@@ -28,7 +28,7 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 
 
 	@Override
-	protected void doOnReceive(AbstractEvent event) {
+	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());<
 		// TODO Auto-generated method stub
 
 		getModul(event);

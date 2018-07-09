@@ -9,10 +9,8 @@
 
 	
 	<modules>
-		<module>EBI_Grp3
-	</module>	
+		<module>EBI_Grp3</module>	
 		<module>EvE-Framework</module>
-
 		<module>DR_GRP2</module>
 		<module>UX_Grp5-EvE</module>
 	</modules>

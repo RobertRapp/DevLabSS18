@@ -8,6 +8,7 @@ import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
@@ -33,7 +34,8 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 	 */
 	
 	@Override
-	protected void doOnReceive(AbstractEvent event) {
+	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
+	
 		System.out.println("in Ip von Application");
 			System.out.println("Event das in TokenAppl ankomment: " + event);
 			if(event.getType().equalsIgnoreCase("CalendarEvent")) event.add(new Property<String>("URL","calendar.google.com"));
@@ -70,7 +72,7 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 					System.out.println("Sendet die folgende Application: " + event);
 					System.out.println("Pfad: " + event.getValueByKey("URL"));
 					getAgent().send(event, "DocProposal");
-				} catch (NoValidEventException e1) {
+				System.out.println(this.getClass().getSimpleName()+" : Event versendet "+TimeUtils.getCurrentTime()+" - "+ event.getType());} catch (NoValidEventException e1) {
 					LoggerFactory.getLogger("ApplicationSend");
 				} catch (NoValidTargetTopicException e1) {
 					LoggerFactory.getLogger("ApplicationSend");

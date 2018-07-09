@@ -20,6 +20,7 @@ import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
 import eventprocessing.utils.Document;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
@@ -35,7 +36,8 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 
 
 	@Override
-	protected void doOnReceive(AbstractEvent event) {
+	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
+		System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
 		// TODO Auto-generated method stub
 		System.out.println("in IP von Dr mit dem Event: " + event);
 		String result = getModul(event);

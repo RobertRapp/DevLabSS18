@@ -53,9 +53,9 @@ public class Sessions extends AbstractInterestProfile {
 	 * @author rrapp, birk, pokorski
 	 */
 
-
 	@Override
-	protected void doOnReceive(AbstractEvent event) {
+	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName()+" : Event angekommen "+event.getType()+" -um: " + TimeUtils.getCurrentTime());
+	
 		
 		System.out.println("in Protokoll IP");
 		
