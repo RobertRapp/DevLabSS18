@@ -6,10 +6,9 @@
     <groupId>developmentLab</groupId>
     <artifactId>Event-Based-Integration</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <relativePath>..</relativePath>
   </parent>
-  <groupId>developmentLab</groupId>
   <artifactId>DR_GRP2</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <name>DR_GRP2</name>
   <url>http://maven.apache.org</url>
   <properties>

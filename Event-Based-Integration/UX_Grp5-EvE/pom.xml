@@ -2,7 +2,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>Framework_GUI</groupId>
   <artifactId>Framework_GUI</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <jetty-version>9.2.7.v20150116</jetty-version>
@@ -93,4 +92,10 @@
     
   </dependencies>
   
+  <parent>
+  	<groupId>developmentLab</groupId>
+  	<artifactId>Event-Based-Integration</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  	<relativePath>..</relativePath>
+  </parent>
 </project>
