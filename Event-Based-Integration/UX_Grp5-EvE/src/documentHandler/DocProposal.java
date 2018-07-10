@@ -10,7 +10,7 @@ public class DocProposal {
 	ArrayList<Document>  documents = new ArrayList<Document>();
 	ArrayList<String> categories = new ArrayList<String>();
 	
-
+	// Die maximale Anzahl der anzuzeigenden Dokumente beträgt 15
 	int maxDocuments = 15;
 		
 	 	public ArrayList<Document> getDocuments() {
