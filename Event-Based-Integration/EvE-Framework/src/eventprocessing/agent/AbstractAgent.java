@@ -35,6 +35,7 @@ import eventprocessing.utils.mapping.MessageMapper;
 import eventprocessing.utils.model.ModelUtils;
 import eventprocessing.utils.SystemUtils;
 import eventprocessing.utils.TextUtils;
+import eventprocessing.utils.TimeUtils;
 
 /**
  * Der AbstractAgent beinhaltet die Realisierung der Member, die für alle
@@ -449,6 +450,7 @@ public abstract class AbstractAgent implements Serializable {
 				String messageAsJSON = messageMapper.toJSON(event);
 				// Der JSON-String sowie die Zieltopics werden übergeben.
 				despatcher.deliver(messageAsJSON, topic, partition);
+				LOGGER.log(Level.WARNING, "Event("+event.getId()+") "+event.getType()+" wurde um "+TimeUtils.getCurrentTime()+" auf Topic "+topic+" geschickt.");
 			} else {
 				throw new NoValidTargetTopicException(String.format("the stated target is invalid: %s", topic));
 			}

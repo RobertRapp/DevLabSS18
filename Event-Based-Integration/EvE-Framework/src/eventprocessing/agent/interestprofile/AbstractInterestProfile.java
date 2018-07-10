@@ -12,6 +12,7 @@ import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
 import eventprocessing.consume.kafka.runner.logging.state.CountReceiveState;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.utils.SystemUtils;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.ModelUtils;
 
@@ -93,6 +94,7 @@ public abstract class AbstractInterestProfile implements Serializable {
 			 * Jede Subklasse muss die Methode doOnReceive implementieren, dieser wird im
 			 * Anschluss ausgeführt.
 			 */
+			LOGGER.log(Level.WARNING, "Event("+event.getId()+") -> "+event.getType()+" wurde um "+TimeUtils.getCurrentTime()+" von Topic "+event.getSource()+" empfangen.");
 			doOnReceive(event);
 		}
 	}

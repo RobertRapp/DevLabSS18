@@ -67,13 +67,6 @@ public final class IsMessageOfInterest implements Function<String, Boolean> {
 		
 	    filterPredicate.isMessageOfInterest(message);
 		
-	    if ( (interestProfile.getAgent().getDispatcher().getFilterQueueOf(this.interestProfile).getFilters()).stream()
-				.allMatch(filterPredicate.isMessageOfInterest(message)) ) {
-	    	//l.log(Level.WARNING, message +" WAR VON INTERESSE !!!");
-	    }else {
-	    	l.log(Level.WARNING, message +" WAR NICHT NICHT NICHT VON INTERESSE !!!");
-	    }
-		
 	    return (interestProfile.getAgent().getDispatcher().getFilterQueueOf(this.interestProfile).getFilters()).stream()
 				.allMatch(filterPredicate.isMessageOfInterest(message));
 	}
