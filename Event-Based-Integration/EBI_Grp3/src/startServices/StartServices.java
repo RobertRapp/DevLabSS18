@@ -8,10 +8,10 @@ import com.speechTokens.EvE.agents.TokenizeAgent;
 
 import documentProposalService.DocumentProposalAgent;
 import eventprocessing.agent.AbstractAgent;
+import eventprocessing.agent.AgentException;
 import eventprocessing.agent.DocProposal.DocProposalAgent;
 import eventprocessing.agent.GuiAgent.GuiAgent;
 import eventprocessing.consume.kafka.ConsumerSettings;
-import eventprocessing.consume.spark.streaming.NoValidAgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.produce.kafka.Despatcher;
@@ -50,7 +50,7 @@ public class StartServices {
 	private static AbstractFactory agentFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getAgentFactory());
 	
 	
-	public static void main(String[] args) throws NoValidAgentException, InterruptedException
+	public static void main(String[] args) throws AgentException, InterruptedException
 	 {
 							
 		String kafkahost = "10.142.0.2"; //Default host

@@ -23,6 +23,8 @@ public final class StreamPredicate implements Serializable {
 	 * @param message,
 	 *            die vom DStream entnommen wurde @return, true wenn die Nachricht
 	 *            der Prädikatenlogik entspricht und false, wenn nicht.
+	 * @return true, wenn die Nachricht dem Pattern entspricht und false, wenn
+	 *         nicht.
 	 */
 	public Predicate<? super AbstractPredicate> Check(String message) {
 		return p -> {

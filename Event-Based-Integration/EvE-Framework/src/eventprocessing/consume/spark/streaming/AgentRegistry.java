@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import eventprocessing.agent.AbstractAgent;
+import eventprocessing.agent.AgentException;
 import eventprocessing.utils.TextUtils;
 
 /**
@@ -41,17 +42,17 @@ public enum AgentRegistry {
 	 * Fügt der Registry einen Agenten hinzu. Sollte die Id bereits vorhanden sein,
 	 * wird der alte Agent überschrieben.
 	 * 
-	 * @param agent,
+	 * @param agent
 	 *            der der Registry hinzugefügt werden soll.
-	 * @throws NoValidAgentException,
+	 * @throws AgentException
 	 *             wenn der Agent null ist oder keine Id besitzt.
 	 */
-	public void add(AbstractAgent agent) throws NoValidAgentException {
+	public void add(AbstractAgent agent) throws AgentException {
 		// Prüfung ob der Agent nicht null ist und ob er eine Id besitzt
 		if (agent != null && !TextUtils.isNullOrEmpty(agent.getId())) {
 			this.registry.put(agent.getId(), agent);
 		} else {
-			throw new NoValidAgentException(String.format("the committed agent is null or has no id: %s", agent));
+			throw new AgentException(String.format("the committed agent is null or has no id: %s", agent));
 		}
 	}
 

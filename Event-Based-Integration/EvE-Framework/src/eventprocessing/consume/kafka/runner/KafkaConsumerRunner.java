@@ -112,17 +112,19 @@ public final class KafkaConsumerRunner implements Runnable {
 					// Prüfung ob es sich um valides JSON handelt
 					if (JsonUtils.isValidJson(record.value())) {
 						// Umwandlung von JSON in ein Event
-
 						AbstractEvent event = messageMapper.toEvent(record.value());
 						// Prüfung ob der aktuelle Agent für den Befehl vorgesehen ist
 						if (EventUtils.isType("CommandEvent", event)) {
+							/*
+							 * Anhand der Property "AgentName" wird geprüft, an welchen Agenten der Befehl
+							 * übergeben werden soll.
+							 */
 							Property<?> property = EventUtils.findPropertyByKey(event, "AgentName");
-
 							if (property != null) {
+								// Aus der Registry wird der entsprechende Agent geholt
 								AbstractAgent agent = AgentRegistry.INSTANCE.getRegistry().get(property.getValue());
 								if (agent != null) {
 									command(agent, event);
-
 								}
 							}
 						}
@@ -140,28 +142,24 @@ public final class KafkaConsumerRunner implements Runnable {
 	}
 
 	/**
-	 * Das übergebene <code>CommandEvent</code> wird auf den Agenten angewandt. Über
-	 * diesen Weg kann dem Agenten Befehle erteilt werden wie beispielsweise auf
-	 * neue Topics zu hören. Ebenfalls kann er in neue <code>State</code> versetzt
-	 * werden.
+	 * Das übergebene Event wird auf den Agenten angewandt. Über diesen Weg kann dem
+	 * Agenten Befehle erteilt werden wie beispielsweise auf neue Topics zu hören.
+	 * Ebenfalls kann er in neue <code>State</code> versetzt werden.
 	 * 
 	 * @param agent,
 	 *            auf den der Befehl ausgeführt werden soll
-	 * @param cEvent,
+	 * @param event,
 	 *            Event mit dem Befehl der auf dem Agenten ausgeführt werden soll
-	 * @throws InterruptedException
 	 */
-
 	private void command(AbstractAgent agent, AbstractEvent event) {
-
-		// Prüfung ob der Agent überhaupt initialisiert wurde
+		// Prüfung ob der Agent überhaupt initialisiert ist
 		if (!(agent.getState() instanceof NotInitializedState)) {
 			// Auswertung des Befehls
-
 			@SuppressWarnings("unchecked")
 			Property<String> property = (Property<String>) EventUtils.findPropertyByKey(event, "Command");
-
+			// Wenn ein Befehl gefunden wurde
 			if (property != null) {
+				// wird anhand des Befehls die entsprechende Maßnahme eingeleitet.
 				switch (property.getValue()) {
 				// Stoppt die momentan ausführende Aktion
 				case "STOP":
@@ -213,7 +211,6 @@ public final class KafkaConsumerRunner implements Runnable {
 						}
 						StreamingExecution.reset();
 					}
-
 					break;
 				case "ADD_TOPIC":
 					@SuppressWarnings("unchecked")
@@ -228,14 +225,12 @@ public final class KafkaConsumerRunner implements Runnable {
 						StreamingExecution.reset();
 					}
 					break;
-
 				// Bei unbekannten Befehlen wird nur geloggt.
 				default:
 					LOGGER.log(Level.WARNING, () -> String.format("unknown command: %s%sNo action taken",
 							property.getValue(), SystemUtils.getLineSeparator()));
 					break;
 				}
-
 			}
 		}
 	}

@@ -11,17 +11,17 @@ public class NoValidAgentException extends Exception {
 	private static final long serialVersionUID = -8695963782008920224L;
 
 	/**
-	 * Erzeugt eine neue NoValidAgentException
+	 * Erzeugt eine neue AgentException
 	 */
 	public NoValidAgentException() {
 	}
 
 	/**
-	 * Erzeugt eine neue NoValidAgentException mit einer detailierten
+	 * Erzeugt eine neue AgentException mit einer detailierten
 	 * Fehlermeldung
 	 * 
 	 * @param message
-	 *            von der NoValidAgentException ausgegeben wird.
+	 *            von der AgentException ausgegeben wird.
 	 */
 	public NoValidAgentException(String message) {
 		super(message);

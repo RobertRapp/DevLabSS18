@@ -7,7 +7,6 @@ import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.NullPredicateException;
 import eventprocessing.agent.interestprofile.predicates.logical.Or;
 import eventprocessing.agent.interestprofile.predicates.statement.HasPropertyContains;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
@@ -41,13 +40,16 @@ public class SensorProcessing extends AbstractAgent {
 		try {
 			AbstractInterestProfile ip = new SensorProcessingInterestProfile();
 			ip.add(new IsEventType(ShowcaseValues.INSTANCE.getSensorEvent()));
-			ip.add(new Or(new HasPropertyContains("Location", ShowcaseValues.INSTANCE.getFirstSensorLocation()),
-					new HasPropertyContains("Location", ShowcaseValues.INSTANCE.getSecondSensorLocation())));
+			try {
+				ip.add(new Or(new HasPropertyContains("Location", ShowcaseValues.INSTANCE.getFirstSensorLocation()),
+						new HasPropertyContains("Location", ShowcaseValues.INSTANCE.getSecondSensorLocation())));
+			} catch (eventprocessing.agent.interestprofile.predicates.logical.NullPredicateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			this.add(ip);
 		} catch (NoValidInterestProfileException e1) {
 			e1.printStackTrace();
-		} catch (NullPredicateException e) {
-			e.printStackTrace();
 		}
 		// Angabe der Topics die vom Agenten abgerufen werden sollen.
 		try {

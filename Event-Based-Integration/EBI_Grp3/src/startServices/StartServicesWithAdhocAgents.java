@@ -8,7 +8,7 @@ import com.speechTokens.tokenizer.Chunker;
 
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.consume.kafka.ConsumerSettings;
-import eventprocessing.consume.spark.streaming.NoValidAgentException;
+import eventprocessing.agent.AgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
@@ -39,7 +39,7 @@ public class StartServicesWithAdhocAgents {
 	private static final MessageMapper messageMapper = new MessageMapper();
 	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
 	
-	public static void main(String[] args) throws NoValidAgentException, InterruptedException
+	public static void main(String[] args) throws AgentException, InterruptedException
 	 {
 		
 		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));

@@ -70,12 +70,12 @@ public abstract class CountState extends TimerTask implements State {
 	/**
 	 * setzt den Agenten für die Ausführung.
 	 * 
-	 * @param agent
+	 * @param agent, dessen Zustand geändert werden soll.
 	 */
 	public void setAgent(AbstractAgent agent) {
 		if (agent != null) {
 			this.agent = agent;
-		} // else Exception
+		}
 	}
 
 	/**

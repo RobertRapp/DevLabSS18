@@ -4,7 +4,7 @@ import java.util.logging.Level;
 
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.consume.kafka.ConsumerSettings;
-import eventprocessing.consume.spark.streaming.NoValidAgentException;
+import eventprocessing.agent.AgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
@@ -38,7 +38,7 @@ public class StartServicesGUITest {
 	private static AbstractFactory agentFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getAgentFactory());
 	
 	
-	public static void main(String[] args) throws NoValidAgentException, InterruptedException
+	public static void main(String[] args) throws AgentException, InterruptedException
 	 {
 		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
 		AbstractAgent sessionContextAgent = new SessionContextAgent();

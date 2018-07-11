@@ -1,7 +1,6 @@
 package eventprocessing.agent;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -27,16 +26,15 @@ import eventprocessing.consume.spark.streaming.window.AbstractWindow;
 import eventprocessing.consume.spark.streaming.window.NoValidWindowSettingsException;
 import eventprocessing.consume.spark.streaming.window.Window;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.event.Property;
 import eventprocessing.produce.kafka.Despatcher;
 import eventprocessing.produce.kafka.ProducerSettings;
 import eventprocessing.produce.kafka.ProducerSettingsDefaultValues;
-import eventprocessing.utils.factory.LoggerFactory;
-import eventprocessing.utils.mapping.MessageMapper;
-import eventprocessing.utils.model.ModelUtils;
 import eventprocessing.utils.SystemUtils;
 import eventprocessing.utils.TextUtils;
 import eventprocessing.utils.TimeUtils;
+import eventprocessing.utils.factory.LoggerFactory;
+import eventprocessing.utils.mapping.MessageMapper;
+import eventprocessing.utils.model.ModelUtils;
 
 /**
  * Der AbstractAgent beinhaltet die Realisierung der Member, die für alle

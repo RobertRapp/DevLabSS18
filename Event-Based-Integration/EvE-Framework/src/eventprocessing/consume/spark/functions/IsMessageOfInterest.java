@@ -1,13 +1,8 @@
 package eventprocessing.consume.spark.functions;
 
-import java.util.function.Predicate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.apache.spark.api.java.function.Function;
 
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.ModelUtils;
 
 /**
@@ -61,13 +56,7 @@ public final class IsMessageOfInterest implements Function<String, Boolean> {
 		 * .allMatch die weitere Verarbeitung stoppen und false zurückgegeben. Das
 		 * Predicate wird gebraucht, um die einzelnen FilterFunctions abzurufen.
 		 */
-		
-		Logger l = LoggerFactory.getLogger("ISMESSAGEOFINTEREST");
-		//l.log(Level.WARNING,"ES kam die MESSAGE "+message +" an.");
-		
-	    filterPredicate.isMessageOfInterest(message);
-		
-	    return (interestProfile.getAgent().getDispatcher().getFilterQueueOf(this.interestProfile).getFilters()).stream()
+		return (interestProfile.getAgent().getDispatcher().getFilterQueueOf(this.interestProfile).getFilters()).stream()
 				.allMatch(filterPredicate.isMessageOfInterest(message));
 	}
 	

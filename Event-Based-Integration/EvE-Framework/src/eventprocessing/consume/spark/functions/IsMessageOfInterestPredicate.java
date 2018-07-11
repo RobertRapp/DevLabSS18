@@ -6,9 +6,9 @@ import java.util.function.Predicate;
 import org.apache.spark.api.java.function.Function;
 
 /**
- * Dient der Überprüfung, ob eine Nachricht für ein <code>AbstractInterestProfile</code>
- * von interesse ist oder nicht. Findet Anwendung in der Klasse
- * <code>IsMessageOfInterest</code>
+ * Dient der Überprüfung, ob eine Nachricht für ein
+ * <code>AbstractInterestProfile</code> von interesse ist oder nicht. Findet
+ * Anwendung in der Klasse <code>IsMessageOfInterest</code>
  * 
  * @author IngoT
  *
@@ -24,6 +24,7 @@ public class IsMessageOfInterestPredicate implements Serializable {
 	 * @param message,
 	 *            die vom DStream entnommen wurde @return, True wenn die Nachricht
 	 *            relevant ist False wenn die Nachricht unwichtig ist.
+	 * @return true, wenn die Nachricht von Interesse ist, false wenn nicht.
 	 */
 	public Predicate<Function<String, Boolean>> isMessageOfInterest(String message) {
 		return p -> {

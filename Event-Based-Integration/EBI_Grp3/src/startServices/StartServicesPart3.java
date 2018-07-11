@@ -23,7 +23,7 @@ import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.consume.kafka.ConsumerSettings;
-import eventprocessing.consume.spark.streaming.NoValidAgentException;
+import eventprocessing.agent.AgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
@@ -63,7 +63,7 @@ public class StartServicesPart3 {
 	private static AbstractFactory agentFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getAgentFactory());
 	
 	
-	public static void main(String[] args) throws NoValidAgentException, InterruptedException
+	public static void main(String[] args) throws AgentException, InterruptedException
 	 {
 		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
 		

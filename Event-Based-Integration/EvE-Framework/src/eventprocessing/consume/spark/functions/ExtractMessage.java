@@ -4,7 +4,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.spark.api.java.function.Function;
 
 /**
- * Die Nachrichten kommen als ConsumerRecord<String, String> von Kafka an. Im
+ * Die Nachrichten kommen als ConsumerRecord mit String, String von Kafka an. Im
  * ersten String sind die Metadaten wie Topic und Partition hinterlegt. Im
  * zweiten String verbirgt sich die eigentliche Nachricht.
  * 

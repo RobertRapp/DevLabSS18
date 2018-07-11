@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 /**
  * Ist für die Übertragung der Nachrichten an die Topics zuständig. Pro
- * <code>AbstractAgent<code> gibt es eine Instanz.
+ * <code>AbstractAgent</code> gibt es eine Instanz.
  * 
  * Der Despatcher trägt eine Instanz eines <code>EventProducer</code> in sich.
  * Über diesen werden die Nachrichten an das Topic übermittelt.

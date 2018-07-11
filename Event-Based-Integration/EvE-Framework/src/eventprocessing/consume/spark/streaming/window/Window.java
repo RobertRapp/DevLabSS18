@@ -14,10 +14,22 @@ public class Window extends AbstractWindow {
 	 * Angabe der Fensterlänge, idealerweise ist sie ein vielfaches der batch
 	 * duration.
 	 * 
-	 * @param windowLength,
+	 * @throws NoValidWindowSettingsException
+	 *             wenn die Fensterlänge oder der Intervall kleiner als der
+	 *             Batchintervall ist.
+	 */
+	public Window() throws NoValidWindowSettingsException {
+		super(0);
+	}
+	
+	/**
+	 * Angabe der Fensterlänge, idealerweise ist sie ein vielfaches der batch
+	 * duration.
+	 * 
+	 * @param windowLength
 	 *            Länge des Fensters
 	 * 
-	 * @throws NoValidWindowSettingsException,
+	 * @throws NoValidWindowSettingsException
 	 *             wenn die Fensterlänge oder der Intervall kleiner als der
 	 *             Batchintervall ist.
 	 */
@@ -29,12 +41,12 @@ public class Window extends AbstractWindow {
 	 * Angabe der Fensterlänge und Intervalls. Wenn die Argumente kleiner sind als
 	 * die batch duration wird eine Exception geworfen.
 	 * 
-	 * @param windowLength,
+	 * @param windowLength
 	 *            Länge des Fensters
-	 * @param slideInterval,
+	 * @param slideInterval
 	 *            Intervall für die Erzeugung des neuen DStreams
 	 * 
-	 * @throws NoValidWindowSettingsException,
+	 * @throws NoValidWindowSettingsException
 	 *             wenn die Fensterlänge oder der Intervall kleiner als der
 	 *             Batchintervall ist.
 	 */
