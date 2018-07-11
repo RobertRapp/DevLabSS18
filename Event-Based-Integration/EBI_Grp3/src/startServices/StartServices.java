@@ -52,7 +52,10 @@ public class StartServices {
 	
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
-
+							
+		String kafkahost = "10.142.0.2"; //Default host
+			   if(args[1].length() > 7) kafkahost = args[1]; //Überschreibt Default wenn ein Wert gegeben ist. 
+		
 		
 		switch (args[0].toLowerCase()) {
 		case "tomcat":
@@ -61,16 +64,16 @@ public class StartServices {
 			AbstractAgent semanticAgent = new SemanticAgent();
 			AbstractAgent saveDocAgent = new SaveDocumentAgent();
 			AbstractAgent documentProposalAgent = new DocumentProposalAgent();
-				
+			
 			
 			//TOMCAT CONSUMER / PRODUCER SETTINGS
 			
-			semanticAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "9"));			
-			documentProposalAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "11"));		
-			saveDocAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "14"));			
-			saveDocAgent.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
-			documentProposalAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-			semanticAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+			semanticAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "9"));			
+			documentProposalAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "11"));		
+			saveDocAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "14"));			
+			saveDocAgent.setProducerSettings(new ProducerSettings(kafkahost, "9092"));
+			documentProposalAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			semanticAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
 			
 			//TOMCAT
 			StreamingExecution.add(semanticAgent);			
@@ -112,19 +115,19 @@ public class StartServices {
 
 			//UX CONSUMER / PRODUCER SETTINGS
 			
-			tokenAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "1"));
-			sentenceAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "2"));
-			applicationAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "3"));
-			singleKeyWordAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "4"));
-			noKeywordAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "5"));
-			severalKeywordsAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "6"));
+			tokenAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "1"));
+			sentenceAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "2"));
+			applicationAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "3"));
+			singleKeyWordAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "4"));
+			noKeywordAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "5"));
+			severalKeywordsAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "6"));
 			
-			tokenAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-			sentenceAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));		
-			applicationAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-			singleKeyWordAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-			noKeywordAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-			severalKeywordsAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+			tokenAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			sentenceAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));		
+			applicationAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			singleKeyWordAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			noKeywordAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			severalKeywordsAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
 			
 			//UX
 			StreamingExecution.add(tokenAgent);
@@ -158,17 +161,17 @@ public class StartServices {
 			AbstractAgent requestAgent = new RequestAgent();
 			AbstractAgent docProposalAgent = new DocProposalAgent();
 			
-			requestAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "7")); 
-			protcolAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "8"));
-			guiAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "12"));
-			docProposalAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "13"));
+			requestAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "7")); 
+			protcolAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "8"));
+			guiAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "12"));
+			docProposalAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "13"));
 			
-			requestAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-			protcolAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-			guiAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-			docProposalAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));			
-			sessionstateAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "10"));
-			sessionstateAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+			requestAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			protcolAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			guiAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			docProposalAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));			
+			sessionstateAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "10"));
+			sessionstateAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
 			
 			//SPARK
 			StreamingExecution.add(guiAgent);
