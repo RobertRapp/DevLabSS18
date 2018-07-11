@@ -72,12 +72,9 @@ this.setId(name);
 	AbstractInterestProfile ip = new AbstractInterestProfile() {
 private static final long serialVersionUID = 6063600497599610899L;
 	@Override
-	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
+	protected void doOnReceive(AbstractEvent event) { 
 	try {	
-		System.out.println("Agent: "+name+" onReceive");
-		LOGGER.log(Level.WARNING, event.toString());
-		LOGGER.log(Level.WARNING, event.toString());
-		LOGGER.log(Level.WARNING, event.toString());
+		
 this.getAgent().send(event, zielTopic); //nächsterAgent
 	} catch (NoValidEventException e) {e.printStackTrace();
 	} catch (NoValidTargetTopicException e) {e.printStackTrace();
@@ -91,8 +88,8 @@ this.getAgent().send(event, zielTopic); //nächsterAgent
 	
 	if(localhostFragezeichen) {
 		
-		this.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "group-"+this.getId()));
-		this.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
+		this.setConsumerSettings(new ConsumerSettings("localhost", "9092", "group-"+this.getId()));
+		this.setProducerSettings(new ProducerSettings("localhost", "9092"));
 	}else {
 		this.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "group-"+this.getId()));
 		this.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));

@@ -33,6 +33,7 @@ public enum SparkContextConfig {
 		 * um die winutils.exe zu laden.
 		 */
 		if (SystemUtils.isWindows()) {
+			
 			SystemUtils.setProperty(SystemUtils.getHadoopHomeDirectory(),
 					String.format("%s%sSpark", SystemUtils.getProjectPath(), SystemUtils.getFileSeparator()));
 		}

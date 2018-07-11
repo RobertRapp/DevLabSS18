@@ -209,7 +209,7 @@ public class StartServices {
 			System.out.println("Websocket Thread Status: "+thread2.getState());
 			break;
 		default:
-			System.out.println("ACHTUNG: Es muss je nach Server tomcat, ux oder spark als args Parameter angegeben werden. ");
+			System.out.println("ACHTUNG: Es muss je nach Server tomcat, ux oder spark als args Parameter angegeben werden.");
 			
 			break;
 		}

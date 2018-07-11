@@ -1,6 +1,7 @@
 package eventprocessing.agent.interestprofile;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
@@ -94,7 +95,9 @@ public abstract class AbstractInterestProfile implements Serializable {
 			 * Jede Subklasse muss die Methode doOnReceive implementieren, dieser wird im
 			 * Anschluss ausgeführt.
 			 */
-			LOGGER.log(Level.WARNING, "Event("+event.getId()+") -> "+event.getType()+" wurde um "+TimeUtils.getCurrentTime()+" von Topic "+event.getSource()+" empfangen.");
+			Timestamp sendedTime =  new Timestamp((long) event.getValueByKey("gesendetUm"));
+			long dauer = TimeUtils.getCurrentTime().getTime() - sendedTime.getTime();
+			LOGGER.log(Level.WARNING, "Event("+event.getId()+") -> "+event.getType()+" wurde mit Verzögerung "+dauer+"msec von Topic "+event.getSource()+" empfangen.");
 			doOnReceive(event);
 		}
 	}
