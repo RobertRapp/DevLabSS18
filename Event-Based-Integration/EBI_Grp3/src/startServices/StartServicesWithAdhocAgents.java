@@ -54,7 +54,7 @@ public class StartServicesWithAdhocAgents {
 		StreamingExecution.add(getAdhocAgent("Agent1", "Agent2", true));
 		StreamingExecution.add(getAdhocAgent("Agent2", "Agent3", true));
 		StreamingExecution.add(getAdhocAgent("Agent3", "Agent4", true));
-		StreamingExecution.add(getAdhocAgent("Agent4", "Agent5", true));
+//		StreamingExecution.add(getAdhocAgent("Agent4", "Agent5", true));
 //		StreamingExecution.add(getAdhocAgent("Agent5", "Agent6", true));
 //		StreamingExecution.add(getAdhocAgent("Agent6", "Agent7", true));
 //		StreamingExecution.add(getAdhocAgent("Agent7", "Agent8", true));
@@ -90,71 +90,14 @@ public class StartServicesWithAdhocAgents {
 	
 	
 	private static void publish(AbstractEvent event, String topic) {
-		LoggerFactory.getLogger("StartServices!");				
+				
 		String message = messageMapper.toJSON(event);	
 		if(message != null && topic != null) {
 			despatcher.deliver(message, topic);	
 		}
 	}
 	
-	private static void publishDemoEvents(String zielTopic) throws InterruptedException {		
-			
-			for (int i = 8; i < 9; i++) {
-					String JsSentence = ""; 
-					String userID = "";					
-					switch (i) {
-					case 0:
-						 JsSentence = "Let's talk about drive current activities concerning HighNet project."; 
-						 userID = "lisa@gmail.com";
-						break;
-					case 1:
-						JsSentence = "Ok. Shall we look at the tasks leading to the milestone ahead?"; 
-						 userID = "haruki@gmail.com";
-						break;
-					case 2:
-						JsSentence = "Sure. We have been working on network issues for the diagnosis module. It is item 3 on the task list. I think, we will come up with something viable shortly."; 
-						 userID = "lisa@gmail.com";
-						break;
-					case 3:
-						JsSentence = "That sounds great. What about expenses? Do you think, you will be able to stay within the limits we aggreed upon last week?"; 
-						 userID = "haruki@gmail.com";
-						break;
-					case 4:
-						JsSentence = "That should be no problem. I'll leave a detailed report on Google drive."; 
-						 userID = "lisa@gmail.com";
-						break;
-					case 5:
-						JsSentence = "Ok, thanks. Let's make an appointment for our next meeting."; 
-						 userID = "haruki@gmail.com";
-						break;
-					case 6:
-						JsSentence = "Let me check my calendar â€¦. How about next Thursday at 16 hours your time?"; 
-						 userID = "lisa@gmail.com";
-						break;
-					case 7:
-						JsSentence = "Perfect. See you then. Bye."; 
-						 userID = "haruki@gmail.com";
-					break;
-
-					default:
-						JsSentence = "Highnet, Daimler, costs, milestone, calendar, Google Drive, Google Calendar, google docs, powerpoint, Word";
-						userID = "lisa@gmail.com";
-						break;
-					}
-								
-					AbstractEvent wat = eventFactory.createEvent("AtomicEvent");					
-					wat.setType("WatsonEvent");
-					wat.add(new Property<String>("Sentence", JsSentence));
-					wat.add(new Property<String>("UserID", userID));
-					wat.add(new Property<String>("SentenceID", "0"+i));// Hier die Properties an das neue Event Ã¼bergebenÃ¼bergeben
-					wat.add(new Property<Timestamp>("Timestamp", wat.getCreationDate()));
-					wat.add(new Property<String>("SessionID", "session"+i));
-					wat.setSource(zielTopic);					
-					publish(wat, zielTopic);
-					Thread.sleep(5000);					
-
-				}
-	}
+	
 	private static void publishDemoEvents(AbstractEvent event, String zielTopic) throws InterruptedException {		
 		AbstractEvent wat = eventFactory.createEvent("AtomicEvent");					
 		wat.setType("WatsonEvent");

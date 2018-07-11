@@ -417,6 +417,7 @@ public abstract class AbstractAgent implements Serializable {
 	 */
 	public void send(AbstractEvent event, String topic)
 			throws NoValidEventException, NoValidTargetTopicException {
+		LOGGER.log(Level.WARNING, "EventId "+event.getId()+" wird versendet");
 		send(event, topic, null);
 	}
 
@@ -450,7 +451,7 @@ public abstract class AbstractAgent implements Serializable {
 				String messageAsJSON = messageMapper.toJSON(event);
 				// Der JSON-String sowie die Zieltopics werden übergeben.
 				despatcher.deliver(messageAsJSON, topic, partition);
-				LOGGER.log(Level.WARNING, "Event("+event.getId()+") "+event.getType()+" wurde um "+TimeUtils.getCurrentTime()+" auf Topic "+topic+" geschickt.");
+				LOGGER.log(Level.WARNING, "Event("+event.getId()+") "+event.getType()+" wurde um "+TimeUtils.getCurrentTime()+" auf Topic "+topic+" geschickt. \n");
 			} else {
 				throw new NoValidTargetTopicException(String.format("the stated target is invalid: %s", topic));
 			}

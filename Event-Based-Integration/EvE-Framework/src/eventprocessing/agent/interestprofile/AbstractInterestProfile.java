@@ -1,6 +1,7 @@
 package eventprocessing.agent.interestprofile;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
@@ -12,6 +13,7 @@ import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
 import eventprocessing.consume.kafka.runner.logging.state.CountReceiveState;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.utils.SystemUtils;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.ModelUtils;
 
@@ -99,6 +101,11 @@ public abstract class AbstractInterestProfile implements Serializable {
 				// Loggingevents selber sollen nicht gezählt werden.
 				((CountReceiveState) this.getAgent().getState()).add(event);
 			}
+						Timestamp sendedTime =  new Timestamp((long) event.getValueByKey("gesendetUm"));
+						long dauer = TimeUtils.getCurrentTime().getTime() - sendedTime.getTime();
+						LOGGER.log(Level.WARNING, "Event("+event.getId()+") -> "+event.getType()+" wurde mit Verz�gerung "+dauer+"msec von Topic "+event.getSource()+" empfangen.");
+			 			doOnReceive(event);
+			 		
 			/*
 			 * Jede Subklasse muss die Methode doOnReceive implementieren, dieser wird im
 			 * Anschluss ausgeführt.
