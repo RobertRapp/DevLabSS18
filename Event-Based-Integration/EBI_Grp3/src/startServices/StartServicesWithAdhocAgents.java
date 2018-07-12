@@ -54,13 +54,13 @@ public class StartServicesWithAdhocAgents {
 		StreamingExecution.add(getAdhocAgent("Agent1", "Agent2", true));
 		StreamingExecution.add(getAdhocAgent("Agent2", "Agent3", true));
 		StreamingExecution.add(getAdhocAgent("Agent3", "Agent4", true));
-//		StreamingExecution.add(getAdhocAgent("Agent4", "Agent5", true));
-//		StreamingExecution.add(getAdhocAgent("Agent5", "Agent6", true));
-//		StreamingExecution.add(getAdhocAgent("Agent6", "Agent7", true));
-//		StreamingExecution.add(getAdhocAgent("Agent7", "Agent8", true));
-//		StreamingExecution.add(getAdhocAgent("Agent8", "Agent9", true));
-//		StreamingExecution.add(getAdhocAgent("Agent9", "Agent10", true));
-//		StreamingExecution.add(getAdhocAgent("Agent10", "Agent11", true));
+		StreamingExecution.add(getAdhocAgent("Agent4", "Agent5", true));
+		StreamingExecution.add(getAdhocAgent("Agent5", "Agent6", true));
+		StreamingExecution.add(getAdhocAgent("Agent6", "Agent7", true));
+		StreamingExecution.add(getAdhocAgent("Agent7", "Agent8", true));
+		StreamingExecution.add(getAdhocAgent("Agent8", "Agent9", true));
+		StreamingExecution.add(getAdhocAgent("Agent9", "Agent10", true));
+		StreamingExecution.add(getAdhocAgent("Agent10", "Agent11", true));
 		
 		Runnable myRunnable = new Runnable() {
 			public void run() {
@@ -104,7 +104,7 @@ public class StartServicesWithAdhocAgents {
 		wat.add(new Property<String>("IrgendeinText", "Das Wetter ist heute nicht sonnig"));
 		wat.add(new Property<Long>("gesendetUm", TimeUtils.getCurrentTime().getTime()));
 		wat.setSource(zielTopic);	
-		for (int i = 0; i < 1; i++) {	
+		for (int i = 0; i < 10; i++) {	
 				wat.setId(i);
 				publish(wat, zielTopic);
 				Thread.sleep(50);					

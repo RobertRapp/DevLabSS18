@@ -104,7 +104,7 @@ public abstract class AbstractInterestProfile implements Serializable {
 						Timestamp sendedTime =  new Timestamp((long) event.getValueByKey("gesendetUm"));
 						long dauer = TimeUtils.getCurrentTime().getTime() - sendedTime.getTime();
 						LOGGER.log(Level.WARNING, "Event("+event.getId()+") -> "+event.getType()+" wurde mit Verzögerung "+dauer+"msec von Topic "+event.getSource()+" empfangen.");
-			 			doOnReceive(event);
+			 			
 			 		
 			/*
 			 * Jede Subklasse muss die Methode doOnReceive implementieren, dieser wird im

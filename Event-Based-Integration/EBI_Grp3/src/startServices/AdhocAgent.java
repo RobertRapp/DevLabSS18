@@ -1,15 +1,27 @@
 package startServices;
 
+import java.util.logging.Level;
+
 import eventprocessing.agent.AbstractAgent;
+import eventprocessing.agent.AgentException;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
+import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
+import eventprocessing.agent.state.ReadyState;
 import eventprocessing.consume.kafka.ConsumerSettings;
+import eventprocessing.consume.spark.streaming.SparkContextValues;
+import eventprocessing.consume.spark.streaming.window.NoValidWindowSettingsException;
+import eventprocessing.consume.spark.streaming.window.Window;
 import eventprocessing.event.AbstractEvent;
+import eventprocessing.produce.kafka.Despatcher;
 import eventprocessing.produce.kafka.ProducerSettings;
+import eventprocessing.utils.SystemUtils;
+import eventprocessing.utils.TimeUtils;
+import eventprocessing.utils.mapping.MessageMapper;
 
 public class AdhocAgent extends AbstractAgent{
 	
@@ -33,12 +45,12 @@ private static final long serialVersionUID = 6063600497599610899L;
 	@Override
 	protected void doOnReceive(AbstractEvent event) { 
 	try {			
-		
+	
 this.getAgent().send(event, zielTopic); //nächsterAgent
 	} catch (NoValidEventException e) {e.printStackTrace();
 	} catch (NoValidTargetTopicException e) {e.printStackTrace();
 	}}};
-	ip.add(new IsFromTopic(name));
+	ip.add(new IsEventType("WatsonEvent"));
 	try {this.add(ip);
 	} catch (NoValidInterestProfileException e) {e.printStackTrace();}
 	try {

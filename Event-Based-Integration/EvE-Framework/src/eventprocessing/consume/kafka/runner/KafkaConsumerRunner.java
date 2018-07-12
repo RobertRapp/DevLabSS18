@@ -98,6 +98,7 @@ public final class KafkaConsumerRunner implements Runnable {
 			// Topics die abonniert werden
 			ConsumerRecords<String, String> records;
 			synchronized (consumer) {
+				
 				consumer.subscribe(Arrays.asList(// ConversationValues.INSTANCE.getConversationTopic(),
 						LoggingValues.INSTANCE.getLoggingTopic()));
 			}
@@ -109,6 +110,7 @@ public final class KafkaConsumerRunner implements Runnable {
 				}
 				// Für jeden Datensatz
 				records.forEach(record -> {
+					LOGGER.log(Level.WARNING, "EVENT KONSUMIERT");
 					// Prüfung ob es sich um valides JSON handelt
 					if (JsonUtils.isValidJson(record.value())) {
 						// Umwandlung von JSON in ein Event

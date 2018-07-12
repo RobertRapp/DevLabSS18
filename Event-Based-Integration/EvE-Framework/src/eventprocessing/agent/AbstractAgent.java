@@ -373,7 +373,7 @@ public abstract class AbstractAgent implements Serializable {
 		/**
 		 * Wenn kein Windows angelegt wurde, wird ein Default-Window gesetzt. Der
 		 * Default-Wert orientiert sich an der batch duration des SparkContext.
-		 */
+		
 		if (window == null) {
 			try {
 				this.window = new Window(SparkContextValues.INSTANCE.getBatchDuration());
@@ -383,7 +383,7 @@ public abstract class AbstractAgent implements Serializable {
 				throw new AgentException("no window was set");
 			}
 		}
-
+ */
 		// Registriert den Agenten im Netzwerk.
 		// AnnounceAgent();
 		// KafkaClient client = new KafkaClient(consumerSettings);

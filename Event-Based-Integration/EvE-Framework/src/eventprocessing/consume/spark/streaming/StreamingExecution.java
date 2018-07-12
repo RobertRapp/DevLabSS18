@@ -94,6 +94,7 @@ public final class StreamingExecution {
 		startConsumer();
 		jssc = new JavaStreamingContext(jsc, new Duration(SparkContextValues.INSTANCE.getBatchDuration()));
 		// Für jeden Agenten in der Registry
+		LOGGER.log(Level.WARNING, "AgentRegistry:"+AgentRegistry.INSTANCE.getRegistry());
 		AgentRegistry.INSTANCE.getRegistry().values().parallelStream().forEach(agent -> {
 			// Werden die Topics sowie die Konfiguration für das konsumieren ausgelesen
 			Collection<String> topics = agent.getSubscribedTopics();
@@ -117,13 +118,13 @@ public final class StreamingExecution {
 			// Aus dem ConsumerRecord wird die Nachricht entnommen. Der Rest wird verworfen.
 			JavaDStream<String> stream = agentStream.map(new ExtractMessage());
 			LOGGER.log(Level.FINE, "context: " + stream.context().conf().toDebugString());
-			JavaDStream<String> agentWindow = stream.window(new Duration(agent.getWindow().getWindowLength()),
-					new Duration(agent.getWindow().getSlideInterval()));
+//			JavaDStream<String> agentWindow = stream.window(new Duration(agent.getWindow().getWindowLength()),
+//					new Duration(agent.getWindow().getSlideInterval()));
 
 			// Für jedes InterestProfile eines Agenten
 			agent.getInterestProfiles().parallelStream().forEach(interestProfile -> {
 				// wird die Nachricht überprüft, ob sie für das InterestProfile relevant ist
-				agentWindow.filter(new IsMessageOfInterest(interestProfile)).foreachRDD(rdd -> {
+				stream.filter(new IsMessageOfInterest(interestProfile)).foreachRDD(rdd -> {
 					/*
 					 * Jede RDD kann mehrere Partitionen besitzen und somit mehrere Nachrichten. Es
 					 * werden alle Nachrichten durchlaufen

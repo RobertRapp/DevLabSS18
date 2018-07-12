@@ -1,8 +1,13 @@
 package eventprocessing.consume.spark.functions;
 
+import java.util.logging.Level;
+
 import org.apache.spark.api.java.function.Function;
 
+import com.esotericsoftware.minlog.Log.Logger;
+
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
+import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.ModelUtils;
 
 /**
@@ -18,6 +23,7 @@ public final class IsMessageOfInterest implements Function<String, Boolean> {
 	private static final long serialVersionUID = -5096811895821603141L;
 	// Für die Anwendung der FilterFunctions nötig.
 	private final IsMessageOfInterestPredicate filterPredicate = new IsMessageOfInterestPredicate();
+	private static java.util.logging.Logger LOGGER = LoggerFactory.getLogger(IsMessageOfInterest.class);
 	/*
 	 * Das InteressenProfil, von dem die FilterQueue abgerufen wird, um den Stream
 	 * zu filtern.
@@ -56,6 +62,12 @@ public final class IsMessageOfInterest implements Function<String, Boolean> {
 		 * .allMatch die weitere Verarbeitung stoppen und false zurückgegeben. Das
 		 * Predicate wird gebraucht, um die einzelnen FilterFunctions abzurufen.
 		 */
+		
+		if((interestProfile.getAgent().getDispatcher().getFilterQueueOf(this.interestProfile).getFilters()).stream()
+		.allMatch(filterPredicate.isMessageOfInterest(message))) {
+			LOGGER.log(Level.INFO, "Ein Event war von Interesse.");
+		}
+		
 		return (interestProfile.getAgent().getDispatcher().getFilterQueueOf(this.interestProfile).getFilters()).stream()
 				.allMatch(filterPredicate.isMessageOfInterest(message));
 	}
