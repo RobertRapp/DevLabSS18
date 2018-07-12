@@ -31,9 +31,20 @@ public final class Dispatcher implements Serializable {
 
 	private static final long serialVersionUID = -5217243321091042432L;
 	private static Logger LOGGER = LoggerFactory.getLogger(Dispatcher.class.getName());
-	// Wird für das Mapping der Predicates in Functions verwendet
+	/*
+	 * Der FilterMapper übersetzt die Predikate des InteressenProfils in
+	 * <code>FilterFunction</code> Die Filterfunktionen erfüllen den Zweck der
+	 * Filterung der eingehenden Nachrichten über den DStream, damit die
+	 * uninteressanten Nachrichten verworfen werden. Der FilterMapper wird nicht
+	 * übermittelt an die Executor, da die Übersetzung einmalig durchgeführt werden
+	 * auf dem Master.
+	 * 
+	 */
 	private transient final FilterMapper filterMapper = new FilterMapper();
-	// Liste mit allen Paaren aus InterestProfiles und FilterQueues
+	/*
+	 * Damit die InteressenProfilen den korrekten Filterfunktionen zugeordnet werden,
+	 * wird eine Paarung zwischen den Filter und des InteressenProfils erzeugt.
+	 */
 	private List<IPFilterQPair> ipFilterQueuePairs = new ArrayList<IPFilterQPair>();
 
 	/**
@@ -129,7 +140,7 @@ public final class Dispatcher implements Serializable {
 	}
 
 	/**
-	 * Sucht nach dem passenden Gegenstück für die übergebene FilterQueue
+	 * Sucht nach dem passenden InteressenProfil für die übergebene FilterQueue
 	 *
 	 * @param queue,
 	 *            zu dem das passende InterestProfile gesucht werden soll
@@ -163,7 +174,7 @@ public final class Dispatcher implements Serializable {
 	}
 
 	/**
-	 * Sucht nach dem passenden Gegenstück für die übergebene InterestProfile
+	 * Sucht nach der passenden FilterQueue für die übergebene InterestProfile
 	 *
 	 * @param interestProfile,
 	 *            zu dem die passende FilterQueue gesucht werden soll

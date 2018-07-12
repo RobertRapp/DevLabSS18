@@ -1,7 +1,6 @@
 package eventprocessing.agent;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -30,11 +29,12 @@ import eventprocessing.event.AbstractEvent;
 import eventprocessing.produce.kafka.Despatcher;
 import eventprocessing.produce.kafka.ProducerSettings;
 import eventprocessing.produce.kafka.ProducerSettingsDefaultValues;
+import eventprocessing.utils.SystemUtils;
+import eventprocessing.utils.TextUtils;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
 import eventprocessing.utils.model.ModelUtils;
-import eventprocessing.utils.SystemUtils;
-import eventprocessing.utils.TextUtils;
 
 /**
  * Der AbstractAgent beinhaltet die Realisierung der Member, die für alle
@@ -373,7 +373,7 @@ public abstract class AbstractAgent implements Serializable {
 		/**
 		 * Wenn kein Windows angelegt wurde, wird ein Default-Window gesetzt. Der
 		 * Default-Wert orientiert sich an der batch duration des SparkContext.
-		 */
+		
 		if (window == null) {
 			try {
 				this.window = new Window(SparkContextValues.INSTANCE.getBatchDuration());
@@ -383,7 +383,7 @@ public abstract class AbstractAgent implements Serializable {
 				throw new AgentException("no window was set");
 			}
 		}
-
+ */
 		// Registriert den Agenten im Netzwerk.
 		// AnnounceAgent();
 		// KafkaClient client = new KafkaClient(consumerSettings);
@@ -417,6 +417,7 @@ public abstract class AbstractAgent implements Serializable {
 	 */
 	public void send(AbstractEvent event, String topic)
 			throws NoValidEventException, NoValidTargetTopicException {
+		LOGGER.log(Level.WARNING, "EventId "+event.getId()+" wird versendet");
 		send(event, topic, null);
 	}
 
@@ -446,9 +447,11 @@ public abstract class AbstractAgent implements Serializable {
 			if (!TextUtils.isNullOrEmpty(topic)) {
 				event.setSource(topic);
 				// Aus dem Event wird ein JSON-String erzeugt
+				
 				String messageAsJSON = messageMapper.toJSON(event);
 				// Der JSON-String sowie die Zieltopics werden übergeben.
 				despatcher.deliver(messageAsJSON, topic, partition);
+				LOGGER.log(Level.WARNING, "Event("+event.getId()+") "+event.getType()+" wurde um "+TimeUtils.getCurrentTime()+" auf Topic "+topic+" geschickt. \n");
 			} else {
 				throw new NoValidTargetTopicException(String.format("the stated target is invalid: %s", topic));
 			}

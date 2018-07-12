@@ -1,5 +1,7 @@
 package eventprocessing.agent.state;
 
+import eventprocessing.agent.AgentException;
+
 /**
  * wird geworfen, wenn eine Methode ausgeführt wird von <code>State</code>, die
  * keine Implementierung beinhaltet sondern die Klasse rein für die Setzung eines
@@ -8,24 +10,24 @@ package eventprocessing.agent.state;
  * @author IngoT
  *
  */
-public class NoStateActionSupportException extends StateException {
+public class StateException extends AgentException {
 
 	private static final long serialVersionUID = 2055573184897857454L;
 
 	/**
-	 * Erzeugt eine neue NoStateActionSupportException
+	 * Erzeugt eine neue StateException
 	 */
-	public NoStateActionSupportException() {
+	public StateException() {
 	}
 
 	/**
-	 * Erzeugt eine neue NoStateActionSupportException mit einer detailierten
+	 * Erzeugt eine neue StateException mit einer detailierten
 	 * Fehlermeldung
 	 * 
 	 * @param message
-	 *            von der NoStateActionSupportException ausgegeben wird.
+	 *            von der StateException ausgegeben wird.
 	 */
-	public NoStateActionSupportException(String message) {
+	public StateException(String message) {
 		super(message);
 	}
 	

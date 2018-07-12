@@ -1,6 +1,7 @@
 package eventprocessing.agent.interestprofile;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
@@ -12,6 +13,7 @@ import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
 import eventprocessing.consume.kafka.runner.logging.state.CountReceiveState;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.utils.SystemUtils;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.ModelUtils;
 
@@ -29,15 +31,21 @@ public abstract class AbstractInterestProfile implements Serializable {
 	private static final long serialVersionUID = -2118960722615655528L;
 	private static Logger LOGGER = LoggerFactory.getLogger(AbstractInterestProfile.class);
 
-	// Liste um alle Predicates vorzuhalten.
+	/*
+	 * Damit ein InteressenProfil nur die Nachrichten erhält, die für das
+	 * InteressenProfil relevant sind, wird durch die Prädikatenlogik den Inhalt der
+	 * Nachrichten geprüft.
+	 */
 	private transient List<AbstractPredicate> predicates = new ArrayList<AbstractPredicate>();
 	// Der Agent, zu dem das InterestProfile gehört
 	private AbstractAgent agent = null;
 
 	/**
 	 * gibt den Agenten zurück, zu dem das InterestProfile gehört
+	 * 
+	 * @return agent, das dem Interessenprofil zugewiesen ist.
 	 */
-	public AbstractAgent getAgent() {
+	public final AbstractAgent getAgent() {
 		return this.agent;
 	}
 
@@ -47,7 +55,7 @@ public abstract class AbstractInterestProfile implements Serializable {
 	 * @param agent,
 	 *            zu dem das InterestProfile gehört
 	 */
-	public void setAgent(AbstractAgent agent) {
+	public final void setAgent(AbstractAgent agent) {
 		if (agent != null) {
 			this.agent = agent;
 		}
@@ -56,9 +64,11 @@ public abstract class AbstractInterestProfile implements Serializable {
 	/**
 	 * Ein Predicate vom Typ <code>AbstractPredicate</code> wird der Liste
 	 * hinzugefügt.
+	 * 
+	 * @param predicate
+	 *            Prädikat, welches dem Interessenprofil hinzugefügt wird.
 	 */
-
-	public void add(AbstractPredicate predicate) {
+	public final void add(AbstractPredicate predicate) {
 		if (predicate != null) {
 			LOGGER.log(Level.FINE, () -> String.format("add %s", predicate));
 			predicates.add(predicate);
@@ -67,8 +77,10 @@ public abstract class AbstractInterestProfile implements Serializable {
 
 	/**
 	 * gibt alle Predicates in Listenform zurück
+	 * 
+	 * @return predicates, die dem Interessenprofil zugeordnet sind.
 	 */
-	public List<AbstractPredicate> getPredicates() {
+	public final List<AbstractPredicate> getPredicates() {
 		return this.predicates;
 	}
 
@@ -89,6 +101,11 @@ public abstract class AbstractInterestProfile implements Serializable {
 				// Loggingevents selber sollen nicht gezählt werden.
 				((CountReceiveState) this.getAgent().getState()).add(event);
 			}
+						Timestamp sendedTime =  new Timestamp((long) event.getValueByKey("gesendetUm"));
+						long dauer = TimeUtils.getCurrentTime().getTime() - sendedTime.getTime();
+						LOGGER.log(Level.WARNING, "Event("+event.getId()+") -> "+event.getType()+" wurde mit Verz�gerung "+dauer+"msec von Topic "+event.getSource()+" empfangen.");
+			 			
+			 		
 			/*
 			 * Jede Subklasse muss die Methode doOnReceive implementieren, dieser wird im
 			 * Anschluss ausgeführt.

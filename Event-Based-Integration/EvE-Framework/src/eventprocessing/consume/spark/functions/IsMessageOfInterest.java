@@ -1,10 +1,10 @@
 package eventprocessing.consume.spark.functions;
 
-import java.util.function.Predicate;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.spark.api.java.function.Function;
+
+import com.esotericsoftware.minlog.Log.Logger;
 
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.utils.factory.LoggerFactory;
@@ -23,6 +23,7 @@ public final class IsMessageOfInterest implements Function<String, Boolean> {
 	private static final long serialVersionUID = -5096811895821603141L;
 	// Für die Anwendung der FilterFunctions nötig.
 	private final IsMessageOfInterestPredicate filterPredicate = new IsMessageOfInterestPredicate();
+	private static java.util.logging.Logger LOGGER = LoggerFactory.getLogger(IsMessageOfInterest.class);
 	/*
 	 * Das InteressenProfil, von dem die FilterQueue abgerufen wird, um den Stream
 	 * zu filtern.
@@ -62,19 +63,12 @@ public final class IsMessageOfInterest implements Function<String, Boolean> {
 		 * Predicate wird gebraucht, um die einzelnen FilterFunctions abzurufen.
 		 */
 		
-		Logger l = LoggerFactory.getLogger("ISMESSAGEOFINTEREST");
-		//l.log(Level.WARNING,"ES kam die MESSAGE "+message +" an.");
+		if((interestProfile.getAgent().getDispatcher().getFilterQueueOf(this.interestProfile).getFilters()).stream()
+		.allMatch(filterPredicate.isMessageOfInterest(message))) {
+			LOGGER.log(Level.INFO, "Ein Event war von Interesse.");
+		}
 		
-	    filterPredicate.isMessageOfInterest(message);
-		
-	    if ( (interestProfile.getAgent().getDispatcher().getFilterQueueOf(this.interestProfile).getFilters()).stream()
-				.allMatch(filterPredicate.isMessageOfInterest(message)) ) {
-	    	//l.log(Level.WARNING, message +" WAR VON INTERESSE !!!");
-	    }else {
-	    	l.log(Level.WARNING, message +" WAR NICHT NICHT NICHT VON INTERESSE !!!");
-	    }
-		
-	    return (interestProfile.getAgent().getDispatcher().getFilterQueueOf(this.interestProfile).getFilters()).stream()
+		return (interestProfile.getAgent().getDispatcher().getFilterQueueOf(this.interestProfile).getFilters()).stream()
 				.allMatch(filterPredicate.isMessageOfInterest(message));
 	}
 	

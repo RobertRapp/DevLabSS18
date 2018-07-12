@@ -49,16 +49,14 @@ public enum SparkContextValues {
 	 * zu setzen.
 	 */
 	private SparkContextValues() {
-
-		batchDuration = 200;
-
+		batchDuration = 400;
 		sparkAppName = "Testanwendung";
 		dynamicAllocationEnable = "false";
 		sparkSerializer = "org.apache.spark.serializer.KryoSerializer";
 		local = "local[*]";
 		sparkStreamingStopGracefullyOnShutdown = "true";
 		backpressureEnabled = "true";
-		kafkaMaxRatePerPartition = "500";
+		kafkaMaxRatePerPartition = "150";
 	}
 
 	/**

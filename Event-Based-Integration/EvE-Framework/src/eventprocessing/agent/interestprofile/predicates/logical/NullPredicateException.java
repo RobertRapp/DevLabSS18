@@ -1,4 +1,6 @@
-package eventprocessing.agent.interestprofile.predicates;
+package eventprocessing.agent.interestprofile.predicates.logical;
+
+import eventprocessing.agent.interestprofile.predicates.PredicateException;
 
 /**
  * Wenn ein leeres <code>AbstractPredicate</code> übergeben wird an die
@@ -8,7 +10,7 @@ package eventprocessing.agent.interestprofile.predicates;
  * @author IngoT
  *
  */
-public class NullPredicateException extends Exception {
+public class NullPredicateException extends PredicateException {
 
 	private static final long serialVersionUID = -8591471764229157395L;
 

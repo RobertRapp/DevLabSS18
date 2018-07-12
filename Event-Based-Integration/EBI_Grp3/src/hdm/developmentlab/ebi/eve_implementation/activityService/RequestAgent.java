@@ -4,7 +4,6 @@ import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.NullPredicateException;
 import eventprocessing.agent.interestprofile.predicates.logical.And;
 import eventprocessing.agent.interestprofile.predicates.logical.Not;
 import eventprocessing.agent.interestprofile.predicates.logical.Or;
@@ -49,7 +48,7 @@ public class RequestAgent extends AbstractAgent {
 			AbstractInterestProfile ip = new TokenDocumentType();
 			try {
 				ip.add(new Or(new IsEventType("SessionContextEvent"), (new And(new IsFromTopic("TokenGeneration"), new Not(new IsEventType("ApplicationEvent"))))));
-			} catch (NullPredicateException e) {
+			} catch (eventprocessing.agent.interestprofile.predicates.logical.NullPredicateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

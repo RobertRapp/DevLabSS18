@@ -38,7 +38,7 @@ public class CompositeEvent<T extends AbstractEvent> extends AbstractEvent {
 	/**
 	 * Ruft alle Events ab
 	 * 
-	 * @return List<T> mit allen Events
+	 * @return events, Eine Liste mit allen Events
 	 */
 	public List<T> getEvents() {
 		return this.events;

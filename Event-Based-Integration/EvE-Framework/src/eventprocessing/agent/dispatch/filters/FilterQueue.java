@@ -23,13 +23,17 @@ import eventprocessing.utils.model.ModelUtils;
 public final class FilterQueue implements Serializable {
 
 	private static final long serialVersionUID = -1428541641893172099L;
-	// Hält alle FilterFunctions vor.
+	/*
+	 * Alle Filterfunktionen werden in einer Queue vorgehalten.
+	 * Die Nachricht durchläuft die gesamte Queue, um zu überprüfen,
+	 * ob die Nachricht von Relevanz ist.
+	 */
 	private Queue<Function<String, Boolean>> filterFunctions = new LinkedList<Function<String, Boolean>>();
 
 	/**
 	 * hinzufügen eines Filters in die Queue
 	 * 
-	 * @param filter
+	 * @param filter, welches der FilterQueue hinzugefügt wird.
 	 */
 	public void add(FilterFunction filter) {
 		filterFunctions.add(filter);

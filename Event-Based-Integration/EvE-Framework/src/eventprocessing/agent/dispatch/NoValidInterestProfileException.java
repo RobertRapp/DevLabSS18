@@ -9,7 +9,7 @@ package eventprocessing.agent.dispatch;
  * @author IngoT
  *
  */
-public class NoValidInterestProfileException extends Exception {
+public class NoValidInterestProfileException extends DispatcherException {
 
 	private static final long serialVersionUID = 4566990960020937553L;
 

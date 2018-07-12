@@ -1,7 +1,6 @@
 package eventprocessing.agent.interestprofile.predicates.logical;
 
 import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
-import eventprocessing.agent.interestprofile.predicates.NullPredicateException;
 import eventprocessing.utils.model.ModelUtils;
 
 /**
@@ -25,9 +24,9 @@ public final class Not extends LogicalPredicate {
 	 * Es muss genau ein Prädikat vorhanden sein, daher wird der default-Konstruktor
 	 * überschrieben.
 	 * 
-	 * @param predicate,
+	 * @param predicate
 	 *            das Prädikat, dessen Ergebnis negiert werden soll.
-	 * @throws NullPredicateException,
+	 * @throws NullPredicateException
 	 *             ist das Prädikat null wird die Instanz nicht erzeugt.
 	 */
 	public Not(AbstractPredicate predicate) throws NullPredicateException {

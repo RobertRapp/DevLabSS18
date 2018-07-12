@@ -28,7 +28,6 @@ public class CountSendState extends CountState {
 		// Erzeugung des Events für das Reporting
 		AbstractEvent event = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
 		event.setType("CountSend");
-		// Befüllen des Events mit AgentName sowie dem Counter aller gesendeten Events.
 		event.add(new Property<String>("AgentName", this.getAgent().getId()));
 		this.getCountedEvents().forEach(countedEvent -> {
 			event.add(new Property<AbstractEvent>("CountedEvent", countedEvent));
