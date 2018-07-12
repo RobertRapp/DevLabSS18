@@ -1,10 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-<h1>Init</h1>
-</body>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+      #messages { margin-bottom: 40px }
+      
+      
+      /* main.css */
+      const hdConstraints = {
+  video: {
+    width: {
+      min: 1280
+    },
+    height: {
+      min: 720
+    }
+  }
+}
+
+video {
+  max-width: 100%;
+  /* width: 320px; */
+}
+    </style>
+      <!-- <script src="js/main.js"></script> -->
+      <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  </head>
+  <body>
+<div id="clientName"></div>
+
+  <div id="videos">
+    <video id="localVideo" autoplay muted></video>
+    <video id="remoteVideo" autoplay></video>
+  </div>
+		<div>
+		  <button id="startButton" onclick="">Start</button>
+		  <button id="callButton">Call</button>
+		  <button id="hangupButton">Hang Up</button>
+		</div>
+    
+  <h2>Fucking joiner ID:</h2>
+  <div id="messages"></div>
+  <ol>
+
+</ol>
+    
+     <script src="/socket.io/socket.io.js">
+     </script><script src="/js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  
+    
+    <script>
+     
+   
+    </script>
+  </body>
 </html>
