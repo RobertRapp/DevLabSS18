@@ -53,8 +53,6 @@ import eventprocessing.utils.*;
  * 
  *
  */
-
-
 public class GuiAgent extends AbstractAgent {
 	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
 	private static final long serialVersionUID = 5414649241552569623L;

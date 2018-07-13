@@ -69,24 +69,6 @@ public class UserInteractionInterestProfile extends AbstractInterestProfile {
 
 		*/	
 		
-		
-	/*	
-		// Prüfung ob es vom Typ SensorEvent ist.
-		if (event instanceof SensorEvent) {
-			// Wenn ja, cast.
-			SensorEvent e = (SensorEvent) event;
-			// Aussortierung von fehlerhaften Sensorwerten.
-			if (e.getSensorID() != 0 && !TextUtils.isNullOrEmpty(e.getLocation())) {
-				try {
-					// Das erzeugte Event wird über den Agenten an das Topic "TrafficData" versendet
-					getAgent().send(e, ShowcaseValues.INSTANCE.getTrafficDataTopic());
-				System.out.println(this.getClass().getSimpleName()+" : Event versendet "+TimeUtils.getCurrentTime()+" - "+ event.getType());} catch (NoValidEventException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", e));
-				} catch (NoValidTargetTopicException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", e));
-				}
-			}
-		} */
 	}
 
 }

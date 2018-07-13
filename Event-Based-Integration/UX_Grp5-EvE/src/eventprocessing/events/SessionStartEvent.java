@@ -6,7 +6,7 @@ import eventprocessing.event.AtomicEvent;
 import eventprocessing.utils.SystemUtils;
 
 /**
- * Ein Ereignis, welches bei dem Start einer Session innerhalb der Gui ausgelöst wird.
+ * Ein Ereignis, welches bei dem starten einer Session innerhalb der Gui ausgelöst wird.
  * 
  * @author IngoT
  *
