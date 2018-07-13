@@ -20,7 +20,7 @@ public class DocProposal {
 			return categories;
 		}
 		public void addDocuments(ArrayList<Document> newDocuments) {
-			//Prüfen ob Gesamtsumme der Dokumente die maximale Anzahl übertrifft
+			//Pruefen ob Gesamtsumme der Dokumente die maximale Anzahl ï¿½bertrifft
 			 if(documents.size() + newDocuments.size() > maxDocuments) {
 				  int sumDeleteDocuments =  documents.size() + newDocuments.size() - maxDocuments;
 				  	for (int i=0; i < sumDeleteDocuments; i++) {
@@ -29,7 +29,7 @@ public class DocProposal {
 				}
 					
 			for (Document doc : newDocuments) {
-				//Prüfen ob ein Dokument einer neuen Kategorie zugeordnet ist. Wenn ja, dann Kategorienliste aktualisieren
+				//Pruefen ob ein Dokument einer neuen Kategorie zugeordnet ist. Wenn ja, dann Kategorienliste aktualisieren
 				  if (!categories.contains(doc.categorie)) {
 					   categories.add(doc.categorie);
 				   }
@@ -43,7 +43,7 @@ public class DocProposal {
 			
 //			JSONObject categoryInformation= new JSONObject();
 			JSONObject document= new JSONObject();
-			// Array für alle
+			// Array fï¿½r alle
 			JSONArray childrenAllCategory = new JSONArray();
 			
 			for (String category : categories) {
