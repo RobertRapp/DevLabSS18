@@ -22,9 +22,10 @@ public class ProtocolAgent extends AbstractAgent {
 
 
 	/**
-	 * Der Protokoll Agent erstellt ein Protokoll indem er von der Topics SessionState, SessionContext und UserInteraction konsumiert. 
+	 * Der ProtokollAgent erstellt ein Protokoll des Geprächsverlaufs, sowie alles Interaktionen,
+	 * indem er von den Topics SessionState, SessionContext und UserInteraction konsumiert. 
 	 * Diese Informationen werden ausglesen formatiert und in ein XML Dokument geschrieben.
-	 * @author rrapp, birk
+	 * @author rrapp, birk, meier
 	 */
 	
 	private static final long serialVersionUID=1L;
@@ -45,6 +46,7 @@ public class ProtocolAgent extends AbstractAgent {
 		/*
 		 * Angabe der Topics, die konsumiert werden sollen. Es können mehrere Topics
 		 * angegeben werden.
+		 * Es werden die Topics, SessionState, SessionContext und UserInteraction konsumiert.
 		 */
 		try {
 			this.add("SessionState");
@@ -58,7 +60,8 @@ public class ProtocolAgent extends AbstractAgent {
 		
 		/*
 		 * Fügt dem Agenten ein InteressenProfil hinzu. Ein Agent kann mehrere
-		 * InteressenProfile besitzen
+		 * InteressenProfile besitzen.
+		 * Dem Agent wird das IP Sessions hinzugefügt.
 		 */
 		
 		try {
