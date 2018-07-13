@@ -42,7 +42,6 @@ public class DocProposalAgent extends AbstractAgent {
 			System.out.println("DocProposalAgent initialisiert");
 			AbstractInterestProfile ip = new DocProposalInterestProfile();
 			ip.add(new IsEventType("DocProposalEvent"));
-			//ip.add(new IsEventType(ShowcaseValues.INSTANCE.getSpeedEvent()));
 			this.add(ip);
 		} catch (NoValidInterestProfileException e1) {
 			e1.printStackTrace();
@@ -56,34 +55,6 @@ public class DocProposalAgent extends AbstractAgent {
 		} catch (NoValidConsumingTopicException e) {
 			e.printStackTrace();
 		}
-		/*
-		ConsumerSettings csettings = new ConsumerSettings();
-		csettings.add(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, ConsumerSettingsGui.INSTANCE.getIPv4Bootstrap() + ":" + ConsumerSettingsGui.INSTANCE.getPortBootstrap());
-		csettings.add(ConsumerConfig.GROUP_ID_CONFIG, ConsumerSettingsGui.INSTANCE.getGroupId());
-		csettings.add(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, ConsumerSettingsGui.INSTANCE.getKeyDeserializer());
-		csettings.add(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ConsumerSettingsGui.INSTANCE.getValueDeserializer());
-		csettings.add(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, ConsumerSettingsGui.INSTANCE.getPartitionAssignmentStrategy());
-		this.setConsumerSettings(csettings);
-
-		ProducerSettings pSettings = new ProducerSettings();
-		// IPv4-Adresse des Kafkaservers. Port ist Standardmäßig 9092
-		pSettings.add(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, ProducerSettingsGui.INSTANCE.getIPv4Bootstrap() + ":" + ProducerSettingsGui.INSTANCE.getPortBootstrap());
-		// Bestätigung für alle gesendeten Nachrichten anfordern
-		pSettings.add(ProducerConfig.ACKS_CONFIG, ProducerSettingsGui.INSTANCE.getAcks());
-		// Wie Lang darf die Nachricht sein
-		pSettings.add(ProducerConfig.BATCH_SIZE_CONFIG, ProducerSettingsGui.INSTANCE.getBatchSize());
-		// In welchen zeitlichen Abstand werden die Nachrichten vor der Übertragung geschnitten
-		pSettings.add(ProducerConfig.LINGER_MS_CONFIG, ProducerSettingsGui.INSTANCE.getLingerMS());
-		// sollen Fehlgeschlagene Versuche wiederholt werden?
-		pSettings.add(ProducerConfig.RETRIES_CONFIG, ProducerSettingsGui.INSTANCE.getRetries());
-		// Wie viel darf im Arbeitsspeicher verbleiben
-		pSettings.add(ProducerConfig.BUFFER_MEMORY_CONFIG, ProducerSettingsGui.INSTANCE.getBufferMemory());
-		// Für die Serialisierung der Key-/Value Paare
-		pSettings.add(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, ProducerSettingsGui.INSTANCE.getKeySerializer());
-		pSettings.add(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ProducerSettingsGui.INSTANCE.getValueSerializer());
-		this.setProducerSettings(pSettings);
-		
-*/
 
 	}
 
