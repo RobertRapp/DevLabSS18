@@ -6,9 +6,6 @@ import eventprocessing.event.AtomicEvent;
 import eventprocessing.utils.SystemUtils;
 
 /**
-
- * 
- * @author IngoT
  *
  */
 public class DocProposalEvent extends AtomicEvent {
