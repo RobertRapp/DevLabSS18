@@ -35,7 +35,7 @@ public class DocProposalAgent extends AbstractAgent {
 		this.setId("DocProposalAgent");
 		
 		/*
-		 * Fügt dem Agenten ein InteressenProfil hinzu Ein Agent kann mehrere
+		 * Fuegt dem Agenten ein InteressenProfil hinzu Ein Agent kann mehrere
 		 * InteressenProfile besitzen
 		 */
 		try {
@@ -47,7 +47,7 @@ public class DocProposalAgent extends AbstractAgent {
 			e1.printStackTrace();
 		}
 		/*
-		 * Angabe der Topics, die konsumiert werden sollen. Es können mehrere Topics
+		 * Angabe der Topics, die konsumiert werden sollen. Es koennen mehrere Topics
 		 * angegeben werden.
 		*/
 		try {
