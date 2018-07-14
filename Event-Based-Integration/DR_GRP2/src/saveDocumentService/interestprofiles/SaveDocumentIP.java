@@ -2,7 +2,15 @@ package saveDocumentService.interestprofiles;
 
 
 import java.io.File;
-import javax.swing.text.Document;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -10,91 +18,203 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 
 
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.event.AbstractEvent;
+import eventprocessing.event.Property;
 import eventprocessing.utils.TimeUtils;
+import eventprocessing.utils.model.EventUtils;
 
 public class SaveDocumentIP extends AbstractInterestProfile{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8849435572415656139L;
+
 	@Override
 	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
-		TransformerFactory transformerFactory = TransformerFactory.newInstance();
-		Transformer transformer = null;
+		System.out.println("XML WIRD ERSTELLT! ");
+		System.out.println("Topiclist des Protokolls:" + EventUtils.findPropertyByKey(event, "Topics").getValue());
+		System.out.println("Userlist des Protokolls:" + EventUtils.findPropertyByKey(event, "User").getValue());
+		System.out.println("Projectlist des Protokolls:" + EventUtils.findPropertyByKey(event, "Projects").getValue());
+		
+		Timestamp sessionStart = (Timestamp) EventUtils.findPropertyByKey(event, "SessionStart").getValue();
+		Timestamp sessionEnd = (Timestamp) EventUtils.findPropertyByKey(event, "SessionEnd").getValue();
+		Integer duration = (Integer) EventUtils.findPropertyByKey(event, "Duration").getValue();
+		ArrayList<String> user = (ArrayList<String>) EventUtils.findPropertyByKey(event, "User").getValue();
+		ArrayList<String> projects = (ArrayList<String>) EventUtils.findPropertyByKey(event, "Projects").getValue();
+		ArrayList<String> topics = (ArrayList<String>) EventUtils.findPropertyByKey(event, "Topics").getValue();
+		ArrayList<AbstractEvent> propDocs = (ArrayList<AbstractEvent>) EventUtils.findPropertyByKey(event, "ProposedDocs").getValue();
+		ArrayList<AbstractEvent> clickedDocs = (ArrayList<AbstractEvent>) EventUtils.findPropertyByKey(event, "ClickedDocs").getValue();
+		
+		
 		try {
-			transformer = transformerFactory.newTransformer();
-		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Document doc= (Document) event.getPropertyByKey("document").getValue();
-		DOMSource source = new DOMSource((Node) event.getPropertyByKey("DOM").getValue());
-		StreamResult result = new StreamResult(
-				new File("C:\\Users\\USERNAME\\Documents\\Conversation\\Protocol.xml"));
-		try {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.newDocument();
+
+			Date now = new Date();
+			SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:S.SSS");
+			dateformat.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
+			String strDate = dateformat.format(now);	
+			String strEventDate = dateformat.format(sessionStart);
+			String endEventDate = dateformat.format(sessionEnd);
+			
+			// Complete new formatting
+			// root element
+			Element rootElement = doc.createElement("Protocol");
+			doc.appendChild(rootElement);
+
+
+			// id element
+			Element id = doc.createElement("ID");
+			// id.appendChild(doc.createTextNode("ID ERSTELLEN"));
+			//id.appendChild(doc.createTextNode(sessionID.getValue().toString()));
+			//id.setValue((sessionID.getValue().toString()));
+			id.appendChild(doc.createTextNode(EventUtils.findPropertyByKey(event, "SessionID").getValue().toString()));
+			rootElement.appendChild(id);
+			
+
+			// date element
+			Element date = doc.createElement("date");
+			date.appendChild(doc.createTextNode(strDate));
+			rootElement.appendChild(date);
+			// starttime element
+			Element starttime = doc.createElement("starttime");
+			starttime.appendChild(doc.createTextNode(strEventDate));
+			rootElement.appendChild(starttime);
+			// endtime element
+			Element endtime = doc.createElement("endtime");
+			endtime.appendChild(doc.createTextNode(endEventDate));
+			rootElement.appendChild(endtime);
+			// duration element
+			Element durationEl = doc.createElement("duration");
+			durationEl.appendChild(doc.createTextNode(duration.toString()));
+			rootElement.appendChild(durationEl);
+			// participant1 element
+			Element participant1 = doc.createElement("participant1");
+			participant1.appendChild(doc.createTextNode(user.get(0)));
+			rootElement.appendChild(participant1);		
+			
+			// participant2 element
+			Element participant2 = doc.createElement("participant2");
+			participant2.appendChild(doc.createTextNode(user.get(1)));
+			rootElement.appendChild(participant2);
+
+
+			// action2 element für Projekte
+			Element action1 = doc.createElement("Projekte");
+			rootElement.appendChild(action1);
+			
+			// action element für Topics
+			Element action2 = doc.createElement("Gesprächsthemen");
+			rootElement.appendChild(action2);
+			
+			// action2 element für vorgeschlagene Docs 
+			Element action3 = doc.createElement("vorgeschlageneDokumente");
+			rootElement.appendChild(action3);
+			
+			// action2 element für geöffnete Docs
+			Element action4 = doc.createElement("geklickteDokumente");
+			rootElement.appendChild(action4);
+			
+
+			
+	
+			for (int i = 0; i < projects.size(); i++) {
+			// project element
+			Element actionid0 = doc.createElement("Projekt-Nummer:"+i);
+			action1.appendChild(actionid0);	
+						
+			// type element
+			Element typeP = doc.createElement("Typ");
+			typeP.appendChild(doc.createTextNode("Projekt"));
+			actionid0.appendChild(typeP);
+			
+			// project element
+			Element project1 = doc.createElement("Projektbezeichnung");
+			project1.appendChild(doc.createTextNode(projects.get(i)));
+			actionid0.appendChild(project1);
+			action1.appendChild(actionid0);	
+			}
+			
+			for (int i = 0; i < topics.size(); i++) {				
+				action2.appendChild(doc.createTextNode(topics.get(i)));				
+				}
+			
+			//Weitere dynamische Elemente:
+			for (int i = 0; i < propDocs.size(); i++) {
+			//vorgeschlagene Dokumente: 
+			Element actionid2 = doc.createElement("Dokumenten-Nummer:"+i);
+			action3.appendChild(actionid2);
+			
+			Element timePD = doc.createElement("Zeitstempel");
+			timePD.appendChild(doc.createTextNode(propDocs.get(i).getCreationDate().toString()));
+			actionid2.appendChild(timePD);
+			
+			Element docid = doc.createElement("Dokumenten-ID");
+			docid.appendChild(doc.createTextNode(propDocs.get(i).getPropertyByKey("FileID").toString()));
+			actionid2.appendChild(docid);
+				
+			// topic element
+			Element docname = doc.createElement("Bezeichnung");
+			docname.appendChild(doc.createTextNode(propDocs.get(i).getPropertyByKey("Documentname").toString()));
+			actionid2.appendChild(docname);
+			
+			}
+			
+			//Geöffente Dokumente:
+			for (int i = 0; i < clickedDocs.size(); i++) {
+			Element actionid3 = doc.createElement("geklicktes Dokument "+i);
+			action4.appendChild(actionid3);
+			
+			Element timeCD = doc.createElement("Zeitstempel");
+			timeCD.appendChild(doc.createTextNode(clickedDocs.get(i).getCreationDate().toString()));
+			actionid3.appendChild(timeCD);
+			
+			// type element
+			Element typeCD = doc.createElement("geklickt von Nutzer");
+			typeCD.appendChild(doc.createTextNode(clickedDocs.get(i).getValueByKey("userID").toString()));
+			actionid3.appendChild(typeCD);
+			
+			// type element
+						Element DOCID = doc.createElement("Dokumenten-ID");
+						DOCID.appendChild(doc.createTextNode(clickedDocs.get(i).getValueByKey("FileID").toString()));
+						actionid3.appendChild(DOCID);
+			// topic element
+			Element docnameC = doc.createElement("Bezeichnung");
+			docnameC.appendChild(doc.createTextNode(clickedDocs.get(i).getPropertyByKey("DocumentName").toString()));
+			actionid3.appendChild(docnameC);
+			}
+			
+
+			// write the content into xml file
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			System.out.println("Protokoll wird abgelegt");
+			StreamResult result = new StreamResult(
+					new File("C:\\Users\\jonas\\Documents\\Studium\\DevelopmentLab\\Protokoll.xml"));
 			transformer.transform(source, result);
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
+ 
+			
+			//Output to console for testing
+			System.out.println("Protokoll Result als Stream");
+			StreamResult consoleResult = new StreamResult(System.out);
+			transformer.transform(source, consoleResult);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
 		
 	}
 	
-	
-	
-//	// In Google Drive speichern über API
-//		private static final String APPLICATION_NAME = "Google Drive API Java Quickstart";
-//	    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-//	    private static final String CREDENTIALS_FOLDER = "credentials"; // Directory to store user credentials.
-//
-//	    /**
-//	     * Global instance of the scopes required by this quickstart.
-//	     * If modifying these scopes, delete your previously saved credentials/ folder.
-//	     */
-//	    private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE_METADATA_READONLY);
-//	    private static final String CLIENT_SECRET_DIR = "client_secret.json";
-//
-//	    /**
-//	     * Creates an authorized Credential object.
-//	     * @param HTTP_TRANSPORT The network HTTP Transport.
-//	     * @return An authorized Credential object.
-//	     * @throws Exception 
-//	     */
-//	    private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws Exception {
-//	        // Load client secrets.
-//	        InputStream in = SaveDocumentIP.class.getResourceAsStream(CLIENT_SECRET_DIR);
-//	        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-//
-//	        // Build flow and trigger user authorization request.
-//	        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-//	                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-//	                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(CREDENTIALS_FOLDER)))
-//	                .setAccessType("offline")
-//	                .build();
-//	        return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
-//	    }
-//
-//	    public static void main(String... args) throws IOException, GeneralSecurityException {
-//	       String requestUrl= "https://drive.google.com/drive/folders/1jyTsasf_aeWhw1a_MeBgxRwQ2Tg9T-f2";
-//	       Date currentTime = new Date(); 
-//	    	
-//	    	// Build a new authorized API client service.
-//	        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-//	        Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-//	                .setApplicationName(APPLICATION_NAME)
-//	                .build();
-//
-//	        // Upload Doc
-//	        File fileMetadata = new File(""+currentTime+"Protocol.xml");
-//	        java.io.File filePath = new java.io.File("Conversation/"+currentTime+"Protocol.xml");
-//	        FileContent mediaContent = new FileContent("Protocol", filePath);
-////	        File file = driveService.files().create(fileMetadata, mediaContent)
-////	            .setFields("id")
-////	            .execute();
-//	    }
 		
 	  
-}
+

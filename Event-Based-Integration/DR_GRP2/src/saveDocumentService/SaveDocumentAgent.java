@@ -7,6 +7,7 @@ import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
+import saveDocumentService.interestprofiles.SaveDocumentIP;
 
 public class SaveDocumentAgent extends AbstractAgent{
 
@@ -20,7 +21,7 @@ public class SaveDocumentAgent extends AbstractAgent{
 		 * angegeben werden.
 		 */
 		try {
-			this.add("DocRequest");
+			this.add("Protocol");
 		} catch (NoValidConsumingTopicException e) {
 			e.printStackTrace();
 		}
@@ -30,13 +31,9 @@ public class SaveDocumentAgent extends AbstractAgent{
 		 * InteressenProfile besitzen
 		 */
 		try {
-			AbstractInterestProfile ip = new DocumentProposalIP();
-			ip.add(new IsEventType("RequestEvent"));
+			AbstractInterestProfile ip = new SaveDocumentIP();
+			ip.add(new IsEventType("ProtocolEvent"));
 			this.add(ip);
-			
-			AbstractInterestProfile ip2 = new ProtocolProposalIP();
-			ip2.add(new IsEventType("RequestEvent"));
-			this.add(ip2);
 		
 		} catch (NoValidInterestProfileException e1) {
 			e1.printStackTrace();
