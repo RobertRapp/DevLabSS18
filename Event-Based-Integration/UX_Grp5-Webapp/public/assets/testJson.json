@@ -1,0 +1,21 @@
+{
+ "name": "Vorschläge","color": "white",
+ "children": [
+  {
+ "name": "Kontext 1", "color": "green",
+ "children": [
+ 	  { "name": "eins", "color": "blue", "Ersteller": "Patrick", "size": 200},
+      {"name": "zwei", "color": "blue","size": 50},
+      {"name": "drei", "color": "blue","size": 50}
+    ]
+   },
+  {
+   "name": "Kontext 2","color": "green",
+ 	"children": [
+ 	 { "name": "eins", "color": "red","size": 50},
+      {"name": "zwei", "color": "red","size": 50},
+      {"name": "drei", "color": "red", "size": 50}
+    ]
+   }
+   ]
+}
