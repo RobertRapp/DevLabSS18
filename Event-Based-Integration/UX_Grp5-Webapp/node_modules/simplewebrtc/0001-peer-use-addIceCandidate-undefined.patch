@@ -1,0 +1,50 @@
+From e0709f1f7bab04c9a0c608fe382f6b77bf31c24a Mon Sep 17 00:00:00 2001
+From: Philipp Hancke <fippo@appear.in>
+Date: Sat, 4 Mar 2017 12:44:54 +0100
+Subject: [PATCH] peer: use addIceCandidate(undefined)
+
+also bumps rtcpeerconnection to 7.x
+
+I think this is a breaking change because of how we expose getStats
+(even if undocumented) so we need a major version bump.
+---
+ package.json | 2 +-
+ peer.js      | 9 +--------
+ 2 files changed, 2 insertions(+), 9 deletions(-)
+
+diff --git a/package.json b/package.json
+index 3141003..ffb4012 100644
+--- a/package.json
++++ b/package.json
+@@ -10,7 +10,7 @@
+   "dependencies": {
+     "filetransfer": "^2.0.4",
+     "localmedia": "^2.2.1",
+-    "rtcpeerconnection": "^5.1.1",
++    "rtcpeerconnection": "^7.0.0",
+     "webrtcsupport": "^2.2.0",
+     "wildemitter": "^1.2.0",
+     "socket.io-client": "1.3.7",
+diff --git a/peer.js b/peer.js
+index 561dbc1..967c7cd 100644
+--- a/peer.js
++++ b/peer.js
+@@ -138,14 +138,7 @@ Peer.prototype.handleMessage = function (message) {
+     } else if (message.type === 'unmute') {
+         this.parent.emit('unmute', {id: message.from, name: message.payload.name});
+     } else if (message.type === 'endOfCandidates') {
+-        // Edge requires an end-of-candidates. Since only Edge will have mLines or tracks on the
+-        // shim this will only be called in Edge.
+-        var mLines = this.pc.pc.peerconnection.transceivers || [];
+-        mLines.forEach(function (mLine) {
+-            if (mLine.iceTransport) {
+-                mLine.iceTransport.addRemoteCandidate({});
+-            }
+-        });
++        this.pc.pc.addIceCandidate(undefined);
+     }
+ };
+ 
+-- 
+2.7.4
+
