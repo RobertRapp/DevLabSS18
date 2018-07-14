@@ -36,6 +36,18 @@ import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 
 public class Sessions extends AbstractInterestProfile {
 	
+	/**
+	 *
+	 * In dieser Methode wird ein Gesprächskontext empfangen, sobald ein Gespräch abgeschlossen wird.
+	 * Anhand der Informationen die innerhalb des empfangenen Events gespeichert sind, wird ein Protokoll erzeugt.
+	 * Das ausgehende Format ist machinell analysiserbar und die Informationen können im späteren Verlauf auch auf Google Drive gespeichert werden.
+	 *
+	 * @author rrapp, birk, pokorski, meier
+	 */
+	
+	
+	
+	
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = LoggerFactory.getLogger(Sessions.class);
 
@@ -44,16 +56,9 @@ public class Sessions extends AbstractInterestProfile {
 	private static AbstractEvent protocolEvent = eventFactory.createEvent("AtomicEvent");
 	
 	
-	/**
-	 *
-	 * In dieser Methode wird ein Gesprächskontext empfangen, sobald ein Gespräch abgeschlossen wird.
-	 * Anhand der Informationen die innerhalb des empfangenen Events gespeichert sind, wird ein Protokoll erzeugt.
-	 * Das ausgehende Format ist machinell analysiserbar und die Infos können im späteren Verlauf auch auf Google Drive gespeichert werden.
-	 *
-	 * @author rrapp, birk, pokorski
-	 */
+	
 
-	@Override
+	
 	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName()+" : Event angekommen "+event.getType()+" -um: " + TimeUtils.getCurrentTime());
 	
 		

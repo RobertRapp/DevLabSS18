@@ -52,8 +52,8 @@ public class StartServices {
 	
 	public static void main(String[] args) throws AgentException, InterruptedException
 	 {
-							
-		String kafkahost = "10.142.0.2"; //Default host
+		//IP-Adresse des Kafka-Servers					
+		String kafkahost = "10.142.0.2"; 
 			   if(args[1].length() > 7) kafkahost = args[1]; //Überschreibt Default wenn ein Wert gegeben ist. 
 		
 		

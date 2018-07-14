@@ -27,13 +27,13 @@ public class Document {
 		this.docProposalID = docProposalID;
 		this.categorie = categorie;
 	}
-		
+		// Die Farbgebung der Dokumente orientiert sich an der Office-Palette
 		public String getColor(String type) {
 			switch(type) {
 			case "doc":
 					color = "#4269a5";
 					break;	
-			case "präsentaion":
+			case "prï¿½sentaion":
 					color = "#dc6141";
 					break;	
 			case "tabelle":

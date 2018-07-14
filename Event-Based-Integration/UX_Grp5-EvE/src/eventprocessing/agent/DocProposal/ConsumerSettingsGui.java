@@ -21,7 +21,7 @@ public enum ConsumerSettingsGui {
 	INSTANCE;
 
 	/*
-	 * Verbindungsinformationen die benötigt werden
+	 * Verbindungsinformationen die benoetigt werden
 	 */
 	private String IPv4Bootstrap = null;
 	private String portBootstrap = null;
