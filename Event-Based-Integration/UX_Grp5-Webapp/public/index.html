@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="scripts/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="//d3js.org/d3.v4.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
+    <link rel="stylesheet" type="text/css" href="css/suburst.css"/>
+
+<title>Insert title here</title>
+</head>
+<body>
+
+<div id="login">
+ <div class="container" >
+        <div id="loginCard" class="card text-center" style="width: 18rem; background-color:blue; display: flex,  align-items: center">
+          <img id="card-img-center" class="profile-img-card" src="img/boy.svg" />
+            <p id="profile-name" class="profile-name-card"></p>
+            <form class="form-signin">
+                <span id="reauth-email" class="reauth-email"></span>
+                <input type="text" id="inputUsername" class="form-control" placeholder="Benutername" required autofocus>
+                   <button id="loginButton" class="btn btn-ligh" type="submit" >Login</button>
+            </form>
+         </div>
+    </div>
+</div>
+
+<div id="main">
+ <!-- menü oben -->
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="#">
+    <img src="/img/hdm_logo.svg" width="auto" height="30" class="d-inline-block align-top" alt="">
+    
+  </a>
+   <ul class="nav justify-content-end">
+   <li class="nav-item">
+   	<div id="user"></div>
+  </li>
+   <li class="nav-item">
+   <a class="nav-link active" href="https://web.skype.com/de/" target="_blank">
+    	<img src="/img/skype_icon.jpg" width="auto" height="30" class="d-inline-block align-top" alt="">
+  	</a>
+  </li>
+  <li class="nav-item">
+   <a class="nav-link active" >
+    	<img src="/img/logout.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+  	</a>
+  </li>
+ 	</ul>
+</nav>
+
+<!-- Hauptcontent - zwei Spalten -->
+<div class="parent-container">
+    <div id="left" class="container">
+    	<div class="row">
+   			 <div  id="kontaktListe" class="col-11">
+   				 <h6>User online:</h6>
+    				 <ul class="list-group list-group-flush">
+					  		<li class="list-group-item">Patrick Schoppel</li>
+					 		 <li class="list-group-item">Florian Malsam</li>
+					 		 <li class="list-group-item">Anni Biegerts</li>
+					</ul>
+   			 </div>
+   		</div>	 
+        <div class="row">
+            <div class="col">
+                <div id="merkerListe" class="col-11">
+      					<h6>Merker</h6>
+   			    </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="right" class="container">
+        <div class="row">
+            <div class="col">
+            <ul class="nav nav-tabs">
+				  <li class="active"><a data-toggle="tab" href="#docVorschlaege">DocProposals</a></li>
+				  <li><a data-toggle="tab" href="#historie">Historie</a></li>
+				 
+			</ul>
+              <!--   <div id="docVorschlaege" class="col-12"></div>	
+                
+                  <div id="historie" class="col-12"> Historie:</div>	 -->
+                
+                <div class="tab-content">
+  					<div id="docVorschlaege" class="tab-pane fade in active">
+   						
+ 					 </div>
+  					<div id="historie" class="tab-pane fade">
+   				 <h3>Historie</h3>
+   
+ 					 </div>
+  
+				</div>
+		
+    				
+            </div>
+        </div>
+    </div>
+</div>
+ 
+
+<!-- <div class="container-fluid">
+  <div class="row">
+    <div  id="kontaktListe" class="col-4">
+    <h6>User online:</h6>
+      <ul class="list-group list-group-flush">
+  		<li class="list-group-item">Cras justo odio</li>
+ 		 <li class="list-group-item">Dapibus ac facilisis in</li>
+ 		 <li class="list-group-item">Morbi leo risus</li>
+ 		 <li class="list-group-item">Porta ac consectetur ac</li>
+ 		 <li class="list-group-item">Vestibulum at eros</li>
+	</ul>
+    </div>
+    <div id="docVorschlaege" class="col-8">
+      Dokumente
+    </div>
+  
+  </div>
+  <div class="row">
+  <div id="merkerListe" class="col-4">
+      Merker
+    </div>
+    
+  </div>
+</div> -->
+
+
+</div>
+ <script src="scripts/jquery/dist/jquery.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
+<script src="../node_modules/bootstrap/dist/js/bootstrap.js"></script>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" ></script>
+
+ <script src="socket.io/socket.io.js"></script> 
+ <script src="js/main.js"></script>
+ <script src="https://static.zinoui.com/1.5/compiled/zino.svg.min.js"></script>
+    <script type="text/javascript">
+    
+  </script> 
+</body>
+</html>

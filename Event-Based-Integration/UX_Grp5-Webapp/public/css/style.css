@@ -1,0 +1,74 @@
+@charset "ISO-8859-1";
+
+#loginCard{
+		margin-top: 13%;
+	 	margin: 0 auto;
+        float: none; 
+        margin-bottom: 10px; 
+}
+#main{
+	display: none;
+}
+
+.parent-container {
+   margin-top: 2%;
+   display: flex;
+}
+#left{
+	width: 30%;
+/* 	background-color: blue; */
+}
+
+#right{
+	width: 70%;
+	/* background-color: red; */
+}
+
+.col{
+	min-height: 200px;
+
+}
+
+#kontaktListe{
+	/* background-color: blue; */
+}
+#merkerListe{
+	/* background-color: red; */
+    
+}
+@media only screen and (min-width: 1224px){
+	
+	#docVorschlaege{
+	/* background-color: green; */
+	position: relative;
+    width: 600px;
+    height: 600px;
+	}
+	
+}
+@media only screen and (min-width:1824px){
+	
+	#docVorschlaege{
+	/* background-color: green; */
+	position: relative;
+    width: 800px;
+    height: 800px;
+	}
+	
+}
+
+#card-img-top{
+    max-width: 152px;
+}   
+
+#user {
+   height: 3em;
+   position: relative }              
+#user p {
+   margin: 0;
+   position: absolute;               
+   top: 50%;     
+   font-weight: 700;
+   right: 10%;                    
+   transform: translate(0, -50%) 
+  }  
