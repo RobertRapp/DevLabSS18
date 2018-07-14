@@ -63,14 +63,17 @@ public class Sessions extends AbstractInterestProfile {
 		
 		switch(event.getType()) {
 		case "DocProposalEvent": 
+			System.out.println("Protokoll hat DocProposalEvent empfangen");
 			protocolagent.addProposedDocList(event);			
 			break;
 		
 		case "UserInteractionEvent":
+			System.out.println("Protokoll hat UserInteractionEvent empfangen");
 			protocolagent.addClickedDocList(event);
 			break;
 			
 		case "SessionEndEvent":
+			System.out.println("Protokoll hat SessionEndEvent empfangen und erstellt jetzt die XML");
 			protocolagent.setSessionEnd(event.getPropertyByKey("SessionEnd").getValue().toString());
 			CreateNewXMl();
 			break;
@@ -86,16 +89,19 @@ public class Sessions extends AbstractInterestProfile {
 				protocolagent.addUserList(property.getValue().toString());
 				break;
 			case "topic":
+				System.out.println("Protokoll hat Topic empfangen");
 				protocolagent.addTopicList(property.getValue().toString());
 				break;
 			case "sessionstart":
 				protocolagent.setSessionStart(property.getValue().toString());
 				break;
 			case "sessionend":
+				System.out.println("Protokoll hat SessionEndEvent als Property empfangen und erstellt jetzt die XML");
 				protocolagent.setSessionEnd(property.getValue().toString());
 				CreateNewXMl();
 				break;
 			case "project":
+				System.out.println("Protokoll hat Projekt empfangen und erstellt jetzt die XML");
 				protocolagent.addProjectList(property.getValue().toString());
 			
 			case "sessionid":

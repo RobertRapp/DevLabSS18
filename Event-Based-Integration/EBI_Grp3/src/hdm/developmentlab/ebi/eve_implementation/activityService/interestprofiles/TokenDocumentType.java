@@ -52,7 +52,8 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 			System.out.println("Session geupdated: "+event);
 			lastSessionContextEvent = event;
 		}
-		System.out.println("In TokenDocType "+event);
+		else {
+		System.out.println("Token empfangen ohne Session Context");
 		
 		AbstractEvent output = eventFactory.createEvent("AtomicEvent");
 		output.setType("RequestEvent");
@@ -130,7 +131,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 			e.printStackTrace();
 		} 
 		
-		
+	}
 	}
 		
 	}

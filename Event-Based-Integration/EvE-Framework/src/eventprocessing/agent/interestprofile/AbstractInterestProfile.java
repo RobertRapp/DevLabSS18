@@ -101,9 +101,9 @@ public abstract class AbstractInterestProfile implements Serializable {
 				// Loggingevents selber sollen nicht gezÃ¤hlt werden.
 				((CountReceiveState) this.getAgent().getState()).add(event);
 			}
-						Timestamp sendedTime =  new Timestamp((long) event.getValueByKey("gesendetUm"));
-						long dauer = TimeUtils.getCurrentTime().getTime() - sendedTime.getTime();
-						LOGGER.log(Level.WARNING, "Event("+event.getId()+") -> "+event.getType()+" wurde mit Verzögerung "+dauer+"msec von Topic "+event.getSource()+" empfangen.");
+						//Timestamp sendedTime =  new Timestamp((long) event.getValueByKey("gesendetUm"));
+						//long dauer = TimeUtils.getCurrentTime().getTime() - sendedTime.getTime();
+						//LOGGER.log(Level.WARNING, "Event("+event.getId()+") -> "+event.getType()+" wurde mit Verzögerung "+dauer+"msec von Topic "+event.getSource()+" empfangen.");
 			 			
 			 		
 			/*

@@ -48,7 +48,7 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 		AbstractEvent outputEvent = eventFactory.createEvent("AtomicEvent");
 		outputEvent.setType("DocProposalEvent");	
 		for (int i = 0; i < jsonObject.getJSONObject("results").getJSONArray("bindings").length() ; i++) {
-				Document d = new Document(jsonObject.toString());
+				Document d = new Document(jsonObject.getJSONObject(.to);
 				outputEvent.add(new Property<Document>("Document",d));
 				
 			}
@@ -60,7 +60,7 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 			
 				try {
 					//Neue FeedbackEvent
-					System.out.println("Dieses Event wird raus geschickt: " + outputEvent);
+					System.out.println("DR schickt dieses Event an die GUI: " + outputEvent);
 					this.getAgent().send(outputEvent, "DocProposal");
 					
 				} catch (NoValidEventException e) {

@@ -114,7 +114,7 @@ public class SessionState extends AbstractInterestProfile {
 		//Logger.log(Level.WARNING, "Event "+abs);
 				
 		/*
-		 * Im Send-try-catch-Block werden alle Events versendet die dieses Interessensprofil versenden möchte.
+		 * Im -try-catch-Block werden alle Events versendet die dieses Interessensprofil versenden möchte.
 		 * Es werden zwei Fehler abgefangen, wenn es sich nicht um ein valides Event handelt oder das Topic nicht valide ist.
 		 
 		 */

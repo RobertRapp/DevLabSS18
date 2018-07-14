@@ -18,7 +18,7 @@ public class SocketServer {
 	       // server.setStopTimeout(1000000L);
 	        
 	        ServerConnector connector = new ServerConnector(server);
-	        connector.setPort(80);
+	        connector.setPort(8090);
 	        server.addConnector(connector);
 	        
 
