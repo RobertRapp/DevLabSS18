@@ -1,10 +1,46 @@
 @charset "ISO-8859-1";
 
+body{
+	background-color: #2dc1f6;
+}
+svg{
+	box-shadow: 5px 10px #0aa0d6;
+	background-color: white;
+	border-radius: 5%;
+
+}
+
+.nav-link{
+	color: white;
+    border-color: white;
+}
+.nav-link active show{
+	color: black;
+}
+.nav-tabs .nav-link {
+    border: 1px solid white;
+    border-radius: 57%;
+}    
+.nav-tabs{
+	border-bottom: 0px solid #dee2e6; 
+	 max-width: 68%;
+}
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+   
+    border-radius: 57%;
+}    
+    
 #loginCard{
 		margin-top: 13%;
 	 	margin: 0 auto;
         float: none; 
         margin-bottom: 10px; 
+}
+#my-signin2{
+	    margin-left: 7%;
+}
+#endButton{
+	display: none;
 }
 #main{
 	display: none;
@@ -20,7 +56,8 @@
 }
 
 #right{
-	width: 70%;
+	display: none;
+	width: 60%;
 	/* background-color: red; */
 }
 
@@ -32,9 +69,21 @@
 #kontaktListe{
 	/* background-color: blue; */
 }
+#merkerListeList{
+	padding-top: 17%;
+}
 #merkerListe{
-	/* background-color: red; */
-    
+	display:none;
+	box-shadow: 5px 10px #0aa0d6;
+	background-color: white;
+    margin-top: 10%;
+    min-height: 128%;
+    border-radius: 8%;
+    background-image: url("../img/favoriten.png");
+	background-size: 11%;
+    background-position-x: 91%;
+    background-position-y: top;
+    background-repeat: no-repeat;
 }
 @media only screen and (min-width: 1224px){
 	
@@ -63,12 +112,27 @@
 
 #user {
    height: 3em;
-   position: relative }              
+   position: relative;
+   color: black; 
+ }              
 #user p {
    margin: 0;
    position: absolute;               
    top: 50%;     
    font-weight: 700;
-   right: 10%;                    
+   right: 61%;                    
    transform: translate(0, -50%) 
   }  
+#historie{
+		
+	box-shadow: 5px 10px #0aa0d6;
+	background-color: white;
+	border-radius: 5%;
+	min-height: 300px;
+	width: 600px;
+   /*  background-image: url("../img/favoriten.png"); */
+	/* background-size: 11%;
+    background-position-x: 91%;
+    background-position-y: top;
+    background-repeat: no-repeat; */
+}

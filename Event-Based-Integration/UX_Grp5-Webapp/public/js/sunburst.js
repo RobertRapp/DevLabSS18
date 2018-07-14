@@ -1,25 +1,64 @@
+
+function drawDiagram(jsonFile){
+	$(".docInformation").css("opacity", 0);
 var width = 960,
     height = 700,
     radius = (Math.min(width, height) / 2) - 10,
     node
-    
+
 //  Tooltip description
-//var div = d3.select("body").append("div")
-//.attr("class", "tooltip")
-//.style("opacity", 0);
-//    
-var svg = d3.select('#docVorschlaege')
+var tooltip	 = d3.select("body").append("div")
+.attr("class", "tooltip")
+.style("opacity", 0)
+
+var docInformation = d3.select("body").append("div")
+.attr("class", "docInformation")
+.style("opacity", 0)
+
+
+ svg = d3.select('#docVorschlaege')
 			   .append('svg')
                .attr("width", width)
                .attr("height", height)
-               // .attr("preserveAspectRatio", "xMinYMin meet")
-//			.attr("viewBox", "0 0 " + width + " " + height)
-//			 .attr("preserveAspectRatio", "xMinYMid")
-			 .call(responsivefy)
+			  .call(responsivefy)
               .append('g')
               .attr('transform', 'translate(' + width / 2 + ',' + (height / 2) + ')');
-				
-             // d3.select(window).on("resize." + container.attr("id"), resize);
+
+
+
+
+//Schatten Effekt
+var defs = svg.append("defs");
+
+//create filter with id #drop-shadow
+//height=130% so that the shadow is not clipped
+var filter = defs.append("filter")
+  .attr("id", "drop-shadow")
+  .attr("height", "150%");
+//SourceAlpha refers to opacity of graphic that this filter will be applied to
+//convolve that with a Gaussian with standard deviation 3 and store result
+//in blur
+filter.append("feGaussianBlur")
+ .attr("in", "SourceAlpha")
+ .attr("stdDeviation", 5)
+ .attr("result", "blur");
+
+//translate output of Gaussian blur to the right and downwards with 2px
+//store result in offsetBlur
+filter.append("feOffset")
+ .attr("in", "blur")
+ .attr("dx", 5)
+ .attr("dy", 5)
+ .attr("result", "offsetBlur");
+
+//overlay original SourceGraphic over translated blurred opacity by using
+//feMerge filter. Order of specifying inputs is important!
+var feMerge = filter.append("feMerge");
+
+feMerge.append("feMergeNode")
+ .attr("in", "offsetBlur")
+feMerge.append("feMergeNode")
+ .attr("in", "SourceGraphic");
 
 
 
@@ -38,54 +77,65 @@ const arc = d3.arc()
 
 
   
-  
-d3.json("./assets/testJson.json", function(error, root){
-  if (error) return console.error(error)
+//d3.json(jsonFile, function(error, root){  
+////d3.json("./assets/testJson3.json", function(error, data){
+//  if (error) return console.error(error)
 
   const gSlices = svg.selectAll('g')
-  .data(partition(d3.hierarchy(root)
+  .data(partition(d3.hierarchy(jsonFile)
   .sum(d => d.size))
   .descendants(), function (d) { return d.data.name})
   .enter().append('g')
+  .style("filter", "url(#drop-shadow)")
+ 	
   
-  
-  gSlices.exit().remove()
   
   gSlices.append('path')
-         .style('fill', function (d) { 
-//           if (d.depth === 0) return 'white'
+         .style('fill', function (d) {    
            return d.data.color
          })
-		.on("mouseover", function(d) {		
-            div.transition()		
+         .on("mouseenter", function(d) {		
+        	 if (d.depth === 2 && noHover == false){
+			tooltip.transition()		
                 .duration(200)		
-                .style("opacity", .9);		
-            div	.html(d.data.Ersteller)	
+                .style("opacity", 1);	
+				
+			hoverStopDraw = true;
+			tooltip	.html("Bezeichnung:" +d.data.name+
+					"<br>Ersteller: " +d.data.Ersteller  
+					)	
                 .style("left", (d3.event.pageX) + "px")		
-                .style("top", (d3.event.pageY - 28) + "px");
-            })					
-        .on("mouseout", function(d) {		
-            div.transition()		
-                .duration(500)		
-                .style("opacity", 0);
-        })
+                .style("top", (d3.event.pageY - 28) + "px")
+
+        	  }
+         })
+         .on("mouseleave", function(d) {		
+         	tooltip.transition()		
+                 .duration(200)		
+                 .style("opacity", 0);
+         	hoverStopDraw = false;
+         })			
         .on('click', click);
-  
+
+        		  
   gSlices.append('text')
          .attr('dy', '.35em')
          .text(function (d) { return d.parent ? d.data.name : '' })
          .attr('id', function (d) { return 'w' + d.data.name })
-         .attr('fill', '#fff')
+         .attr('fill', function(d){return d.data.fontcolor})
 
+          
   svg.selectAll('path')
      .transition('update')
-     .duration(750).attrTween('d', function (d, i) {
+     //duration 750
+     .duration(0).attrTween('d', function (d, i) {
        return arcTweenPath(d, i)
      })
 
   svg.selectAll('text')
      .transition('update')
-     .duration(750)
+     //duration 750
+     .duration(0)
      .attrTween('transform', function (d, i) { return arcTweenText(d, i)})
      .attr('text-anchor', function (d) { 
        return d.textAngle > 180 ? 'start' : 'end' 
@@ -97,10 +147,11 @@ d3.json("./assets/testJson.json", function(error, root){
       return e.x1 - e.x0 > 0.01 ? 1 : 0 
      })
 
+
      
      
-     
-})
+//})
+
 
 function arcTweenText(a, i) {
   var oi = d3.interpolate({ x0: (a.x0s ? a.x0s : 0), x1: (a.x1s ? a.x1s : 0), y0: (a.y0s ? a.y0s : 0), y1: (a.y1s ? a.y1s : 0) }, a)
@@ -152,18 +203,55 @@ function arcTweenPath(a, i) {
 
 
 function click(d) {
+	if(d.depth==0){
+		FilterStopDraw = false;
+	}else{
+		FilterStopDraw = true;
+	}
+	
   node = d
   const total = d.x1 - d.x0
 
   svg.selectAll('path')
      .transition('click')
+     //duration 750
      .duration(750)
      .attrTween('d', function (d, i) { return arcTweenPath(d, i)})
+     if(d.depth == 2){
+    	 noHover=true;
+    	 noHistorie = true;
+    	 docInformation.transition()
+ 		 .duration(200)		
+         .style("opacity", 1)	
+         docInformation .html(
+				 	'<div id="docInfo"> <p id="'+d.data.docID+'"> </p>'+
+				 	'<h6 id="docName">' +d.data.name +'</h6>'+
+				 	'<h8 id="docErsteller"> Ersteller: ' +d.data.Ersteller +'</h8>'+
+				 	"</div>" +
+		            '<a class="btn btn-info" onclick="openDocument(this)" href= "'+ d.data.path + '" target="_blank">' + 
+		            "Dokument öffnen" +
+		            "</a>" + 
+		            '<br/><button type="button" class="btn btn-info" id="addFavoriteButton"  onclick="addFavorite(this)"><img src="../img/favoriten.png">' + 
+		            "</button>")
+		              
+         
+          .style("left", 55 + "%")		
+          .style("top", 23 + "%");
+      }else{
+    	  docInformation.transition()		
+    	  	.duration(500)		
+    	  	.style("opacity", 0);
+    	  noHover=false;
+    	  noHistorie = true;
+      }
 
+     
   svg.selectAll('text')
      .transition('click')
      .attr('opacity', 1)
+     //duration 750
      .duration(750)
+    
      .attrTween('transform', function (d, i) { 
        return arcTweenText(d) 
       })
@@ -179,7 +267,9 @@ function click(d) {
      .attr('opacity', function (e) {
        // hide & show text
        if (e.x0 >= d.x0 && e.x1 <= (d.x1 + 0.0000000000000001)) {
-         const arcText = d3.select(this.parentNode).select('text')
+         const arcText = d3.select(this.parentNode)
+         	.select('text')
+         	
          arcText.attr('visibility', function(d) {
            return (d.x1 - d.x0) / total < 0.01 ? 'hidden' : 'visible' 
          })
@@ -187,30 +277,9 @@ function click(d) {
          return 0
        }
      })
+   
  }
  
- 
-
-function mouseOverArc(d) {
-	 d3.select(this).attr("stroke","black")
-	 
-// tooltip.html(format_description(d));
-	 tooltip.html("Ersteller: " + d.data.Ersteller)
- return tooltip.transition()
-   .duration(50)
-   .style("opacity", 0.9);
-}
-
-function mouseOutArc(){
-d3.select(this).attr("stroke","")
-return tooltip.style("opacity", 0);
-}
-
-function mouseMoveArc (d) {
- return tooltip
-   .style("top", (d3.event.pageY-10)+"px")
-   .style("left", (d3.event.pageX+10)+"px");
-}
 
 function responsivefy(svg) {
     // get container + svg aspect ratio
@@ -231,8 +300,61 @@ function responsivefy(svg) {
     d3.select(window).on("resize." + container.attr("id"), resize);
     // get width of container and resize svg to fit it
     function resize() {
+    	$(".docInformation").css("opacity", 1);
         var targetWidth = parseInt(container.style("width"));
         svg.attr("width", targetWidth);
         svg.attr("height", Math.round(targetWidth / aspect));
     }
   }
+
+}
+function addFavorite(e){
+
+	var docName = e.parentNode.firstElementChild.childNodes[2].innerHTML;
+	var ersteller = e.parentNode.firstElementChild.childNodes[3].innerHTML
+	var id = e.parentNode.firstElementChild.childNodes["0"].nextSibling.id;
+	
+	var pfad = e.attributes[3].ownerDocument.activeElement.parentElement.firstChild.nextElementSibling.href;
+	var neuesDocElement =  
+	'<li id="'+id+'"class="list-group-item"><h6>'+docName   +'</h6>&nbsp;<a class="btn btn-info"  href= "'+ pfad + '" target="_blank">' + 
+    "Dokument öffnen" +
+    '</a>'+
+    '<button id="deleteButton" type="button" class="btn btn-danger" onclick="removeFavorite(this)">X</button></li>';
+	$( "#merkerListeList" ).prepend( neuesDocElement );
+	
+}
+
+function openDocument(e){
+	
+		var docName = e.parentNode.firstElementChild.childNodes[2].innerHTML;
+		var ersteller = e.parentNode.firstElementChild.childNodes[3].innerHTML
+		var id = e.parentNode.firstElementChild.childNodes["0"].nextSibling.id;
+		var pfad = e.attributes[3].ownerDocument.activeElement.parentElement.firstChild.nextElementSibling.href;
+		var neuesHistorieElement =  
+		'<li id="'+id+'"class="list-group-item"><h6>'+docName   +'</h6>&nbsp;<a class="btn btn-info"  href= "'+ pfad + '" target="_blank">' + 
+	    "Dokument öffnen" +
+	    '</a>'
+		$( "#historieList" ).prepend( neuesHistorieElement );
+		
+		//ClickedOnDocument Event an Websocket
+		webSocket.send(JSON.stringify({
+            type: "clickedOnDocument",
+            docID: id,
+            userID: userEmail,
+            docName: docName
+        }));
+		
+	}
+function showHistorie(){
+	if (noHistorie == true){
+		$(".docInformation").css("opacity", 0);
+	}
+	$(".docInformation").css("opacity", 0);
+}
+function hideHistorie(){
+	$(".docInformation").css("opacity", 0);
+}
+
+function removeFavorite(e){
+	e.parentNode.remove();
+}

@@ -1,0 +1,16 @@
+{
+ "name": "Vorschläge","color": "white",
+ "children": [
+
+
+ 	  { "name": "Meilensteine", "color": "blue", "Ersteller": "Patrick", "size": 200},
+      {"name": "Projektplan", "color": "red","Ersteller": "Helmut","size": 50},
+      {"name": "Aufgabstellung", "color": "green","Ersteller": "Juri","size": 50},
+   	{ "name": "Meilensteine", "color": "blue", "Ersteller": "Patrick", "size": 200},
+      {"name": "Projektplan", "color": "blue","Ersteller": "Helmut","size": 50},
+      {"name": "Aufgabstellung", "color": "green","Ersteller": "Juri","size": 50},
+	{ "name": "Meilensteine", "color": "blue", "Ersteller": "Patrick", "size": 200},
+      {"name": "Projektplan", "color": "purple","Ersteller": "Helmut","size": 50},
+      {"name": "Aufgabstellung", "color": "blue","Ersteller": "Juri","size": 50}
+   ]
+}

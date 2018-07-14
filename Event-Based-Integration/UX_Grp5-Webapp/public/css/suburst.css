@@ -109,8 +109,8 @@ ul#cats li {
 div.tooltip {
   position: absolute;
   text-align: center;
-  width: 60px;
-  height: 28px;
+    width: 150px;
+    height: auto;
   padding: 2px;
   font: 12px sans-serif;
   background: lightsteelblue;
@@ -119,19 +119,40 @@ div.tooltip {
   pointer-events: none;
 }
 
-
-/* #docVorschlaege{
-    position: relative;
-    height: 0;
-    width: 100%;
-    padding: 0;
-    padding-bottom will be overwritten by JavaScript later
-    padding-bottom: 100%;
+#docInfo{
+	margin-bottom: 8%;
+	background-color: white;
+	border-radius: 12%;
+	padding-left: 10%;
 }
-#docVorschlaege > svg {
+
+.docInformation{
+	
+/*     left: 55%;
+    top: 23%; */
     position: absolute;
-    height: 100%;
-    width: 100%;
-    left: 0;
-    top: 0;
-}    */
+   
+    border-radius: 16%;
+   	width: 12%;
+    border-color: black;
+    border: 1px;
+    min-height: 13%;
+}
+
+#addFavoriteButton{
+	
+	background-color: white;
+    border-color: white;
+    background-repeat: no-repeat;
+    width: 93%;
+}
+#addFavoriteButton img{
+      width: 12%;   
+}
+
+.list-group-item a{
+	float: left;
+}
+.btn btn-danger{
+	float: right;
+}
