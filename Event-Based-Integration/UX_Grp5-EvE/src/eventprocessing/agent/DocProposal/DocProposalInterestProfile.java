@@ -23,14 +23,6 @@ import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
 
 /**
- * Dieses Interessenprofil führt die Reinigung sowie Filterung durch. Es wird
- * nach fehlerhaften Nachrichten ausschau gehalten, die aus dem Datenstrom
- * gefiltert werden, bevor diese an den <code>TrafficAnalysis</code> Agenten
- * geschickt werden. Fehlerhafte Nachrichten sind beispielsweise die ID vom Wert
- * 0 oder wenn keine Location angegeben wurde.
- * Doppelungen von Nachrichten werden hier nicht geprüft.
- * 
- * @author IngoT
  *
  */
 public class DocProposalInterestProfile extends AbstractInterestProfile {

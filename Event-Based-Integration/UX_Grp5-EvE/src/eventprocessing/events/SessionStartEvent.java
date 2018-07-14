@@ -8,7 +8,6 @@ import eventprocessing.utils.SystemUtils;
 /**
  * Ein Ereignis, welches bei dem starten einer Session innerhalb der Gui ausgelöst wird.
  * 
- * @author IngoT
  *
  */
 public class SessionStartEvent extends AtomicEvent {
