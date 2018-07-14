@@ -64,35 +64,59 @@ public enum FactoryValues {
 	public String getAgentTrafficAnalysis() {
 		return agentTrafficAnalysis;
 	}
-
+	/**
+	 * 
+	 * @return
+	 */
 	public String getEventSensor() {
 		return eventSensor;
 	}
-
+	/**
+	 * 
+	 * @return the eventSpeed
+	 */
 	public String getEventSpeed() {
 		return eventSpeed;
 	}
-
+	/**
+	 * 
+	 * @return the speedMeasurement
+	 */
 	public String getSpeedMeasurement() {
 		return eventSpeeding;
 	}
-
+	/**
+	 * 
+	 * @return the announcementEvent
+	 */
 	public String getAnnouncementEvent() {
 		return eventAnnouncement;
 	}
-
+	/**
+	 * 
+	 * @return the commentEvent
+	 */
 	public String getCommentEvent() {
 		return eventComment;
 	}
-
+	/**
+	 * 
+	 * @return the CommandEvent
+	 */
 	public String getCommandEvent() {
 		return eventCommand;
 	}
-
+	/**
+	 * 
+	 * @return the countreceivedEvent
+	 */
 	public String getCountReceivedEvent() {
 		return eventCountReceived;
 	}
-
+	/**
+	 * 
+	 * @return the countsendevent
+	 */
 	public String getCountSendEvent() {
 		return eventCountSend;
 	}
