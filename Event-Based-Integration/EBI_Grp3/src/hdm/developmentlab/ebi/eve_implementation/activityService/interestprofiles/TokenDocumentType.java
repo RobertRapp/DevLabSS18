@@ -51,7 +51,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 		if(event.getType().equalsIgnoreCase("SessionContextEvent")) {
 			System.out.println("Session geupdated: "+event);
 			lastSessionContextEvent = event;
-		}
+		} else {
 		System.out.println("In TokenDocType "+event);
 		
 		AbstractEvent output = eventFactory.createEvent("AtomicEvent");
@@ -130,7 +130,8 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 			e.printStackTrace();
 		} 
 		
-		
+		}
+	
 	}
 		
 	}

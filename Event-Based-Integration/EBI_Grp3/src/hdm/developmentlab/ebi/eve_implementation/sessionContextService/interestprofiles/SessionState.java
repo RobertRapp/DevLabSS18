@@ -111,17 +111,6 @@ public class SessionState extends AbstractInterestProfile {
 		createdSessionContext.add(new Property<>("teilnehmer2", abs.getValueBySecoundMatch("userID")));
 		newSession.add(new Property<AbstractEvent>("sessionContext", createdSessionContext));
 
-		/*
-		 * Der Logger kann verwendet werden um in der Console Nachrichten auszuprinten.
-		 */
-		// Logger.log(Level.WARNING, "Event "+abs);
-
-		/*
-		 * Im Send-try-catch-Block werden alle Events versendet die dieses
-		 * Interessensprofil versenden möchte. Es werden zwei Fehler abgefangen, wenn es
-		 * sich nicht um ein valides Event handelt oder das Topic nicht valide ist.
-		 * 
-		 */
 		try {
 			AbstractEvent ersteAnfrage = eventFactory.createEvent("AtomicEvent");
 			ersteAnfrage.setType("DocRequestEvent");

@@ -53,6 +53,7 @@ public class DocProposalAgent extends AbstractAgent {
 			e.printStackTrace();
 		}
 
+
 	}
 
 	public DocumentProposal getProposal() {

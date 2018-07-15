@@ -2,6 +2,7 @@ package hdm.developmentlab.ebi.eve_implementation.protocolService.interestprofil
 
 
 import java.io.File;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,7 +56,7 @@ public class Sessions extends AbstractInterestProfile {
 	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
 	private static AbstractEvent protocolEvent = eventFactory.createEvent("AtomicEvent");
 	
-	
+	//private ProtocolAgent protocolagent = (ProtocolAgent) this.getAgent();
 	
 
 	
@@ -63,48 +64,59 @@ public class Sessions extends AbstractInterestProfile {
 	
 		
 		System.out.println("in Protokoll IP");
-		
-		ProtocolAgent protocolagent = (ProtocolAgent) this.getAgent();
+		System.out.println("event geht ein: " + event);
+		//ProtocolAgent protocolagent = (ProtocolAgent) this.getAgent();
 		
 		switch(event.getType()) {
+		case "SessionStartEvent": 
+			System.out.println("Protokoll hat SessionStartEvent empfangen");
+			ProtocolAgent.setSessionStart(event.getCreationDate());			
+			break;
 		case "DocProposalEvent": 
-			protocolagent.addProposedDocList(event);			
+			System.out.println("Protokoll hat DocProposalEvent empfangen");
+			ProtocolAgent.addProposedDocList(event);			
 			break;
 		
 		case "UserInteractionEvent":
-			protocolagent.addClickedDocList(event);
+			System.out.println("Protokoll hat UserInteractionEvent empfangen");
+			ProtocolAgent.addClickedDocList(event);
 			break;
 			
 		case "SessionEndEvent":
-			protocolagent.setSessionEnd(event.getPropertyByKey("SessionEnd").getValue().toString());
-			CreateNewXMl();
+			System.out.println("Protokoll hat SessionEndEvent1 empfangen");
+			ProtocolAgent.setSessionEnd(event.getCreationDate());
+			CreateProtocolEvent();
 			break;
 		
 		default:
 		for(Property<?> property :event.getProperties()) {
 			switch (property.getKey().toLowerCase()) {
 			
-			case "participant1":
-				protocolagent.addUserList(property.getValue().toString());				
+			case "teilnehmer1":
+				System.out.println("Protokoll hat User1 empfangen: " + property.getValue().toString());
+				ProtocolAgent.addUserList(property.getValue().toString());				
 				break;
-			case "participant2":
-				protocolagent.addUserList(property.getValue().toString());
+			case "teilnehmer2":
+				System.out.println("Protokoll hat User2 empfangen: " + property.getValue().toString());
+				ProtocolAgent.addUserList(property.getValue().toString());
 				break;
 			case "topic":
-				protocolagent.addTopicList(property.getValue().toString());
+				if(property.getValue() != null) {
+				System.out.println("Protokoll hat das folgende Topic empfangen: " + property.getValue().toString());
+				ProtocolAgent.addTopicList(property.getValue().toString());
+				}
 				break;
 			case "sessionstart":
-				protocolagent.setSessionStart(property.getValue().toString());
-				break;
-			case "sessionend":
-				protocolagent.setSessionEnd(property.getValue().toString());
-				CreateNewXMl();
+				ProtocolAgent.setSessionStart(event.getCreationDate());
 				break;
 			case "project":
-				protocolagent.addProjectList(property.getValue().toString());
-			
+				if(property.getValue() != null) {
+				System.out.println("Protokoll hat Projekt empfangen: " + property.getValue().toString());
+				ProtocolAgent.addProjectList(property.getValue().toString());
+				}
+				break;
 			case "sessionid":
-				protocolagent.setSessionId(property.getValue().toString());
+				ProtocolAgent.setSessionId(property.getValue().toString());
 				break;
 			default:
 				break;
@@ -112,188 +124,39 @@ public class Sessions extends AbstractInterestProfile {
 		}
 		break;
 		} 
-		//System.out.println("Protokoll: " + protocolagent);
 		}
 		
 		
-		public void CreateNewXMl() {
+		public void CreateProtocolEvent() {
 		System.out.println("XML WIRD ERSTELLT! ");
-		ProtocolAgent protokollAgent = (ProtocolAgent) this.getAgent();
-		String sessionID = protokollAgent.getSessionId();	
-		ArrayList<String> user = (ArrayList<String>) protokollAgent.getUserList();
-		ArrayList<String> topics = (ArrayList<String>) protokollAgent.getTopicList();
-		ArrayList<String> projects = (ArrayList<String>) protokollAgent.getProjectList();
-		ArrayList<AbstractEvent> propDocs =  protokollAgent.getProposedDocList();
-		ArrayList<AbstractEvent> clickedDocs =  protokollAgent.getClickedDocList();
+		System.out.println("Topiclist des Protokolls:" + ProtocolAgent.getTopicList());
+		System.out.println("Userlist des Protokolls:" + ProtocolAgent.getUserList());
+		System.out.println("Projectlist des Protokolls:" + ProtocolAgent.getProjectList());
 		
 		
 		try {
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.newDocument();
-
-			Date now = new Date();
-			SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:S.SSS");
-			dateformat.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
-			String strDate = dateformat.format(now);	
-			String strEventDate = dateformat.format(protokollAgent.getSessionStart());
-			String endEventDate = dateformat.format(protokollAgent.getSessionEnd());
 			
-			// Complete new formatting
-			// root element
-			Element rootElement = doc.createElement("Protocol");
-			doc.appendChild(rootElement);
-
-
-			// id element
-			Element id = doc.createElement("ID");
-			// id.appendChild(doc.createTextNode("ID ERSTELLEN"));
-			//id.appendChild(doc.createTextNode(sessionID.getValue().toString()));
-			//id.setValue((sessionID.getValue().toString()));
-			id.appendChild(doc.createTextNode(protokollAgent.getSessionId()));
-			rootElement.appendChild(id);
+			protocolEvent.setType("ProtocolEvent");
+			protocolEvent.add(new Property<String>("SessionID", ProtocolAgent.getSessionId()));
+			protocolEvent.add(new Property<Timestamp>("SessionStart", ProtocolAgent.getSessionStart()));
+			protocolEvent.add(new Property<Timestamp>("SessionEnd", ProtocolAgent.getSessionEnd()));
+			Integer duration = TimeUtils.getDifferenceInSeconds(ProtocolAgent.getSessionEnd(), ProtocolAgent.getSessionStart());
+			protocolEvent.add(new Property<Integer>("Duration", duration));
+			protocolEvent.add(new Property<ArrayList<String>>("User", ProtocolAgent.getUserList()));
+			protocolEvent.add(new Property<ArrayList<String>>("Topics", ProtocolAgent.getTopicList()));
+			protocolEvent.add(new Property<ArrayList<AbstractEvent>>("ProposedDocs", ProtocolAgent.getProposedDocList()));
+			protocolEvent.add(new Property<ArrayList<AbstractEvent>>("ClickedDocs", ProtocolAgent.getClickedDocList()));
+			protocolEvent.add(new Property<ArrayList<String>>("Projects", ProtocolAgent.getProjectList()));
 			
-//			Attr attr = doc.createAttribute("id");
-//			attr.setValue((sessionID.getValue().toString()));
-//			id.setAttributeNode(attr);
-			
-			
-			// date element
-			Element date = doc.createElement("date");
-			date.appendChild(doc.createTextNode(strDate));
-			rootElement.appendChild(date);
-			// starttime element
-			Element starttime = doc.createElement("starttime");
-			starttime.appendChild(doc.createTextNode(strEventDate));
-			rootElement.appendChild(starttime);
-			// endtime element
-			Element endtime = doc.createElement("endtime");
-			endtime.appendChild(doc.createTextNode(endEventDate));
-			rootElement.appendChild(endtime);
-			// participant1 element
-			Element participant1 = doc.createElement("participant1");
-			participant1.appendChild(doc.createTextNode(user.get(0)));
-			rootElement.appendChild(participant1);		
-			
-			// participant2 element
-			Element participant2 = doc.createElement("participant2");
-			participant2.appendChild(doc.createTextNode(user.get(1)));
-			rootElement.appendChild(participant2);
-
-			
-/*
- * *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- * *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++			
- */
-			// action2 element für Projekte
-			Element action1 = doc.createElement("Projekte");
-			rootElement.appendChild(action1);
-			
-			// action element für Topics
-			Element action2 = doc.createElement("Gesprächsthemen");
-			rootElement.appendChild(action2);
-			
-			// action2 element für vorgeschlagene Docs 
-			Element action3 = doc.createElement("vorgeschlagene Dokumente");
-			rootElement.appendChild(action3);
-			
-			// action2 element für geöffnete Docs
-			Element action4 = doc.createElement("geklickte Dokumente");
-			rootElement.appendChild(action4);
-			
-
-			
-	
-			for (int i = 0; i < projects.size(); i++) {
-			// project element
-			Element actionid0 = doc.createElement("Projekt-Nummer: "+i);
-			action1.appendChild(actionid0);	
-			
-						
-			// type element
-			Element typeP = doc.createElement("Typ");
-			typeP.appendChild(doc.createTextNode("Projekt"));
-			actionid0.appendChild(typeP);
-			
-			// project element
-			Element project1 = doc.createElement("Projektbezeichnung");
-			project1.appendChild(doc.createTextNode(protokollAgent.getProjectList().get(i)));
-			actionid0.appendChild(project1);
-			action1.appendChild(actionid0);	
+			try {
+				this.getAgent().send(protocolEvent, "Protocol");
+			} catch (NoValidEventException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			
-			for (int i = 0; i < topics.size(); i++) {				
-				action2.appendChild(doc.createTextNode(topics.get(i)));				
-				}
-			
-			//Weitere dynamische Elemente:
-			for (int i = 0; i < propDocs.size(); i++) {
-			//vorgeschlagene Dokumente: 
-			Element actionid2 = doc.createElement("Dokumenten-Nummer:"+i);
-			action3.appendChild(actionid2);
-			
-			Element timePD = doc.createElement("Zeitstempel");
-			timePD.appendChild(doc.createTextNode(propDocs.get(i).getCreationDate().toString()));
-			actionid2.appendChild(timePD);
-			
-			Element docid = doc.createElement("Dokumenten-ID");
-			docid.appendChild(doc.createTextNode(propDocs.get(i).getPropertyByKey("FileID").toString()));
-			actionid2.appendChild(docid);
-				
-			// topic element
-			Element docname = doc.createElement("Bezeichnung");
-			docname.appendChild(doc.createTextNode(propDocs.get(i).getPropertyByKey("Documentname").toString()));
-			actionid2.appendChild(docname);
-			
-			}
-			
-			//Geöffente Dokumente:
-			for (int i = 0; i < clickedDocs.size(); i++) {
-			Element actionid3 = doc.createElement("geklicktes Dokument "+i);
-			action4.appendChild(actionid3);
-			
-			Element timeCD = doc.createElement("Zeitstempel");
-			timeCD.appendChild(doc.createTextNode(clickedDocs.get(i).getCreationDate().toString()));
-			actionid3.appendChild(timeCD);
-			
-			// type element
-			Element typeCD = doc.createElement("geklickt von Nutzer");
-			typeCD.appendChild(doc.createTextNode(clickedDocs.get(i).getValueByKey("userID").toString()));
-			actionid3.appendChild(typeCD);
-			
-			// type element
-						Element DOCID = doc.createElement("Dokumenten-ID");
-						DOCID.appendChild(doc.createTextNode(clickedDocs.get(i).getValueByKey("FileID").toString()));
-						actionid3.appendChild(DOCID);
-			// topic element
-			Element docnameC = doc.createElement("Bezeichnung");
-			docnameC.appendChild(doc.createTextNode(clickedDocs.get(i).getPropertyByKey("DocumentName").toString()));
-			actionid3.appendChild(docnameC);
-			}
-			
-
-			// write the content into xml file
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			DOMSource source = new DOMSource(doc);
-			AbstractEvent protocolOutput = eventFactory.createEvent("AtomicEvent");
-			protocolOutput.setType("ProtocolEvent");
-			protocolOutput.add(new Property<Document>("document", doc));
-			protocolOutput.add(new Property<>("DOM", source));
-			System.out.println(protocolOutput);
-			protokollAgent.send(protocolOutput, "Protocol");
-			StreamResult result = new StreamResult(
-					new File("C:\\Users\\jonas\\Documents\\Studium\\DevelopmentLab\\Protokoll.xml"));
-			transformer.transform(source, result);
-
-			// Output to console for testing
-			StreamResult consoleResult = new StreamResult(System.out);
-			transformer.transform(source, consoleResult);
-		} catch (Exception e) {
-			e.printStackTrace();
+			LoggerFactory.getLogger("ProtocolSend");
+		} catch (NoValidTargetTopicException e1) {
+			LoggerFactory.getLogger("ProtocolSend");
 		}
 	}
 	

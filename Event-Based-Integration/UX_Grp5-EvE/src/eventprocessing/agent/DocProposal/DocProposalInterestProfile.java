@@ -40,6 +40,7 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 	@Override
 	public void doOnReceive(AbstractEvent event) {
 		System.out.println("In IP von DocProposalIP von Gui");
+		System.out.println("Dieses Event wurde empfangen: " + event);
 //		System.out.println("Event: " + event.getValueByKey("FileID").toString());
 //		
 //		String docID = event.getValueByKey("FileID").toString();

@@ -1,5 +1,7 @@
 package hdm.developmentlab.ebi.eve_implementation.protocolService;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import eventprocessing.agent.AbstractAgent;
@@ -11,11 +13,6 @@ import eventprocessing.agent.interestprofile.predicates.logical.Or;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.utils.TimeUtils;
-import eventprocessing.utils.factory.AbstractFactory;
-import eventprocessing.utils.factory.FactoryProducer;
-import eventprocessing.utils.factory.FactoryValues;
-import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenDocumentType;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.interestprofiles.Sessions;
 
 public class ProtocolAgent extends AbstractAgent {
@@ -29,15 +26,15 @@ public class ProtocolAgent extends AbstractAgent {
 	 * @author rrapp, birk, meier
 	 */
 
-	private static final long serialVersionUID = 1L;
-	private static String sessionId;
-	private static ArrayList<String> topicList = new ArrayList<>();
-	private static ArrayList<String> userList = new ArrayList<>();
-	private static ArrayList<String> projectList = new ArrayList<>();
-	private static ArrayList<AbstractEvent> proposedDocList = new ArrayList<>();
-	private static ArrayList<AbstractEvent> clickedDocList = new ArrayList<>();
-	private static String sessionStart;
-	private static String sessionEnd;
+	private static final long serialVersionUID=1L;
+	private static String sessionId; 
+	private static ArrayList<String> topicList=new ArrayList<>();
+	private static ArrayList<String> userList=new ArrayList<>();
+	private static ArrayList<String> projectList=new ArrayList<>();
+	private static ArrayList<AbstractEvent> proposedDocList=new ArrayList<>();
+	private static ArrayList<AbstractEvent> clickedDocList=new ArrayList<>();
+	private static Timestamp sessionStart;
+	private static Timestamp sessionEnd;
 
 	@Override
 	protected void doOnInit() {
@@ -68,6 +65,8 @@ public class ProtocolAgent extends AbstractAgent {
 			try {
 				ip.add(new Or(new IsEventType("SessionContext"), new IsEventType("SessionStartEvent"),
 						new IsEventType("SessionEndEvent"), new IsFromTopic("UserInteraction")));
+				ip.add(new Or(new IsEventType("SessionContextEvent"), new IsEventType("SessionStartEvent"), new IsEventType("SessionEndEvent"), new IsFromTopic("UserInteraction")));
+
 			} catch (NullPredicateException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -79,71 +78,69 @@ public class ProtocolAgent extends AbstractAgent {
 		}
 	}
 
-	public String getSessionStart() {
+	public static Timestamp getSessionStart() {
 		return sessionStart;
 	}
 
-	public void setSessionStart(String sessionStart) {
-		ProtocolAgent.sessionStart = sessionStart;
+
+	public static void setSessionStart(Timestamp event) {
+		ProtocolAgent.sessionStart= event;
 	}
 
-	public String getSessionEnd() {
+	public static Timestamp getSessionEnd() {
 		return sessionEnd;
 	}
 
-	public void setSessionEnd(String sessionEnd) {
-		ProtocolAgent.sessionEnd = sessionEnd;
+	public static void setSessionEnd(Timestamp sessionEnd) {
+		ProtocolAgent.sessionEnd= sessionEnd;
 	}
 
-	public ArrayList<String> getTopicList() {
+	public  static ArrayList<String> getTopicList() {
 		return topicList;
 	}
 
-	public void addTopicList(String topicList) {
+	public  static void addTopicList(String topicList) {
 		ProtocolAgent.topicList.add(topicList);
 	}
 
-	public ArrayList<String> getUserList() {
+	public  static ArrayList<String> getUserList() {
 		return userList;
 	}
 
-	public void addUserList(String userList) {
+	public static void addUserList(String userList) {
 		ProtocolAgent.userList.add(userList);
 	}
 
-	public ArrayList<String> getProjectList() {
+	public  static ArrayList<String> getProjectList() {
 		return projectList;
 	}
 
-	public void addProjectList(String projectList) {
+	public static void addProjectList(String projectList) {
 		ProtocolAgent.projectList.add(projectList);
 	}
 
-	public ArrayList<AbstractEvent> getProposedDocList() {
+	public static ArrayList<AbstractEvent> getProposedDocList() {
 		return proposedDocList;
 	}
 
-	public void addProposedDocList(AbstractEvent proposedDocList) {
+	public static void addProposedDocList(AbstractEvent proposedDocList) {
 		ProtocolAgent.proposedDocList.add(proposedDocList);
 	}
 
-	public ArrayList<AbstractEvent> getClickedDocList() {
+	public static ArrayList<AbstractEvent> getClickedDocList() {
 		return clickedDocList;
 	}
 
-	public void addClickedDocList(AbstractEvent clickedDocList) {
+	public static void addClickedDocList(AbstractEvent clickedDocList) {
 		ProtocolAgent.clickedDocList.add(clickedDocList);
 	}
 
-	public long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public String getSessionId() {
+	public static String getSessionId() {
 		return sessionId;
 	}
 
-	public void setSessionId(String sessionId) {
+
+	public static void setSessionId(String sessionId) {
 		ProtocolAgent.sessionId = sessionId;
 	}
 

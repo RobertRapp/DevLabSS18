@@ -61,7 +61,7 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 			
 				try {
 					//Neue FeedbackEvent
-					System.out.println("Dieses Event wird raus geschickt: " + outputEvent);
+					System.out.println("DR schickt dieses Event an die GUI: " + outputEvent);
 					this.getAgent().send(outputEvent, "DocProposal");
 					
 				} catch (NoValidEventException e) {
