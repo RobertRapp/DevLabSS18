@@ -106,6 +106,9 @@ public class Sessions extends AbstractInterestProfile {
 				ProtocolAgent.addTopicList(property.getValue().toString());
 				}
 				break;
+			case "sessionstart":
+				ProtocolAgent.setSessionStart(event.getCreationDate());
+				break;
 			case "project":
 				if(property.getValue() != null) {
 				System.out.println("Protokoll hat Projekt empfangen: " + property.getValue().toString());
@@ -121,7 +124,6 @@ public class Sessions extends AbstractInterestProfile {
 		}
 		break;
 		} 
-		//System.out.println("Protokoll: " + protocolagent);
 		}
 		
 		
