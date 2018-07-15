@@ -4,6 +4,7 @@ package hdm.developmentlab.ebi.eve_implementation.activityService.interestprofil
 
 import java.util.logging.Logger;
 
+
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.event.AbstractEvent;
@@ -15,6 +16,11 @@ import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
 
+/**
+ * Das Interessensprofil @TokenApplicationIP verarbeitet Events vom Typ CalenderEvent, presentation & spreadsheets die vom Topic TokenGeneration konsumiert wurden.
+ * Abhängig vom Typ des Events werden den Events der passende Applikations-Link als newProperty angehängt.
+ * 
+ */
 
 public class TokenApplicationIP extends eventprocessing.agent.interestprofile.AbstractInterestProfile {
 
