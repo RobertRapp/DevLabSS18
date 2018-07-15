@@ -86,8 +86,8 @@ public class ProtocolAgent extends AbstractAgent {
 		return sessionStart;
 	}
 
-	public static void setSessionStart(Timestamp sessionStart) {
-		ProtocolAgent.sessionStart= sessionStart;
+	public static void setSessionStart(Timestamp event) {
+		ProtocolAgent.sessionStart= event;
 	}
 
 	public static Timestamp getSessionEnd() {

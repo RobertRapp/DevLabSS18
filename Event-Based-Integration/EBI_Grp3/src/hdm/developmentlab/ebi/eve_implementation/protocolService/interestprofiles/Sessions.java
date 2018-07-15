@@ -131,28 +131,14 @@ public class Sessions extends AbstractInterestProfile {
 		System.out.println("Userlist des Protokolls:" + ProtocolAgent.getUserList());
 		System.out.println("Projectlist des Protokolls:" + ProtocolAgent.getProjectList());
 		
-		String sessionID = ProtocolAgent.getSessionId();	
-		ArrayList<String> user = (ArrayList<String>) ProtocolAgent.getUserList();
-		ArrayList<String> topics = (ArrayList<String>) ProtocolAgent.getTopicList();
-		ArrayList<String> projects = (ArrayList<String>) ProtocolAgent.getProjectList();
-		ArrayList<AbstractEvent> propDocs =  ProtocolAgent.getProposedDocList();
-		ArrayList<AbstractEvent> clickedDocs =  ProtocolAgent.getClickedDocList();
-		
 		
 		try {
-			Date now = new Date();
-			SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:S.SSS");
-			dateformat.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
-			String strDate = dateformat.format(now);	
-			System.out.println(ProtocolAgent.getSessionStart());
-			String strEventDate = dateformat.format(ProtocolAgent.getSessionStart());
-			String endEventDate = dateformat.format(ProtocolAgent.getSessionEnd());
 			
 			protocolEvent.setType("ProtocolEvent");
 			protocolEvent.add(new Property<String>("SessionID", ProtocolAgent.getSessionId()));
 			protocolEvent.add(new Property<Timestamp>("SessionStart", ProtocolAgent.getSessionStart()));
 			protocolEvent.add(new Property<Timestamp>("SessionEnd", ProtocolAgent.getSessionEnd()));
-			int duration = TimeUtils.getDifferenceInSeconds(ProtocolAgent.getSessionEnd(), ProtocolAgent.getSessionStart());
+			Integer duration = TimeUtils.getDifferenceInSeconds(ProtocolAgent.getSessionEnd(), ProtocolAgent.getSessionStart());
 			protocolEvent.add(new Property<Integer>("Duration", duration));
 			protocolEvent.add(new Property<ArrayList<String>>("User", ProtocolAgent.getUserList()));
 			protocolEvent.add(new Property<ArrayList<String>>("Topics", ProtocolAgent.getTopicList()));

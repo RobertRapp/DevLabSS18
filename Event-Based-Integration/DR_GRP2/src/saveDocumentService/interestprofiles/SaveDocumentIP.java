@@ -3,6 +3,7 @@ package saveDocumentService.interestprofiles;
 
 import java.io.File;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,10 +44,31 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 		System.out.println("Topiclist des Protokolls:" + EventUtils.findPropertyByKey(event, "Topics").getValue());
 		System.out.println("Userlist des Protokolls:" + EventUtils.findPropertyByKey(event, "User").getValue());
 		System.out.println("Projectlist des Protokolls:" + EventUtils.findPropertyByKey(event, "Projects").getValue());
+		System.out.println("Timestamp der ankommt: " + EventUtils.findPropertyByKey(event, "SessionStart").getValue());
 		
-		Timestamp sessionStart = (Timestamp) EventUtils.findPropertyByKey(event, "SessionStart").getValue();
-		Timestamp sessionEnd = (Timestamp) EventUtils.findPropertyByKey(event, "SessionEnd").getValue();
-		Integer duration = (Integer) EventUtils.findPropertyByKey(event, "Duration").getValue();
+		
+		String strSessionStart = (String) EventUtils.findPropertyByKey(event, "SessionStart").getValue();
+		String strSessionEnd = (String) EventUtils.findPropertyByKey(event, "SessionEnd").getValue();
+		Date datesessionstart = null;
+		try {
+			datesessionstart = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")).parse(strSessionStart.replaceAll("Z$", "+0000"));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println("Neues dateformat start: " + datesessionstart);
+		
+		Date datesessionend = null;
+		try {
+			datesessionend = (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")).parse(strSessionEnd.replaceAll("Z$", "+0000"));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+
+		String duration = String.valueOf(EventUtils.findPropertyByKey(event, "Duration").getValue());
+		duration.concat(" seconds");
 		ArrayList<String> user = (ArrayList<String>) EventUtils.findPropertyByKey(event, "User").getValue();
 		ArrayList<String> projects = (ArrayList<String>) EventUtils.findPropertyByKey(event, "Projects").getValue();
 		ArrayList<String> topics = (ArrayList<String>) EventUtils.findPropertyByKey(event, "Topics").getValue();
@@ -61,11 +83,13 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 
 			Date now = new Date();
 			SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:S.SSS");
-			dateformat.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
-			String strDate = dateformat.format(now);	
-			String strEventDate = dateformat.format(sessionStart);
-			String endEventDate = dateformat.format(sessionEnd);
+			SimpleDateFormat dateformat2 = new SimpleDateFormat("yyyy-MM-dd");
+			dateformat.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
+			dateformat2.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
 			
+			String strDate = dateformat2.format(now);	
+			String strStartDate = dateformat.format(datesessionstart);
+			String strEndDate = dateformat.format(datesessionend);
 			// Complete new formatting
 			// root element
 			Element rootElement = doc.createElement("Protocol");
@@ -87,11 +111,11 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			rootElement.appendChild(date);
 			// starttime element
 			Element starttime = doc.createElement("starttime");
-			starttime.appendChild(doc.createTextNode(strEventDate));
+			starttime.appendChild(doc.createTextNode(strStartDate));
 			rootElement.appendChild(starttime);
 			// endtime element
 			Element endtime = doc.createElement("endtime");
-			endtime.appendChild(doc.createTextNode(endEventDate));
+			endtime.appendChild(doc.createTextNode(strEndDate));
 			rootElement.appendChild(endtime);
 			// duration element
 			Element durationEl = doc.createElement("duration");
