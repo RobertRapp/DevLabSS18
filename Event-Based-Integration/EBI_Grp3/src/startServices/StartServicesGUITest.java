@@ -71,9 +71,9 @@ public class StartServicesGUITest {
 		
 
 		AbstractAgent sentenceAgent = new SentenceAgent(); //
-		AbstractAgent tokenAgent = new TokenizeAgent(); //
-		AbstractAgent applicationAgent = new ActivityAgent(); //
-		AbstractAgent requestAgent = new RequestAgent(); //
+		AbstractAgent tokenAgent = new TokenizeAgent(); 
+		AbstractAgent applicationAgent = new ActivityAgent(); 
+		AbstractAgent requestAgent = new RequestAgent(); 
 		AbstractAgent protcolAgent = new ProtocolAgent();
 		AbstractAgent singleKeyWordAgent = new SingleKeywordAgent();
 		AbstractAgent noKeywordAgent = new NoKeywordAgent();
@@ -129,63 +129,11 @@ public class StartServicesGUITest {
 				StreamingExecution.add(guiAgent);
 				StreamingExecution.add(docProposalAgent);
 				StreamingExecution.add(documentProposalAgent);
-				StreamingExecution.add(documentProposalAgent);
 				StreamingExecution.add(saveDocumentAgent);
 			} catch (AgentException e2) {
 				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
-			
-			
-
-		
-		tokenAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "1"));
-		sentenceAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "2"));
-		applicationAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "3"));
-		singleKeyWordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "4"));
-		noKeywordAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "5"));
-		severalKeywordsAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "6"));
-		requestAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "7")); 
-		protcolAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "8"));
-		semanticChunksIP.setConsumerSettings(new ConsumerSettings("localhost", "9092", "9"));
-		sessionstateAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "10"));
-		documentProposalAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "11"));
-		guiAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "12"));
-		docProposalAgent.setConsumerSettings(new ConsumerSettings("localhost", "9092", "13"));
-		
-		
-		tokenAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		sentenceAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		applicationAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		singleKeyWordAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		noKeywordAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		severalKeywordsAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		requestAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		protcolAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		semanticChunksIP.setProducerSettings(new ProducerSettings("localhost","9092"));
-		sessionstateAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		documentProposalAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		guiAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-		docProposalAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
-
-		try {
-			StreamingExecution.add(tokenAgent);
-			StreamingExecution.add(sentenceAgent);
-			StreamingExecution.add(applicationAgent);
-			StreamingExecution.add(singleKeyWordAgent);
-			StreamingExecution.add(noKeywordAgent);
-			StreamingExecution.add(severalKeywordsAgent);
-			StreamingExecution.add(requestAgent);
-			StreamingExecution.add(protcolAgent);
-			StreamingExecution.add(semanticChunksIP);
-			StreamingExecution.add(sessionstateAgent);
-			StreamingExecution.add(guiAgent);
-			StreamingExecution.add(docProposalAgent);
-			StreamingExecution.add(documentProposalAgent);
-		} catch (AgentException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		
 		Runnable myRunnable = new Runnable() {
