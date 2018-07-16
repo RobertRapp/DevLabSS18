@@ -36,27 +36,20 @@ public class SemanticChunksIP extends AbstractInterestProfile{
 	@Override
 	public void doOnReceive(AbstractEvent event) {		
 		System.out.println("In IP von DR!!!!");
-		System.out.println("Event erhalten: " + event);
-		System.out.println("Hallo neu");
 		//Chunker Objekt von Token abfangen
 		ArrayList<Object> chunkslist = (ArrayList<Object>)	EventUtils.findPropertyByKey(event, "Chunks").getValue();
 		Chunker chunkerObject = new Chunker();
 		chunkerObject.parseArrayList(chunkslist);
-		System.out.println(chunkerObject);
+		//System.out.println(chunkerObject);
 		// Alle chunks auslesen, die übergeben sind
 		ArrayList<String> list = chunkerObject.readChunks();
-		System.out.println("Länge Luste : " + list.size());
 		// Chunk in der Ontologie durchsuchen
 		for (int i = 0; i < list.size(); i++) {
-			System.out.println("For schleife1 in i " + i);
 			String jsonFile = getSemantic(list.get(i)); 
 			chunkerObject.addSemanticToChunk(list.get(i), jsonFile);
 		}
-		System.out.println("ChunkerObjekt auslesen: " + chunkerObject);
 		for (int i = 0; i < chunkerObject.size(); i++) {
-			System.out.println("For schleife2 in i " + i);
 			chunkerObject.getSemanticAt(i);	
-			System.out.println(chunkerObject.getSemanticAt(i));
 		}
 		
 		
@@ -76,7 +69,7 @@ public class SemanticChunksIP extends AbstractInterestProfile{
 		
 		try {
 			//Neue FeedbackEvent
-			System.out.println("Das wird gesendet vom SemantikAgent: ");
+			//System.out.println("Das wird gesendet vom SemantikAgent: ");
 			this.getAgent().send(feedbackEvent, "SemanticChunks");
 			
 		} catch (NoValidEventException e) {
@@ -91,7 +84,7 @@ public class SemanticChunksIP extends AbstractInterestProfile{
 	public static String getSemantic(String chunk) {
 		
 		String keyword = chunk.toLowerCase();
-		System.out.println("keyword: " + keyword);
+		//System.out.println("keyword: " + keyword);
 		String sQuery = 
 				"\n" + 
 				"PREFIX asdf: <http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#>\n" + 
@@ -126,7 +119,7 @@ public class SemanticChunksIP extends AbstractInterestProfile{
 		
 		System.out.println("squery: " + sQuery);
 		QueryExecution queryExecution = QueryExecutionFactory.sparqlService("http://localhost:3030/ds/" , sQuery);
-		System.out.println(queryExecution);
+		//System.out.println(queryExecution);
 		ResultSet resultSet = queryExecution.execSelect();		
 		
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -134,7 +127,7 @@ public class SemanticChunksIP extends AbstractInterestProfile{
 		
 		String json = new String(outputStream.toByteArray());
 		System.out.println("____________");
-		System.out.println(json);
+		//System.out.println(json);
 
 		queryExecution.close();
 		

@@ -61,13 +61,10 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 		outputEvent.setType("DocProposalEvent");	
 		for (int i = 0; i < jsonObject.getJSONObject("results").getJSONArray("bindings").length() ; i++) {
 			JSONObject bindingobject = jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(i);
-			System.out.println(bindingobject);	
 			Document d = new Document(bindingobject.toString());
 				outputEvent.add(new Property<Document>("Document",d));
 				
 			}
-			System.out.println();
-			System.out.println("Dokumenten Proposals: "+ outputEvent.toString());
 		
 		//________________________________
 		
@@ -161,10 +158,9 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 	public static String getModul(AbstractEvent event) {
 		 String sFinishQuery = sQueryAnfang + "";
 		 ArrayList<String> keywords = new ArrayList<String>();
-		 System.out.println("Size of Properties: " + event.getProperties().size());
+		 
 		 //Suche nach keywords in Event
 		 for(int i = 1; i < event.getProperties().size();i++) {
-			 System.out.println("Durchlauf " + i);
 			 if(event.getProperties().get(i).getKey().equalsIgnoreCase("keyword")) {
 				 keywords.add((String) EventUtils.findPropertyByKey(event, "keyword").getValue());
 			 }
@@ -172,8 +168,6 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 
 		 String strproject = (String) event.getValueByKey("project");
 		 String strperson = (String) event.getValueByKey("person");
-		 System.out.println(strproject);
-		 System.out.println(strperson);
 		 if(EventUtils.findPropertyByKey(event, "project") != null) { 
 			if(strproject != null) {
 			 sFinishQuery = sFinishQuery + addProject((String) event.getValueByKey("project"));
@@ -212,7 +206,7 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 		ResultSetFormatter.outputAsJSON(outputStream, resultSet);
 		
 		String json = new String(outputStream.toByteArray());
-		System.out.println("Json-File wird ausgegeben: " + json);
+		//System.out.println("Json-File wird ausgegeben: " + json);
 		queryExecution.close();
 		return json;
 	}
