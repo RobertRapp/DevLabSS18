@@ -29,16 +29,23 @@ public class DocumentProposal {
 			return categories;
 		}
 		public void addDocuments(ArrayList<Document> newDocuments) {
+			ArrayList<Document> documentList=documents;
+			documentList.addAll(newDocuments);
 			
 			for(Document d : documents) {
-				System.out.println("Documentliste Elemtent:  "+d);
+				
+				System.out.println("Documentliste Element:  "+d);
+				
 			}
+			
+			
+			
 			//Pr�fen ob Gesamtsumme der Dokumente die maximale Anzahl �bertrifft
-			 if(documents.size() + newDocuments.size() >maxDocuments) {
-				  int sumDeleteDocuments =  documents.size() + newDocuments.size() - maxDocuments;
+			 if(documentList.size() > maxDocuments) {
+				  int sumDeleteDocuments =  documents.size() - maxDocuments;
 				  	
 				  for (int i=0; i < sumDeleteDocuments; i++) {
-					  documents.remove(i);
+					  documentList.remove(i);
 				  	}					  
 				}
 					
@@ -47,7 +54,7 @@ public class DocumentProposal {
 				  if (!categories.contains(doc.categorie)) {
 					   categories.add(doc.categorie);
 				   }
-				 documents.add(doc);			
+				  documentList.add(doc);			
 			}
 		}
 		
