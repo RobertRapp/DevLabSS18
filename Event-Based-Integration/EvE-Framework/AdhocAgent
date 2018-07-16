@@ -1,0 +1,25 @@
+		//DR AGENT -------------------------------------------
+		/*
+		 * Alle Zeilen die linksbündig sind müssen bearbeitet werden. Dieser Agent konsumiert vom Topic gleich dem Name des Agenten und sendet das Event einfach weiter an angegebenes Topic.
+		 */
+			AbstractAgent drAgent  = new AbstractAgent() {
+private static final long serialVersionUID = 606360123599610899L;
+						@Override
+						protected void doOnInit() {
+this.setId("drAgent");
+						AbstractInterestProfile ip = new AbstractInterestProfile() {
+private static final long serialVersionUID = 6063600497599610899L;
+						@Override
+						protected void doOnReceive(AbstractEvent event) {try {	
+this.getAgent().send(event, "naechsterAgentenName"); //nächsterAgent
+						} catch (NoValidEventException e) {e.printStackTrace();
+						} catch (NoValidTargetTopicException e) {e.printStackTrace();
+						}}};
+						ip.add(new IsFromTopic(this.getId()));
+						try {this.add(ip);
+						} catch (NoValidInterestProfileException e) {e.printStackTrace();}
+						try {
+							this.add(this.getId());
+						} catch (NoValidConsumingTopicException e) {e.printStackTrace();}}};
+drAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", drAgent.getId()));
+drAgent.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
