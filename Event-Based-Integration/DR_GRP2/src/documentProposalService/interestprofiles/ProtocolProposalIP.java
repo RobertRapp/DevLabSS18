@@ -21,20 +21,28 @@ import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
 
+/**
+ * @author Jennifer Tran, Vanessa Keller, Di Cui, Aaron Humm, Finia Igel.
+ * 
+ */
+
 public class ProtocolProposalIP extends AbstractInterestProfile{
 	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
 	private static final long serialVersionUID = -6108185466150892913L;
 	private static Logger LOGGER = LoggerFactory.getLogger(DocumentProposalIP.class);
 
+	/**
+	 * Liest das abgefangene Event der EBI ein.
+	 * 
+	 * @param event Dokument der abgespeichert werden soll.
+	 * 
+	 */
 
 	
 	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
-		// TODO Auto-generated method stub
-
+		// Aufruf der Methode getQuery.
 		getQuery(event);
-	
-		
-		// Pushen eines Events
+		// Pushen eines Events.
 				AbstractEvent proProposalEvent = eventFactory.createEvent("AtomicEvent");
 				proProposalEvent.setType("DocProposalEvent");
 				proProposalEvent.add(new Property<String>("Documentname",EventUtils.findPropertyByKey(event, "Document").getValue().toString()));
@@ -49,7 +57,7 @@ public class ProtocolProposalIP extends AbstractInterestProfile{
 
 				
 				try {
-					//Neue FeedbackEvent
+					//Neue FeedbackEvent.
 					this.getAgent().send(proProposalEvent, "ProProposal");
 					
 				} catch (NoValidEventException e) {
@@ -62,11 +70,16 @@ public class ProtocolProposalIP extends AbstractInterestProfile{
 		
 	}
 
-	// DocProposalEvent UNSER CODE
 	
-	
+	/**
+	 * Erstellt die SPARQL-Abfrage aus Bausteinen.
+	 * 
+	 * @param event mit den benötigten Variabeln.
+	 * @return Gibt die Antwort aus der SPARQL-Abfrage in der Ontologie als String zurueck.
+	 * 		
+	 */
 
-	public static void getQuery(AbstractEvent event) {
+	public static String getQuery(AbstractEvent event) {
 		
 		 String participant1 = null;
 		 String participant2 = null;
@@ -113,11 +126,17 @@ public class ProtocolProposalIP extends AbstractInterestProfile{
 		 		"}\n" + 
 		 		"ORDER BY DESC(?LastChangeDate)";
 		 
-		getProposal(sQuery);
+		return getProposal(sQuery);
 	}
 	
 	
-	
+	/**
+	 * Abfrage der SPARQL-Abfrage in der Ontologie.
+	 * 
+	 * @param sQuery SPARQL-Abfrage.
+	 * @return Gibt die Antwort aus der SPARQL-Abfrage in der Ontologie als String zurueck.
+	 * 		
+	 */
 	public static String getProposal(String sQuery) {
 		QueryExecution queryExecution = QueryExecutionFactory.sparqlService("http://localhost:3030/ds" , sQuery);
 		
