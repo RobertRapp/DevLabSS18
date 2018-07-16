@@ -42,6 +42,7 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 	@Override
 	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
 		System.out.println("XML WIRD ERSTELLT! ");
+		System.out.println("Komplettes ProtokollEvent: " + event);
 		System.out.println("Topiclist des Protokolls:" + EventUtils.findPropertyByKey(event, "Topics").getValue());
 		System.out.println("Userlist des Protokolls:" + EventUtils.findPropertyByKey(event, "User").getValue());
 		System.out.println("Projectlist des Protokolls:" + EventUtils.findPropertyByKey(event, "Projects").getValue());
@@ -73,7 +74,6 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 		ArrayList<String> topics = (ArrayList<String>) EventUtils.findPropertyByKey(event, "Topics").getValue();
 		ArrayList<AbstractEvent> propDocs = (ArrayList<AbstractEvent>) EventUtils.findPropertyByKey(event, "ProposedDocs").getValue();
 		ArrayList<AbstractEvent> clickedDocs = (ArrayList<AbstractEvent>) EventUtils.findPropertyByKey(event, "ClickedDocs").getValue();
-		
 		
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -208,6 +208,7 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			action4.appendChild(actionid3);
 			
 			System.out.println("Clicked Docs 1: " + clickedDocs.get(i));
+			System.out.println("CreationDate: " + String.valueOf(clickedDocs.get(i).getCreationDate()));
 			System.out.println("Clicked Docs 2: "+ EventUtils.findPropertyByKey(event, "ClickedDocs").getValue());
 			
 //			Element timeCD = doc.createElement("Zeitstempel");
