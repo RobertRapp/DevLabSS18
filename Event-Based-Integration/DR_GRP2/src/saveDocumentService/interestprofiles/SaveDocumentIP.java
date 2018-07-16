@@ -207,10 +207,13 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			Element actionid3 = doc.createElement("geklicktesDokument"+(i+1));
 			action4.appendChild(actionid3);
 			
-			Element timeCD = doc.createElement("Zeitstempel");
-			System.out.println(clickedDocs.get(i).getCreationDate());
-			timeCD.appendChild(doc.createTextNode(clickedDocs.get(i).getCreationDate().toString()));
-			actionid3.appendChild(timeCD);
+			System.out.println("Clicked Docs 1: " + clickedDocs.get(i));
+			System.out.println("Clicked Docs 2: "+ EventUtils.findPropertyByKey(event, "ClickedDocs").getValue());
+			
+//			Element timeCD = doc.createElement("Zeitstempel");
+//			System.out.println(clickedDocs.get(i).getCreationDate());
+//			timeCD.appendChild(doc.createTextNode(clickedDocs.get(i).getCreationDate().toString()));
+//			actionid3.appendChild(timeCD);
 			
 			// type element
 			Element typeCD = doc.createElement("geklicktvonNutzer");

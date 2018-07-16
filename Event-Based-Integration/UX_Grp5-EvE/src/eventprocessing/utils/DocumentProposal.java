@@ -32,12 +32,16 @@ public class DocumentProposal {
 		public void addDocuments(ArrayList<Document> newDocuments) {
 			System.out.println("alte Liste: " + documents.size());
 			System.out.println("neue Liste: " + newDocuments.size());
-			ArrayList<Document> removeEmptyDocs = newDocuments;
-			for(Document d : removeEmptyDocs) {
+			ArrayList<Document> removeEmptyDocs = new ArrayList<Document>();
+			for(Document d : newDocuments) {
 				if(d.getName().isEmpty()) {
-					newDocuments.remove(d);
+					removeEmptyDocs.add(d);
 				}
 			}
+			newDocuments.removeAll(removeEmptyDocs);
+			
+			
+			
 			ArrayList<Document> documentList=documents;
 			documentList.addAll(newDocuments);
 			System.out.println("Erstellte Liste: " + documentList.size());
