@@ -61,40 +61,42 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 		String fileId= "";
 		String doctype= "";
 		String url = "";
+		System.out.println("Properties die bei Gui ankommen: " + event.getProperties());
 		for(Property<?> pro : event.getProperties()) {
 			if (pro.getValue() instanceof LinkedHashMap) {	
-				
+				System.out.println(pro.getValue().toString());
 				docListe.add(new Document((LinkedHashMap<?, ?>) pro.getValue()));	
 			}else {				
-				switch (pro.getKey()) {
-				case "Documentname":
+				switch (pro.getKey().toLowerCase()) {
+				case "documentname":
 					docname= pro.getValue().toString();
 									break;
-				case "Author":
+				case "author":
 					author= pro.getValue().toString();			
 									break;
-				case "Editor":
+				case "editor":
 					editor= pro.getValue().toString();
 					break;
-				case "Project":
+				case "project":
 					project= pro.getValue().toString();
 					break;
-				case "Filename":
+				case "filename":
 					filename= pro.getValue().toString();
 					break;
-				case "LastChangeDate":
+				case "lastchangedate":
 					lastChangeDate= pro.getValue().toString();
 					break;
-				case "Category":
+				case "category":
+					System.out.println("Category identifiziert");
 					category= pro.getValue().toString();
 					break;
-					case "FileID":
+					case "fileid":
 						fileId= pro.getValue().toString();	
 						break;
-					case "DocumentType":
+					case "documenttype":
 					doctype= pro.getValue().toString();
 						break;
-					case "URL":
+					case "url":
 						url = pro.getValue().toString();
 						break;
 				default:
@@ -114,7 +116,8 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 		System.out.println("CurrentProposal Listenlenght : "+dPA.getProposal().getDocuments().size());
 		System.out.println("CurrentProposal Categories : "+dPA.getProposal().getCategories().size());
 		dPA.getProposal().addDocuments(docListe);
-		
+		System.out.println("DocumentProposal " + dPA.getProposal().getDocuments());
+		System.out.println("DocumentProposal - Category: " + dPA.getProposal().getCategories());
 		JSONObject json = toJson(dPA.getProposal().getDocuments(), dPA.getProposal().getCategories());
 		AbstractEvent jsonDocEvent = eventFactory.createEvent("AtomicEvent");
 		jsonDocEvent.setType("JsonDocEvent");
@@ -146,6 +149,7 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 			JSONObject childrenOneCategory = new JSONObject();
 			
 			for (Document doc : documents) {
+				System.out.println("Document: " + doc);
 				System.out.println("DocumentCategorie "+doc.getCategorie()+ "VS "+category);
 				if (doc.getCategorie().equalsIgnoreCase(category)) {
 					document= new JSONObject();
