@@ -1,12 +1,12 @@
   // Variablen stop für stopRec function und sentenceID für Zählung der Sätze
   var stop = false;
   var sentenceID = 0;
-
   var serverURL;
   var userID;
   var timestamp;
   var sessionID;
   
+  //Funktion wird von jedem User beim Sessionstart, mit den jeweiligen Parametern, ausgeführt
   function recognize(serverURL, userID, sessionID) {
 	  this.serverURL = serverURL;
 	  this.userID = userID;
@@ -64,6 +64,8 @@
         sentenceID++;
         console.log(sentenceID);
         
+        //Sobald Watson einen digitalisierten Text erstellt, wird dieser mit der ServerURL, der UserID,
+        //der eindeutigen SessionID an die Websocket übergeben
         webSocket.send(JSON.stringify({
             type: "watson",
         	serverURL: serverURL,
@@ -88,12 +90,14 @@
 
 };
 
+//Funktion zum beenden der Watson Aufnahme
 function stopRec(){
   stop = true;
   console.log(stop);
   console.log("stopRec triggered")
 }
 
+//Ursprüngliche Methode zur Datenübermittlung an ein Servlet. Wird jetzt von der Websocket übernommen
 function GETRequest(serverURL, recSentence, userID, timestamp, sessionID, sentenceID){
 
     var xhr = new XMLHttpRequest();
