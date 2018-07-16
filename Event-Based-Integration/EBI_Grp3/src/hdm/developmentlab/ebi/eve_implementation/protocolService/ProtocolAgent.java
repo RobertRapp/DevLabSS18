@@ -51,7 +51,7 @@ public class ProtocolAgent extends AbstractAgent {
 			this.add("SessionContext");
 			this.add("UserInteraction");
 
-			// + alle Topics also Doc Requests auch
+
 		} catch (NoValidConsumingTopicException e) {
 			e.printStackTrace();
 		}
@@ -68,7 +68,7 @@ public class ProtocolAgent extends AbstractAgent {
 			try {
 				ip.add(new Or(new IsEventType("SessionContextEvent"), 
 						new IsEventType("SessionStartEvent"), new IsEventType("SessionEndEvent"), 
-						new IsFromTopic("UserInteraction")));
+						new IsEventType("UserInteractionEvent")));
 
 			} catch (NullPredicateException e) {
 				

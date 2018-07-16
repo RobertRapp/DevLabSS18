@@ -32,9 +32,9 @@ public class DocumentProposal {
 			//Pr�fen ob Gesamtsumme der Dokumente die maximale Anzahl �bertrifft
 			 if(documents.size() + newDocuments.size() >maxDocuments) {
 				  int sumDeleteDocuments =  documents.size() + newDocuments.size() - maxDocuments;
-				  	for (int i=0; i < sumDeleteDocuments; i++) {
+				  	
+				  for (int i=0; i < sumDeleteDocuments; i++) {
 					  documents.remove(i);
-					  
 				  	}					  
 				}
 					

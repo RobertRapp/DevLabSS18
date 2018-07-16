@@ -141,9 +141,9 @@ public class Sessions extends AbstractInterestProfile {
 			protocolEvent.add(new Property<Integer>("Duration", duration));
 			protocolEvent.add(new Property<ArrayList<String>>("User", ProtocolAgent.getUserList()));
 			protocolEvent.add(new Property<ArrayList<String>>("Topics", ProtocolAgent.getTopicList()));
-			protocolEvent
-					.add(new Property<ArrayList<AbstractEvent>>("ProposedDocs", ProtocolAgent.getProposedDocList()));
+			protocolEvent.add(new Property<ArrayList<AbstractEvent>>("ProposedDocs", ProtocolAgent.getProposedDocList()));
 			protocolEvent.add(new Property<ArrayList<AbstractEvent>>("ClickedDocs", ProtocolAgent.getClickedDocList()));
+			System.out.println("ClickedEvents: " + ProtocolAgent.getClickedDocList());
 			protocolEvent.add(new Property<ArrayList<String>>("Projects", ProtocolAgent.getProjectList()));
 
 			/**

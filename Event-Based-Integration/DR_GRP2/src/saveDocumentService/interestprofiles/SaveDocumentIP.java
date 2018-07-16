@@ -45,6 +45,8 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 		System.out.println("Topiclist des Protokolls:" + EventUtils.findPropertyByKey(event, "Topics").getValue());
 		System.out.println("Userlist des Protokolls:" + EventUtils.findPropertyByKey(event, "User").getValue());
 		System.out.println("Projectlist des Protokolls:" + EventUtils.findPropertyByKey(event, "Projects").getValue());
+		System.out.println("Liste der geklickten Doks: " + EventUtils.findPropertyByKey(event, "ClickedDocs").getValue());
+		
 		
 		String strSessionStart = (String) EventUtils.findPropertyByKey(event, "SessionStart").getValue();
 		String strSessionEnd = (String) EventUtils.findPropertyByKey(event, "SessionEnd").getValue();
@@ -192,7 +194,7 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			Element docid = doc.createElement("Dokumenten-ID");
 			docid.appendChild(doc.createTextNode(propDocs.get(i).getPropertyByKey("FileID").toString()));
 			actionid2.appendChild(docid);
-				
+			
 			// topic element
 			Element docname = doc.createElement("Bezeichnung");
 			docname.appendChild(doc.createTextNode(propDocs.get(i).getPropertyByKey("Documentname").toString()));
@@ -206,6 +208,7 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			action4.appendChild(actionid3);
 			
 			Element timeCD = doc.createElement("Zeitstempel");
+			System.out.println(clickedDocs.get(i).getCreationDate());
 			timeCD.appendChild(doc.createTextNode(clickedDocs.get(i).getCreationDate().toString()));
 			actionid3.appendChild(timeCD);
 			
