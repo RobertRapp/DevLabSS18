@@ -99,8 +99,8 @@ public abstract class AbstractEvent implements Serializable {
 		if (property != null) {
 			// Wird sie der Liste hinzugefügt
 			boolean bereitesvorhanden = false;
-			for(Property property2 : this.properties) {
-				if(property2.equals(property)) {
+			for(Property<?> property2 : this.properties) {
+				if(property2.getKey().equals(property.getKey())) {
 					bereitesvorhanden = true;
 				}
 			}

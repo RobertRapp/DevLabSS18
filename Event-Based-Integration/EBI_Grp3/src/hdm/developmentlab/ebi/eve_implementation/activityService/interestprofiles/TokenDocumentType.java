@@ -3,6 +3,7 @@ package hdm.developmentlab.ebi.eve_implementation.activityService.interestprofil
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.json.JSONObject;
@@ -59,7 +60,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 		}
 		if(EventUtils.hasProperty(lastSessionContextEvent, "teilnehmer1")) output.add(new Property<String>("participant1", (String) lastSessionContextEvent.getValueByKey("teilnehmer1")));
 		if(EventUtils.hasProperty(lastSessionContextEvent, "teilnehmer2")) output.add(new Property<String>("participant2", (String) lastSessionContextEvent.getValueByKey("teilnehmer2")));
-		if(EventUtils.hasProperty(lastSessionContextEvent, "project")) output.add(new Property<String>("project", (String) lastSessionContextEvent.getValueByKey("project")));
+		if(EventUtils.hasProperty(lastSessionContextEvent, "project") && lastSessionContextEvent.getValueByKey("project") != null) output.add(new Property<String>("project", (String) lastSessionContextEvent.getValueByKey("project")));
 		if(event.getType().equalsIgnoreCase("uncertainEvent")) {
 			String key = null;
 			String value= null;
@@ -115,6 +116,17 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 		}
 		try {
 			System.out.println("Folgende DocRequest wird an DR geschickt " + output);
+			
+			output.getValueBySecoundMatch("project");
+			List<Property<?>> props = output.getProperties();
+			
+			for(Property p : output.getProperties()) {
+				
+				if(p.getKey().equalsIgnoreCase("project") && p.getValue() == null) props.add(p);			
+			}
+			output.getProperties().removeAll(props);
+		//	output.getProperties().set(output.getProperties().indexOf("project"), new Property<>("project", output.getValueBySecoundMatch("project")));
+			
 			this.getAgent().send(output, "DocRequest");
 		} catch (NoValidEventException e) {
 
