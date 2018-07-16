@@ -1,12 +1,14 @@
-
+// Diagramm wird erstellt. Als Daten wird das übergebene JsonString verwendet.
 function drawDiagram(jsonFile){
 	$(".docInformation").css("opacity", 0);
+	
+	//Größe und Radius des D3 Diagramms
 var width = 960,
     height = 700,
     radius = (Math.min(width, height) / 2) - 10,
     node
 
-//  Tooltip description
+//  Tooltip. Hier werden das Elemt angelegt, dass die Information bei der onmouseover Funktion angezeigt werde
 var tooltip	 = d3.select("body").append("div")
 .attr("class", "tooltip")
 .style("opacity", 0)
@@ -27,7 +29,7 @@ var docInformation = d3.select("body").append("div")
 
 
 
-//Schatten Effekt
+//Schatten Effekt des Hauptdiagramms und der einzelnen Elemente
 var defs = svg.append("defs");
 
 //create filter with id #drop-shadow
@@ -76,8 +78,8 @@ const arc = d3.arc()
 
 
 
-  
-//d3.json(jsonFile, function(error, root){  
+ //Der ausgeklammerte Bereich wird verwendet, wenn Testdaten aus einer lokalen JSON File verwendet werden möchte 
+//d3.json(jsonFile, function(error, root){   
 ////d3.json("./assets/testJson3.json", function(error, data){
 //  if (error) return console.error(error)
 
@@ -87,9 +89,9 @@ const arc = d3.arc()
   .descendants(), function (d) { return d.data.name})
   .enter().append('g')
   .style("filter", "url(#drop-shadow)")
- 	
-  
-  
+  //Hier werden die einzelnen Elemente dem gesamten Diagramm angelegt.
+  //Jedes äußere Element erhält die jeweilige Farbe des Dokuments, eine Hoverinformation und es wird 
+  //die Funktion hintelegt, dass das Dokumente geöffnet werden kann und anschließend in der Historie abgelegt wird
   gSlices.append('path')
          .style('fill', function (d) {    
            return d.data.color
@@ -146,10 +148,7 @@ const arc = d3.arc()
      .attr('opacity', function (e) { 
       return e.x1 - e.x0 > 0.01 ? 1 : 0 
      })
-
-
-     
-     
+     //Klammer ist notwendig, wenn lokale TestJson verwendet werden will
 //})
 
 
@@ -201,7 +200,9 @@ function arcTweenPath(a, i) {
 
 
 
-
+//Funktion für das Filtern der einzelnen Elemente. Klickt man auf einen Ring der ersten Ebene, wird nach
+//der jeweiligen Kategorie gefiltert. Wird auf ein Element auf der äußersten Ebene (ein Dokument) geklickt,
+//werden Informationen und Buttons eines Dokuments angezeigt
 function click(d) {
 	if(d.depth==0){
 		FilterStopDraw = false;
@@ -280,7 +281,7 @@ function click(d) {
    
  }
  
-
+//Diese Funktion ermöglicht ein responsives Design der D3 Grafik
 function responsivefy(svg) {
     // get container + svg aspect ratio
     var container = d3.select(svg.node().parentNode), 
@@ -308,12 +309,14 @@ function responsivefy(svg) {
   }
 
 }
+//Funktion zum ablegen eines Dokumentes in der Favoritenanzeige
 function addFavorite(e){
 
+	//die Attribute werden aus der aktuellen Dokumentenvorschau geladen und zum anlegen des Elementes in der 
+	//Favoritenansicht verwendet
 	var docName = e.parentNode.firstElementChild.childNodes[2].innerHTML;
 	var ersteller = e.parentNode.firstElementChild.childNodes[3].innerHTML
 	var id = e.parentNode.firstElementChild.childNodes["0"].nextSibling.id;
-	
 	var pfad = e.attributes[3].ownerDocument.activeElement.parentElement.firstChild.nextElementSibling.href;
 	var neuesDocElement =  
 	'<li id="'+id+'"class="list-group-item"><h6>'+docName   +'</h6>&nbsp;<a class="btn btn-info"  href= "'+ pfad + '" target="_blank">' + 
@@ -323,7 +326,9 @@ function addFavorite(e){
 	$( "#merkerListeList" ).prepend( neuesDocElement );
 	
 }
-
+//Funktion die beim Klick des Öffnen Buttons ausgefüht wird.
+//die Attribute werden aus der aktuellen Dokumentenvorschau geladen und zum anlegen des Elementes in der 
+//Hisrotie verwendet
 function openDocument(e){
 	
 		var docName = e.parentNode.firstElementChild.childNodes[2].innerHTML;
@@ -345,12 +350,14 @@ function openDocument(e){
         }));
 		
 	}
+//Blendet die Dokumenteninformationen aus damit diese nicht  während der Historienansicht eingeblendet sind.
 function showHistorie(){
 	if (noHistorie == true){
 		$(".docInformation").css("opacity", 0);
 	}
 	$(".docInformation").css("opacity", 0);
 }
+//Zeigt die Dokumenteninformationen, die während der Historienansicht ausgblendet werden wieder ein
 function hideHistorie(){
 	$(".docInformation").css("opacity", 0);
 }
