@@ -26,8 +26,7 @@ import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
-//import socketHandler.SocketServer;
-//import socketHandler.Websocket;
+
 
 import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.demo.events.SensorEvent;
