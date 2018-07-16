@@ -36,7 +36,8 @@ import eventprocessing.utils.TextUtils;
 import eventprocessing.utils.factory.LoggerFactory;
 
 /**
- *
+ * In diesem Interessensprofil wird der Dokumentenvorschlag als JSON-String über die Websocket an
+ * die GUI gesendet. Der JSON-String ist in dem Format, wie er für die D3-Visualisierung verwendet wird.
  */
 public class GuiInterestProfileDocProposal extends AbstractInterestProfile {
 
@@ -50,11 +51,6 @@ public class GuiInterestProfileDocProposal extends AbstractInterestProfile {
 	 */
 	@Override
 	public void doOnReceive(AbstractEvent event) {
-		//System.out.println("in IP von Gui DocProposal");
-//		ArrayList<Document> newDocuments = new ArrayList<Document>();
-//		newDocuments.add(new Document(event.getPropertyByKey("json").toString()));
-//		System.out.println("Test:" + event.getPropertyByKey("json").getValue());
-		//String jsonString = event.getPropertyByKey("json").getValue().toString();
 		
 		JSONObject returnJson = new JSONObject(event.getValueByKey("json").toString());
 		
@@ -65,7 +61,7 @@ public class GuiInterestProfileDocProposal extends AbstractInterestProfile {
 		LOGGER.log(Level.INFO, "Event sent to Websocket: "+event);
 		
 		
-//ALTE VERSION EVE
+// Testdaten
 		
 //		ArrayList<Document> newDocuments = new ArrayList<Document>();
 //		
@@ -85,56 +81,6 @@ public class GuiInterestProfileDocProposal extends AbstractInterestProfile {
 //		
 //		newDocuments.add(document2);
 
-		
-		//GuiEvent e = (GuiEvent) event;
-		//LOGGER.log(Level.WARNING, "doOnReceiveGuiIP");
-		/*		
-		try {
-					getAgent().send(event, "Gui");
-					System.out.println("getAgent");
-				System.out.println(this.getClass().getSimpleName()+" : Event versendet "+TimeUtils.getCurrentTime()+" - "+ event.getType());} catch (NoValidEventException e1) {
-					System.out.println("NogetAgent");
-					LOGGER.log(Level.WARNING, () -> String.format("%s", event));
-				} catch (NoValidTargetTopicException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", "Gui"));
-				
-				}
-				
-				System.out.println("Consumer");
-				Property<?> name=EventUtils.findPropertyByKey(event, "name");
-				Property<?> type=EventUtils.findPropertyByKey(event, "type");
-				Property<?> path=EventUtils.findPropertyByKey(event, "path");
-				Property<?> lastEditor=EventUtils.findPropertyByKey(event, "lastEditor");
-				Property<?> lastEdit=EventUtils.findPropertyByKey(event, "lastEdit");
-				Property<?> docProposalId=EventUtils.findPropertyByKey(event, "docProposalId");
-				Property<?> category=EventUtils.findPropertyByKey(event, "category");
-				System.out.println(name);
-				System.out.println(type);
-				System.out.println(path);
-				System.out.println(lastEditor);
-				System.out.println(lastEdit);
-				System.out.println(docProposalId);
-				System.out.println(category);
-			
-		
-		
-	/*	
-		// Prüfung ob es vom Typ SensorEvent ist.
-		if (event instanceof SensorEvent) {
-			// Wenn ja, cast.
-			SensorEvent e = (SensorEvent) event;
-			// Aussortierung von fehlerhaften Sensorwerten.
-			if (e.getSensorID() != 0 && !TextUtils.isNullOrEmpty(e.getLocation())) {
-				try {
-					// Das erzeugte Event wird über den Agenten an das Topic "TrafficData" versendet
-					getAgent().send(e, ShowcaseValues.INSTANCE.getTrafficDataTopic());
-				System.out.println(this.getClass().getSimpleName()+" : Event versendet "+TimeUtils.getCurrentTime()+" - "+ event.getType());} catch (NoValidEventException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", e));
-				} catch (NoValidTargetTopicException e1) {
-					LOGGER.log(Level.WARNING, () -> String.format("%s", e));
-				}
-			}
-		} */
 	}
 
 }
