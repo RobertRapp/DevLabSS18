@@ -29,6 +29,11 @@ public class DocumentProposal {
 			return categories;
 		}
 	 	
+	 	public void clearProposal() {
+	 		documents.clear();
+	 		categories.clear();
+	 		
+	 	}
 		public void addDocuments(ArrayList<Document> newDocuments) {
 			System.out.println("alte Liste: " + documents.size());
 			System.out.println("neue Liste: " + newDocuments.size());
