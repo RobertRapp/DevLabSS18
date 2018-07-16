@@ -36,7 +36,8 @@ public class ProtocolAgent extends AbstractAgent {
 	private static Timestamp sessionStart;
 	private static Timestamp sessionEnd;
 
-	@Override
+
+	
 	protected void doOnInit() {
 
 		this.setId("ProtocolAgent");
@@ -56,8 +57,10 @@ public class ProtocolAgent extends AbstractAgent {
 		}
 
 		/*
-		 * Interesse		 * Fügt dem Agenten ein InteressenProfil hinzu. Ein Agent kann mehrere
-nProfile besitzen. Dem Agent wird das IP Sessions hinzugefügt.
+		 * 		 
+		 * Fügt dem Agenten ein InteressenProfil hinzu. Ein Agent kann mehrere
+		 * InteressenProfile besitzen. Dem Agent wird das IP Sessions hinzugefügt.
+		 * 
 		 */
 
 		try {
@@ -68,11 +71,13 @@ nProfile besitzen. Dem Agent wird das IP Sessions hinzugefügt.
 						new IsFromTopic("UserInteraction")));
 
 			} catch (NullPredicateException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
+				
 			}
 
 			this.add(ip);
+			
 		} catch (NoValidInterestProfileException e1) {
 			e1.printStackTrace();
 		}
@@ -84,7 +89,7 @@ nProfile besitzen. Dem Agent wird das IP Sessions hinzugefügt.
 
 
 	public static void setSessionStart(Timestamp event) {
-		ProtocolAgent.sessionStart= event;
+		ProtocolAgent.sessionStart = event;
 	}
 
 	public static Timestamp getSessionEnd() {
@@ -92,7 +97,7 @@ nProfile besitzen. Dem Agent wird das IP Sessions hinzugefügt.
 	}
 
 	public static void setSessionEnd(Timestamp sessionEnd) {
-		ProtocolAgent.sessionEnd= sessionEnd;
+		ProtocolAgent.sessionEnd = sessionEnd;
 	}
 
 	public  static ArrayList<String> getTopicList() {
