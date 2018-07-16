@@ -52,14 +52,15 @@ public class StartServices {
 	
 	public static void main(String[] args) throws AgentException, InterruptedException
 	 {
-		//IP-Adresse des Kafka-Servers					
+		//IP-Adresse des Kafka-Servers			
+		////System.out.println(System.getProperty("user.dir").toString());
 		String kafkahost = "10.142.0.2"; 
 			   if(args[1].length() > 7) kafkahost = args[1]; //Überschreibt Default wenn ein Wert gegeben ist. 
 		
 		
 		switch (args[0].toLowerCase()) {
 		case "tomcat":
-			System.out.println("Parameter tomcat aufgerufen: semanticAgent, saveDocumentAgent, documentProposalAgent und der FusekiServer gestartet");
+			//System.out.println("Parameter tomcat aufgerufen: semanticAgent, saveDocumentAgent, documentProposalAgent und der FusekiServer gestartet");
 			//TOMCAT 
 			AbstractAgent semanticAgent = new SemanticAgent();
 			AbstractAgent saveDocAgent = new SaveDocumentAgent();
@@ -193,23 +194,37 @@ public class StartServices {
 			// Thread wird erzeugt und gestartet
 			Thread thread3 = new Thread(spark);					
 			thread3.start();		
-			System.out.println("Spark Thread Status: "+thread3.getState());
-			break;
+			//System.out.println("Spark Thread Status: "+thread3.getState());
 			
-		case "websocket":
-			Thread thread2;
-			System.out.println("Websocket als Parameter -- starte Websocket");
+
+			Thread websocket;
+			
 			Runnable webSocketserver = new Runnable() {
 				public void run() {
 					SocketServer.main(null); 					
 				}
 			};
-			thread2 = new Thread(webSocketserver);
+			websocket = new Thread(webSocketserver);
+			websocket.start();
+			//System.out.println("Websocket Thread Status: "+websocket.getState());
+			
+			
+			break;
+			
+		case "websocket":
+			Thread thread2;
+			//System.out.println("Websocket als Parameter -- starte Websocket");
+			Runnable webSocketserver2 = new Runnable() {
+				public void run() {
+					SocketServer.main(null); 					
+				}
+			};
+			thread2 = new Thread(webSocketserver2);
 			thread2.start();
-			System.out.println("Websocket Thread Status: "+thread2.getState());
+			//System.out.println("Websocket Thread Status: "+thread2.getState());
 			break;
 		default:
-			System.out.println("ACHTUNG: Es muss je nach Server tomcat, ux oder spark als args Parameter angegeben werden.");
+			//System.out.println("ACHTUNG: Es muss je nach Server tomcat, ux oder spark als args Parameter angegeben werden.");
 			
 			break;
 		}
@@ -230,57 +245,9 @@ public class StartServices {
 	private static void publishDemoEvents() throws InterruptedException {		
 			
 			for (int i = 8; i < 9; i++) {
-					System.out.println(14);
+					//System.out.println(14);
 					// TODO: A response can be added in the future which is caught in the JS Script and shown on the website
-					// TODO: Parameter entsprechend im NodeJS anpassen
-					String JsSentence = ""; 
-					String userID = "";
-					System.out.println(15);
-					switch (i) {
-					case 0:
-						 JsSentence = "Let's talk about drive current activities concerning HighNet project."; 
-						 userID = "lisa@gmail.com";
-						break;
-					case 1:
-						JsSentence = "Ok. Shall we look at the tasks leading to the milestone ahead?"; 
-						 userID = "haruki@gmail.com";
-						break;
-					case 2:
-						JsSentence = "Sure. We have been working on network issues for the diagnosis module. It is item 3 on the task list. I think, we will come up with something viable shortly."; 
-						 userID = "lisa@gmail.com";
-						break;
-					case 3:
-						JsSentence = "That sounds great. What about expenses? Do you think, you will be able to stay within the limits we aggreed upon last week?"; 
-						 userID = "haruki@gmail.com";
-						break;
-					case 4:
-						JsSentence = "That should be no problem. I'll leave a detailed report on Google drive."; 
-						 userID = "lisa@gmail.com";
-						break;
-					case 5:
-						JsSentence = "Ok, thanks. Let's make an appointment for our next meeting."; 
-						 userID = "haruki@gmail.com";
-						break;
-					case 6:
-						JsSentence = "Let me check my calendar â€¦. How about next Thursday at 16 hours your time?"; 
-						 userID = "lisa@gmail.com";
-						break;
-					case 7:
-						JsSentence = "Perfect. See you then. Bye."; 
-						 userID = "haruki@gmail.com";
-					break;
-
-					default:
-						//JsSentence = "Highnet, Daimler, costs, milestone, calendar, Google Drive, Google Calendar, google docs, powerpoint, Word";
-						JsSentence = "house project tasks leading to the milestone ahead?";
-						
-						userID = "lisa@gmail.com";
-						break;
-					}
-			
-
-					
-
+				
 				}
 				
 
