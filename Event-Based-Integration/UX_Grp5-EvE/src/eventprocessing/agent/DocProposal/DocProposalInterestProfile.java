@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import eventprocessing.agent.NoValidEventException;
@@ -44,8 +45,8 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 	 */
 	@Override
 	public void doOnReceive(AbstractEvent event) {
-		System.out.println("In IP von DocProposalIP von Gui");
-		System.out.println("Dieses Event wurde empfangen: " + event);	
+	//System.out.printIn IP von DocProposalIP von Gui");
+	//System.out.printDieses Event wurde empfangen: " + event);	
 		
 		
 		ArrayList<Document> docListe = new ArrayList<Document>(); //property.getValue() L9inked Hashmap
@@ -62,7 +63,7 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 		String url = "";
 		for(Property<?> pro : event.getProperties()) {
 			if (pro.getValue() instanceof LinkedHashMap) {	
-				System.out.println("Doc Property: " + pro);
+				
 				docListe.add(new Document((LinkedHashMap<?, ?>) pro.getValue()));	
 			}else {				
 				switch (pro.getKey()) {
@@ -101,36 +102,82 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 				}
 					
 			}
-			
-		}
+			}
+		
 		if(EventUtils.findPropertyByKey(event,"Category") == null || EventUtils.findPropertyByKey(event,"Category").getValue().equals("Application")) {
 			docListe.add(new Document(fileId, docname, doctype, url , "50", editor, lastChangeDate, category));
-		}
+		}	
 		
-			
 		
 		DocProposalAgent dPA = (DocProposalAgent) this.getAgent();
-		DocumentProposal currentProposal = dPA.getProposal();
 		
-		currentProposal.addDocuments(docListe);
-		JSONObject json = currentProposal.toJson();
+		System.out.println("CurrentProposal Listenlenght : "+dPA.getProposal().getDocuments().size());
+		System.out.println("CurrentProposal Categories : "+dPA.getProposal().getCategories().size());
+		dPA.getProposal().addDocuments(docListe);
+		
+		JSONObject json = toJson(dPA.getProposal().getDocuments(), dPA.getProposal().getCategories());
 		AbstractEvent jsonDocEvent = eventFactory.createEvent("AtomicEvent");
 		jsonDocEvent.setType("JsonDocEvent");
-		LOGGER.log(Level.WARNING, "JSON DOC EVENT: "+jsonDocEvent);
-		jsonDocEvent.add(new Property<String>("json", json.toString()));
 		
-		System.out.println("Test DPI: "+jsonDocEvent.getPropertyByKey("json"));
+		jsonDocEvent.add(new Property<String>("json", json.toString()));
+		LOGGER.log(Level.WARNING, "JSON DOC EVENT: "+jsonDocEvent);
+		//System.out.printTest DPI: "+jsonDocEvent.getPropertyByKey("json"));
 		
 		try {
 			this.getAgent().send(jsonDocEvent, "Gui");
 			LOGGER.log(Level.INFO, () -> String.format("JsonDocEvent sent to topic Gui: " +jsonDocEvent));
-		} catch (NoValidEventException e) {
-			LOGGER.log(Level.WARNING, () -> String.format("%s", e));
-			e.printStackTrace();
-		} catch (NoValidTargetTopicException e) {
+		} catch (NoValidEventException | NoValidTargetTopicException e) {
 			LOGGER.log(Level.WARNING, () -> String.format("%s", e));
 			e.printStackTrace();
 		}
+	}
+	
+	public JSONObject toJson(ArrayList<Document> documents, ArrayList<String> categories) {
+		JSONObject docProposalJson = new JSONObject();
+		JSONObject requestJson = new JSONObject();
+		
+//		JSONObject categoryInformation= new JSONObject();
+		JSONObject document= new JSONObject();
+		// Array f�r alle
+		JSONArray childrenAllCategory = new JSONArray();
+		
+		for (String category : categories) {
+			JSONArray docsOneCategory = new JSONArray();
+			JSONObject childrenOneCategory = new JSONObject();
+			
+			for (Document doc : documents) {
+				System.out.println("DocumentCategorie "+doc.getCategorie()+ "VS "+category);
+				if (doc.getCategorie().equalsIgnoreCase(category)) {
+					document= new JSONObject();
+					document.put("Ersteller", doc.getLastEditor());
+					document.put("size", 50);
+					document.put("name", doc.getName());
+					document.put("path", doc.getPath());
+					document.put("fontcolor", "white");
+					document.put("docID", doc.getDocID());
+					document.put("category", doc.getCategorie());
+					document.put("color", doc.getColor(doc.getType()));
+					docsOneCategory.put(document);
+					
+				}
+			}	
+				//JSONObject categoryInformation= new JSONObject();
+				childrenOneCategory.put("children", docsOneCategory);
+				childrenOneCategory.put("fontcolor", "white");
+				childrenOneCategory.put("color", "#B768F6");
+				childrenOneCategory.put("name", category);
+				//childrenOneCategory.put(categoryInformation);
+				childrenAllCategory.put(childrenOneCategory);
+				
+		}
+		docProposalJson.put("children", childrenAllCategory);
+		docProposalJson.put("fontcolor", "black");
+		docProposalJson.put("color", "white");
+		docProposalJson.put("name", "docProposal");
+		requestJson.put("docProposal", docProposalJson);
+		requestJson.put("type", "newDocProposal");
+		return requestJson;
+		
 	}
 
 }

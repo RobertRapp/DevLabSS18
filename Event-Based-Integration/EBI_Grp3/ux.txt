@@ -1,0 +1,423 @@
+18/07/16 13:32:18 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+ux als Parameter eingegeben. singleKeyWordAgent, noKeywordAgent, severalKeywordsAgent, sentenceAgent, tokenAgent und applicationAgent gestartet.18/07/16 13:32:20 WARN StreamingExecution: AgentRegistry:{TokenizeAgent=com.speechTokens.EvE.agents.TokenizeAgent {
+MessageMapper: eventprocessing.utils.mapping.MessageMapper@32ceeac3
+Dispatcher: eventprocessing.agent.dispatch.Dispatcher {
+AllIPFilterQPairs: [eventprocessing.agent.dispatch.Dispatcher$IPFilterQPair Object {
+com.speechTokens.EvE.interestProfiles.TokenizeInterestProfile Object {
+Predicates in the List: 
+eventprocessing.agent.interestprofile.predicates.statement.IsEventType {
+FilterAttribute: eventprocessing.agent.interestprofile.predicates.statement.FilterAttribute {
+Property: FeedbackEvent
+Value: null
+}
+
+negate: java.util.function.Predicate$$Lambda$23/1600335989@24ab6b84
+}
+
+}
+eventprocessing.agent.dispatch.filters.FilterQueue {
+Filters: [eventprocessing.agent.dispatch.filters.FilterFunction {
+}
+]
+}
+
+}]
+}
+
+Despatcher: eventprocessing.produce.kafka.Despatcher@5d9523fd
+InterestProfiles: [com.speechTokens.EvE.interestProfiles.TokenizeInterestProfile Object {
+Predicates in the List: 
+eventprocessing.agent.interestprofile.predicates.statement.IsEventType {
+FilterAttribute: eventprocessing.agent.interestprofile.predicates.statement.FilterAttribute {
+Property: FeedbackEvent
+Value: null
+}
+
+negate: java.util.function.Predicate$$Lambda$23/1600335989@229d9480
+}
+
+}]
+SubscribedTopics: [SemanticChunks]
+ConsumerSettings: eventprocessing.consume.kafka.ConsumerSettings {
+KafkaParameters: {key.deserializer=org.apache.kafka.common.serialization.StringDeserializer, value.deserializer=org.apache.kafka.common.serialization.StringDeserializer, group.id=1, partition.assignment.strategy=org.apache.kafka.clients.consumer.RangeAssignor, bootstrap.servers=10.142.0.2:9092}
+}
+
+ProducerSettings: eventprocessing.produce.kafka.ProducerSettings {
+Properties: {retries=0, bootstrap.servers=10.142.0.2:9092, linger.ms=0, acks=0, value.serializer=org.apache.kafka.common.serialization.StringSerializer, buffer.memory=33554432, batch.size=8000, key.serializer=org.apache.kafka.common.serialization.StringSerializer}
+}
+
+Accum: CollectionAccumulator(id: 0, name: None, value: [])
+Window: null
+Id: TokenizeAgent
+State: ReadyState
+}
+, ActivityAgent=hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent {
+MessageMapper: eventprocessing.utils.mapping.MessageMapper@350b155f
+Dispatcher: eventprocessing.agent.dispatch.Dispatcher {
+AllIPFilterQPairs: [eventprocessing.agent.dispatch.Dispatcher$IPFilterQPair Object {
+hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationIP Object {
+Predicates in the List: 
+eventprocessing.agent.interestprofile.predicates.logical.Or {
+Predicates: [eventprocessing.agent.interestprofile.predicates.statement.IsEventType {
+FilterAttribute: eventprocessing.agent.interestprofile.predicates.statement.FilterAttribute {
+Property: CalendarEvent
+Value: null
+}
+
+negate: java.util.function.Predicate$$Lambda$23/1600335989@1db9f1ed
+}
+, eventprocessing.agent.interestprofile.predicates.statement.IsEventType {
+FilterAttribute: eventprocessing.agent.interestprofile.predicates.statement.FilterAttribute {
+Property: ApplicationEvent
+Value: null
+}
+
+negate: java.util.function.Predicate$$Lambda$23/1600335989@7075aee8
+}
+, eventprocessing.agent.interestprofile.predicates.statement.HasProperty {
+FilterAttribute: eventprocessing.agent.interestprofile.predicates.statement.FilterAttribute {
+Property: ApplicationType
+Value: null
+}
+
+negate: java.util.function.Predicate$$Lambda$23/1600335989@3cd24f10
+}
+]
+negate: java.util.function.Predicate$$Lambda$23/1600335989@6eb6e7fe
+}
+
+}
+eventprocessing.agent.dispatch.filters.FilterQueue {
+Filters: [eventprocessing.agent.dispatch.filters.FilterFunction {
+}
+]
+}
+
+}]
+}
+
+Despatcher: eventprocessing.produce.kafka.Despatcher@33e9062e
+InterestProfiles: [hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationIP Object {
+Predicates in the List: 
+eventprocessing.agent.interestprofile.predicates.logical.Or {
+Predicates: [eventprocessing.agent.interestprofile.predicates.statement.IsEventType {
+FilterAttribute: eventprocessing.agent.interestprofile.predicates.statement.FilterAttribute {
+Property: CalendarEvent
+Value: null
+}
+
+negate: java.util.function.Predicate$$Lambda$23/1600335989@be7064e
+}
+, eventprocessing.agent.interestprofile.predicates.statement.IsEventType {
+FilterAttribute: eventprocessing.agent.interestprofile.predicates.statement.FilterAttribute {
+Property: ApplicationEvent
+Value: null
+}
+
+negate: java.util.function.Predicate$$Lambda$23/1600335989@25e372ed
+}
+, eventprocessing.agent.interestprofile.predicates.statement.HasProperty {
+FilterAttribute: eventprocessing.agent.interestprofile.predicates.statement.FilterAttribute {
+Property: ApplicationType
+Value: null
+}
+
+negate: java.util.function.Predicate$$Lambda$23/1600335989@7cb3e8b8
+}
+]
+negate: java.util.function.Predicate$$Lambda$23/1600335989@7105976
+}
+
+}]
+SubscribedTopics: [TokenGeneration]
+ConsumerSettings: eventprocessing.consume.kafka.ConsumerSettings {
+KafkaParameters: {key.deserializer=org.apache.kafka.common.serialization.StringDeserializer, value.deserializer=org.apache.kafka.common.serialization.StringDeserializer, group.id=3, partition.assignment.strategy=org.apache.kafka.clients.consumer.RangeAssignor, bootstrap.servers=10.142.0.2:9092}
+}
+
+ProducerSettings: eventprocessing.produce.kafka.ProducerSettings {
+Properties: {retries=0, bootstrap.servers=10.142.0.2:9092, linger.ms=0, acks=0, value.serializer=org.apache.kafka.common.serialization.StringSerializer, buffer.memory=33554432, batch.size=8000, key.serializer=org.apache.kafka.common.serialization.StringSerializer}
+}
+
+Accum: CollectionAccumulator(id: 2, name: None, value: [])
+Window: null
+Id: ActivityAgent
+State: ReadyState
+}
+, SentenceAgent=com.speechTokens.EvE.agents.SentenceAgent {
+MessageMapper: eventprocessing.utils.mapping.MessageMapper@a3c82d5
+Dispatcher: eventprocessing.agent.dispatch.Dispatcher {
+AllIPFilterQPairs: [eventprocessing.agent.dispatch.Dispatcher$IPFilterQPair Object {
+com.speechTokens.EvE.interestProfiles.SentenceInterestProfile Object {
+Predicates in the List: 
+eventprocessing.agent.interestprofile.predicates.statement.IsEventType {
+FilterAttribute: eventprocessing.agent.interestprofile.predicates.statement.FilterAttribute {
+Property: WatsonEvent
+Value: null
+}
+
+negate: java.util.function.Predicate$$Lambda$23/1600335989@69a95d02
+}
+
+}
+eventprocessing.agent.dispatch.filters.FilterQueue {
+Filters: [eventprocessing.agent.dispatch.filters.FilterFunction {
+}
+]
+}
+
+}]
+}
+
+Despatcher: eventprocessing.produce.kafka.Despatcher@6c7762a8
+InterestProfiles: [com.speechTokens.EvE.interestProfiles.SentenceInterestProfile Object {
+Predicates in the List: 
+eventprocessing.agent.interestprofile.predicates.statement.IsEventType {
+FilterAttribute: eventprocessing.agent.interestprofile.predicates.statement.FilterAttribute {
+Property: WatsonEvent
+Value: null
+}
+
+negate: java.util.function.Predicate$$Lambda$23/1600335989@6fd7c600
+}
+
+}]
+SubscribedTopics: [ChunkGeneration]
+ConsumerSettings: eventprocessing.consume.kafka.ConsumerSettings {
+KafkaParameters: {key.deserializer=org.apache.kafka.common.serialization.StringDeserializer, value.deserializer=org.apache.kafka.common.serialization.StringDeserializer, group.id=2, partition.assignment.strategy=org.apache.kafka.clients.consumer.RangeAssignor, bootstrap.servers=10.142.0.2:9092}
+}
+
+ProducerSettings: eventprocessing.produce.kafka.ProducerSettings {
+Properties: {retries=0, bootstrap.servers=10.142.0.2:9092, linger.ms=0, acks=0, value.serializer=org.apache.kafka.common.serialization.StringSerializer, buffer.memory=33554432, batch.size=8000, key.serializer=org.apache.kafka.common.serialization.StringSerializer}
+}
+
+Accum: CollectionAccumulator(id: 1, name: None, value: [])
+Window: null
+Id: SentenceAgent
+State: ReadyState
+}
+, SingleKeywordAgent=com.speechTokens.EvE.agents.SingleKeywordAgent {
+MessageMapper: eventprocessing.utils.mapping.MessageMapper@2271d768
+Dispatcher: eventprocessing.agent.dispatch.Dispatcher {
+AllIPFilterQPairs: [eventprocessing.agent.dispatch.Dispatcher$IPFilterQPair Object {
+com.speechTokens.EvE.interestProfiles.SingleKeywordIP Object {
+Predicates in the List: 
+eventprocessing.agent.interestprofile.predicates.statement.IsEventType {
+FilterAttribute: eventprocessing.agent.interestprofile.predicates.statement.FilterAttribute {
+Property: SingleKeywordEvent
+Value: null
+}
+
+negate: java.util.function.Predicate$$Lambda$23/1600335989@75c493ac
+}
+
+}
+eventprocessing.agent.dispatch.filters.FilterQueue {
+Filters: [eventprocessing.agent.dispatch.filters.FilterFunction {
+}
+]
+}
+
+}]
+}
+
+Despatcher: eventprocessing.produce.kafka.Despatcher@2472acd2
+InterestProfiles: [com.speechTokens.EvE.interestProfiles.SingleKeywordIP Object {
+Predicates in the List: 
+eventprocessing.agent.interestprofile.predicates.statement.IsEventType {
+FilterAttribute: eventprocessing.agent.interestprofile.predicates.statement.FilterAttribute {
+Property: SingleKeywordEvent
+Value: null
+}
+
+negate: java.util.function.Predicate$$Lambda$23/1600335989@3b2680aa
+}
+
+}]
+SubscribedTopics: [Keywords]
+ConsumerSettings: eventprocessing.consume.kafka.ConsumerSettings {
+KafkaParameters: {key.deserializer=org.apache.kafka.common.serialization.StringDeserializer, value.deserializer=org.apache.kafka.common.serialization.StringDeserializer, group.id=4, partition.assignment.strategy=org.apache.kafka.clients.consumer.RangeAssignor, bootstrap.servers=10.142.0.2:9092}
+}
+
+ProducerSettings: eventprocessing.produce.kafka.ProducerSettings {
+Properties: {retries=0, bootstrap.servers=10.142.0.2:9092, linger.ms=0, acks=0, value.serializer=org.apache.kafka.common.serialization.StringSerializer, buffer.memory=33554432, batch.size=8000, key.serializer=org.apache.kafka.common.serialization.StringSerializer}
+}
+
+Accum: CollectionAccumulator(id: 3, name: None, value: [])
+Window: null
+Id: SingleKeywordAgent
+State: ReadyState
+}
+, SeveralKeywordsAgent=com.speechTokens.EvE.agents.SeveralKeywordsAgent {
+MessageMapper: eventprocessing.utils.mapping.MessageMapper@46c86286
+Dispatcher: eventprocessing.agent.dispatch.Dispatcher {
+AllIPFilterQPairs: [eventprocessing.agent.dispatch.Dispatcher$IPFilterQPair Object {
+com.speechTokens.EvE.interestProfiles.SeveralKeywordsIP Object {
+Predicates in the List: 
+eventprocessing.agent.interestprofile.predicates.statement.IsEventType {
+FilterAttribute: eventprocessing.agent.interestprofile.predicates.statement.FilterAttribute {
+Property: SeveralKeywordsEvent
+Value: null
+}
+
+negate: java.util.function.Predicate$$Lambda$23/1600335989@77ed42b1
+}
+
+}
+eventprocessing.agent.dispatch.filters.FilterQueue {
+Filters: [eventprocessing.agent.dispatch.filters.FilterFunction {
+}
+]
+}
+
+}]
+}
+
+Despatcher: eventprocessing.produce.kafka.Despatcher@78c1bf36
+InterestProfiles: [com.speechTokens.EvE.interestProfiles.SeveralKeywordsIP Object {
+Predicates in the List: 
+eventprocessing.agent.interestprofile.predicates.statement.IsEventType {
+FilterAttribute: eventprocessing.agent.interestprofile.predicates.statement.FilterAttribute {
+Property: SeveralKeywordsEvent
+Value: null
+}
+
+negate: java.util.function.Predicate$$Lambda$23/1600335989@6c18e0a1
+}
+
+}]
+SubscribedTopics: [Keywords]
+ConsumerSettings: eventprocessing.consume.kafka.ConsumerSettings {
+KafkaParameters: {key.deserializer=org.apache.kafka.common.serialization.StringDeserializer, value.deserializer=org.apache.kafka.common.serialization.StringDeserializer, group.id=6, partition.assignment.strategy=org.apache.kafka.clients.consumer.RangeAssignor, bootstrap.servers=10.142.0.2:9092}
+}
+
+ProducerSettings: eventprocessing.produce.kafka.ProducerSettings {
+Properties: {retries=0, bootstrap.servers=10.142.0.2:9092, linger.ms=0, acks=0, value.serializer=org.apache.kafka.common.serialization.StringSerializer, buffer.memory=33554432, batch.size=8000, key.serializer=org.apache.kafka.common.serialization.StringSerializer}
+}
+
+Accum: CollectionAccumulator(id: 5, name: None, value: [])
+Window: null
+Id: SeveralKeywordsAgent
+State: ReadyState
+}
+, NoKeywordAgent=com.speechTokens.EvE.agents.NoKeywordAgent {
+MessageMapper: eventprocessing.utils.mapping.MessageMapper@4b0e65f
+Dispatcher: eventprocessing.agent.dispatch.Dispatcher {
+AllIPFilterQPairs: [eventprocessing.agent.dispatch.Dispatcher$IPFilterQPair Object {
+com.speechTokens.EvE.interestProfiles.NoKeywordIP Object {
+Predicates in the List: 
+eventprocessing.agent.interestprofile.predicates.statement.IsEventType {
+FilterAttribute: eventprocessing.agent.interestprofile.predicates.statement.FilterAttribute {
+Property: NoKeywordEvent
+Value: null
+}
+
+negate: java.util.function.Predicate$$Lambda$23/1600335989@6609b69f
+}
+
+}
+eventprocessing.agent.dispatch.filters.FilterQueue {
+Filters: [eventprocessing.agent.dispatch.filters.FilterFunction {
+}
+]
+}
+
+}]
+}
+
+Despatcher: eventprocessing.produce.kafka.Despatcher@4d3f4f17
+InterestProfiles: [com.speechTokens.EvE.interestProfiles.NoKeywordIP Object {
+Predicates in the List: 
+eventprocessing.agent.interestprofile.predicates.statement.IsEventType {
+FilterAttribute: eventprocessing.agent.interestprofile.predicates.statement.FilterAttribute {
+Property: NoKeywordEvent
+Value: null
+}
+
+negate: java.util.function.Predicate$$Lambda$23/1600335989@4d4016b8
+}
+
+}]
+SubscribedTopics: [Keywords]
+ConsumerSettings: eventprocessing.consume.kafka.ConsumerSettings {
+KafkaParameters: {key.deserializer=org.apache.kafka.common.serialization.StringDeserializer, value.deserializer=org.apache.kafka.common.serialization.StringDeserializer, group.id=5, partition.assignment.strategy=org.apache.kafka.clients.consumer.RangeAssignor, bootstrap.servers=10.142.0.2:9092}
+}
+
+ProducerSettings: eventprocessing.produce.kafka.ProducerSettings {
+Properties: {retries=0, bootstrap.servers=10.142.0.2:9092, linger.ms=0, acks=0, value.serializer=org.apache.kafka.common.serialization.StringSerializer, buffer.memory=33554432, batch.size=8000, key.serializer=org.apache.kafka.common.serialization.StringSerializer}
+}
+
+Accum: CollectionAccumulator(id: 4, name: None, value: [])
+Window: null
+Id: NoKeywordAgent
+State: ReadyState
+}
+}
+18/07/16 13:32:21 WARN KafkaUtils: overriding enable.auto.commit to false for executor
+18/07/16 13:32:21 WARN KafkaUtils: overriding auto.offset.reset to none for executor
+18/07/16 13:32:21 WARN KafkaUtils: overriding enable.auto.commit to false for executor
+18/07/16 13:32:21 WARN KafkaUtils: overriding auto.offset.reset to none for executor
+18/07/16 13:32:21 WARN KafkaUtils: overriding executor group.id to spark-executor-1
+18/07/16 13:32:21 WARN KafkaUtils: overriding executor group.id to spark-executor-4
+18/07/16 13:32:21 WARN KafkaUtils: overriding receive.buffer.bytes to 65536 see KAFKA-3135
+18/07/16 13:32:21 WARN KafkaUtils: overriding receive.buffer.bytes to 65536 see KAFKA-3135
+18/07/16 13:32:21 WARN KafkaUtils: overriding enable.auto.commit to false for executor
+18/07/16 13:32:21 WARN KafkaUtils: overriding auto.offset.reset to none for executor
+18/07/16 13:32:21 WARN KafkaUtils: overriding executor group.id to spark-executor-3
+18/07/16 13:32:21 WARN KafkaUtils: overriding receive.buffer.bytes to 65536 see KAFKA-3135
+18/07/16 13:32:21 WARN KafkaUtils: overriding enable.auto.commit to false for executor
+18/07/16 13:32:21 WARN KafkaUtils: overriding auto.offset.reset to none for executor
+18/07/16 13:32:21 WARN KafkaUtils: overriding executor group.id to spark-executor-6
+18/07/16 13:32:21 WARN KafkaUtils: overriding receive.buffer.bytes to 65536 see KAFKA-3135
+18/07/16 13:32:21 WARN KafkaUtils: overriding enable.auto.commit to false for executor
+18/07/16 13:32:21 WARN KafkaUtils: overriding auto.offset.reset to none for executor
+18/07/16 13:32:21 WARN KafkaUtils: overriding executor group.id to spark-executor-5
+18/07/16 13:32:21 WARN KafkaUtils: overriding receive.buffer.bytes to 65536 see KAFKA-3135
+18/07/16 13:32:21 WARN KafkaUtils: overriding enable.auto.commit to false for executor
+18/07/16 13:32:21 WARN KafkaUtils: overriding auto.offset.reset to none for executor
+18/07/16 13:32:21 WARN KafkaUtils: overriding executor group.id to spark-executor-2
+18/07/16 13:32:21 WARN KafkaUtils: overriding receive.buffer.bytes to 65536 see KAFKA-3135
+18/07/16 13:33:11 WARN AbstractInterestProfile: Event(48902) -> WatsonEvent wurde um 2018-07-16 13:33:11.13 von Topic unknown empfangen.
+PATH #cool#path#summer : /home/robbirapp.rr
+------------------------
+Stop---->B-->NNP
+------------------------
+stop---->I-->NN
+------------------------
+should---->B-->MD
+------------------------
+trigger---->I-->VB
+------------------------
+I---->B-->PRP
+------------------------
+want---->B-->VBP
+------------------------
+to---->I-->TO
+------------------------
+know---->I-->VB
+------------------------
+.---->O-->.
+Trying to add already existing chunk
+Stop stop should trigger I want to know. 
+18/07/16 13:33:12 WARN AbstractAgent: EventId 1 wird versendet
+18/07/16 13:33:13 WARN AbstractAgent: Event(1) SentenceEvent wurde um 2018-07-16 13:33:13.138 auf Topic ChunkGeneration geschickt. 
+
+18/07/16 13:33:14 WARN AbstractInterestProfile: Event(48904) -> WatsonEvent wurde um 2018-07-16 13:33:14.902 von Topic unknown empfangen.
+PATH #cool#path#summer : /home/robbirapp.rr
+------------------------
+These---->B-->DT
+------------------------
+guys---->I-->NNS
+------------------------
+are---->B-->VBP
+------------------------
+gone---->I-->VBN
+------------------------
+out---->B-->RB
+------------------------
+yet---->I-->RB
+------------------------
+.---->O-->.
+These guys are gone out yet. 
+18/07/16 13:33:15 WARN AbstractAgent: EventId 2 wird versendet
+18/07/16 13:33:16 WARN AbstractAgent: Event(2) SentenceEvent wurde um 2018-07-16 13:33:16.229 auf Topic ChunkGeneration geschickt. 
+

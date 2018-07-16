@@ -11,6 +11,22 @@ import org.json.JSONObject;
  */
 public class Document {
 	
+	public String getContext() {
+		return context;
+	}
+	public void setContext(String context) {
+		this.context = context;
+	}
+	public String getDocID() {
+		return docID;
+	}
+	public void setDocID(String docID) {
+		this.docID = docID;
+	}
+	public String getColor() {
+		return color;
+	}
+
 	String name;
 	String type;
 	String path;
@@ -20,6 +36,13 @@ public class Document {
 	String lastEdit;
 	String context;
 	String categorie;
+	public String getCategorie() {
+		return categorie;
+	}
+	public void setCategorie(String categorie) {
+		this.categorie = categorie;
+	}
+
 	String docID;
 	
 		public Document(String docID,String name, String type, String path, String size, String lastEditor, 

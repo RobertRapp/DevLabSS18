@@ -63,6 +63,8 @@ public class DocProposalAgent extends AbstractAgent {
 		return new DocumentProposal();
 	}
 
+	
+	
 	public void setProposal(DocumentProposal proposal) {
 		DocProposalAgent.proposal = proposal;
 	}
