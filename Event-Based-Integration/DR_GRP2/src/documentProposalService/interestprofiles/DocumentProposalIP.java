@@ -29,7 +29,8 @@ import eventprocessing.utils.model.EventUtils;
 import eventprocessing.utils.model.OWLResultUtils;
 
 /**
- * @author Jennifer Tran, Vanessa Keller, Di Cui, Aaron Humm, Finia Igel.
+ * @author Jennifer Tran,
+ *  Vanessa Keller, Di Cui, Aaron Humm, Finia Igel.
  * 
  */
 
@@ -56,16 +57,17 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 
 		//_________________________________
 		JSONObject jsonObject = new JSONObject(result);
-		ArrayList<Document> docList = new ArrayList<Document>();
 		AbstractEvent outputEvent = eventFactory.createEvent("AtomicEvent");
 		outputEvent.setType("DocProposalEvent");	
 		for (int i = 0; i < jsonObject.getJSONObject("results").getJSONArray("bindings").length() ; i++) {
 			JSONObject bindingobject = jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(i);
-				Document d = new Document(bindingobject.toString());
+			System.out.println(bindingobject);	
+			Document d = new Document(bindingobject.toString());
 				outputEvent.add(new Property<Document>("Document",d));
 				
 			}
-			System.out.println("OUTPUT ANSATZ "+outputEvent);
+			System.out.println();
+			System.out.println("Dokumenten Proposals: "+ outputEvent.toString());
 		
 		//________________________________
 		
@@ -210,7 +212,7 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 		ResultSetFormatter.outputAsJSON(outputStream, resultSet);
 		
 		String json = new String(outputStream.toByteArray());
-		System.out.println(json);
+		System.out.println("Json-File wird ausgegeben: " + json);
 		queryExecution.close();
 		return json;
 	}
