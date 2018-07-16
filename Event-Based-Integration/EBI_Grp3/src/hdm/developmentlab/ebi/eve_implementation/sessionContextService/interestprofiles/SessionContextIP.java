@@ -76,7 +76,7 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 		switch (event.getType()) {
 		case "ProjectEvent":
 			sessionContext.addOrReplace(EventUtils.findPropertyByKey(event, "SessionID"));
-			Property<?> sentenceID = EventUtils.findPropertyByKey(event, "SentenceID");
+			String sentenceID = String.valueOf(event.getId()); 
 			for (Property<?> p : event.getProperties()) {
 				switch (p.getKey().toLowerCase()) {
 				case "person":
@@ -106,7 +106,7 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 		 */
 		case "PersonEvent":
 			sessionContext.addOrReplace(EventUtils.findPropertyByKey(event, "SessionID"));
-			Property<?> sentenceID1 = EventUtils.findPropertyByKey(event, "SentenceID");
+			String sentenceID1 = String.valueOf(event.getId());
 			for (Property<?> p : event.getProperties()) {
 				switch (p.getKey().toLowerCase()) {
 				case "person":
@@ -136,7 +136,7 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 		 */
 		case "DocumentEvent":
 			sessionContext.addOrReplace(EventUtils.findPropertyByKey(event, "SessionID"));
-			Property<?> sentenceID2 = EventUtils.findPropertyByKey(event, "SentenceID");
+			String sentenceID2 = String.valueOf(event.getId());
 			for (Property<?> p : event.getProperties()) {
 				switch (p.getKey().toLowerCase()) {
 				case "person":

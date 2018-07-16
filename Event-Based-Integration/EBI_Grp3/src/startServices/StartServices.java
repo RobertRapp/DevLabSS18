@@ -278,28 +278,7 @@ public class StartServices {
 						break;
 					}
 			
-//					System.out.println(16);				
-//					String sessionID = "Session1";
-//					// To execute the other class and its dependencies it is important to add these dependencies under "Deployment Assembly"
-//					System.out.println(JsSentence);
-//					AbstractEvent wat = eventFactory.createEvent("AtomicEvent");
-//					System.out.println(17);
-//					wat.setType("WatsonEvent");
-//					wat.add(new Property<String>("Sentence", JsSentence));
-//					wat.add(new Property<String>("UserID", userID));// Hier die Properties an das neue Event Ã¼bergebenÃ¼bergeben
-//					wat.add(new Property<String>("SentenceID", "5"));// Hier die Properties an das neue Event Ã¼bergebenÃ¼bergeben
-//					wat.add(new Property<Timestamp>("Timestamp", wat.getCreationDate()));
-//					wat.add(new Property<String>("SessionID", sessionID));
-//					//String message = messageMapper.toJSON(wat);
-//					System.out.println(18);
-//					publish(wat, "ChunkGeneration");
-//					AbstractEvent sessionStart = eventFactory.createEvent("AtomicEvent");
-//					sessionStart.setType("SessionStartEvent");
-//					sessionStart.add(new Property<String>("12423432434", "sessionID"));
-//					publish(sessionStart, "SessionState");
-//					//despatcher.deliver(message, "ChunkGeneration");
-//					System.out.println(19);
-//					Thread.sleep(1000);
+
 					
 
 				}
