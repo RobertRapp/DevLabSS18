@@ -5,6 +5,10 @@ import java.util.LinkedHashMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Repräsentiert die Attribute eines Dokumentes.
+ * 
+ */
 public class Document {
 	
 	String name;
@@ -32,10 +36,6 @@ public class Document {
 	}
 		public Document(String jsonStr) {
 			JSONObject json = new JSONObject(jsonStr);
-//			JSONArray bindings = jsonObject.getJSONObject("results").getJSONArray("bindings");
-//			bindings.getJSONObject(0).get("Name");
-//			System.out.println(json.getJSONObject("FileID").getString("value"));
-//			System.out.println(jsonObject.getJSONObject("FileID").get("value").toString());
 			this.docID = json.getJSONObject("FileID").getString("value");
 			this.name = json.getJSONObject("FileName").getString("value");
 			this.path = json.getJSONObject("URL").getString("value");
@@ -46,10 +46,6 @@ public class Document {
 		}
 		public Document(LinkedHashMap map) {
 			
-//			JSONArray bindings = jsonObject.getJSONObject("results").getJSONArray("bindings");
-//			bindings.getJSONObject(0).get("Name");
-//			System.out.println(jsonObject.getJSONObject("results").getJSONArray("bindings").getJSONObject(0).getJSONObject("FileID").getString("value"));
-//			System.out.println(jsonObject.getJSONObject("FileID").get("value").toString());
 			this.docID = map.get("path").toString().split("/")[5];
 			this.name = (String) map.get("name");
 			this.path = (String) map.get("path");
@@ -59,6 +55,7 @@ public class Document {
 			this.setColor(this.getColor(type));
 		}
 		
+		// Anhand des Dokumententyps werden die Farben von Microsoft dem Dokument zugeordnet.
 		public String getColor(String type) {
 			switch(type) {
 			case "presentation":

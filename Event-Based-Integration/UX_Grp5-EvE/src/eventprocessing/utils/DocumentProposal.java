@@ -5,6 +5,15 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Beinhaltet eine ArrayList mit allen Dokumentenvorschlägen des Typs Document. Bei der Methode AddDocument
+ * wird geprüft, ob die Summe aus aktuellen und neuen Dokumentenvorschlägen das gesetzte Maximum übersteigt.
+ * Falls dies der Fall ist, werden die ältesten Dokumente gelöscht und durch die neuen ersetzt.
+ * 
+ * Zusätzlich wird bei jedem neuen Dokument geprüft, ob dieses eine neue Kategorie aufweist.
+ * Alle Kategorien werden in einer ArrayList des Typs String gespeichert.
+ * 
+ */
 public class DocumentProposal {
 
 	ArrayList<Document>  documents = new ArrayList<Document>();
