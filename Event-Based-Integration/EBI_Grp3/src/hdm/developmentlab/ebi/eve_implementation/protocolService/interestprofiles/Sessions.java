@@ -64,10 +64,12 @@ public class Sessions extends AbstractInterestProfile {
 		System.out.println("event geht ein: " + event);
 		
 		switch(event.getType()) {
+		
 		case "SessionStartEvent": 
 			System.out.println("Protokoll hat SessionStartEvent empfangen");
 			ProtocolAgent.setSessionStart(event.getCreationDate());			
 			break;
+			
 		case "DocProposalEvent": 
 			System.out.println("Protokoll hat DocProposalEvent empfangen");
 			ProtocolAgent.addProposedDocList(event);			
@@ -86,7 +88,9 @@ public class Sessions extends AbstractInterestProfile {
 		
 		default:
 			System.out.println("In default case");
+			
 		for(Property<?> property :event.getProperties()) {
+			
 			switch (property.getKey().toLowerCase()) {
 			
 			case "teilnehmer1":

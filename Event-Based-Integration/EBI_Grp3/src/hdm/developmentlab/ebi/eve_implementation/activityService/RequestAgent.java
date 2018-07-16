@@ -49,7 +49,7 @@ public class RequestAgent extends AbstractAgent {
 			try {
 				ip.add(new Or(new IsEventType("SessionContextEvent"), (new And(new IsFromTopic("TokenGeneration"), new Not(new IsEventType("ApplicationEvent"))))));
 			} catch (eventprocessing.agent.interestprofile.predicates.logical.NullPredicateException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 			this.add(ip);
