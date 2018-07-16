@@ -3,6 +3,7 @@ package hdm.developmentlab.ebi.eve_implementation.activityService.interestprofil
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.json.JSONObject;
@@ -117,10 +118,13 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 			System.out.println("Folgende DocRequest wird an DR geschickt " + output);
 			
 			output.getValueBySecoundMatch("project");
+			List<Property<?>> props = output.getProperties();
 			
 			for(Property p : output.getProperties()) {
-				if(p.getKey().equalsIgnoreCase("project") && p.getValue() == null) p.setValue(String.valueOf("xxxx"));			
+				
+				if(p.getKey().equalsIgnoreCase("project") && p.getValue() == null) props.add(p);			
 			}
+			output.getProperties().removeAll(props);
 		//	output.getProperties().set(output.getProperties().indexOf("project"), new Property<>("project", output.getValueBySecoundMatch("project")));
 			
 			this.getAgent().send(output, "DocRequest");
