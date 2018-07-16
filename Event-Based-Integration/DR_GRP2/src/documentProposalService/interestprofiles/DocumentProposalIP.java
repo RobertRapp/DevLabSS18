@@ -134,26 +134,38 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 
 	public static String getModul(AbstractEvent event) {
 		 String sFinishQuery = sQueryAnfang + "";
-		// AbstractEvent event2 = eventFactory.createEvent("AtomicEvent");
-		 Property<ArrayList<AbstractEvent>> keywords = (Property<ArrayList<AbstractEvent>>) EventUtils.findPropertyByKey(event, "keyword");
-		 
-		 
-		 
-		 if(EventUtils.findPropertyByKey(event, "project") != null) {
+		 ArrayList<String> keywords = new ArrayList<String>();
+		 System.out.println("Size of Properties: " + event.getProperties().size());
+		 //Suche nach keywords in Event
+		 for(int i = 1; i < event.getProperties().size();i++) {
+			 System.out.println("Durchlauf " + i);
+			 if(event.getProperties().get(i).getKey().equalsIgnoreCase("keyword")) {
+				 keywords.add((String) EventUtils.findPropertyByKey(event, "keyword").getValue());
+			 }
+		 }
+
+		 String strproject = (String) event.getValueByKey("project");
+		 String strperson = (String) event.getValueByKey("person");
+		 System.out.println(strproject);
+		 System.out.println(strperson);
+		 if(EventUtils.findPropertyByKey(event, "project") != null) { 
+			if(strproject != null) {
 			 //event2.add(new Property<String>((String) event.getValueByKey("project")));
 			 sFinishQuery = sFinishQuery + addProject((String) event.getValueByKey("project"));
+			}
 		 }
 		 
 		 if(EventUtils.findPropertyByKey(event, "person") != null) {
+			 if(strperson != null) {
 			 //event2.add(new Property<String>((String) event.getValueByKey("project")));
 			 sFinishQuery = sFinishQuery + addProject((String) event.getValueByKey("person"));
-		 }
+		 	}
+		}	
 		 
-		 if(EventUtils.findPropertyByKey(event, "keywords") != null) {
-			 for(int i = 0; i < keywords.getValue().size(); i++) {
-				//event2.add(new Property<String>(keywords.getValue().get(i).toString())); 
-				 sFinishQuery = sFinishQuery + addKeyword(keywords.getValue().get(i).toString());
-			 }
+		 if(EventUtils.findPropertyByKey(event, "keyword") != null) {
+			for(int i = 1; i < keywords.size();i++) { 
+			sFinishQuery = sFinishQuery + addKeyword(keywords.get(i));
+			}
 		 }
 		 sFinishQuery = sFinishQuery + sQueryEnde; 
 		 System.out.println(sFinishQuery);

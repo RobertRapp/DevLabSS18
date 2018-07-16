@@ -167,7 +167,7 @@ public class SessionContextIP extends eventprocessing.agent.interestprofile.Abst
 		 * sessionContext wird mit neuen Informationen befüllt
 		 */
 		Property<?> newSessionContextProperty = new Property<AbstractEvent>("sessionContext", sessionContext);
-		AbstractEvent newSession = EventUtils.replacePropertyByKey(currentSession, "sessionContext",
+		AbstractEvent newSession = EventUtils.replacePropertyByKey(currentSession, "SessionContext",
 				newSessionContextProperty);
 		sA.getSessions().set(sA.getSessions().indexOf(currentSession), newSession);
 		try {

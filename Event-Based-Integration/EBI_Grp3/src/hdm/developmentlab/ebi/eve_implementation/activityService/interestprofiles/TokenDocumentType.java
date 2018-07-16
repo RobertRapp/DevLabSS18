@@ -114,7 +114,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 			System.out.println("outputSession"+ EventUtils.findPropertyByKey(output, "project"));
 		}
 		try {
-			System.out.println("DocRequest wird an DR geschickt");
+			System.out.println("Folgende DocRequest wird an DR geschickt " + output);
 			this.getAgent().send(output, "DocRequest");
 		} catch (NoValidEventException e) {
 

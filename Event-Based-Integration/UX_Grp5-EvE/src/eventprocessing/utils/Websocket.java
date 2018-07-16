@@ -44,7 +44,7 @@ public class Websocket {
 	private static HashMap<String, String> users = new HashMap<>();
 	private static DocumentProposal proposal = new DocumentProposal();
 	
-	private static Despatcher despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
+	private static Despatcher despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
 	private static final MessageMapper messageMapper = new MessageMapper();
 	String nachricht = null;
 	static ScheduledExecutorService timer = Executors.newSingleThreadScheduledExecutor();
