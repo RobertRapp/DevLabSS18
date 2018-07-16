@@ -5,8 +5,6 @@ import org.json.JSONObject;
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.DocProposal.DocProposalAgent;
 import eventprocessing.agent.GuiAgent.GuiAgent;
-//import eventprocessing.agent.SessionEnd.SessionState;
-import eventprocessing.agent.UserInteraction.UserInteraction;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.agent.AgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
@@ -53,20 +51,10 @@ public class StartServicesDocProposals {
 		guiAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2 ","9092", "Gui"));
 		guiAgent.setProducerSettings(new ProducerSettings("10.142.0.2 ","9092"));
 		
-//		AbstractAgent userInteraction = new UserInteraction();
-//		userInteraction.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "UserInteraction"));
-//		userInteraction.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-		
-//		AbstractAgent session = new SessionState();
-//		session.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "SessionState"));
-//		session.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
-
 	
 
 		StreamingExecution.add(docProposalAgent);
 		StreamingExecution.add(guiAgent);
-		//StreamingExecution.add(userInteraction);
-		//StreamingExecution.add(session);
 
 		
 		Runnable myRunnable = new Runnable() {
@@ -119,6 +107,7 @@ public class StartServicesDocProposals {
 		
 	}
 
+	// Events für Testzwecke
 	
 	private static void publishDemoEvents() throws InterruptedException {		
 			
