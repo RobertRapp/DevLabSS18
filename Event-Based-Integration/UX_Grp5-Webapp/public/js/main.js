@@ -8,6 +8,8 @@ var userName ;
 //var server = "ws://localhost:8080/socket";
 var server = "ws://35.237.43.191:80/socket";
 
+	// Google SignIn Button wird von User ausgeführt. Benutzername von Google wird global abgelegt
+	// und im Navigationsmenü geschrieben
 	$( "#loginButton" ).click(function() {
 //		userName = $('#inputUsername').val();
 		userName= googleUser.getBasicProfile().getName();
@@ -19,7 +21,11 @@ var server = "ws://35.237.43.191:80/socket";
 		 
 		 return false;	
 	});
-	
+	//Benutzer startet die Session.
+	//Session ID wird zufällig erstellt.
+	//Funktion recognize startet den Watson. 
+	//Email, als BenutzerId und SessinID wird an die Websocket gesendet
+	//Elemente der Loginseite werden ausgeblendet und die der Hauptansich eingeblendet
 	$( "#startButton" ).click(function() {
 
 		 $('#startButton').hide();
@@ -36,7 +42,9 @@ var server = "ws://35.237.43.191:80/socket";
 
 		 return false;	
 	});
-	
+	//Sobald ein anderer User die Session startet wird diese Funktion bei allen anderen Usern ausgeführt 
+	//und der Watson der jeweiligen anderen Usern gestartet
+	//Elemente der Loginseite werden ausgeblendet und die der Hauptansich eingeblendet
 	function startSessionOfOtherUser(sessionID){
 		 $('#startButton').hide();
 		 $('#endButton').show();
@@ -46,7 +54,9 @@ var server = "ws://35.237.43.191:80/socket";
 		
 		 recognize("localhost:3001", userEmail, sessionID);
 	}
-	
+	//Sobald ein anderer User die Session beendet wird diese Funktion bei allen anderen Usern ausgeführt 
+	//und der Watson der jeweiligen anderen Usern wird beendet
+	//Elemente der Hauptseite werden ausgeblendet und die der Startseite eingeblendet
 	function endSessionOfOtherUser(){
 		$('#endButton').hide();
 		 $('#right').hide();
@@ -55,7 +65,10 @@ var server = "ws://35.237.43.191:80/socket";
 		 $(".docInformation").css("opacity", 0);
 		 stopRec();
 	}
-	
+	//Elemente der Hauptseite werden ausgeblendet und die der Startseite eingeblendet
+	//Watson Aufnahme wird beendet
+	//SessionID des Usern wird an die Websocket gesendet, damit die Websocket, damit die broadcast Methode 
+	//der Websocket nur an die anderen Benutzer sendet
 	$( "#endButton" ).click(function() {
 		
 		 $('#endButton').hide();
@@ -72,7 +85,8 @@ var server = "ws://35.237.43.191:80/socket";
 		 return false;	
 	});
 	
-
+	//Der Benutzername und die Email wird als globale Variable abgelegt
+	//Die Elemente der Loginseite werden ausgeblendet und die der Hauptseite eingeblendet
 function connect(googleUser){
 	userName = googleUser.getBasicProfile().getName();
 	userEmail = googleUser.getBasicProfile().getEmail();
@@ -80,7 +94,7 @@ function connect(googleUser){
 	 $('#login').hide();
 	 $('#main').show();
 	 
-	 
+	 // Je nach Type der Message werden die jeweiligen Aktionen ausgeführt
 webSocket = new WebSocket(server);
 	 //webSocket = new WebSocket("ws://localhost:8080/socket");
 
@@ -131,7 +145,7 @@ webSocket.onopen = () => webSocket.send(JSON.stringify({
 }
 
 
-
+// Test Button
 function clickedButton(){
 	webSocket.send(JSON.stringify({
     type: "clickedOnDocument",
