@@ -36,7 +36,6 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 
 	// Factory für die Erzeugung der Events
 	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
-	private AbstractEvent requestEvent = eventFactory.createEvent("AtomicEvent");
 	private static AbstractEvent lastSessionContextEvent = eventFactory.createEvent("AtomicEvent");
 	
 	
@@ -52,19 +51,16 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 			System.out.println("Session geupdated: "+event);
 			lastSessionContextEvent = event;
 		} else {
-		System.out.println("In TokenDocType "+event);
-		
 		AbstractEvent output = eventFactory.createEvent("AtomicEvent");
 		output.setType("RequestEvent");
 		if(lastSessionContextEvent.getProperties().size() < 1) {
-			lastSessionContextEvent.add(new Property<String>("teilnehmer1","Vanessa_Keller"));
-			lastSessionContextEvent.add(new Property<String>("teilnehmer2","Jennifer_Tran"));
+			lastSessionContextEvent.add(new Property<String>("teilnehmer1","unknown user"));
+			lastSessionContextEvent.add(new Property<String>("teilnehmer2","unknown user"));
 		}
 		if(EventUtils.hasProperty(lastSessionContextEvent, "teilnehmer1")) output.add(new Property<String>("participant1", (String) lastSessionContextEvent.getValueByKey("teilnehmer1")));
 		if(EventUtils.hasProperty(lastSessionContextEvent, "teilnehmer2")) output.add(new Property<String>("participant2", (String) lastSessionContextEvent.getValueByKey("teilnehmer2")));
 		if(EventUtils.hasProperty(lastSessionContextEvent, "project")) output.add(new Property<String>("project", (String) lastSessionContextEvent.getValueByKey("project")));
 		if(event.getType().equalsIgnoreCase("uncertainEvent")) {
-			System.out.println("EVENT VOM NICHT FIXEN TYP"+event);
 			String key = null;
 			String value= null;
 			for(Property<?> p : event.getProperties()) {
@@ -116,11 +112,9 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 		if(lastSessionContextEvent.getProperties().size() > 0) {
 			System.out.println("lastsession Project"+EventUtils.hasProperty(lastSessionContextEvent, "project"));
 			System.out.println("outputSession"+ EventUtils.findPropertyByKey(output, "project"));
-			//EventUtils.hasProperty(lastSessionContextEvent, "project") && !EventUtils.hasProperty(output, "project")) output.add(new Property<String>("project", (String) lastSessionContextEvent.getValueByKey("project")));
 		}
 		try {
-			System.err.println("Daraus entsteht der Dokumentenvorschlag: "+output);
-			System.out.println("DoxRequest wird an DR geschickt");
+			System.out.println("DocRequest wird an DR geschickt");
 			this.getAgent().send(output, "DocRequest");
 		} catch (NoValidEventException e) {
 			// TODO Auto-generated catch block

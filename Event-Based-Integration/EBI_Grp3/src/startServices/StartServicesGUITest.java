@@ -18,7 +18,6 @@ import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.DocProposal.DocProposalAgent;
 import eventprocessing.agent.GuiAgent.GuiAgent;
-import eventprocessing.agent.UserInteraction.UserInteraction;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;

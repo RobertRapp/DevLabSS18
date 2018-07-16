@@ -68,7 +68,7 @@ public class SemanticChunksIP extends AbstractInterestProfile{
 		System.out.println("userid: " + event.getPropertyByKey("UserID").getValue());
 		feedbackEvent.add(event.getPropertyByKey("SessionID"));
 		System.out.println("SessionID: " + event.getPropertyByKey("SessionID").getValue());
-		feedbackEvent.add(event.getPropertyByKey("SentenceID"));
+		//feedbackEvent.add(event.getPropertyByKey("SentenceID"));
 		//Unsere Semantic übergeben
 		feedbackEvent.add(new Property<ArrayList<Object>>("Chunks", chunkerObject.returnList()));
 		//System.out.println("Chunkerlist: " + chunkerObject.returnList());

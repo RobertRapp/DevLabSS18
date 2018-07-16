@@ -152,7 +152,7 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 	
 			for (int i = 0; i < projects.size(); i++) {
 			// project element
-			Element actionid0 = doc.createElement("Projekt-Nummer:"+(i+1));
+			Element actionid0 = doc.createElement("ProjektNummer"+(i+1));
 			action1.appendChild(actionid0);	
 						
 			// type element
@@ -168,7 +168,7 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			}
 			
 			for (int i = 0; i < topics.size(); i++) {	
-				Element actionid1 = doc.createElement("Topic-Nummer:"+i);
+				Element actionid1 = doc.createElement("TopicNummer"+i);
 				action2.appendChild(actionid1);				
 				
 				// project element
@@ -181,7 +181,7 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			//Weitere dynamische Elemente:
 			for (int i = 0; i < propDocs.size(); i++) {
 			//vorgeschlagene Dokumente: 
-			Element actionid2 = doc.createElement("Dokumenten-Nummer:"+(i+1));
+			Element actionid2 = doc.createElement("DokumentenNummer"+(i+1));
 			action3.appendChild(actionid2);
 			
 			Element timePD = doc.createElement("Zeitstempel");
@@ -201,7 +201,7 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			
 			//Geöffente Dokumente:
 			for (int i = 0; i < clickedDocs.size(); i++) {
-			Element actionid3 = doc.createElement("geklicktes Dokument "+(i+1));
+			Element actionid3 = doc.createElement("geklicktesDokument"+(i+1));
 			action4.appendChild(actionid3);
 			
 			Element timeCD = doc.createElement("Zeitstempel");
@@ -209,12 +209,12 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			actionid3.appendChild(timeCD);
 			
 			// type element
-			Element typeCD = doc.createElement("geklickt von Nutzer");
+			Element typeCD = doc.createElement("geklicktvonNutzer");
 			typeCD.appendChild(doc.createTextNode(clickedDocs.get(i).getValueByKey("userID").toString()));
 			actionid3.appendChild(typeCD);
 			
 			// type element
-			Element DOCID = doc.createElement("Dokumenten-ID");
+			Element DOCID = doc.createElement("DokumentenID");
 			DOCID.appendChild(doc.createTextNode(clickedDocs.get(i).getValueByKey("FileID").toString()));
 			actionid3.appendChild(DOCID);
 			// topic element

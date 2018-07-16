@@ -65,10 +65,10 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 					event.setType("DocProposalEvent");
 					event.add(new Property<String>("Documentname","Google "+event.getPropertyByKey("ApplicationType").getValue()));
 					event.add(new Property<String>("Author","Google"));
-					event.add(new Property<String>("Editor",(String) event.getValueByKey("userID")));
+					event.add(new Property<String>("Editor",event.getValueByKey("userID").toString()));
 					event.add(new Property<String>("Project","Google"));
 					event.add(new Property<String>("Filename",(String) event.getValueByKey("ApplicationType")));					;
-					event.add(new Property<String>("LastChangeDate",""));
+					event.add(new Property<String>("LastChangeDate","16.07.2018"));
 					event.add(new Property<String>("Category","Application"));
 					event.add(new Property<String>("FileID", String.valueOf(event.getId())));
 					event.add(new Property<String>("DocumentType","Application"));

@@ -61,7 +61,8 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 		String doctype= "";
 		String url = "";
 		for(Property<?> pro : event.getProperties()) {
-			if (pro.getValue() instanceof LinkedHashMap) {				
+			if (pro.getValue() instanceof LinkedHashMap) {	
+				System.out.println("Doc Property: " + pro);
 				docListe.add(new Document((LinkedHashMap<?, ?>) pro.getValue()));	
 			}else {				
 				switch (pro.getKey()) {
