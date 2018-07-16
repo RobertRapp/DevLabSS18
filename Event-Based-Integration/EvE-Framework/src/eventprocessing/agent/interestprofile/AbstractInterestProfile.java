@@ -15,6 +15,7 @@ import eventprocessing.event.AbstractEvent;
 import eventprocessing.utils.SystemUtils;
 import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.LoggerFactory;
+import eventprocessing.utils.model.EventUtils;
 import eventprocessing.utils.model.ModelUtils;
 
 /**
@@ -100,11 +101,15 @@ public abstract class AbstractInterestProfile implements Serializable {
 			if (this.getAgent().getState() instanceof CountReceiveState) {
 				// Loggingevents selber sollen nicht gezÃ¤hlt werden.
 				((CountReceiveState) this.getAgent().getState()).add(event);
-			}
-						//Timestamp sendedTime =  new Timestamp((long) event.getValueByKey("gesendetUm"));
-						//long dauer = TimeUtils.getCurrentTime().getTime() - sendedTime.getTime();
-						//LOGGER.log(Level.WARNING, "Event("+event.getId()+") -> "+event.getType()+" wurde mit Verzögerung "+dauer+"msec von Topic "+event.getSource()+" empfangen.");
-			 			
+			}			
+						if(EventUtils.hasProperty(event, "gesendetUm")) {
+						Timestamp sendedTime =  new Timestamp((long) event.getValueByKey("gesendetUm"));
+						long dauer = TimeUtils.getCurrentTime().getTime() - sendedTime.getTime();
+						LOGGER.log(Level.WARNING, "Event("+event.getId()+") -> "+event.getType()+" wurde mit Verzögerung "+dauer+"msec von Topic "+event.getSource()+" empfangen.");
+						}else {
+							LOGGER.log(Level.WARNING, "Event("+event.getId()+") -> "+event.getType()+" wurde um "+TimeUtils.getCurrentTime()+" von Topic "+event.getSource()+" empfangen.");	
+						}
+						
 			 		
 			/*
 			 * Jede Subklasse muss die Methode doOnReceive implementieren, dieser wird im

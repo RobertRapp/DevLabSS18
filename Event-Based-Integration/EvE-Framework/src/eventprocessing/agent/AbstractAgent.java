@@ -26,6 +26,7 @@ import eventprocessing.consume.spark.streaming.window.AbstractWindow;
 import eventprocessing.consume.spark.streaming.window.NoValidWindowSettingsException;
 import eventprocessing.consume.spark.streaming.window.Window;
 import eventprocessing.event.AbstractEvent;
+import eventprocessing.event.Property;
 import eventprocessing.produce.kafka.Despatcher;
 import eventprocessing.produce.kafka.ProducerSettings;
 import eventprocessing.produce.kafka.ProducerSettingsDefaultValues;
@@ -447,7 +448,7 @@ public abstract class AbstractAgent implements Serializable {
 			if (!TextUtils.isNullOrEmpty(topic)) {
 				event.setSource(topic);
 				// Aus dem Event wird ein JSON-String erzeugt
-				
+				event.add(new Property<Long>("gesendetUm", TimeUtils.getCurrentTime().getTime()));
 				String messageAsJSON = messageMapper.toJSON(event);
 				// Der JSON-String sowie die Zieltopics werden übergeben.
 				despatcher.deliver(messageAsJSON, topic, partition);

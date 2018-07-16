@@ -154,7 +154,7 @@ public class StartServices {
 		case "spark":
 			//SPARK
 			System.out.print("Spark als Parameter eingegeben. sessionStateAgent, GuiAgent, ProtocolAgent,"
-					+ " RequestAgent, DocProposalAgent und Websocket gestartet.");
+					+ " RequestAgent, DocProposalAgent gestartet.");
 			AbstractAgent sessionstateAgent = new SessionContextAgent();
 			AbstractAgent guiAgent = new GuiAgent();
 			AbstractAgent protcolAgent = new ProtocolAgent();
