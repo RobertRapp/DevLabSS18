@@ -56,16 +56,16 @@ public class ProtocolAgent extends AbstractAgent {
 		}
 
 		/*
-		 * Fügt dem Agenten ein InteressenProfil hinzu. Ein Agent kann mehrere
-		 * InteressenProfile besitzen. Dem Agent wird das IP Sessions hinzugefügt.
+		 * Interesse		 * Fügt dem Agenten ein InteressenProfil hinzu. Ein Agent kann mehrere
+nProfile besitzen. Dem Agent wird das IP Sessions hinzugefügt.
 		 */
 
 		try {
 			AbstractInterestProfile ip = new Sessions();
 			try {
-				ip.add(new Or(new IsEventType("SessionContext"), new IsEventType("SessionStartEvent"),
-						new IsEventType("SessionEndEvent"), new IsFromTopic("UserInteraction")));
-				ip.add(new Or(new IsEventType("SessionContextEvent"), new IsEventType("SessionStartEvent"), new IsEventType("SessionEndEvent"), new IsFromTopic("UserInteraction")));
+				ip.add(new Or(new IsEventType("SessionContextEvent"), 
+						new IsEventType("SessionStartEvent"), new IsEventType("SessionEndEvent"), 
+						new IsFromTopic("UserInteraction")));
 
 			} catch (NullPredicateException e) {
 				// TODO Auto-generated catch block

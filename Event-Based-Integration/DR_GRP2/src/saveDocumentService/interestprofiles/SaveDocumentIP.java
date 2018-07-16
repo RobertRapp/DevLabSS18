@@ -44,8 +44,6 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 		System.out.println("Topiclist des Protokolls:" + EventUtils.findPropertyByKey(event, "Topics").getValue());
 		System.out.println("Userlist des Protokolls:" + EventUtils.findPropertyByKey(event, "User").getValue());
 		System.out.println("Projectlist des Protokolls:" + EventUtils.findPropertyByKey(event, "Projects").getValue());
-		System.out.println("Timestamp der ankommt: " + EventUtils.findPropertyByKey(event, "SessionStart").getValue());
-		
 		
 		String strSessionStart = (String) EventUtils.findPropertyByKey(event, "SessionStart").getValue();
 		String strSessionEnd = (String) EventUtils.findPropertyByKey(event, "SessionEnd").getValue();
@@ -56,7 +54,6 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		System.out.println("Neues dateformat start: " + datesessionstart);
 		
 		Date datesessionend = null;
 		try {
@@ -67,8 +64,7 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 		}
 		
 
-		String duration = String.valueOf(EventUtils.findPropertyByKey(event, "Duration").getValue());
-		duration.concat(" seconds");
+		String duration = String.valueOf(EventUtils.findPropertyByKey(event, "Duration").getValue()) + " seconds";
 		ArrayList<String> user = (ArrayList<String>) EventUtils.findPropertyByKey(event, "User").getValue();
 		ArrayList<String> projects = (ArrayList<String>) EventUtils.findPropertyByKey(event, "Projects").getValue();
 		ArrayList<String> topics = (ArrayList<String>) EventUtils.findPropertyByKey(event, "Topics").getValue();
@@ -98,9 +94,6 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 
 			// id element
 			Element id = doc.createElement("ID");
-			// id.appendChild(doc.createTextNode("ID ERSTELLEN"));
-			//id.appendChild(doc.createTextNode(sessionID.getValue().toString()));
-			//id.setValue((sessionID.getValue().toString()));
 			id.appendChild(doc.createTextNode(EventUtils.findPropertyByKey(event, "SessionID").getValue().toString()));
 			rootElement.appendChild(id);
 			
@@ -131,29 +124,35 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			participant2.appendChild(doc.createTextNode(user.get(1)));
 			rootElement.appendChild(participant2);
 
-
+		
 			// action2 element für Projekte
 			Element action1 = doc.createElement("Projekte");
+			if(projects.size() != 0) {
 			rootElement.appendChild(action1);
+			}
 			
 			// action element für Topics
 			Element action2 = doc.createElement("Gesprächsthemen");
+			if(topics.size() != 0) {
 			rootElement.appendChild(action2);
+			}
 			
 			// action2 element für vorgeschlagene Docs 
 			Element action3 = doc.createElement("vorgeschlageneDokumente");
+			if(propDocs.size() != 0) {
 			rootElement.appendChild(action3);
-			
+			}
 			// action2 element für geöffnete Docs
 			Element action4 = doc.createElement("geklickteDokumente");
+			if(clickedDocs.size() != 0) {
 			rootElement.appendChild(action4);
-			
+			}
 
 			
 	
 			for (int i = 0; i < projects.size(); i++) {
 			// project element
-			Element actionid0 = doc.createElement("Projekt-Nummer:"+i);
+			Element actionid0 = doc.createElement("Projekt-Nummer:"+(i+1));
 			action1.appendChild(actionid0);	
 						
 			// type element
@@ -168,14 +167,21 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			action1.appendChild(actionid0);	
 			}
 			
-			for (int i = 0; i < topics.size(); i++) {				
-				action2.appendChild(doc.createTextNode(topics.get(i)));				
-				}
+			for (int i = 0; i < topics.size(); i++) {	
+				Element actionid1 = doc.createElement("Topic-Nummer:"+i);
+				action2.appendChild(actionid1);				
+				
+				// project element
+				Element topic1 = doc.createElement("Topic");
+				topic1.appendChild(doc.createTextNode(topics.get(i)));
+				actionid1.appendChild(topic1);
+				action1.appendChild(actionid1);	
+			}
 			
 			//Weitere dynamische Elemente:
 			for (int i = 0; i < propDocs.size(); i++) {
 			//vorgeschlagene Dokumente: 
-			Element actionid2 = doc.createElement("Dokumenten-Nummer:"+i);
+			Element actionid2 = doc.createElement("Dokumenten-Nummer:"+(i+1));
 			action3.appendChild(actionid2);
 			
 			Element timePD = doc.createElement("Zeitstempel");
@@ -195,7 +201,7 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			
 			//Geöffente Dokumente:
 			for (int i = 0; i < clickedDocs.size(); i++) {
-			Element actionid3 = doc.createElement("geklicktes Dokument "+i);
+			Element actionid3 = doc.createElement("geklicktes Dokument "+(i+1));
 			action4.appendChild(actionid3);
 			
 			Element timeCD = doc.createElement("Zeitstempel");
@@ -208,9 +214,9 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			actionid3.appendChild(typeCD);
 			
 			// type element
-						Element DOCID = doc.createElement("Dokumenten-ID");
-						DOCID.appendChild(doc.createTextNode(clickedDocs.get(i).getValueByKey("FileID").toString()));
-						actionid3.appendChild(DOCID);
+			Element DOCID = doc.createElement("Dokumenten-ID");
+			DOCID.appendChild(doc.createTextNode(clickedDocs.get(i).getValueByKey("FileID").toString()));
+			actionid3.appendChild(DOCID);
 			// topic element
 			Element docnameC = doc.createElement("Bezeichnung");
 			docnameC.appendChild(doc.createTextNode(clickedDocs.get(i).getPropertyByKey("DocumentName").toString()));

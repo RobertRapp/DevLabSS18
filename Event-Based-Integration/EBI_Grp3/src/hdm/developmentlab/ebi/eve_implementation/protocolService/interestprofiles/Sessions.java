@@ -55,9 +55,6 @@ public class Sessions extends AbstractInterestProfile {
 	// Factory für die Erzeugung der Events
 	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
 	private static AbstractEvent protocolEvent = eventFactory.createEvent("AtomicEvent");
-	
-	//private ProtocolAgent protocolagent = (ProtocolAgent) this.getAgent();
-	
 
 	
 	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName()+" : Event angekommen "+event.getType()+" -um: " + TimeUtils.getCurrentTime());
@@ -65,7 +62,6 @@ public class Sessions extends AbstractInterestProfile {
 		
 		System.out.println("in Protokoll IP");
 		System.out.println("event geht ein: " + event);
-		//ProtocolAgent protocolagent = (ProtocolAgent) this.getAgent();
 		
 		switch(event.getType()) {
 		case "SessionStartEvent": 
@@ -83,7 +79,7 @@ public class Sessions extends AbstractInterestProfile {
 			break;
 			
 		case "SessionEndEvent":
-			System.out.println("Protokoll hat SessionEndEvent1 empfangen");
+			System.out.println("Protokoll hat SessionEndEvent empfangen");
 			ProtocolAgent.setSessionEnd(event.getCreationDate());
 			CreateProtocolEvent();
 			break;
@@ -128,12 +124,6 @@ public class Sessions extends AbstractInterestProfile {
 		
 		
 		public void CreateProtocolEvent() {
-		System.out.println("XML WIRD ERSTELLT! ");
-		System.out.println("Topiclist des Protokolls:" + ProtocolAgent.getTopicList());
-		System.out.println("Userlist des Protokolls:" + ProtocolAgent.getUserList());
-		System.out.println("Projectlist des Protokolls:" + ProtocolAgent.getProjectList());
-		
-		
 		try {
 			
 			protocolEvent.setType("ProtocolEvent");
