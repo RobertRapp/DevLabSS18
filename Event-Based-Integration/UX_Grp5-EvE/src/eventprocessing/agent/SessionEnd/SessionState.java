@@ -16,16 +16,9 @@ import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.demo.agents.diagnosis.ConsumerSettingsDiagnosis;
 import eventprocessing.demo.agents.diagnosis.ProducerSettingsDiagnosis;
 import eventprocessing.produce.kafka.ProducerSettings;
-import values.GUIValues;
 
 
-/**
- * Dieser Agent ist für die Diagnose des Verkehrs zuständig. Er wertet die
- * Verkehrsdaten aus und leitet daraus entsprechende Handlungen ab.
- * 
- * @author IngoT
- *
- */
+
 public class SessionState extends AbstractAgent {
 
 	private static final long serialVersionUID = 5361140545621342113L;
