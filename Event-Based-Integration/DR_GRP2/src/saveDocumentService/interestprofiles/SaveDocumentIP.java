@@ -12,6 +12,7 @@ import java.util.TimeZone;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -227,6 +228,9 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			// write the content into xml file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC,"yes");
+			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "10");
 			DOMSource source = new DOMSource(doc);
 			System.out.println("Protokoll wird abgelegt");
 			StreamResult result = new StreamResult(
