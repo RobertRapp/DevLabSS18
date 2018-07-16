@@ -57,7 +57,7 @@ public class GuiInterestProfileDocProposal extends AbstractInterestProfile {
 		System.out.println("return JSON "+returnJson.toString());
 		Websocket.broadcast(returnJson.toString());
 		//GuiAgent.addAndPublishDocsToProposalList(newDocuments);
-		LOGGER.log(Level.INFO, "Event sent to Websocket: "+event);
+		LOGGER.log(Level.WARNING, "Event sent to Websocket: "+event);
 		
 		
 // Testdaten
