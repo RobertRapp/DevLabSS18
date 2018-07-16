@@ -18,7 +18,8 @@ import eventprocessing.produce.kafka.ProducerSettings;
 import eventprocessing.utils.DocumentProposal;
 
 /**
- *
+ * Der DocProposal Agent konsumiert das Topic DocProposal, auf welches die DocProposalEvents von der
+ * Dokumentenrepräsentation gesendet werden. Die DocProposalEvents enthalten hierbei die Dokumentenvorschläge.
  */
 public class DocProposalAgent extends AbstractAgent {
 

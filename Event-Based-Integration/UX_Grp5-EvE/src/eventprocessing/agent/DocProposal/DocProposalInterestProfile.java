@@ -23,7 +23,12 @@ import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
 
 /**
- *
+ *Das DocProposalInterestProfile fügt die Properties des DocProposalEvents bzw. des Dokumentenvorschlags
+ *der globalen ArrayList vom Typ Document hinzu. In dieser ArrayListe werden alle Dokumentenvorschläge 
+ *einer Session abgelegt. Die Klasse Document verwaltet hierbei die maximale Anzahl der Dokumentenvorschläge
+ *innerhalb der ArrayList die in einer Session möglich sind. Aus dieser ArrayList wird ein JSON-String generiert,
+ *welcher an das Topic Gui gesendet wird.
+ * 
  */
 public class DocProposalInterestProfile extends AbstractInterestProfile {
 	/**
@@ -40,18 +45,7 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 	@Override
 	public void doOnReceive(AbstractEvent event) {
 		System.out.println("In IP von DocProposalIP von Gui");
-		System.out.println("Dieses Event wurde empfangen: " + event);
-//		System.out.println("Event: " + event.getValueByKey("FileID").toString());
-//		
-//		String docID = event.getValueByKey("FileID").toString();
-//		String name = event.getValueByKey("Documentname").toString();
-//		String type = event.getValueByKey("DocumentType").toString();
-//		String path = event.getValueByKey("URL").toString();
-//		String size = "50";
-//		String lastEditor  = event.getValueByKey("Editor").toString();		
-//		String lastEdit  = event.getValueByKey("LastChangeDate").toString();
-//		String category  = event.getValueByKey("Category").toString();
-//		
+		System.out.println("Dieses Event wurde empfangen: " + event);	
 		
 		
 		ArrayList<Document> docListe = new ArrayList<Document>(); //property.getValue() L9inked Hashmap
@@ -112,30 +106,11 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 			docListe.add(new Document(fileId, docname, doctype, url , "50", editor, lastChangeDate, category));
 		}
 		
-//		for(Property<?> p :event.getProperties()) {
-//			
-//			if(p.getValue() instanceof LinkedHashMap<?, ?>) {
-//				
-//				System.out.println("ist eine HASHMAP"+p.toString());
-//				LinkedHashMap<String, ?> hashmap1 =  (LinkedHashMap<String, ?>) p.getValue();
-//				String value = (String) hashmap1.get("type");
-//				System.out.println("value:"+value);
-//		}else {
-			
-		
 			
 		
 		DocProposalAgent dPA = (DocProposalAgent) this.getAgent();
 		DocumentProposal currentProposal = dPA.getProposal();
 		
-	//	Document doc = 	new Document(docID, name, type, path, size, lastEditor, lastEdit, category);
-	//	docListe.add(doc);
-//		for(Property<?> p : event.getProperties()) {
-//			if(p.getKey().equals("document")){
-//			Document doc = 	new Document(p.getValue().toString());
-//			docListe.add(doc);
-//			}
-//		}
 		currentProposal.addDocuments(docListe);
 		JSONObject json = currentProposal.toJson();
 		AbstractEvent jsonDocEvent = eventFactory.createEvent("AtomicEvent");
@@ -156,11 +131,5 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 			e.printStackTrace();
 		}
 	}
-//				System.out.println(this.getClass().getSimpleName()+" : Event versendet "+TimeUtils.getCurrentTime()+" - "+ event.getType());} catch (NoValidEventException e1) {
-//					LOGGER.log(Level.WARNING, () -> String.format("%s", event));
-//				} catch (NoValidTargetTopicException e1) {
-//					LOGGER.log(Level.WARNING, () -> String.format("%s", "Gui"));
-//				}
-//	}
 
 }
