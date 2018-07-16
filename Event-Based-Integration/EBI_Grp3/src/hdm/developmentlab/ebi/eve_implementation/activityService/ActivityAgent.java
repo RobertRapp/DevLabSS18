@@ -43,7 +43,7 @@ public class ActivityAgent extends AbstractAgent {
 			try {
 				ip.add(new Or(new IsEventType("CalendarEvent"), new IsEventType("ApplicationEvent"), new HasProperty("ApplicationType")));
 			} catch (eventprocessing.agent.interestprofile.predicates.logical.NullPredicateException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 			//ip.add(new IsEventType("DocumentEvent"));

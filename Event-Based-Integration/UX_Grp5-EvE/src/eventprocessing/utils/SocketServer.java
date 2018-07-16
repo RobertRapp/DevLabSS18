@@ -8,8 +8,12 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.websocket.jsr356.server.deploy.WebSocketServerContainerInitializer;
 
-//import eventprocessing.agent.GuiAgent.*;
-
+/**
+ * Diese Klasse erstellt einen Jetty-Server auf dem die Websocket während der Laufzeit läuft.
+ * Als Server-Endpoint wird die Klasse Websocket hinzugefügt, die unter Kontextpfad IP-Adresse Server + /socket + Port 80
+ * erreicht werden kann.
+ * 
+ */
 public class SocketServer {
 
 	 public static void main(String[] args)

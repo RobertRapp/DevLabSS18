@@ -28,6 +28,13 @@ import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.mapping.MessageMapper;
 
+/**
+ * Stellt die Verbindung zwischen der GUI und Kafka her. Sobald ein Benutzer die GUI aufruft wird dessen
+ * IP und der Benutzername global abgespeichert. In der OnMessage Methode werden je nach Typ verschiedene
+ * Aktionen ausgeführt und über die Broadcast Methode an alle User gesendet.
+ * 
+ */
+
 @ClientEndpoint
 @ServerEndpoint(value="/socket")
 public class Websocket {
@@ -35,7 +42,6 @@ public class Websocket {
 	private static final long serialVersionUID = 5414649241552569623L;
 	private static Set<Session> userSessions = Collections.newSetFromMap(new ConcurrentHashMap<Session, Boolean>());
 	private static HashMap<String, String> users = new HashMap<>();
-//	private static DocumentProposal proposal = new DocumentProposal();
 	private static DocumentProposal proposal = new DocumentProposal();
 	
 	private static Despatcher despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
@@ -47,11 +53,7 @@ public class Websocket {
 	    public void onOpen(Session userSession) {
 	    System.out.println("Neue Verbindung aufgebaut..." + userSession.getId());
 	    userSessions.add(userSession);
-//
-//	      if (userSessions.size()==1){   
-//	        timer.scheduleAtFixedRate(
-//	        	() -> broadcast(json.toString()),0,8,TimeUnit.SECONDS);    
-//	      }
+
 	     }    
 	 	
 

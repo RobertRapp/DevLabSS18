@@ -117,10 +117,10 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 			System.out.println("DocRequest wird an DR geschickt");
 			this.getAgent().send(output, "DocRequest");
 		} catch (NoValidEventException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		} catch (NoValidTargetTopicException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		} 
 		
