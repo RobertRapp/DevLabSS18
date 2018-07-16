@@ -6,16 +6,15 @@
 
 <link rel="stylesheet" href="scripts/bootstrap/dist/css/bootstrap.css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 <script src="//d3js.org/d3.v4.min.js"></script>
-    <link rel="stylesheet" type="text/css"
+<link rel="stylesheet" type="text/css"
       href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
-    <link rel="stylesheet" type="text/css" href="css/suburst.css"/>
+<link rel="stylesheet" type="text/css" href="css/suburst.css"/>
 <link rel="stylesheet" href="css/style.css">
 <title>Video Assistent</title>
 </head>
 <body>
-
+<!-- Loginpage, die nach dem anmelden ausgeblendet wird -->
 <div id="login">
 
  <div class="container" >
@@ -27,6 +26,7 @@
     </div>
 </div>
 
+<!-- Navigationsmenü-->
 <div id="main">
  <!-- menü oben -->
 <nav class="navbar navbar-light bg-light">
@@ -60,7 +60,9 @@
  	</ul>
 </nav>
 
-<!-- Hauptcontent - zwei Spalten -->
+<!-- Hauptansicht unterteil in zwei Bereiche -->
+
+<!-- Linker Bereich zur visualisierung der aktuellen Benutzer und darunter die Favoritenansicht-->
 <div class="parent-container">
     <div id="left" class="container">
     	<div class="row">
@@ -80,6 +82,9 @@
             </div>
         </div>
     </div>
+    
+<!--Rechter Bereich der Hauptansicht unterteilt in Dokumentevorschau und Historie. Die Tabliste ermöglicht das navigieren
+in beide Bereiche-->
 
     <div id="right" class="container">
         <div class="row">
@@ -108,32 +113,28 @@
         </div>
     </div>
 </div>
+//Test Button
 <!-- <button type="button" class="btn btn-primary" onclick="clickedButton()">TEST ClickedDocument</button>
 
  <div id="test"></div>
  -->
-
-
 
 </div>
   <script src="bower_components/watson-speech/dist/watson-speech.js"></script>
 <!-- window.fetch pollyfill for IE/Edge & Older Chrome/FireFox -->
 <script src="bower_components/fetch/fetch.js"></script>
 <script src="js/recognition.js"></script>
- <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
- <script src="scripts/jquery/dist/jquery.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<script src="scripts/jquery/dist/jquery.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>  
 <script src="scripts/bootstrap/dist/js/bootstrap.js"></script>
-
- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" ></script>
-
- <!--  <script src="socket.io/socket.io.js"></script>   -->
- <script src="js/main.js"></script>
-  <script src="js/d3Button.js"></script>
- <script type="text/javascript" src="js/sunburst.js"></script>
- <!-- <script src="https://static.zinoui.com/1.5/compiled/zino.svg.min.js"></script> -->
-    <script type="text/javascript">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" ></script>
+<script src="js/main.js"></script>
+<script src="js/d3Button.js"></script>
+<script type="text/javascript" src="js/sunburst.js"></script>
+<script type="text/javascript">
+///Google Funktionen zum Laden des Google SignIn Buttons
+///Google Funktionen für die Loginfunktion
     function onSuccess(googleUser) {
         console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
         connect(googleUser);
@@ -171,8 +172,9 @@
     	    });
     	});
    
-      var userEmail;
-     var sessionID; 
+   //Globale Variablen, auf die während der Nutzung zugegriffen werden   
+    var userEmail;
+    var sessionID; 
     var noHistorie = true;
     var noHover = false;  
     var hoverStopDraw = false;
