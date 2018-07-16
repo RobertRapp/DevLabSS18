@@ -16,7 +16,6 @@ import eventprocessing.demo.agents.diagnosis.ConsumerSettingsDiagnosis;
 import eventprocessing.demo.agents.diagnosis.ProducerSettingsDiagnosis;
 import eventprocessing.produce.kafka.ProducerSettings;
 import eventprocessing.utils.DocumentProposal;
-import values.GUIValues;
 
 /**
  *

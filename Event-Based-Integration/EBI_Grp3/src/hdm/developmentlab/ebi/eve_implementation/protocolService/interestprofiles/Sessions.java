@@ -85,6 +85,7 @@ public class Sessions extends AbstractInterestProfile {
 			break;
 		
 		default:
+			System.out.println("In default case");
 		for(Property<?> property :event.getProperties()) {
 			switch (property.getKey().toLowerCase()) {
 			

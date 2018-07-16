@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import eventprocessing.utils.*;
 import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.events.DocProposalEvent;
-import eventprocessing.events.GuiEvent;
 import eventprocessing.events.SessionEndEvent;
 import eventprocessing.demo.events.SensorEvent;
 import eventprocessing.event.AbstractEvent;
@@ -29,7 +28,7 @@ import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
 //import socketHandler.SocketServer;
 //import socketHandler.Websocket;
-import values.GUIValues;
+
 import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.demo.events.SensorEvent;
 import eventprocessing.event.AbstractEvent;
