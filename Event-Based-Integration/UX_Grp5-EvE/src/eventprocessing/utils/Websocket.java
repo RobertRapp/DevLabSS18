@@ -185,10 +185,5 @@ usersJSON.put("users", usersArray);
 		}
 		userSessions.add(userSession);
 	}
-	public static void addAndPublishDocsToProposalList(ArrayList<Document> d) {
-		proposal.addDocuments(d);
-		JSONObject json = proposal.toJson();
-		String jsonString = json.toString();
-		broadcast(jsonString);
-		}
+
 }
