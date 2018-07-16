@@ -1,0 +1,158 @@
+@charset "ISO-8859-1";
+#chart {
+  padding: 30px;
+  position: relative;
+}
+
+#explanation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 22px;
+}
+
+#violations {
+  font-size: 60px;
+  line-height: 1em;
+  font-weight: bold;
+}
+
+//Breadcrumbs
+.slice:first-child {
+		margin-left: 0px;
+}
+.slice:first-child .arrow-tail {
+  display: none;
+}
+
+.slice {
+		display: inline-block;
+    margin-left: -10px;
+}
+
+.slice .arrow-head {
+  display: inline-block;
+  border: 15px solid transparent;
+  border-left-width: 15px;
+  border-right-width: 0px;
+  z-index: 10;
+  position: relative;
+  border-left-color: #999;
+  vertical-align: top;
+  float: left;
+}
+.slice .slice-body {
+  display: inline-block;
+  padding: 0 8px 0 8px;
+  color: #fff;
+  position: relative;
+  height: 30px;
+  line-height: 30px;
+  vertical-align: top;
+  float: left;
+}
+.slice .arrow-tail {
+  display: inline-block;
+  background-color: #999;
+  border: 15px solid transparent;
+  border-left-width: 15px;
+  border-right-width: 0px;
+  border-left-color: #fff;
+  vertical-align: top;
+  float: left;
+}
+
+//Legend
+.side-legend {
+  padding: 30px 15px;
+}
+
+.side-legend .side-con {
+  border: 1px solid #f0f0f0;
+}
+
+.side-legend .side-con .side-header {
+    position: relative;
+}
+
+.side-legend .side-con .side-header .side-title {
+  position: absolute;
+  top: 8px;
+  width: 100%;
+  z-index: -1;
+  background-color: black;
+  font-size: 20px;
+  padding: 5px 0 5px 55px;
+  color: white;
+}
+
+.side-content {
+  padding: 15px;
+}
+
+ul#cats  {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: white;
+}
+
+ul#cats li {
+   font-size:18px;
+
+   display: inline-block;
+   margin: 0  8px 8px 0;
+   padding: 5px 10px;
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+    width: 150px;
+    height: auto;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+#docInfo{
+	margin-bottom: 8%;
+	background-color: white;
+	border-radius: 12%;
+	padding-left: 10%;
+}
+
+.docInformation{
+	
+/*     left: 55%;
+    top: 23%; */
+    position: absolute;
+   
+    border-radius: 16%;
+   	width: 12%;
+    border-color: black;
+    border: 1px;
+    min-height: 13%;
+}
+
+#addFavoriteButton{
+	
+	background-color: white;
+    border-color: white;
+    background-repeat: no-repeat;
+    width: 93%;
+}
+#addFavoriteButton img{
+      width: 12%;   
+}
+
+.list-group-item a{
+	float: left;
+}
+.btn btn-danger{
+	float: right;
+}

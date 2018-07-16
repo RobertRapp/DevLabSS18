@@ -1,7 +1,6 @@
 package eventprocessing.agent;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -30,11 +29,12 @@ import eventprocessing.event.AbstractEvent;
 import eventprocessing.produce.kafka.Despatcher;
 import eventprocessing.produce.kafka.ProducerSettings;
 import eventprocessing.produce.kafka.ProducerSettingsDefaultValues;
+import eventprocessing.utils.SystemUtils;
+import eventprocessing.utils.TextUtils;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
 import eventprocessing.utils.model.ModelUtils;
-import eventprocessing.utils.SystemUtils;
-import eventprocessing.utils.TextUtils;
 
 /**
  * Der AbstractAgent beinhaltet die Realisierung der Member, die für alle
@@ -48,7 +48,7 @@ import eventprocessing.utils.TextUtils;
 public abstract class AbstractAgent implements Serializable {
 
 	private static final long serialVersionUID = 200553511808766459L;
-	private static Logger LOGGER = LoggerFactory.getLogger(AbstractAgent.class.getName());
+	protected static Logger LOGGER = LoggerFactory.getLogger(AbstractAgent.class.getName());
 	// private static AbstractFactory eventFactory =
 	// FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
 
@@ -60,9 +60,9 @@ public abstract class AbstractAgent implements Serializable {
 	 * Der MessageMapper formatiert die Events in ein JSON-String, damit diese an
 	 * die Topics geleitet werden können.
 	 */
-	private MessageMapper messageMapper = null;
+	protected MessageMapper messageMapper = null;
 	// Für den Versand der Nachrichten zuständig
-	private Despatcher despatcher = null;
+	protected Despatcher despatcher = null;
 	// Verteilt die eingehenden Nachrichten an die InterestProfiles
 	private Dispatcher dispatcher = new Dispatcher();
 	// Die Liste hält alle InterestProfiles vor
@@ -74,7 +74,7 @@ public abstract class AbstractAgent implements Serializable {
 	// Benötigt der Dispatcher, um die Nachrichten an die Topics senden zu können
 	private ProducerSettings producerSettings = null;
 	// repräsentiert den Status des Agenten
-	private State state = null;
+	protected State state = null;
 	/*
 	 * der accumulator hält die Events vor, die von dem Agenten für die spätere
 	 * Verarbeitung benötigt wird. volatile wird benötigt, damit die Informationen
@@ -87,7 +87,7 @@ public abstract class AbstractAgent implements Serializable {
 	 * Window die Betrachtung der Events auf der zeitlichen Achse betrachtet werden.
 	 * Hier wird nicht die Eventzeit berücksichtigt, sondern die Systemzeit.
 	 */
-	private transient AbstractWindow window = null;
+	protected transient AbstractWindow window = null;
 
 	/**
 	 * Bei der Erzeugung ist der Startzustand: "Not Initialized" Dieser Zustand wird
@@ -373,7 +373,7 @@ public abstract class AbstractAgent implements Serializable {
 		/**
 		 * Wenn kein Windows angelegt wurde, wird ein Default-Window gesetzt. Der
 		 * Default-Wert orientiert sich an der batch duration des SparkContext.
-		 */
+		
 		if (window == null) {
 			try {
 				this.window = new Window(SparkContextValues.INSTANCE.getBatchDuration());
@@ -383,7 +383,7 @@ public abstract class AbstractAgent implements Serializable {
 				throw new AgentException("no window was set");
 			}
 		}
-
+ */
 		// Registriert den Agenten im Netzwerk.
 		// AnnounceAgent();
 		// KafkaClient client = new KafkaClient(consumerSettings);
@@ -417,6 +417,7 @@ public abstract class AbstractAgent implements Serializable {
 	 */
 	public void send(AbstractEvent event, String topic)
 			throws NoValidEventException, NoValidTargetTopicException {
+		LOGGER.log(Level.WARNING, "EventId "+event.getId()+" wird versendet");
 		send(event, topic, null);
 	}
 
@@ -446,9 +447,11 @@ public abstract class AbstractAgent implements Serializable {
 			if (!TextUtils.isNullOrEmpty(topic)) {
 				event.setSource(topic);
 				// Aus dem Event wird ein JSON-String erzeugt
+				
 				String messageAsJSON = messageMapper.toJSON(event);
 				// Der JSON-String sowie die Zieltopics werden übergeben.
 				despatcher.deliver(messageAsJSON, topic, partition);
+				LOGGER.log(Level.WARNING, "Event("+event.getId()+") "+event.getType()+" wurde um "+TimeUtils.getCurrentTime()+" auf Topic "+topic+" geschickt. \n");
 			} else {
 				throw new NoValidTargetTopicException(String.format("the stated target is invalid: %s", topic));
 			}

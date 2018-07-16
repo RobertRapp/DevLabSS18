@@ -9,6 +9,10 @@ import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
+<<<<<<< HEAD
+=======
+import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.agent.state.ReadyState;
 import eventprocessing.consume.kafka.ConsumerSettings;
@@ -19,6 +23,10 @@ import eventprocessing.event.AbstractEvent;
 import eventprocessing.produce.kafka.Despatcher;
 import eventprocessing.produce.kafka.ProducerSettings;
 import eventprocessing.utils.SystemUtils;
+<<<<<<< HEAD
+=======
+import eventprocessing.utils.TimeUtils;
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 import eventprocessing.utils.mapping.MessageMapper;
 
 public class AdhocAgent extends AbstractAgent{
@@ -32,6 +40,7 @@ private boolean localhostFragezeichen = true;
 	 
 	this.name = name;
 	this.zielTopic = zielTopic;
+<<<<<<< HEAD
 	this.localhostFragezeichen = localhosFragezeichen;
 	
 	/**
@@ -63,6 +72,9 @@ private boolean localhostFragezeichen = true;
 	//this.state = new ReadyState();
 	
 	
+=======
+	this.localhostFragezeichen = localhosFragezeichen;	
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
  }
 
 	@Override
@@ -71,31 +83,50 @@ this.setId(name);
 	AbstractInterestProfile ip = new AbstractInterestProfile() {
 private static final long serialVersionUID = 6063600497599610899L;
 	@Override
+<<<<<<< HEAD
 	protected void doOnReceive(AbstractEvent event) {try {	
 		System.out.println("Agent: "+name+" onReceive");
 		LOGGER.log(Level.WARNING, event.toString());
 		LOGGER.log(Level.WARNING, event.toString());
 		LOGGER.log(Level.WARNING, event.toString());
+=======
+	protected void doOnReceive(AbstractEvent event) { 
+	try {			
+	
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 this.getAgent().send(event, zielTopic); //nächsterAgent
 	} catch (NoValidEventException e) {e.printStackTrace();
 	} catch (NoValidTargetTopicException e) {e.printStackTrace();
 	}}};
+<<<<<<< HEAD
 	ip.add(new IsFromTopic(name));
+=======
+	ip.add(new IsEventType("WatsonEvent"));
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 	try {this.add(ip);
 	} catch (NoValidInterestProfileException e) {e.printStackTrace();}
 	try {
 		this.add(name);
+<<<<<<< HEAD
 	} catch (NoValidConsumingTopicException e) {e.printStackTrace();};
 	
 	if(localhostFragezeichen) {
 		
+=======
+	} catch (NoValidConsumingTopicException e) {e.printStackTrace();};	
+	if(localhostFragezeichen) {		
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 		this.setConsumerSettings(new ConsumerSettings("localhost", "9092", "group-"+this.getId()));
 		this.setProducerSettings(new ProducerSettings("localhost", "9092"));
 	}else {
 		this.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "group-"+this.getId()));
 		this.setProducerSettings(new ProducerSettings("10.142.0.2", "9092"));
+<<<<<<< HEAD
 	}
 	
 	
+=======
+	}	
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 }
 }

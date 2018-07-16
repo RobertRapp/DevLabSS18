@@ -9,6 +9,7 @@ import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
@@ -74,7 +75,7 @@ public class DiagnosisInterestProfile extends AbstractInterestProfile {
 				getAgent().send(newEvent, ShowcaseValues.INSTANCE.getStorageTopic());
 				newEvent.add(new Property<>("REPORT","DIESES EVENT WURDE AUS DIAGNOSIS INTERPROFIL ERSTELLT."));
 				getAgent().send(newEvent, "Sessions");
-			} catch (NoValidEventException e1) {
+			System.out.println(this.getClass().getSimpleName()+" : Event versendet "+TimeUtils.getCurrentTime()+" - "+ event.getType());} catch (NoValidEventException e1) {
 				LOGGER.log(Level.WARNING, () -> String.format("%s", newEvent));
 			} catch (NoValidTargetTopicException e1) {
 				LOGGER.log(Level.WARNING, () -> String.format("%s", ShowcaseValues.INSTANCE.getStorageTopic()));

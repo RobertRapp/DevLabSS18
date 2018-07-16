@@ -1,36 +1,40 @@
 package startServices;
 
-import java.util.logging.Level;
+import com.speechTokens.EvE.agents.NoKeywordAgent;
+import com.speechTokens.EvE.agents.SentenceAgent;
+import com.speechTokens.EvE.agents.SeveralKeywordsAgent;
+import com.speechTokens.EvE.agents.SingleKeywordAgent;
+import com.speechTokens.EvE.agents.TokenizeAgent;
 
-
+import documentProposalService.DocumentProposalAgent;
 import eventprocessing.agent.AbstractAgent;
-import eventprocessing.agent.NoValidConsumingTopicException;
-import eventprocessing.agent.dispatch.NoValidInterestProfileException;
-import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.statement.GetEverything;
-import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
+import eventprocessing.agent.AgentException;
+import eventprocessing.agent.DocProposal.DocProposalAgent;
+import eventprocessing.agent.GuiAgent.GuiAgent;
 import eventprocessing.consume.kafka.ConsumerSettings;
-import eventprocessing.consume.spark.streaming.NoValidAgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.event.AtomicEvent;
-import eventprocessing.event.Property;
 import eventprocessing.produce.kafka.Despatcher;
 import eventprocessing.produce.kafka.ProducerSettings;
+import eventprocessing.utils.SocketServer;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
-import hdm.developmentlab.ebi.eve_implementation.events.TimeReference;
+import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
+import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
+import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
+import saveDocumentService.SaveDocumentAgent;
+import semanticService.SemanticAgent;
+import startFuseki.StartFusekiAndOntology;
 
 /**
  * Startpunkt der Anwendung.
  * 
- * hier werden die Agenten initialisiert und die Sparkumgebung ausgefÃ¼hrt.
- * 
+ * hier werden die Agenten initialisiert und die Sparkumgebung ausgefÃƒÂ¼hrt.
+ *  
  * @author RobertRapp
  *
  */
@@ -38,7 +42,7 @@ public class StartServices {
 
 
 		
-		 // FÃ¼r die Versendung der DemoEvents an das Topic nötig.
+		 // FÃƒÂ¼r die Versendung der DemoEvents an das Topic nÃ¶tig.
 	private static Despatcher despatcher = null;
 	// wandelt die Events in Nachrichten um.
 	private static final MessageMapper messageMapper = new MessageMapper();
@@ -46,42 +50,175 @@ public class StartServices {
 	private static AbstractFactory agentFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getAgentFactory());
 	
 	
-	public static void main(String[] args) throws NoValidAgentException, InterruptedException
+	public static void main(String[] args) throws AgentException, InterruptedException
 	 {
-		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
-		AbstractAgent sessionContextAgent = new SessionContextAgent();
+		//IP-Adresse des Kafka-Servers					
+		String kafkahost = "10.142.0.2"; 
+			   if(args[1].length() > 7) kafkahost = args[1]; //Überschreibt Default wenn ein Wert gegeben ist. 
 		
-		sessionContextAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "SessionState"));
-		sessionContextAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
 		
+		switch (args[0].toLowerCase()) {
+		case "tomcat":
+			System.out.println("Parameter tomcat aufgerufen: semanticAgent, saveDocumentAgent, documentProposalAgent und der FusekiServer gestartet");
+			//TOMCAT 
+			AbstractAgent semanticAgent = new SemanticAgent();
+			AbstractAgent saveDocAgent = new SaveDocumentAgent();
+			AbstractAgent documentProposalAgent = new DocumentProposalAgent();
 			
-	
-	
-		//StreamingExecution.add(activityService);
-		//StreamingExecution.add(protocolService);
-		StreamingExecution.add(sessionContextAgent);
-
-		
-		Runnable myRunnable = new Runnable() {
-			public void run() {
-				try {
-					publishDemoEvents();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+			
+			//TOMCAT CONSUMER / PRODUCER SETTINGS
+			
+			semanticAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "9"));			
+			documentProposalAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "11"));		
+			saveDocAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "14"));			
+			saveDocAgent.setProducerSettings(new ProducerSettings(kafkahost, "9092"));
+			documentProposalAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			semanticAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			
+			//TOMCAT
+			StreamingExecution.add(semanticAgent);			
+			StreamingExecution.add(documentProposalAgent);
+			StreamingExecution.add(saveDocAgent);
+			
+			Runnable ontologyServer = new Runnable() {
+				public void run() {
+					StartFusekiAndOntology.main(null);	
 				}
-			}
-		};
-		// Thread wird erzeugt und gestartet
-		Thread thread = new Thread(myRunnable);
-		thread.start();
+			};
+			
+			Runnable tomcat = new Runnable() {
+				public void run() {
+					try {
+						StreamingExecution.start();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} 
+				}
+			};
+			
+			Thread thread = new Thread(tomcat);					
+			thread.start();	
+			Thread ontologythread = new Thread(ontologyServer);
+			ontologythread.start();
+			break;
+		case "ux":
+			//UX
+			System.out.print("ux als Parameter eingegeben. singleKeyWordAgent, noKeywordAgent, severalKeywordsAgent,"
+					+ " sentenceAgent, tokenAgent und applicationAgent gestartet.");
+			
+			AbstractAgent singleKeyWordAgent = new SingleKeywordAgent();
+			AbstractAgent noKeywordAgent = new NoKeywordAgent();
+			AbstractAgent severalKeywordsAgent = new SeveralKeywordsAgent();	
+			AbstractAgent sentenceAgent = new SentenceAgent();
+			AbstractAgent tokenAgent = new TokenizeAgent(); //
+			AbstractAgent applicationAgent = new ActivityAgent();
 
-		
-		StreamingExecution.start();
-	}
+			//UX CONSUMER / PRODUCER SETTINGS
+			
+			tokenAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "1"));
+			sentenceAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "2"));
+			applicationAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "3"));
+			singleKeyWordAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "4"));
+			noKeywordAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "5"));
+			severalKeywordsAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "6"));
+			
+			tokenAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			sentenceAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));		
+			applicationAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			singleKeyWordAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			noKeywordAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			severalKeywordsAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			
+			//UX
+			StreamingExecution.add(tokenAgent);
+			StreamingExecution.add(sentenceAgent);
+			StreamingExecution.add(applicationAgent);
+			StreamingExecution.add(singleKeyWordAgent);
+			StreamingExecution.add(noKeywordAgent);
+			StreamingExecution.add(severalKeywordsAgent);	
+			
+			Runnable ux = new Runnable() {
+				public void run() {
+					try {
+						StreamingExecution.start();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} 
+				}
+			};
+			Thread thread1 = new Thread(ux);					
+			thread1.start();	
+			
+			break;
+
+		case "spark":
+			//SPARK
+			System.out.print("Spark als Parameter eingegeben. sessionStateAgent, GuiAgent, ProtocolAgent,"
+					+ " RequestAgent, DocProposalAgent und Websocket gestartet.");
+			AbstractAgent sessionstateAgent = new SessionContextAgent();
+			AbstractAgent guiAgent = new GuiAgent();
+			AbstractAgent protcolAgent = new ProtocolAgent();
+			AbstractAgent requestAgent = new RequestAgent();
+			AbstractAgent docProposalAgent = new DocProposalAgent();
+			
+			requestAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "7")); 
+			protcolAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "8"));
+			guiAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "12"));
+			docProposalAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "13"));
+			
+			requestAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			protcolAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			guiAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			docProposalAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));			
+			sessionstateAgent.setConsumerSettings(new ConsumerSettings(kafkahost, "9092", "10"));
+			sessionstateAgent.setProducerSettings(new ProducerSettings(kafkahost,"9092"));
+			
+			//SPARK
+			StreamingExecution.add(guiAgent);
+			StreamingExecution.add(docProposalAgent);
+			StreamingExecution.add(requestAgent);
+			StreamingExecution.add(protcolAgent);
+			StreamingExecution.add(sessionstateAgent);			
+			
+			Runnable spark = new Runnable() {
+				public void run() {
+					try {
+						StreamingExecution.start();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					} 
+				}
+			};
+					
+			// Thread wird erzeugt und gestartet
+			Thread thread3 = new Thread(spark);					
+			thread3.start();		
+			System.out.println("Spark Thread Status: "+thread3.getState());
+			break;
+			
+		case "websocket":
+			Thread thread2;
+			System.out.println("Websocket als Parameter -- starte Websocket");
+			Runnable webSocketserver = new Runnable() {
+				public void run() {
+					SocketServer.main(null); 					
+				}
+			};
+			thread2 = new Thread(webSocketserver);
+			thread2.start();
+			System.out.println("Websocket Thread Status: "+thread2.getState());
+			break;
+		default:
+			System.out.println("ACHTUNG: Es muss je nach Server tomcat, ux oder spark als args Parameter angegeben werden.");
+			
+			break;
+		}
+				
+}
 
 	
 	private static void publish(AbstractEvent event, String topic) {
-		
+		LoggerFactory.getLogger("StartServices!");				
 		String message = messageMapper.toJSON(event);	
 		if(message != null && topic != null) {
 			despatcher.deliver(message, topic);	
@@ -92,30 +229,82 @@ public class StartServices {
 	
 	private static void publishDemoEvents() throws InterruptedException {		
 			
-			for (int i = 0; i < 20; i++) {
-				
-				
-				AbstractEvent event = eventFactory.createEvent("AtomicEvent");
-				event.setType("TokenEvent");
-				Property<String> projekt = new Property<String>("projekt", "Highnet");
-				Property<String> thema = new Property<String>("thema", "Kosten");
-				Property<String> user = new Property<String>("user", "Robert Rapp"+i);
-				Property<String> user2 = new Property<String>("user", "Detlef Gabe"+i);
-				Property<TimeReference> timereference = new Property<TimeReference>("timereference", TimeReference.INSTANCE);
-				event.add(projekt);			
-				event.add(thema);			
-				event.add(user);			
-				event.add(user2);			
-				event.add(timereference);			
-				
-				if( i == 10) {
-					Property<String> context = new Property<String>("contextupdate", "Das Token ändert den Kontext");
-					event.add(context);
+			for (int i = 8; i < 9; i++) {
+					System.out.println(14);
+					// TODO: A response can be added in the future which is caught in the JS Script and shown on the website
+					// TODO: Parameter entsprechend im NodeJS anpassen
+					String JsSentence = ""; 
+					String userID = "";
+					System.out.println(15);
+					switch (i) {
+					case 0:
+						 JsSentence = "Let's talk about drive current activities concerning HighNet project."; 
+						 userID = "lisa@gmail.com";
+						break;
+					case 1:
+						JsSentence = "Ok. Shall we look at the tasks leading to the milestone ahead?"; 
+						 userID = "haruki@gmail.com";
+						break;
+					case 2:
+						JsSentence = "Sure. We have been working on network issues for the diagnosis module. It is item 3 on the task list. I think, we will come up with something viable shortly."; 
+						 userID = "lisa@gmail.com";
+						break;
+					case 3:
+						JsSentence = "That sounds great. What about expenses? Do you think, you will be able to stay within the limits we aggreed upon last week?"; 
+						 userID = "haruki@gmail.com";
+						break;
+					case 4:
+						JsSentence = "That should be no problem. I'll leave a detailed report on Google drive."; 
+						 userID = "lisa@gmail.com";
+						break;
+					case 5:
+						JsSentence = "Ok, thanks. Let's make an appointment for our next meeting."; 
+						 userID = "haruki@gmail.com";
+						break;
+					case 6:
+						JsSentence = "Let me check my calendar â€¦. How about next Thursday at 16 hours your time?"; 
+						 userID = "lisa@gmail.com";
+						break;
+					case 7:
+						JsSentence = "Perfect. See you then. Bye."; 
+						 userID = "haruki@gmail.com";
+					break;
+
+					default:
+						//JsSentence = "Highnet, Daimler, costs, milestone, calendar, Google Drive, Google Calendar, google docs, powerpoint, Word";
+						JsSentence = "house project tasks leading to the milestone ahead?";
+						
+						userID = "lisa@gmail.com";
+						break;
+					}
+			
+//					System.out.println(16);				
+//					String sessionID = "Session1";
+//					// To execute the other class and its dependencies it is important to add these dependencies under "Deployment Assembly"
+//					System.out.println(JsSentence);
+//					AbstractEvent wat = eventFactory.createEvent("AtomicEvent");
+//					System.out.println(17);
+//					wat.setType("WatsonEvent");
+//					wat.add(new Property<String>("Sentence", JsSentence));
+//					wat.add(new Property<String>("UserID", userID));// Hier die Properties an das neue Event Ã¼bergebenÃ¼bergeben
+//					wat.add(new Property<String>("SentenceID", "5"));// Hier die Properties an das neue Event Ã¼bergebenÃ¼bergeben
+//					wat.add(new Property<Timestamp>("Timestamp", wat.getCreationDate()));
+//					wat.add(new Property<String>("SessionID", sessionID));
+//					//String message = messageMapper.toJSON(wat);
+//					System.out.println(18);
+//					publish(wat, "ChunkGeneration");
+//					AbstractEvent sessionStart = eventFactory.createEvent("AtomicEvent");
+//					sessionStart.setType("SessionStartEvent");
+//					sessionStart.add(new Property<String>("12423432434", "sessionID"));
+//					publish(sessionStart, "SessionState");
+//					//despatcher.deliver(message, "ChunkGeneration");
+//					System.out.println(19);
+//					Thread.sleep(1000);
+					
+
 				}
-				publish(event,"Tokens");
 				
-				java.util.logging.Logger logger = LoggerFactory.getLogger("StartServices!");				
-				logger.log(Level.WARNING, "SESSIONSTATE AUF SESSIONSTATE GEPUSHT");
+
 				
 //				AbstractEvent event2 = eventFactory.createEvent("AtomicEvent");
 //				event2.setType("SpeedEvent");
@@ -150,4 +339,3 @@ public class StartServices {
 			*/
 	}	 
 	
-}

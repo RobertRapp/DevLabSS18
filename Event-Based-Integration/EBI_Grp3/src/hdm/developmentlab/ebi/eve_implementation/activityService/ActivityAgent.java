@@ -1,24 +1,21 @@
 package hdm.developmentlab.ebi.eve_implementation.activityService;
 
-import java.util.ArrayList;
-
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
+import eventprocessing.agent.interestprofile.predicates.logical.Or;
 import eventprocessing.agent.interestprofile.predicates.statement.HasProperty;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
-import eventprocessing.demo.ShowcaseValues;
-import eventprocessing.demo.agents.diagnosis.DiagnosisInterestProfile;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationIP;
-import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenDocumentType;
-import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.TimeReference;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
-
+/**
+ * Der ActivityAgent sorgt dafür dass Applikationen der GUI vorgeschlagen werden, er konsumiert vom Topic TokenGeneration und verwendet die dort ankommenden
+ * ApplicationType und CalendarEvent im Interessenprofil TokenApplicationIP.
+ * 
+ * @author rrapp, birk
+ *
+ */
 public class ActivityAgent extends AbstractAgent {
 
 	
@@ -42,8 +39,14 @@ public class ActivityAgent extends AbstractAgent {
 		 * InteressenProfile besitzen
 		 */
 		try {
-			AbstractInterestProfile ip = new TokenDocumentType();
-			ip.add(new IsEventType("TokenEvent"));
+			AbstractInterestProfile ip = new TokenApplicationIP();
+			try {
+				ip.add(new Or(new IsEventType("CalendarEvent"), new IsEventType("ApplicationEvent"), new HasProperty("ApplicationType")));
+			} catch (eventprocessing.agent.interestprofile.predicates.logical.NullPredicateException e) {
+
+				e.printStackTrace();
+			}
+			//ip.add(new IsEventType("DocumentEvent"));
 			this.add(ip);
 		
 		} catch (NoValidInterestProfileException e1) {
@@ -53,6 +56,3 @@ public class ActivityAgent extends AbstractAgent {
 	}
 	}
 	
-
-	
-

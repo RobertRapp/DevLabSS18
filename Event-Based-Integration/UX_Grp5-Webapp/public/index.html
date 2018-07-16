@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<meta name="google-signin-client_id" content="401312981442-hdhafmvve9gb4782ln2h5mee2i3ouenk.apps.googleusercontent.com">
+
+<link rel="stylesheet" href="scripts/bootstrap/dist/css/bootstrap.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<script src="//d3js.org/d3.v4.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
+    <link rel="stylesheet" type="text/css" href="css/suburst.css"/>
+<link rel="stylesheet" href="css/style.css">
+<title>Video Assistent</title>
+</head>
+<body>
+
+<div id="login">
+
+ <div class="container" >
+        <div id="loginCard" class="card text-center" style="width: 18rem; background-color:blue; display: flex,  align-items: center">
+          <img id="card-img-center" class="profile-img-card" src="img/boy.svg" />
+           <!--  <p id="profile-name" class="profile-name-card"></p> -->
+            <div id="my-signin2"></div>
+         </div>
+    </div>
+</div>
+
+<div id="main">
+ <!-- menü oben -->
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="#">
+    <img src="/img/hdm_logo.svg" width="auto" height="30" class="d-inline-block align-top" alt="">
+    
+  </a>
+   <ul class="nav justify-content-end">
+  <!--  <li class="nav-item"> -->
+   <!-- 	<div id="user"></div> -->
+    <li class="nav-item dropdown">
+   	<a id="user"class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="https://docs.google.com"target="_blank"><img src="/img/google-docs-logo.jpg" width="auto" height="100" class="d-inline-block align-top" alt=""></a>
+          <a class="dropdown-item" href="https://calendar.google.com"target="_blank"><img src="/img/google_kalender.png" width="auto" height="100" class="d-inline-block align-top" alt=""></a>
+          <a class="dropdown-item" href="https://keep.google.com/"target="_blank"><img src="/img/google_keep.png" width="auto" height="80" class="d-inline-block align-top" alt=""></a>
+        </div>
+  </li>
+   <li class="nav-item">
+   <a class="nav-link active" href="https://web.skype.com/de/" target="_blank">
+    	<img src="/img/skype_icon.jpg" width="auto" height="30" class="d-inline-block align-top" alt="">
+  	</a>
+  </li>
+  <li class="nav-item">
+  <a class="nav-link active"  href="#" onclick="logout();return false;">
+    	<img src="/img/logout.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+  	</a>
+  </li>
+ 	</ul>
+</nav>
+
+<!-- Hauptcontent - zwei Spalten -->
+<div class="parent-container">
+    <div id="left" class="container">
+    	<div class="row">
+   			 <div  id="kontaktListe" class="col-11">
+   				 <h6>User online:</h6>
+    				 <ul id="contacts" class="list-group list-group-flush" ></ul>
+    				 <button id="endButton" type="button" class="btn btn-danger">Session beenden</button>
+    				 <button id="startButton" type="button" class="btn btn-success" >Start Session</button>
+   			 </div>
+   		</div>	 
+        <div class="row">
+            <div class="col">
+                <div id="merkerListe" class="col-11">
+      					<ul id="merkerListeList" class="list-group"></ul>
+      					
+   			    </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="right" class="container">
+        <div class="row">
+            <div class="col">
+            <ul class="nav nav-tabs"id="myTab" role="tablist">
+				  <li class="nav-item">
+				  	<a class="nav-link active" id="home-tab" onclick="showHistorie()" data-toggle="tab" role="tab" href="#docVorschlaege" aria-controls="docVorschlaege" aria-selected="true" >DocProposals</a>
+				  </li>
+				   <li class="nav-item">
+				 	 <a class="nav-link" id="profile-tab" onclick="hideHistorie()" data-toggle="tab" href="#historie" aria-controls="historie" aria-selected="false" >Historie</a>
+				  </li> 
+			</ul>
+              
+                
+                <div class="tab-content"  id="myTabContent">
+  					<div class="tab-pane fade show active" id="docVorschlaege" role="tabpanel" aria-labelledby="docVorschlaege-tab">						
+ 					 </div>
+  					<div class="tab-pane fade"  id="historie"  role="tabpanel" aria-labelledby="historie-tab">
+   				 		<ul id="historieList" class="list-group"></ul>
+ 					 </div>
+  
+				</div>
+		
+    				
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <button type="button" class="btn btn-primary" onclick="clickedButton()">TEST ClickedDocument</button>
+
+ <div id="test"></div>
+ -->
+
+
+
+</div>
+  <script src="bower_components/watson-speech/dist/watson-speech.js"></script>
+<!-- window.fetch pollyfill for IE/Edge & Older Chrome/FireFox -->
+<script src="bower_components/fetch/fetch.js"></script>
+<script src="js/recognition.js"></script>
+ <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+ <script src="scripts/jquery/dist/jquery.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
+<script src="scripts/bootstrap/dist/js/bootstrap.js"></script>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" ></script>
+
+ <!--  <script src="socket.io/socket.io.js"></script>   -->
+ <script src="js/main.js"></script>
+  <script src="js/d3Button.js"></script>
+ <script type="text/javascript" src="js/sunburst.js"></script>
+ <!-- <script src="https://static.zinoui.com/1.5/compiled/zino.svg.min.js"></script> -->
+    <script type="text/javascript">
+    function onSuccess(googleUser) {
+        console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+        connect(googleUser);
+      }
+      function onFailure(error) {
+        console.log(error);
+      }
+      function renderButton() {
+        gapi.signin2.render('my-signin2', {
+          'scope': 'profile email',
+          'width': 240,
+          'height': 50,
+          'longtitle': true,
+          'theme': 'dark',
+          'onsuccess': onSuccess,
+          'onfailure': onFailure
+        });
+      }
+      function logout(){
+    	  var auth2 = gapi.auth2.getAuthInstance();
+    	    auth2.signOut().then(function () {
+    	      console.log('User signed out.');
+    	 	 $('#main').hide();
+    		 $('#login').show();
+    	    });
+    	    location.reload();
+    		
+    	}
+      
+      $("path").each(function () {
+    	    $(this).popover({
+    	        title: "Hi!",
+    	        content: "popover",
+    	        container: $("#container")
+    	    });
+    	});
+   
+      var userEmail;
+     var sessionID; 
+    var noHistorie = true;
+    var noHover = false;  
+    var hoverStopDraw = false;
+    var FilterStopDraw = false;
+  </script> 
+</body>
+</html>

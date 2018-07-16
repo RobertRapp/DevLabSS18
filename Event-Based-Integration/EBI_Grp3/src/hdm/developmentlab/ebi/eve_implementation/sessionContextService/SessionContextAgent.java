@@ -6,144 +6,111 @@ import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.statement.GetEverything;
+import eventprocessing.agent.interestprofile.predicates.logical.NullPredicateException;
+import eventprocessing.agent.interestprofile.predicates.logical.Or;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
-import eventprocessing.demo.ShowcaseValues;
-import eventprocessing.demo.agents.diagnosis.DiagnosisInterestProfile;
-import eventprocessing.utils.factory.AbstractFactory;
-import eventprocessing.utils.factory.FactoryProducer;
-import eventprocessing.utils.factory.FactoryValues;
-import eventprocessing.utils.factory.InterestProfileFactory;
-import eventprocessing.utils.factory.PredicateFactory;
-import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
+import eventprocessing.event.AbstractEvent;
+import eventprocessing.utils.model.EventUtils;
+import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionContextIP;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.TimeReference;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.Tokens;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
-
-
+/**
+ * 
+ * Dieser Agent baut einen SessionContext auf, ein Sessionkontext besteht aus
+ * SessionID, zwei Teilnehmern, Projekt, Thema die über empfangene Events
+ * gesetzt werden.
+ * 
+ * @author rrapp
+ */
 
 public class SessionContextAgent extends AbstractAgent {
-	
-	ArrayList<SessionEvent> sessions = new ArrayList<SessionEvent>();
-	AbstractInterestProfile project;
-	
 
-	TimeReference timeReference = new TimeReference();
-	User userInfo = new User();
-	
-	protected void doOnInit() {
-		
-		//Ohne ID geht der Agent nicht 
-		this.setId("SessionContextAgent");
-		try {
-			this.add("Tokens");
-		} catch (NoValidConsumingTopicException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		AbstractInterestProfile tokensip = new Tokens();
-		tokensip.add(new IsEventType("TokenEvent"));
-		try {
-			this.add(tokensip);
-		} catch (NoValidInterestProfileException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-//		AbstractInterestProfile sessionState = new SessionState();
-//		AbstractInterestProfile ip = new DiagnosisInterestProfile();
-//		ip.add(new IsEventType(ShowcaseValues.INSTANCE.getSpeedEvent()));
-//		try {
-//			this.add(ip);
-//		} catch (NoValidInterestProfileException e2) {
-//			// TODO Auto-generated catch block
-//			e2.printStackTrace();
-//		}
-//		this.setId("SessionContextAgent");
-//		
-//		try {
-//			sessionState.add(new GetEverything());
-//			this.add(sessionState);
-//		} catch (NoValidInterestProfileException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-//		try {
-//			this.add("SessionState");			
-//		} catch (NoValidConsumingTopicException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-		
-	}
-	
+	private static final long serialVersionUID = -182840242690218605L;
+
 	/**
-	 * 
+	 * Hier werden die Attribute der Agenten festgelegt, falls Listen nicht
+	 * dauerhaft gespeichert werden,
 	 */
-	private static final long serialVersionUID = 1L;
-	public ArrayList<SessionEvent> getSessions() {
+
+	static ArrayList<AbstractEvent> sessions = new ArrayList<AbstractEvent>();
+
+	public ArrayList<AbstractEvent> getSessions() {
 		return sessions;
 	}
 
-
-	public void addSession(SessionEvent session) {
-		sessions.add(session);
-	}
-	
-	public SessionEvent getSessionById(String session) {
-		
-		for(SessionEvent s : sessions) {
-			if(s.getSessionId().equalsIgnoreCase(session)) return s;
-		}		
+	/**
+	 * SessionID herausfinden
+	 * 
+	 * @param sessionID
+	 * @return
+	 */
+	public AbstractEvent getSessionById(String sessionID) {
+		for (AbstractEvent e : this.getSessions()) {
+			System.out.println(EventUtils.findPropertyByKey(e, "sessionID").getValue());
+			if (sessionID.equals(EventUtils.findPropertyByKey(e, "sessionID").getValue()))
+				return e;
+		}
 		return null;
 	}
 
+	protected void doOnInit() {
 
-	public AbstractInterestProfile getProject() {
-		return project;
+		// Ohne ID geht der Agent nicht, bitte setzen
+		this.setId("SessionContextAgent");
+
+		/*
+		 * Hier werden die Interessensprofile erzeugt und mit den Predicates
+		 * ausgestattet. Welche Predicates es gibt findet man in dem package
+		 * eventprocessing.agent.interestprofile.predicates Für logische Predicates
+		 * bspw. Oder / Und werden die zwei Predicates angegeben, die damit verbunden
+		 * werden sollen.
+		 */
+
+		AbstractInterestProfile sessionContextIP = new SessionContextIP();
+		sessionContextIP.add(new IsFromTopic("TokenGeneration"));
+
+		AbstractInterestProfile sessionState = new SessionState();
+		try {
+			sessionState.add(new Or(new IsEventType("SessionStartEvent"), new IsEventType("SessionEndEvent")));
+		} catch (NullPredicateException e1) {
+
+			e1.printStackTrace();
+		}
+
+		/*
+		 * Hier werden alle Interessensprofile des Agenten hinzugefügt. Bitte darauf
+		 * achten, dass davor die Predicates gesetzt wurden.
+		 */
+		try {
+			this.add(sessionContextIP);
+			this.add(sessionState);
+
+		} catch (NoValidInterestProfileException e) {
+			e.printStackTrace();
+		}
+
+		/*
+		 * Hier werden alle Topics des Agenten angegeben. Es ist dabei auf CaseSensetive
+		 * zu achten!
+		 * 
+		 */
+		try {
+			this.add("SessionState");
+			this.add("TokenGeneration");
+			this.add("SessionContextUpdate");
+		} catch (NoValidConsumingTopicException e) {
+			e.printStackTrace();
+		}
+
 	}
 
-
-	public void setProject(AbstractInterestProfile project) {
-		this.project = project;
+	/**
+	 * 
+	 * @param session
+	 */
+	public void addSession(AbstractEvent session) {
+		sessions.add(session);
 	}
-
-
-	
-
-	public TimeReference getTimeReference() {
-		return timeReference;
-	}
-
-
-	public void setTimeReference(TimeReference timeReference) {
-		this.timeReference = timeReference;
-	}
-	
-	public User getUserInfo() {
-		return userInfo;
-	}
-
-
-	public void setUserInfo(User userInfo) {
-		this.userInfo = userInfo;
-	}
-
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-
-
-
-
-	
-
 
 }

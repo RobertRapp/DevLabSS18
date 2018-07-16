@@ -2,14 +2,16 @@ package hdm.developmentlab.ebi.eve_implementation.activityService.interestprofil
 
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
+import java.util.LinkedHashMap;
 import java.util.logging.Logger;
+
+import org.json.JSONObject;
+
+import com.speechTokens.tokenizer.Chunker;
 
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
-import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
-import eventprocessing.agent.interestprofile.predicates.statement.HasProperty;
+import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
 import eventprocessing.utils.TimeUtils;
@@ -18,15 +20,15 @@ import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
-import hdm.developmentlab.ebi.eve_implementation.events.DocumentRequestEvent;
-import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.SessionContextAgent;
+import eventprocessing.utils.model.OWLResultUtils;
+import javafx.event.Event;
+import sun.java2d.pipe.OutlineTextRenderer;
 
 
 public class TokenDocumentType extends eventprocessing.agent.interestprofile.AbstractInterestProfile {
 
 	/**
-	 * 
+	 * Verarbeitet DocumentEvents, SessionContext, PersonEvent, ProjectEvent, UncertainEvent
 	 */
 	private static final long serialVersionUID = 1L;
 	private static Logger LOGGER = LoggerFactory.getLogger(TokenDocumentType.class);
@@ -34,98 +36,99 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 
 	// Factory für die Erzeugung der Events
 	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
-	private AbstractEvent requestEvent = eventFactory.createEvent("AtomicEvent");
 	private static AbstractEvent lastSessionContextEvent = eventFactory.createEvent("AtomicEvent");
 	
 	
 	/**
-	 * Empfängt Tokentypen und leitet damit eine neue Dokumentenvorschlagsanfrage ein.
-	 * @param arg0
+	 * Empfängt Tokentypen und leitet damit eine neue Dokumentenvorschlagsanfrage ein. Der aktuelle Sessioncontext, der ebenso von diesem 
+	 * IP emfangen wird, dient dazu, die Anfrage ggf. zu ergänzen.
+	 * @param rrapp, birk, pokorski
 	 */
 
 	@Override
-	protected void doOnReceive(AbstractEvent event) {
-
-		//Wird ein neues SessionContextEvent empfangen, so wird dies als letzter und damit aktuellster SessionContext abgespeichert
-		if (EventUtils.isType("SessionContext", event)) {
+	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
+		if(event.getType().equalsIgnoreCase("SessionContextEvent")) {
+			System.out.println("Session geupdated: "+event);
 			lastSessionContextEvent = event;
-			lastSessionContextEvent.setType("SessionContextEvent");
-			lastSessionContextEvent.setCreationDate(event.getCreationDate());
+		} else {
+		AbstractEvent output = eventFactory.createEvent("AtomicEvent");
+		output.setType("RequestEvent");
+		if(lastSessionContextEvent.getProperties().size() < 1) {
+			lastSessionContextEvent.add(new Property<String>("teilnehmer1","unknown user"));
+			lastSessionContextEvent.add(new Property<String>("teilnehmer2","unknown user"));
 		}
+		if(EventUtils.hasProperty(lastSessionContextEvent, "teilnehmer1")) output.add(new Property<String>("participant1", (String) lastSessionContextEvent.getValueByKey("teilnehmer1")));
+		if(EventUtils.hasProperty(lastSessionContextEvent, "teilnehmer2")) output.add(new Property<String>("participant2", (String) lastSessionContextEvent.getValueByKey("teilnehmer2")));
+		if(EventUtils.hasProperty(lastSessionContextEvent, "project")) output.add(new Property<String>("project", (String) lastSessionContextEvent.getValueByKey("project")));
+		if(event.getType().equalsIgnoreCase("uncertainEvent")) {
+			String key = null;
+			String value= null;
+			for(Property<?> p : event.getProperties()) {
+				switch (p.getKey().toLowerCase()) {
+				case "type":
+					key = (String)p.getValue();
+				break;
+				case "name": 
+					value = (String) p.getValue();
+				case "keyword":
+					//{ "type": "literal" , "value": "cost; expenses; expense; costs;" }
+					
+					JSONObject js = new JSONObject((String) p.getValue());
+					output.add(new Property<String>("keyword", js.get("value").toString().split(";")[0]));			
+					break;				
+					default:
+					//output.add(p);
+					break;					
+				}
+				output.add(new Property<String>(key, value));
+			}				
+		}else {
+						
+			for(Property<?> p : event.getProperties()) {
+				switch (p.getKey().toLowerCase()) {
+				case "person":		
+					if(p.getValue() instanceof LinkedHashMap<?, ?>) {
+					LinkedHashMap<String, ?> hashmap =  (LinkedHashMap<String, ?>) p.getValue();
+					output.addOrReplace(new Property<>("keyword", hashmap.get("value").toString().split(";")[0]));
+					output.addOrReplace(new Property<>("person", hashmap.get("key").toString()));
+					}
+				break;
+				case "project": 
+					if(p.getValue() instanceof LinkedHashMap<?, ?>) {		
+					LinkedHashMap<String, ?> hashmap1 =  (LinkedHashMap<String, ?>) p.getValue();
+					output.addOrReplace(new Property<>("keyword", hashmap1.get("value").toString().split(";")[0]));
+					output.addOrReplace(new Property<>("project", hashmap1.get("key").toString()));
+					}
+				default:
+						if(p.getValue() instanceof LinkedHashMap<?, ?>) {					
+							LinkedHashMap<String, ?> hashmap2 =  (LinkedHashMap<String, ?>) p.getValue();
+							output.addOrReplace(new Property<>("keyword", hashmap2.get("value").toString().split(";")[0]));	
+					break;					
+				}
+				}
+		}
+		}
+		System.out.println("Der letzte Session COntext ist: " + lastSessionContextEvent);
+		if(lastSessionContextEvent.getProperties().size() > 0) {
+			System.out.println("lastsession Project"+EventUtils.hasProperty(lastSessionContextEvent, "project"));
+			System.out.println("outputSession"+ EventUtils.findPropertyByKey(output, "project"));
+		}
+		try {
+			System.out.println("DocRequest wird an DR geschickt");
+			this.getAgent().send(output, "DocRequest");
+		} catch (NoValidEventException e) {
+
+			e.printStackTrace();
+		} catch (NoValidTargetTopicException e) {
+
+			e.printStackTrace();
+		} 
 		
+		}
 	
-		//Hier if mit Zeitabprüfug und session context auf 30 sekunden oder so; TokenEvent ist es eigentlich schon
-		// Prüfe ob das empfangene Event vom Typ TokenEvent ist undeinen Dokumententyp beinhaltet 
-		if (EventUtils.isType("TokenEvent", event) && EventUtils.findPropertyByKey(event, "topic") != null) {
-				requestEvent = event; 
-				requestEvent.setType("RequestEvent");
-				requestEvent.setCreationDate(event.getCreationDate());
-				
-				//Wenn letzter SessionContext nicht zu weit zurück liegt, wird das Tokenevent (bei Bedarf) um den aktuellen SC angereichert
-				if(TimeUtils.getDifferenceInSeconds(requestEvent.getCreationDate(), lastSessionContextEvent.getCreationDate()) >= 100) {
-					
-				
-					//Enthält TokenEvent keine Property namens project (oder eine der folgenden Namen) oder ist der jeweilige Wert gleich null, so wird das Projekt des SC angehängt 
-					if(EventUtils.findPropertyByKey(requestEvent, "project") == null) {
-						requestEvent.add(lastSessionContextEvent.getPropertyByKey("project"));
-					} else 
-						if(EventUtils.findPropertyByKey(requestEvent, "project").getValue() == null) {
-							requestEvent.remove(EventUtils.findPropertyByKey(requestEvent, "project"));
-							requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "project"));
-						
-					}
-					
-					if(EventUtils.findPropertyByKey(requestEvent, "timereference") == null) {
-						requestEvent.add(lastSessionContextEvent.getPropertyByKey("timereference"));
-					} else 
-						if(EventUtils.findPropertyByKey(requestEvent, "timereference").getValue() == null) {
-							requestEvent.remove(EventUtils.findPropertyByKey(requestEvent, "timereference"));
-							requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "timereference"));
-					}
-					
-					if(EventUtils.findPropertyByKey(requestEvent, "latestActivity") == null) {
-						requestEvent.add(lastSessionContextEvent.getPropertyByKey("latestActivity"));
-					} else 
-						if(EventUtils.findPropertyByKey(requestEvent, "latestActivity").getValue() == null) {
-							requestEvent.remove(EventUtils.findPropertyByKey(requestEvent, "latestActivity"));
-							requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "latestActivity"));
-					}
-					
-					if(EventUtils.findPropertyByKey(requestEvent, "users") == null) {
-						requestEvent.add(lastSessionContextEvent.getPropertyByKey("users"));
-					} else 
-						if(EventUtils.findPropertyByKey(requestEvent, "users").getValue() == null) {
-							requestEvent.remove(EventUtils.findPropertyByKey(requestEvent, "users"));
-							requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "users"));
-						
-					}
-					
-					if(EventUtils.findPropertyByKey(requestEvent, "sessionId") == null) {
-						requestEvent.add(lastSessionContextEvent.getPropertyByKey("sessionId"));
-					} else 
-						if(EventUtils.findPropertyByKey(requestEvent, "sessionId").getValue() == null) {
-							requestEvent.remove(EventUtils.findPropertyByKey(requestEvent, "sessionId"));
-							requestEvent.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "sessionId"));
-					}
-				
-				
-				}
-				
-				// Sendet das Event an DR (welches Topic ???) 
-				try {
-					getAgent().send(requestEvent, "DR Topic ???");
-				} catch (NoValidEventException e1) {
-					java.util.logging.Logger logger = LoggerFactory.getLogger("RequestSend");
-				} catch (NoValidTargetTopicException e1) {
-					java.util.logging.Logger logger = LoggerFactory.getLogger("RequestSend");
-				}
-				
-		}
-		
-		
-		
 	}
 		
 	}
+
 
 

@@ -3,7 +3,7 @@ package eventprocessing.demo;
 import org.apache.kafka.clients.producer.ProducerConfig;
 
 import eventprocessing.agent.AbstractAgent;
-import eventprocessing.consume.spark.streaming.NoValidAgentException;
+import eventprocessing.agent.AgentException;
 import eventprocessing.consume.spark.streaming.StreamingExecution;
 import eventprocessing.demo.agents.diagnosis.ProducerSettingsDiagnosis;
 import eventprocessing.event.AbstractEvent;
@@ -52,7 +52,7 @@ public class Showcase {
 			StreamingExecution.add(sensorProcessing);
 			StreamingExecution.add(trafficAnalysis);
 			StreamingExecution.add(diagnosis);
-		} catch (NoValidAgentException e1) {
+		} catch (AgentException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}

@@ -4,23 +4,21 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.spark.streaming.api.java.JavaStreamingContext;
-import org.apache.spark.streaming.api.java.JavaInputDStream;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.streaming.Duration;
 import org.apache.spark.streaming.api.java.JavaDStream;
-
+import org.apache.spark.streaming.api.java.JavaInputDStream;
+import org.apache.spark.streaming.api.java.JavaStreamingContext;
 import org.apache.spark.streaming.kafka010.ConsumerStrategies;
 import org.apache.spark.streaming.kafka010.KafkaUtils;
 import org.apache.spark.streaming.kafka010.LocationStrategies;
 import org.apache.spark.util.CollectionAccumulator;
-import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.AgentException;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.kafka.runner.KafkaConsumerRunner;
-//import eventprocessing.consume.kafka.runner.KafkaConsumerRunner;
 import eventprocessing.consume.spark.functions.ExtractMessage;
 import eventprocessing.consume.spark.functions.IsJson;
 import eventprocessing.consume.spark.functions.IsMessageOfInterest;
@@ -48,7 +46,7 @@ public final class StreamingExecution {
 	 * Baut einen zusätzliches Kanal zu Kakfa auf. Dieser Kanal dient dem Empfang
 	 * von Befehlen für den Agenten.
 	 */
-	 private static transient KafkaConsumerRunner consumer = null;
+	private static transient KafkaConsumerRunner consumer = null;
 
 	/**
 	 * Fügt der Liste von Agenten einen weiteren Agenten hinzu. Beim hinzufügen wird
@@ -56,32 +54,27 @@ public final class StreamingExecution {
 	 * 
 	 * @param agent,
 	 *            der der Liste hinzugefügt werden soll
-	 * @throws NoValidAgentException,
+	 * @throws AgentException
 	 *             wenn der übergebene Agent null ist. Er wird nicht der Liste
 	 *             hinzugefügt.
+	 * @throws AgentException 
 	 */
-	public static void add(AbstractAgent agent) throws NoValidAgentException {
+	public static void add(AbstractAgent agent) throws AgentException, AgentException {
 		LOGGER.log(Level.FINE, () -> String.format("try to add %s to list", agent));
 		// Prüfung ob der Agent nicht null ist
 		if (agent != null) {
 			// Im Anschluss wird der Agent initialisiert
-			try {
-				agent.init();
-				/*
-				 * Jeder Agent bekommt einen Accumulator zugewiesen, um Informationen aus dem
-				 * Executor zum Driver zu senden.
-				 */
-				CollectionAccumulator<AbstractEvent> accum = jsc.sc().collectionAccumulator();
-				agent.setAccum(accum);
-			} catch (AgentException e) {
-				LOGGER.log(Level.WARNING, () -> String.format("failed to committ agent:%s%sException:%s%s",
-						SystemUtils.getFileSeparator(), agent, SystemUtils.getFileSeparator(), e));
-				throw new NoValidAgentException(String.format("committed agent is invalid: %s", agent));
-			}
+			agent.init();
+			/*
+			 * Jeder Agent bekommt einen Accumulator zugewiesen, um Informationen aus dem
+			 * Executor zum Driver zu senden.
+			 */
+			CollectionAccumulator<AbstractEvent> accum = jsc.sc().collectionAccumulator();
+			agent.setAccum(accum);
 			// Und der Liste der Agenten hinzugefügt.
 			AgentRegistry.INSTANCE.add(agent);
 		} else {
-			throw new NoValidAgentException(String.format("committed agent is invalid: %s", agent));
+			throw new AgentException(String.format("committed agent is invalid: %s", agent));
 		}
 	}
 
@@ -92,16 +85,16 @@ public final class StreamingExecution {
 	 * 
 	 * Ebenfalls enthalten ist die Vearbeitungslogik der DStream-Verarbeitung.
 	 * 
-	 * @throws InterruptedException,
+	 * @throws InterruptedException
 	 *             fängt alle Exceptions ab, die aufkommen während auf dem
 	 *             SparkStreamingContext die Methode .awaitTermination() ausgeführt
 	 *             wird.
 	 */
 	public static void start() throws InterruptedException {
-		// startConsumer();
-		System.out.println("in start");
+		startConsumer();
 		jssc = new JavaStreamingContext(jsc, new Duration(SparkContextValues.INSTANCE.getBatchDuration()));
 		// Für jeden Agenten in der Registry
+		LOGGER.log(Level.WARNING, "AgentRegistry:"+AgentRegistry.INSTANCE.getRegistry());
 		AgentRegistry.INSTANCE.getRegistry().values().parallelStream().forEach(agent -> {
 			// Werden die Topics sowie die Konfiguration für das konsumieren ausgelesen
 			Collection<String> topics = agent.getSubscribedTopics();
@@ -125,13 +118,13 @@ public final class StreamingExecution {
 			// Aus dem ConsumerRecord wird die Nachricht entnommen. Der Rest wird verworfen.
 			JavaDStream<String> stream = agentStream.map(new ExtractMessage());
 			LOGGER.log(Level.FINE, "context: " + stream.context().conf().toDebugString());
-			JavaDStream<String> agentWindow = stream.window(new Duration(agent.getWindow().getWindowLength()),
-					new Duration(agent.getWindow().getSlideInterval()));
+//			JavaDStream<String> agentWindow = stream.window(new Duration(agent.getWindow().getWindowLength()),
+//					new Duration(agent.getWindow().getSlideInterval()));
 
 			// Für jedes InterestProfile eines Agenten
 			agent.getInterestProfiles().parallelStream().forEach(interestProfile -> {
 				// wird die Nachricht überprüft, ob sie für das InterestProfile relevant ist
-				agentWindow.filter(new IsMessageOfInterest(interestProfile)).foreachRDD(rdd -> {
+				stream.filter(new IsMessageOfInterest(interestProfile)).foreachRDD(rdd -> {
 					/*
 					 * Jede RDD kann mehrere Partitionen besitzen und somit mehrere Nachrichten. Es
 					 * werden alle Nachrichten durchlaufen
@@ -158,7 +151,7 @@ public final class StreamingExecution {
 	 * ausgeführt. Dadurch läuft die DStream-Verarbeitung getrennt vom
 	 * KafkaConsumerRunner ab.
 	 */
-	public static void startConsumer() {
+	private static void startConsumer() {
 		// Erzeugung der Instanz
 		consumer = new KafkaConsumerRunner();
 		if (consumer != null) {
@@ -175,8 +168,6 @@ public final class StreamingExecution {
 	 * State von SparkStreamingContext wird auf "STOPPED" gesetzt, nachdem der
 	 * Befehl stop() ausgeführt wird. Im Anschluss wird die DStream-Verarbeitung
 	 * neugestartet.
-	 * 
-	 * @throws InterruptedException
 	 */
 	public static void reset() {
 		// Setzt den Flag des Threads auf true und wird somit beendet.
@@ -190,15 +181,12 @@ public final class StreamingExecution {
 		 * soll.
 		 */
 		jssc.stop(false, true);
-		System.out.println("jssc stopp");
 		// Warten bis der State auf 'STOPPED' steht
 		while (!(jssc.getState().toString() == "STOPPED")) {
 
 		}
 		// Startet die DStream-Verarbeitung erneut
-		System.out.println("jssc stopped");
 		try {
-			System.out.println("try start");
 			start();
 		} catch (InterruptedException e) {
 			LOGGER.log(Level.WARNING, () -> String.format("failed to restart StreamingExecution:%sException:%s",

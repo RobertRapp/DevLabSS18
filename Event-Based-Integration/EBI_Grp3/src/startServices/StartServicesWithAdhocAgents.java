@@ -1,6 +1,7 @@
 package startServices;
 
 import java.sql.Timestamp;
+<<<<<<< HEAD
 
 import com.speechTokens.EvE.agents.NoKeywordAgent;
 import com.speechTokens.EvE.agents.SentenceAgent;
@@ -19,22 +20,43 @@ import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import eventprocessing.consume.kafka.ConsumerSettings;
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
+=======
+import java.util.ArrayList;
+
+import com.speechTokens.EvE.agents.SeveralKeywordsAgent;
+import com.speechTokens.tokenizer.Chunker;
+
+import eventprocessing.agent.AbstractAgent;
+import eventprocessing.consume.kafka.ConsumerSettings;
+import eventprocessing.agent.AgentException;
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 import eventprocessing.consume.spark.streaming.StreamingExecution;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
 import eventprocessing.produce.kafka.Despatcher;
 import eventprocessing.produce.kafka.ProducerSettings;
+<<<<<<< HEAD
+=======
+import eventprocessing.utils.TimeUtils;
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
+<<<<<<< HEAD
 import eventprocessing.utils.model.EventUtils;
 import eventprocessing.utils.model.OWLResultUtils;
 import hdm.developmentlab.ebi.eve_implementation.activityService.ActivityAgent;
 import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
 import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
+=======
+import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
+
+import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
+
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 
 /**
  * Startpunkt der Anwendung.
@@ -50,6 +72,7 @@ public class StartServicesWithAdhocAgents {
 	private static final MessageMapper messageMapper = new MessageMapper();
 	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
 	
+<<<<<<< HEAD
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
 		
@@ -66,6 +89,35 @@ public class StartServicesWithAdhocAgents {
 			public void run() {
 				try {
 					publishDemoEvents("Agent1");
+=======
+	public static void main(String[] args) throws AgentException, InterruptedException
+	 {
+		
+		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
+//		AbstractAgent request = new RequestAgent();
+//		AbstractAgent singlekeywordAgent = new SeveralKeywordsAgent();
+//		request.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "req"));
+//		request.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+//		singlekeywordAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2", "9092", "sk"));
+//		singlekeywordAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+//		StreamingExecution.add(request);				
+//		StreamingExecution.add(singlekeywordAgent);
+		StreamingExecution.add(getAdhocAgent("Agent1", "Agent2", true));
+		StreamingExecution.add(getAdhocAgent("Agent2", "Agent3", true));
+		StreamingExecution.add(getAdhocAgent("Agent3", "Agent4", true));
+		StreamingExecution.add(getAdhocAgent("Agent4", "Agent5", true));
+		StreamingExecution.add(getAdhocAgent("Agent5", "Agent6", true));
+		StreamingExecution.add(getAdhocAgent("Agent6", "Agent7", true));
+		StreamingExecution.add(getAdhocAgent("Agent7", "Agent8", true));
+		StreamingExecution.add(getAdhocAgent("Agent8", "Agent9", true));
+		StreamingExecution.add(getAdhocAgent("Agent9", "Agent10", true));
+		StreamingExecution.add(getAdhocAgent("Agent10", "Agent11", true));
+		
+		Runnable myRunnable = new Runnable() {
+			public void run() {
+				try {
+					publishDemoEvents(null, "Agent1");
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -90,13 +142,18 @@ public class StartServicesWithAdhocAgents {
 	
 	
 	private static void publish(AbstractEvent event, String topic) {
+<<<<<<< HEAD
 		LoggerFactory.getLogger("StartServices!");				
+=======
+				
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 		String message = messageMapper.toJSON(event);	
 		if(message != null && topic != null) {
 			despatcher.deliver(message, topic);	
 		}
 	}
 	
+<<<<<<< HEAD
 	private static void publishDemoEvents(String zielTopic) throws InterruptedException {		
 			
 			for (int i = 8; i < 9; i++) {
@@ -155,6 +212,23 @@ public class StartServicesWithAdhocAgents {
 
 				}
 	}
+=======
+	
+	private static void publishDemoEvents(AbstractEvent event, String zielTopic) throws InterruptedException {		
+		AbstractEvent wat = eventFactory.createEvent("AtomicEvent");					
+		wat.setType("WatsonEvent");
+		wat.add(new Property<String>("IrgendeinText", "Das Wetter ist heute nicht sonnig"));
+		wat.add(new Property<Long>("gesendetUm", TimeUtils.getCurrentTime().getTime()));
+		wat.setSource(zielTopic);	
+		for (int i = 0; i < 10; i++) {	
+				wat.setId(i);
+				publish(wat, zielTopic);
+				Thread.sleep(50);					
+
+			}
+		}
+	
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 
 }	 
 	

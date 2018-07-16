@@ -26,7 +26,7 @@ public final class FilterFunction implements Function<String, Boolean> {
 	 * <code>AbstractInterestProfile</code> übermittelt wurde. Mit diesem Predicate werden
 	 * eingehende Nachrichten gefiltert.
 	 * 
-	 * @param predicateFromInterestProfile
+	 * @param predicate, welches zu einer FilterFunction umgewandelt werden soll.
 	 */
 	public FilterFunction(AbstractPredicate predicate) {
 		if (predicate != null) {

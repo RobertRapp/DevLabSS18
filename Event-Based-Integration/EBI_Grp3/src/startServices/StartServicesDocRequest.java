@@ -2,7 +2,11 @@ package startServices;
 
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.consume.kafka.ConsumerSettings;
+<<<<<<< HEAD
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
+=======
+import eventprocessing.agent.AgentException;
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 import eventprocessing.consume.spark.streaming.StreamingExecution;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
@@ -14,7 +18,10 @@ import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.mapping.MessageMapper;
 import hdm.developmentlab.ebi.eve_implementation.activityService.RequestAgent;
+<<<<<<< HEAD
 import hdm.developmentlab.ebi.eve_implementation.events.TimeReference;
+=======
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 
 /**
  * Startpunkt der Anwendung.
@@ -36,6 +43,7 @@ public class StartServicesDocRequest {
 	private static AbstractFactory agentFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getAgentFactory());
 	
 	
+<<<<<<< HEAD
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
 		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
@@ -43,6 +51,15 @@ public class StartServicesDocRequest {
 		
 		requestAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "g"));
 		requestAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+=======
+	public static void main(String[] args) throws AgentException, InterruptedException
+	 {
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
+		AbstractAgent requestAgent = new RequestAgent();
+		
+		requestAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "g"));
+		requestAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 		
 		
 		//StreamingExecution.add(activityService);
@@ -90,13 +107,21 @@ public class StartServicesDocRequest {
 				Property<String> user = new Property<String>("user", "Robert Rapp"+i);
 				Property<String> user2 = new Property<String>("users", "Detlef Gabe"+i);
 				Property<String> latestAct = new Property<String>("latestActivity", "Activity Folfe");
+<<<<<<< HEAD
 				Property<TimeReference> timereference = new Property<TimeReference>("timereference", null);
+=======
+				
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 				sessioncontext.add(project);			
 				sessioncontext.add(topic);			
 				sessioncontext.add(user);		
 				sessioncontext.add(latestAct);
 				sessioncontext.add(user2);			
+<<<<<<< HEAD
 				sessioncontext.add(timereference);			
+=======
+				
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 				
 				publish(sessioncontext,"SessionContext");
 				

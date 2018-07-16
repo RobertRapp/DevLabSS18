@@ -1,114 +1,161 @@
 package hdm.developmentlab.ebi.eve_implementation.protocolService.interestprofiles;
 
 
+import java.io.File;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationIP;
-import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
+import hdm.developmentlab.ebi.eve_implementation.protocolService.ProtocolAgent;
 
 
 public class Sessions extends AbstractInterestProfile {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private static Logger LOGGER = LoggerFactory.getLogger(TokenApplicationIP.class);
-
-	// Factory für die Erzeugung der Events
-	private AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
-	private ArrayList<AbstractEvent> tokenEvents = new ArrayList<AbstractEvent>();
-	private ArrayList<AbstractEvent> requestEvents = new ArrayList<AbstractEvent>();
-	private ArrayList<AbstractEvent> documentProposals = new ArrayList<AbstractEvent>();
-	private AbstractEvent SessionInfos = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
 	
 	/**
 	 *
 	 * In dieser Methode wird ein Gesprächskontext empfangen, sobald ein Gespräch abgeschlossen wird.
 	 * Anhand der Informationen die innerhalb des empfangenen Events gespeichert sind, wird ein Protokoll erzeugt.
-	 * Das ausgehende Format ist machinell analysiserbar und wird an den Agenten weiter gegeben, damit dieser das Event
-	 * auf Google Drive abspeichern kann.
+	 * Das ausgehende Format ist machinell analysiserbar und die Informationen können im späteren Verlauf auch auf Google Drive gespeichert werden.
 	 *
-	 * @param arg0
+	 * @author rrapp, birk, pokorski, meier
 	 */
+	
+	
+	
+	
+	private static final long serialVersionUID = 1L;
+	private static Logger LOGGER = LoggerFactory.getLogger(Sessions.class);
 
+	// Factory für die Erzeugung der Events
+	private static AbstractFactory eventFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getEventFactory());
+	private static AbstractEvent protocolEvent = eventFactory.createEvent("AtomicEvent");
 
-	@Override
-	protected void doOnReceive(AbstractEvent event) {
-
-		// Erzeugt über die Factory ein neues Event
-		AbstractEvent protocolEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
-		AbstractEvent tokenEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
-		AbstractEvent requestEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
-		AbstractEvent documentProposalEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
-		AbstractEvent sessionEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
-
+	
+	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName()+" : Event angekommen "+event.getType()+" -um: " + TimeUtils.getCurrentTime());
+	
 		
-		// Prüfe ob das empfangene Event vom Typ SessionEvent ist. Wenn ja, Sessioninfos speichern
-		if (EventUtils.isType("SessionInfo", event)) {
-			sessionEvent = event;
-		} 
+		System.out.println("in Protokoll IP");
+		System.out.println("event geht ein: " + event);
 		
-		// Prüfe ob das empfangene Event vom Typ TokenEvent ist. Wenn ja in TokenListe anfügen 
-		if (EventUtils.isType("TokenEvent", event)) {
-			tokenEvent = event;
-			tokenEvents.add(tokenEvent);
-		} 
+		switch(event.getType()) {
 		
-		// Prüfe ob das empfangene Event vom Typ RequestEvent ist. Wenn ja in RequestListe anfügen 
-		if (EventUtils.isType("RequestEvents", event)) {
-			requestEvent = event;
-			requestEvents.add(requestEvent);
-		} 		
+		case "SessionStartEvent": 
+			System.out.println("Protokoll hat SessionStartEvent empfangen");
+			ProtocolAgent.setSessionStart(event.getCreationDate());			
+			break;
+			
+		case "DocProposalEvent": 
+			System.out.println("Protokoll hat DocProposalEvent empfangen");
+			ProtocolAgent.addProposedDocList(event);			
+			break;
 		
-		// Prüfe ob das empfangene Event vom Typ RequestEvent ist. Wenn ja in RequestListe anfügen 
-		if (EventUtils.isType("documentEvents", event)) {
-			documentProposalEvent = event;
-			documentProposals.add(documentProposalEvent);
-		} 
+		case "UserInteractionEvent":
+			System.out.println("Protokoll hat UserInteractionEvent empfangen");
+			ProtocolAgent.addClickedDocList(event);
+			break;
+			
+		case "SessionEndEvent":
+			System.out.println("Protokoll hat SessionEndEvent empfangen");
+			ProtocolAgent.setSessionEnd(event.getCreationDate());
+			CreateProtocolEvent();
+			break;
 		
-		//Wenn die Session beendet wurde, werden alle Infos in ProtocolEvent verknüpft und das protocolEvent an DR gesendet
-		if (EventUtils.isType("SessionEndEvent", event)) {
-			Property<AbstractEvent> sessionInfos = new Property<>();
-			Property<ArrayList<AbstractEvent>> tokens = new Property<>();
-			Property<ArrayList<AbstractEvent>> requests = new Property<>();
-			Property<ArrayList<AbstractEvent>> documents = new Property<>();
+		default:
+			System.out.println("In default case");
 			
-			//Arraylists mit allen Infos an das protocolEvent als Property anfügen
-			sessionInfos.setValue(sessionEvent);
+		for(Property<?> property :event.getProperties()) {
 			
-			tokens.setValue(tokenEvents);
-			protocolEvent.add(tokens);
+			switch (property.getKey().toLowerCase()) {
 			
-			requests.setValue(requestEvents);
-			protocolEvent.add(requests);
-			
-			documents.setValue(documentProposals);
-			protocolEvent.add(documents);
-			
-			// Sendet das Event an DR (welches Topic ???) 
-			try {
-				getAgent().send(protocolEvent, "TOPIC??");
-			} catch (NoValidEventException e1) {
-				java.util.logging.Logger logger = LoggerFactory.getLogger("ProtocolSend");
-			} catch (NoValidTargetTopicException e1) {
-				java.util.logging.Logger logger = LoggerFactory.getLogger("ProtocolSend");
+			case "teilnehmer1":
+				System.out.println("Protokoll hat User1 empfangen: " + property.getValue().toString());
+				ProtocolAgent.addUserList(property.getValue().toString());				
+				break;
+			case "teilnehmer2":
+				System.out.println("Protokoll hat User2 empfangen: " + property.getValue().toString());
+				ProtocolAgent.addUserList(property.getValue().toString());
+				break;
+			case "topic":
+				if(property.getValue() != null) {
+				System.out.println("Protokoll hat das folgende Topic empfangen: " + property.getValue().toString());
+				ProtocolAgent.addTopicList(property.getValue().toString());
+				}
+				break;
+			case "sessionstart":
+				ProtocolAgent.setSessionStart(event.getCreationDate());
+				break;
+			case "project":
+				if(property.getValue() != null) {
+				System.out.println("Protokoll hat Projekt empfangen: " + property.getValue().toString());
+				ProtocolAgent.addProjectList(property.getValue().toString());
+				}
+				break;
+			case "sessionid":
+				ProtocolAgent.setSessionId(property.getValue().toString());
+				break;
+			default:
+				break;
 			}
-			
+		}
+		break;
 		} 
+		}
+		
+		
+		public void CreateProtocolEvent() {
+		try {
+			
+			protocolEvent.setType("ProtocolEvent");
+			protocolEvent.add(new Property<String>("SessionID", ProtocolAgent.getSessionId()));
+			protocolEvent.add(new Property<Timestamp>("SessionStart", ProtocolAgent.getSessionStart()));
+			protocolEvent.add(new Property<Timestamp>("SessionEnd", ProtocolAgent.getSessionEnd()));
+			Integer duration = TimeUtils.getDifferenceInSeconds(ProtocolAgent.getSessionEnd(), ProtocolAgent.getSessionStart());
+			protocolEvent.add(new Property<Integer>("Duration", duration));
+			protocolEvent.add(new Property<ArrayList<String>>("User", ProtocolAgent.getUserList()));
+			protocolEvent.add(new Property<ArrayList<String>>("Topics", ProtocolAgent.getTopicList()));
+			protocolEvent.add(new Property<ArrayList<AbstractEvent>>("ProposedDocs", ProtocolAgent.getProposedDocList()));
+			protocolEvent.add(new Property<ArrayList<AbstractEvent>>("ClickedDocs", ProtocolAgent.getClickedDocList()));
+			protocolEvent.add(new Property<ArrayList<String>>("Projects", ProtocolAgent.getProjectList()));
+			
+			try {
+				this.getAgent().send(protocolEvent, "Protocol");
+			} catch (NoValidEventException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			LoggerFactory.getLogger("ProtocolSend");
+		} catch (NoValidTargetTopicException e1) {
+			LoggerFactory.getLogger("ProtocolSend");
+		}
+	}
 	
 	
 	}
 
-}
+

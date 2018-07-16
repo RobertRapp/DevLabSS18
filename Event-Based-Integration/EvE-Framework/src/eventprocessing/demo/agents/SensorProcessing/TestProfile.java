@@ -1,15 +1,9 @@
 package eventprocessing.demo.agents.SensorProcessing;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import eventprocessing.agent.NoValidEventException;
-import eventprocessing.agent.NoValidTargetTopicException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.demo.ShowcaseValues;
-import eventprocessing.demo.events.SensorEvent;
 import eventprocessing.event.AbstractEvent;
-import eventprocessing.utils.TextUtils;
 import eventprocessing.utils.factory.LoggerFactory;
 
 /**
@@ -44,7 +38,7 @@ public class TestProfile extends AbstractInterestProfile {
 				try {
 					// Das erzeugte Event wird über den Agenten an das Topic "TrafficData" versendet
 					getAgent().send(e, ShowcaseValues.INSTANCE.getTrafficDataTopic());
-				} catch (NoValidEventException e1) {
+				System.out.println(this.getClass().getSimpleName()+" : Event versendet "+TimeUtils.getCurrentTime()+" - "+ event.getType());} catch (NoValidEventException e1) {
 					LOGGER.log(Level.WARNING, () -> String.format("%s", e));
 				} catch (NoValidTargetTopicException e1) {
 					LOGGER.log(Level.WARNING, () -> String.format("%s", e));

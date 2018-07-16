@@ -5,8 +5,8 @@ import eventprocessing.utils.model.ModelUtils;
 
 /**
  * Statements überprüfen die eingehende Nachricht auf ein bestimmtes Muster.
- * Dazu wird ein <code>FilterAttribute</code> gesetzt, welches auf die eingehende
- * Nachricht angewandt wird. 
+ * Dazu wird ein <code>FilterAttribute</code> gesetzt, welches auf die
+ * eingehende Nachricht angewandt wird.
  * 
  * @author IngoT
  *
@@ -25,9 +25,9 @@ public abstract class StatementPredicate extends AbstractPredicate {
 	private FilterAttribute<?> filterAttribute = null;
 
 	public StatementPredicate() {
-		
+
 	}
-	
+
 	/**
 	 * Wenn nur nach der Eigenschaft gesucht wird.
 	 * 
@@ -49,19 +49,20 @@ public abstract class StatementPredicate extends AbstractPredicate {
 	public StatementPredicate(String property, String value) {
 		this.filterAttribute = new FilterAttribute<String>(property, value);
 	}
-	
+
 	public StatementPredicate(String property, Integer value) {
 		this.filterAttribute = new FilterAttribute<Integer>(property, value);
 	}
-	
+
 	public StatementPredicate(String property, Boolean value) {
 		this.filterAttribute = new FilterAttribute<Boolean>(property, value);
 	}
-	
 
 	/**
 	 * Ruft das FilterAttribute ab.
+	 * 
 	 * @param <T>
+	 *            Art des Filterattributes.
 	 * 
 	 * @return das Filterattribute
 	 */
@@ -88,8 +89,6 @@ public abstract class StatementPredicate extends AbstractPredicate {
 		return this.pattern;
 	}
 
-		
-	
 	/**
 	 * Prüft ob die Nachricht dem Muster entspricht.
 	 * 
@@ -119,7 +118,7 @@ public abstract class StatementPredicate extends AbstractPredicate {
 	private Object[] getSignificantFields() {
 		return new Object[] { this.getFilterAttribute(), this.getPattern() };
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return ModelUtils.hashCodeFor(getSignificantFields());

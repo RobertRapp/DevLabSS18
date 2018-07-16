@@ -2,22 +2,25 @@ package hdm.developmentlab.ebi.eve_implementation.activityService.interestprofil
 
 
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 import eventprocessing.agent.NoValidEventException;
 import eventprocessing.agent.NoValidTargetTopicException;
-import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.AbstractFactory;
 import eventprocessing.utils.factory.FactoryProducer;
 import eventprocessing.utils.factory.FactoryValues;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
-import hdm.developmentlab.ebi.eve_implementation.events.ApplicationEvent;
-import hdm.developmentlab.ebi.eve_implementation.events.TokenEvent;
 
+/**
+ * Das Interessensprofil @TokenApplicationIP verarbeitet Events vom Typ CalenderEvent, presentation & spreadsheets die vom Topic TokenGeneration konsumiert wurden.
+ * Abhängig vom Typ des Events werden den Events der passende Applikations-Link als newProperty angehängt.
+ * 
+ */
 
 public class TokenApplicationIP extends eventprocessing.agent.interestprofile.AbstractInterestProfile {
 
@@ -37,29 +40,53 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 	 */
 	
 	@Override
-	protected void doOnReceive(AbstractEvent event) {
-		// Erzeugt über die Factory ein neues Event
-		AbstractEvent applicationEvent = eventFactory.createEvent(FactoryValues.INSTANCE.getAtomicEvent());
+	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
+	
+		System.out.println("in Ip von Application");
+			System.out.println("Event das in TokenAppl ankomment: " + event);
+			if(event.getType().equalsIgnoreCase("CalendarEvent")) event.add(new Property<String>("URL","calendar.google.com"));
+			String type = (String) event.getPropertyByKey("ApplicationType").getValue();
 			
-		// Prüfe ob das empfangene Event vom Typ TokenEvent ist und eine Application beinhaltet
-		if (EventUtils.findPropertyByKey(event, "Type").getValue() == "Application") {
-			applicationEvent = event; 	
-			applicationEvent.setType("ApplicationEvent");
+			switch (type) {
+			case "presentation":
+				event.add(new Property<String>("URL","http://docs.google.com/presentation"));	
+				break;
+			case "spreadsheets":
+				event.add(new Property<String>("URL","http://docs.google.com/spreadsheets"));	
+				break;
+			default:
+				System.out.println("URL wird in Default angehängt");
+				event.add(new Property<String>("URL","http://"+type+".google.com"));
+				break;
+			}
 			
-			
-				// Sendet das Event an DR (welches Topic ???) 
 				try {
-					getAgent().send(applicationEvent, "TOPIC??");
-				} catch (NoValidEventException e1) {
-					java.util.logging.Logger logger = LoggerFactory.getLogger("ApplicationSend");
+					
+					event.setType("DocProposalEvent");
+					event.add(new Property<String>("Documentname","Google "+event.getPropertyByKey("ApplicationType").getValue()));
+					event.add(new Property<String>("Author","Google"));
+					event.add(new Property<String>("Editor",event.getValueByKey("userID").toString()));
+					event.add(new Property<String>("Project","Google"));
+					event.add(new Property<String>("Filename",(String) event.getValueByKey("ApplicationType")));					;
+					event.add(new Property<String>("LastChangeDate","16.07.2018"));
+					event.add(new Property<String>("Category","Application"));
+					event.add(new Property<String>("FileID", String.valueOf(event.getId())));
+					event.add(new Property<String>("DocumentType","Application"));
+					
+					//Für die GUI Attribute type, docid, category, Author, URL, Filename, Category
+					
+					System.out.println("Sendet die folgende Application: " + event);
+					System.out.println("Pfad: " + event.getValueByKey("URL"));
+					getAgent().send(event, "DocProposal");
+				System.out.println(this.getClass().getSimpleName()+" : Event versendet "+TimeUtils.getCurrentTime()+" - "+ event.getType());} catch (NoValidEventException e1) {
+					LoggerFactory.getLogger("ApplicationSend");
 				} catch (NoValidTargetTopicException e1) {
-					java.util.logging.Logger logger = LoggerFactory.getLogger("ApplicationSend");
+					LoggerFactory.getLogger("ApplicationSend");
 				}
 				
 		}
 		
 		
 		
-	}
-
+	
 }

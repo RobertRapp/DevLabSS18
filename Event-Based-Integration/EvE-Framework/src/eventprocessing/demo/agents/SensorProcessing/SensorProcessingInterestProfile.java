@@ -10,6 +10,7 @@ import eventprocessing.demo.ShowcaseValues;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
 import eventprocessing.utils.TextUtils;
+import eventprocessing.utils.TimeUtils;
 import eventprocessing.utils.factory.LoggerFactory;
 import eventprocessing.utils.model.EventUtils;
 
@@ -46,7 +47,7 @@ public class SensorProcessingInterestProfile extends AbstractInterestProfile {
 				try {
 					// Das erzeugte Event wird über den Agenten an das Topic "TrafficData" versendet
 					getAgent().send(event, ShowcaseValues.INSTANCE.getTrafficDataTopic());
-				} catch (NoValidEventException e1) {
+				System.out.println(this.getClass().getSimpleName()+" : Event versendet "+TimeUtils.getCurrentTime()+" - "+ event.getType());} catch (NoValidEventException e1) {
 					LOGGER.log(Level.WARNING, () -> String.format("%s", event));
 				} catch (NoValidTargetTopicException e1) {
 					LOGGER.log(Level.WARNING, () -> String.format("%s", ShowcaseValues.INSTANCE.getTrafficDataTopic()));

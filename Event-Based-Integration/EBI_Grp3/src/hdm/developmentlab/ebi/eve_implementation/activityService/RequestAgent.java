@@ -1,25 +1,24 @@
 package hdm.developmentlab.ebi.eve_implementation.activityService;
 
-import java.util.ArrayList;
-
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
-import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
-import eventprocessing.agent.interestprofile.predicates.NullPredicateException;
+import eventprocessing.agent.interestprofile.predicates.logical.And;
+import eventprocessing.agent.interestprofile.predicates.logical.Not;
 import eventprocessing.agent.interestprofile.predicates.logical.Or;
-import eventprocessing.agent.interestprofile.predicates.statement.HasProperty;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
-import eventprocessing.demo.ShowcaseValues;
-import eventprocessing.demo.agents.diagnosis.DiagnosisInterestProfile;
-import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenApplicationIP;
+import eventprocessing.agent.interestprofile.predicates.statement.IsFromTopic;
 import hdm.developmentlab.ebi.eve_implementation.activityService.interestprofiles.TokenDocumentType;
-import hdm.developmentlab.ebi.eve_implementation.events.SessionEvent;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.SessionState;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.TimeReference;
-import hdm.developmentlab.ebi.eve_implementation.sessionContextService.interestprofiles.User;
 
+/**
+ * Der RequestAgent sorgt dafür dass Dokumentenanfragen an DR gesendet werden. Dafür konsumiert er vom Topic TokenGeneration und SessionContext
+ * 
+ * Er besitzt die IP TokenDocumentType. 
+ * 
+ * @author rrapp, birk
+ *
+ */
 
 public class RequestAgent extends AbstractAgent {
 
@@ -48,9 +47,9 @@ public class RequestAgent extends AbstractAgent {
 		try {
 			AbstractInterestProfile ip = new TokenDocumentType();
 			try {
-				ip.add(new Or(new IsEventType("TokenEvent"), new IsEventType("SessionContext")));
-			} catch (NullPredicateException e) {
-				// TODO Auto-generated catch block
+				ip.add(new Or(new IsEventType("SessionContextEvent"), (new And(new IsFromTopic("TokenGeneration"), new Not(new IsEventType("ApplicationEvent"))))));
+			} catch (eventprocessing.agent.interestprofile.predicates.logical.NullPredicateException e) {
+
 				e.printStackTrace();
 			}
 			this.add(ip);

@@ -60,8 +60,8 @@ public class AgentInformation implements Serializable {
 	}
 
 	/**
-	 * @param assignedId
-	 *            the assignedId to set
+	 * @param id
+	 *            the id to set
 	 */
 	public void setId(long id) {
 		this.id = id;

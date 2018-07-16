@@ -81,8 +81,8 @@ $KAFKA_HOME/bin/kafka-topics.sh --zookeeper zookeeper:2181 --list
 $KAFKA_HOME/bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 1 --topic test
 
 # Auf das Topic test können über die Konsole Nachrichten geschrieben werden.
-$KAFKA_HOME/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+$KAFKA_HOME/bin/kafka-console-producer.sh --broker-list 10.142.0.2:9092 --topic test
 
 # Alle Nachrichten des Topic "test" werden abgerufen.
-$KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
+$KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server 10.142.0.2:9092 --topic test --from-beginning
 ```

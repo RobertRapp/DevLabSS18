@@ -1,0 +1,27 @@
+{
+ "name": "Bäg",
+ "color": "white",
+ "fontcolor": "black",
+ "children": [
+  {
+ "name": "Kontext 1", 
+ "color": "green",
+ "fontcolor": "white",
+ "children": [
+ 	  { "name": "eins", "color": "blue", "fontcolor": "white", "Ersteller": "Patrick", "size": 200},
+      {"name": "zwei", "color": "blue", "fontcolor": "white", "Ersteller": "Helmut","size": 50},
+      {"name": "drei", "color": "blue", "fontcolor": "white", "Ersteller": "Juri","size": 50}
+    ]
+   },
+  {
+   "name": "Kontext 2",
+   "color": "green",
+   "fontcolor": "white",
+ 	"children": [
+ 	 { "name": "eins", "color": "red", "fontcolor": "white","Ersteller": "Natascha","size": 50},
+      {"name": "zwei", "color": "red", "fontcolor": "white","Ersteller": "Mr. D","size": 50},
+      {"name": "drei", "color": "red", "fontcolor": "white","Ersteller": "Tim", "size": 50}
+    ]
+   }
+   ]
+}

@@ -2,7 +2,11 @@ package startServices;
 
 import eventprocessing.agent.AbstractAgent;
 import eventprocessing.consume.kafka.ConsumerSettings;
+<<<<<<< HEAD
 import eventprocessing.consume.spark.streaming.NoValidAgentException;
+=======
+import eventprocessing.agent.AgentException;
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 import eventprocessing.consume.spark.streaming.StreamingExecution;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
@@ -35,6 +39,7 @@ public class StartServicesSessionContext {
 	private static AbstractFactory agentFactory = FactoryProducer.getFactory(FactoryValues.INSTANCE.getAgentFactory());
 	
 	
+<<<<<<< HEAD
 	public static void main(String[] args) throws NoValidAgentException, InterruptedException
 	 {
 		despatcher = new Despatcher(new ProducerSettings("localhost","9092"));
@@ -42,6 +47,15 @@ public class StartServicesSessionContext {
 		
 		sessionContextAgent.setConsumerSettings(new ConsumerSettings("localhost","9092", "g"));
 		sessionContextAgent.setProducerSettings(new ProducerSettings("localhost","9092"));
+=======
+	public static void main(String[] args) throws AgentException, InterruptedException
+	 {
+		despatcher = new Despatcher(new ProducerSettings("10.142.0.2","9092"));
+		AbstractAgent sessionContextAgent = new SessionContextAgent();
+		
+		sessionContextAgent.setConsumerSettings(new ConsumerSettings("10.142.0.2","9092", "g"));
+		sessionContextAgent.setProducerSettings(new ProducerSettings("10.142.0.2","9092"));
+>>>>>>> 3299b29c173e39619cff723bc73a73280c3f9dd8
 		
 		
 		//StreamingExecution.add(activityService);

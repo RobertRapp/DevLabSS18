@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import eventprocessing.agent.interestprofile.predicates.AbstractPredicate;
-import eventprocessing.agent.interestprofile.predicates.NullPredicateException;
 import eventprocessing.utils.model.ModelUtils;
 
 /**
@@ -24,19 +23,21 @@ public final class Or extends LogicalPredicate {
 	private final StreamPredicate streamPredicate = new StreamPredicate();
 
 	public Or() {
-		
+
 	}
-	
+
 	/**
 	 * Für die Verarbeitung sind mindestens zwei <code>AbstractPredicate</code>
 	 * notwendig. Alle weiteren Prädikate sind optional.
 	 * 
-	 * @param firstPredicate,
+	 * @param firstPredicate
 	 *            das erste Prädikat, welches geprüft wird
-	 * @param secondPredicate,
+	 * @param secondPredicate
 	 *            das zweite Prädikat, welches geprüft wird morePredicates, alle
 	 *            weiteren Prädikate, die Optional angegeben werden.
-	 * @throws NullPredicateException,
+	 * @param morePredicates
+	 *            es kann eine beliebige Verkettung von Prädikaten angegeben werden.
+	 * @throws NullPredicateException
 	 *             ist eins der ersten beiden Prädikate null wird eine Exception
 	 *             geworfen und keine Instanz erzeugt
 	 */
@@ -68,7 +69,7 @@ public final class Or extends LogicalPredicate {
 	public List<AbstractPredicate> getPredicates() {
 		return this.predicates;
 	}
-	
+
 	/**
 	 * 
 	 * Die Nachricht durchläuft alle Prädikate und sobald ein Prädikat das Ergebnis
@@ -95,7 +96,7 @@ public final class Or extends LogicalPredicate {
 	private Object[] getSignificantFields() {
 		return new Object[] { this.getPredicates() };
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return ModelUtils.hashCodeFor(getSignificantFields());
