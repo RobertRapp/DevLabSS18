@@ -153,7 +153,7 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 	
 			for (int i = 0; i < projects.size(); i++) {
 			// project element
-			Element actionid0 = doc.createElement("Projekt-Nummer:"+i);
+			Element actionid0 = doc.createElement("Projekt-Nummer"+i);
 			action1.appendChild(actionid0);	
 						
 			// type element
