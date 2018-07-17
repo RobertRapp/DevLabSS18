@@ -22,7 +22,7 @@ public class SocketServer {
 	       // server.setStopTimeout(1000000L);
 	        
 	        ServerConnector connector = new ServerConnector(server);
-	        connector.setPort(8090);
+	        connector.setPort(80);
 	        server.addConnector(connector);
 	        
 
