@@ -64,6 +64,7 @@ var server = "ws://35.237.43.191:80/socket";
 		 $('#merkerListe').hide();
 		 $(".docInformation").css("opacity", 0);
 		 stopRec();
+		 location.reload();
 	}
 	//Elemente der Hauptseite werden ausgeblendet und die der Startseite eingeblendet
 	//Watson Aufnahme wird beendet
@@ -77,11 +78,13 @@ var server = "ws://35.237.43.191:80/socket";
 		 $('#merkerListe').hide();
 		 $(".docInformation").css("opacity", 0);
 		 stopRec();
+		 location.reload();
 		 webSocket.send(JSON.stringify({
 	            type: "sessionEnd",
 	            sessionID: sessionID,
 	            userID: userEmail
 	        }));
+		 location.reload();
 		 return false;	
 	});
 	

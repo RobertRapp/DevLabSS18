@@ -122,7 +122,7 @@ const arc = d3.arc()
         		  
   gSlices.append('text')
          .attr('dy', '.35em')
-         .text(function (d) { return d.parent ? d.data.name : '' })
+         .text(function (d) { return d.parent ? d.data.name.substr(0,10) : '' })
          .attr('id', function (d) { return 'w' + d.data.name })
          .attr('fill', function(d){return d.data.fontcolor})
 
@@ -226,8 +226,8 @@ function click(d) {
          .style("opacity", 1)	
          docInformation .html(
 				 	'<div id="docInfo"> <p id="'+d.data.docID+'"> </p>'+
-				 	'<h6 id="docName">' +d.data.name +'</h6>'+
-				 	'<h8 id="docErsteller"> Ersteller: ' +d.data.Ersteller +'</h8>'+
+				 	'<h6 id="docName">' +d.data.name.substr(0,20) +'</h6>'+
+				 	'<h8 id="docErsteller"> Ersteller: ' +d.data.Ersteller.substr(0,20) +'</h8>'+
 				 	"</div>" +
 		            '<a class="btn btn-info" onclick="openDocument(this)" href= "'+ d.data.path + '" target="_blank">' + 
 		            "Dokument öffnen" +
@@ -236,8 +236,8 @@ function click(d) {
 		            "</button>")
 		              
          
-          .style("left", 55 + "%")		
-          .style("top", 23 + "%");
+          .style("left", 52 + "%")		
+          .style("top", 25 + "%");
       }else{
     	  docInformation.transition()		
     	  	.duration(500)		
