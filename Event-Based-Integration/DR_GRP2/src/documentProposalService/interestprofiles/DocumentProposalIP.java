@@ -48,7 +48,8 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 	 * 
 	 */
 	@Override
-	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
+	protected void doOnReceive(AbstractEvent event) {
+		System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime() +" EVENT:" +event);
 							 
 		// Baut die SPARQL-Abfrage aus Bausteinen zusammen und frägt diese in der Ontologie ab.					 
 		String result = getModul(event);
@@ -71,7 +72,8 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 				try {
 					//Neue FeedbackEvent.
 					System.out.println("DR schickt dieses Event an die GUI mit : " + outputEvent.getProperties().size());
-					if(outputEvent.getProperties().size() > 1) {
+					if(outputEvent.getProperties().size() > 1 && outputEvent.getProperties().size() != 26 ) {
+						
 						this.getAgent().send(outputEvent, "DocProposal");
 					}
 				} catch (NoValidEventException e) {
@@ -82,7 +84,8 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 					e.printStackTrace();
 				}
 		
-	}
+		}
+		
 
 
 	//sQueryAnfang: Dieser Anfang wird in jeder SPARQL-Abfrage benötigt.
@@ -165,8 +168,12 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 			 }
 		 }
 
-		 String strproject = (String) event.getValueByKey("project");
-		 String strperson = (String) event.getValueByKey("person");
+		 String strproject = null;
+		 String strperson = null;
+		 if(EventUtils.findPropertyByKey(event, "project") != null) {
+			 strproject = (String) event.getValueByKey("project"); }
+		 if(EventUtils.findPropertyByKey(event, "person") != null) {
+		  strperson = (String) event.getValueByKey("person"); }
 		 
 		 if(EventUtils.findPropertyByKey(event, "project") != null || EventUtils.findPropertyByKey(event, "person") != null|| EventUtils.findPropertyByKey(event, "keyword") != null) {
 			 if(EventUtils.findPropertyByKey(event, "project") != null) { 

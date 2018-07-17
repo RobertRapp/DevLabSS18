@@ -49,11 +49,15 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 	//System.out.printDieses Event wurde empfangen: " + event);	
 		
 		if(event.getType().equalsIgnoreCase("SessionEndEvent")) {
+			System.out.println("Session beendet durch Event"+event.getType()+":" + event.getId());
 			DocProposalAgent dpA = (DocProposalAgent)this.getAgent();
 			dpA.getProposal().clearProposal();
 		} else {
 			
-		
+//		System.out.println("EVENT in DOCPROSALIP"+event);
+//		if(event.getProperties().size() == 26 || event.getProperties().size() == 0) {
+//			return;
+//		}
 		
 		ArrayList<Document> docListe = new ArrayList<Document>(); //property.getValue() L9inked Hashmap
 		
@@ -109,9 +113,11 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 			}
 			}
 		
-		if(EventUtils.findPropertyByKey(event,"Category") == null || EventUtils.findPropertyByKey(event,"Category").getValue().equals("Application")) {
+		//if(EventUtils.findPropertyByKey(event,"Category").getValue().equals("Application")|| EventUtils.hasProperty(event,"Category")) {
+			System.out.println();
 			docListe.add(new Document(fileId, docname, doctype, url , "50", editor, lastChangeDate, category));
-		}	
+			System.out.println("DOCLISTE DOC PROPOSAL IP : "+docListe);
+	//	}	
 		
 		
 		DocProposalAgent dPA = (DocProposalAgent) this.getAgent();

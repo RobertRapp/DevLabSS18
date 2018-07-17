@@ -46,8 +46,8 @@ public class DocumentProposal {
 			
 			
 			
-			ArrayList<Document> documentList=documents;
-			documentList.addAll(newDocuments);
+			//ArrayList<Document> documentList=documents;
+			//documentList.addAll(newDocuments);
 //			for(Document d : documentList) {
 //				
 //				System.out.println("Documentliste Element:  "+d);
@@ -57,12 +57,14 @@ public class DocumentProposal {
 			
 			
 			//Pr�fen ob Gesamtsumme der Dokumente die maximale Anzahl �bertrifft
-			 if(documentList.size() > maxDocuments) {
-				  int sumDeleteDocuments =  documentList.size() - maxDocuments;
-				  for (int i=0; i < sumDeleteDocuments; i++) {
-					 documentList.remove(0);
-				  	}					  
+			documents.addAll(newDocuments);
+			if(documents.size() > 15) {
+				ArrayList<Document> removableDocs = new ArrayList<Document>();
+				for(int i = 0; (documents.size() - i) == 15; i ++) {
+					removableDocs.add(documents.get(i));
 				}
+						documents.removeAll(removableDocs);
+			}
 					
 //			for (Document doc : documentList) {
 //				//Pr�fen ob ein Dokument einer neuen Kategorie zugeordnet ist. Wenn ja, dann Kategorienliste aktualisieren
@@ -73,11 +75,12 @@ public class DocumentProposal {
 //			}
 			
 				ArrayList<String> newCategoryList = new ArrayList<>();
-				for(Document document : documentList) {
+				for(Document document : documents) {
 					if(!newCategoryList.contains(document.getCategorie())) newCategoryList.add(document.getCategorie());		
 				}
 				categories = newCategoryList;
 			}
+		
 			
 		
 //			public void addDocuments(ArrayList<Document> newDocuments) {
@@ -97,7 +100,7 @@ public class DocumentProposal {
 //				   }
 //				}
 //			}
-//			
+			
 			
 		
 		

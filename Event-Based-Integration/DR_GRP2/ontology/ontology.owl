@@ -837,8 +837,8 @@
         <IsEditorOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#SystemDocu"/>
         <IsEmployeeOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#BrokenBits"/>
         <IsMemberOfConversation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Conversation1"/>
-        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
         <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MicrosoftProject"/>
+        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <IsMemberOfUsage rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage2"/>
         <EMail rdf:datatype="http://www.w3.org/2001/XMLSchema#string">adam.miller@brokenbits.de</EMail>
         <FirstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">adam</FirstName>
@@ -861,7 +861,7 @@
         <IsEditorOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#RessourcePlan"/>
         <IsEmployeeOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#StarCars"/>
         <IsMemberOfConversation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Conversation3"/>
-        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBMProject"/>
+        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM"/>
         <IsMemberOfUsage rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage2"/>
         <IsMemberOfUsage rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage4"/>
         <EMail rdf:datatype="http://www.w3.org/2001/XMLSchema#string">benedict.jordan@starcars.de</EMail>
@@ -878,9 +878,9 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#BrokenBits">
         <rdf:type rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Company"/>
-        <HasBelongingProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
         <HasBelongingProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HighNet"/>
         <HasBelongingProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MicrosoftProject"/>
+        <HasBelongingProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <HasEmployee rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#AdamMiller"/>
         <HasEmployee rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DiCui"/>
         <HasEmployee rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FiniaIgel"/>
@@ -988,7 +988,7 @@
         <ConversationHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HarukiMoto"/>
         <ConversationHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#LisaMeier"/>
         <ConversationHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#VanessaKeller"/>
-        <HasTopicOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
+        <HasTopicOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <HasUsage rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage3"/>
         <IsDescribedByProtocol rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Protocol1"/>
         <ConversationEndTime rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-06-27T16:00:00Z</ConversationEndTime>
@@ -1030,7 +1030,7 @@
         <ConversationHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MikeTrump"/>
         <ConversationHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#RobertRapp"/>
         <HasTopicOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HighNet"/>
-        <HasTopicOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBMProject"/>
+        <HasTopicOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM"/>
         <HasTopicOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MicrosoftProject"/>
         <HasUsage rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage1"/>
         <IsDescribedByProtocol rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Protocol3"/>
@@ -1047,14 +1047,14 @@
         <HasAuthor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#JenniferTran"/>
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleDrive"/>
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#JenniferTran"/>
-        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HighNet"/>
+        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM"/>
         <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage1"/>
         <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">table</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-05-24T13:06:00Z</FileCreationDate>
         <FileID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">17LFPYVxbBQK5Wdt5SrNgo3_iYxXJiXfXq6jYoLl8H4Y</FileID>
         <FileName>costplan</FileName>
         <FileVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">V2</FileVersion>
-        <Keyword>cost; expenses; expense; costs;</Keyword>
+        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">cost; expenses; expense; costs; costplan; plan;</Keyword>
         <LastChangeDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-06-29T09:30:00Z</LastChangeDate>
         <URL>https://docs.google.com/spreadsheets/d/17LFPYVxbBQK5Wdt5SrNgo3_iYxXJiXfXq6jYoLl8H4Y/edit#gid=0</URL>
     </owl:NamedIndividual>
@@ -1068,7 +1068,7 @@
         <HasAuthor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#VanessaKeller"/>
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleDrive"/>
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#VanessaKeller"/>
-        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
+        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage3"/>
         <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">text</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-03-20T13:17:00Z</FileCreationDate>
@@ -1126,36 +1126,6 @@
     
 
 
-    <!-- http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation">
-        <rdf:type rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GeneralProject"/>
-        <BelongsTo rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#BrokenBits"/>
-        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostStatement"/>
-        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FinalPresentation"/>
-        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Note3"/>
-        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Protocol1"/>
-        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Receipt"/>
-        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#RequirementDesc"/>
-        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#SystemDocu"/>
-        <HasUsedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MilestonePlan"/>
-        <HasUsedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectContract"/>
-        <HasUsedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Specification"/>
-        <IsTopicOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Conversation1"/>
-        <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#AdamMiller"/>
-        <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FiniaIgel"/>
-        <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FlorianHahn"/>
-        <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HarukiMoto"/>
-        <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#JenniferTran"/>
-        <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#RobertRapp"/>
-        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dokumenten; repräsentation; representation; document; documentrepresentation</Keyword>
-        <ProjectID rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1000002008</ProjectID>
-        <ProjectName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">dokumentenrepräsentation</ProjectName>
-        <ProjectPeriod rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">90</ProjectPeriod>
-    </owl:NamedIndividual>
-    
-
-
     <!-- http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#EnvironmentAnalysis -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#EnvironmentAnalysis">
@@ -1163,7 +1133,7 @@
         <HasAuthor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FiniaIgel"/>
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleDrive"/>
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MikeTrump"/>
-        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBMProject"/>
+        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM"/>
         <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage2"/>
         <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">text</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-09-08T12:17:09Z</FileCreationDate>
@@ -1184,7 +1154,7 @@
         <HasAuthor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#JenniferTran"/>
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleDrive"/>
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#JenniferTran"/>
-        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
+        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage4"/>
         <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">presentation</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-05-21T11:59:00Z</FileCreationDate>
@@ -1230,8 +1200,8 @@
         <IsEmployeeOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#BrokenBits"/>
         <IsMemberOfConversation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Conversation1"/>
         <IsMemberOfConversation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Conversation3"/>
-        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
-        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBMProject"/>
+        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM"/>
+        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <IsMemberOfUsage rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage3"/>
         <EMail rdf:datatype="http://www.w3.org/2001/XMLSchema#string">finia.igel@brokenbits.de</EMail>
         <FirstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">finia</FirstName>
@@ -1252,9 +1222,9 @@
         <IsEmployeeOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#StarCars"/>
         <IsMemberOfConversation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Conversation2"/>
         <IsMemberOfConversation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Conversation3"/>
-        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
         <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HighNet"/>
-        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBMProject"/>
+        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM"/>
+        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <IsMemberOfUsage rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage3"/>
         <EMail rdf:datatype="http://www.w3.org/2001/XMLSchema#string">florian.hahn@starcars.de</EMail>
         <FirstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">florian</FirstName>
@@ -1341,7 +1311,7 @@
         <IsEmployeeOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#StarCars"/>
         <IsMemberOfConversation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Conversation1"/>
         <IsMemberOfConversation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Conversation2"/>
-        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
+        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <IsMemberOfUsage rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage3"/>
         <EMail rdf:datatype="http://www.w3.org/2001/XMLSchema#string">haruki.moto@starcars.de</EMail>
         <FirstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">haruki</FirstName>
@@ -1362,8 +1332,6 @@
         <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#BudgetPlan"/>
         <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CapacityPlan"/>
         <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ChangeRequest"/>
-        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostPlan"/>
-        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MilestonePlan"/>
         <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Note1"/>
         <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectContract"/>
         <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Protocol3"/>
@@ -1386,12 +1354,13 @@
     
 
 
-    <!-- http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBMProject -->
+    <!-- http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM -->
 
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBMProject">
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM">
         <rdf:type rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GeneralProject"/>
         <BelongsTo rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#StarCars"/>
         <HasAuthor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MikeTrump"/>
+        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostPlan"/>
         <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#EnvironmentAnalysis"/>
         <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Order"/>
         <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#PhasePlan"/>
@@ -1404,7 +1373,7 @@
         <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FlorianHahn"/>
         <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MikeTrump"/>
         <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#VanessaKeller"/>
-        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">IBM; project; document; IBMproject, ibm</Keyword>
+        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ibm; project; document; ibmproject</Keyword>
         <ProjectID rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">10000020065</ProjectID>
         <ProjectName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ibmproject</ProjectName>
         <ProjectPeriod rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">49</ProjectPeriod>
@@ -1436,7 +1405,7 @@
         <IsEditorOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#RequirementDesc"/>
         <IsEmployeeOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#BrokenBits"/>
         <IsMemberOfConversation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Conversation3"/>
-        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
+        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <IsMemberOfUsage rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage4"/>
         <EMail rdf:datatype="http://www.w3.org/2001/XMLSchema#string">jennifer.tran@brokenbits.de</EMail>
         <FirstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">jennifer</FirstName>
@@ -1538,7 +1507,7 @@
         <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DiCui"/>
         <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#LisaMeier"/>
         <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MikeTrump"/>
-        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">microsoft; project; document; microsoftproject</Keyword>
+        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">microsoft; project; microsoftproject; projects</Keyword>
         <ProjectID rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">10000020095</ProjectID>
         <ProjectName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">microsoftproject</ProjectName>
         <ProjectPeriod rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">29</ProjectPeriod>
@@ -1551,7 +1520,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MikeTrump">
         <rdf:type rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Controller"/>
         <HasAuthor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MikeTrump"/>
-        <IsAuthorOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBMProject"/>
+        <IsAuthorOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM"/>
         <IsAuthorOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MikeTrump"/>
         <IsAuthorOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Order"/>
         <IsAuthorOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#TestDocu"/>
@@ -1560,7 +1529,7 @@
         <IsEditorOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#TestCases"/>
         <IsEmployeeOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#BrokenBits"/>
         <IsMemberOfConversation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Conversation3"/>
-        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBMProject"/>
+        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM"/>
         <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MicrosoftProject"/>
         <IsMemberOfUsage rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage4"/>
         <FirstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mike</FirstName>
@@ -1580,14 +1549,13 @@
         <HasAuthor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FlorianHahn"/>
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleDrive"/>
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FlorianHahn"/>
-        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HighNet"/>
-        <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
+        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">table</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-06-26T16:28:00Z</FileCreationDate>
         <FileID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1Snm3DMUewieNAPDd03i-JpSilUoAtAulCihEnyd4_GQ</FileID>
         <FileName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">milestone plan</FileName>
         <FileVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">V1</FileVersion>
-        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">milestone; phase; plan; project; deadline;</Keyword>
+        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">milestone; phase; plan; project; deadline; tasks;</Keyword>
         <LastChangeDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-07-01T13:00:00Z</LastChangeDate>
         <URL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://docs.google.com/spreadsheets/d/1Snm3DMUewieNAPDd03i-JpSilUoAtAulCihEnyd4_GQ/edit#gid=0</URL>
     </owl:NamedIndividual>
@@ -1643,7 +1611,7 @@
         <HasAuthor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#JenniferTran"/>
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleKeep"/>
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#AaronHumm"/>
-        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
+        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage1"/>
         <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">text</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-04-19T15:07:00Z</FileCreationDate>
@@ -1664,7 +1632,7 @@
         <HasAuthor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MikeTrump"/>
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleDrive"/>
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#RobertRapp"/>
-        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBMProject"/>
+        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM"/>
         <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage3"/>
         <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">text</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-10-12T14:09:24Z</FileCreationDate>
@@ -1685,7 +1653,7 @@
         <HasAuthor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#LisaMeier"/>
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleDrive"/>
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MikeTrump"/>
-        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBMProject"/>
+        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM"/>
         <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage3"/>
         <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">text</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-11-09T19:58:21Z</FileCreationDate>
@@ -1734,7 +1702,7 @@
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleDrive"/>
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#VanessaKeller"/>
         <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HighNet"/>
-        <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
+        <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">text</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-05-01T08:10:00Z</FileCreationDate>
         <FileID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1PDUAs_K454eHoAdS8liT4JB-8ZqCwP2gdlocd4RRokI</FileID>
@@ -1754,7 +1722,7 @@
         <HasAuthor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HarukiMoto"/>
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleDrive"/>
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#LisaMeier"/>
-        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBMProject"/>
+        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM"/>
         <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage3"/>
         <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">presentation</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-06-12T13:08:12Z</FileCreationDate>
@@ -1782,7 +1750,7 @@
         <FileID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1C_O5eFRVEYvDB7UplmV0AD4jOYzP-GxBQ8xU5GAynpI</FileID>
         <FileName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">project plan</FileName>
         <FileVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">V5</FileVersion>
-        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">project; plan; milestone; deadline; capacity;</Keyword>
+        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">project; plan; milestone; deadline; capacity; milestones; tasks; task;</Keyword>
         <LastChangeDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-03-03T17:20:00Z</LastChangeDate>
         <URL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://docs.google.com/spreadsheets/d/1C_O5eFRVEYvDB7UplmV0AD4jOYzP-GxBQ8xU5GAynpI/edit#gid=0</URL>
     </owl:NamedIndividual>
@@ -1817,14 +1785,14 @@
         <HasAuthor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#AdamMiller"/>
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleDrive"/>
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#AdamMiller"/>
-        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBMProject"/>
+        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM"/>
         <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage1"/>
-        <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tabel</DocumentType>
+        <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">table</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-02-19T18:09:12Z</FileCreationDate>
         <FileID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1HfQAa4In_POEtNAh7zw2ER75Zkkk2e1cAidaxeNmJSs</FileID>
         <FileVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">V_3</FileVersion>
         <FirstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">properties costing</FirstName>
-        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">propertiescosting; properties; costing; document</Keyword>
+        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">propertiescosting; properties; costing; cost; property; costs</Keyword>
         <LastChangeDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-07-12T11:12:58Z</LastChangeDate>
         <URL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://docs.google.com/spreadsheets/d/1HfQAa4In_POEtNAh7zw2ER75Zkkk2e1cAidaxeNmJSs/edit#gid=0</URL>
     </owl:NamedIndividual>
@@ -1836,7 +1804,7 @@
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Protocol1">
         <rdf:type rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Protocol"/>
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleDrive"/>
-        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
+        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage3"/>
         <ProtocolBelongsTo rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Conversation1"/>
         <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">text</DocumentType>
@@ -1898,7 +1866,7 @@
         <HasAuthor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#JenniferTran"/>
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleDrive"/>
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#JenniferTran"/>
-        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
+        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage4"/>
         <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">text</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-02-16T09:17:00Z</FileCreationDate>
@@ -1919,7 +1887,7 @@
         <HasAuthor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#VanessaKeller"/>
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleDrive"/>
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#JenniferTran"/>
-        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
+        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage3"/>
         <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">text</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-05-12T14:09:00Z</FileCreationDate>
@@ -1942,12 +1910,12 @@
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#BenedictJordan"/>
         <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MicrosoftProject"/>
         <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage2"/>
-        <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tabel</DocumentType>
+        <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">table</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-12-19T19:02:19Z</FileCreationDate>
         <FileID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1PHDuDqWDWqYjD4-ufa0G4s3QgvyJVRGUenvKjECR_24</FileID>
         <FileName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ressource plan</FileName>
         <FileVersion rdf:datatype="http://www.w3.org/2001/XMLSchema#string">V_4</FileVersion>
-        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ressource; plan; document; documents</Keyword>
+        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ressource; plan; document; documents; ressources</Keyword>
         <LastChangeDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-06-30T20:09:37Z</LastChangeDate>
         <URL rdf:datatype="http://www.w3.org/2001/XMLSchema#string">https://docs.google.com/spreadsheets/d/1PHDuDqWDWqYjD4-ufa0G4s3QgvyJVRGUenvKjECR_24/edit#gid=0</URL>
     </owl:NamedIndividual>
@@ -1985,7 +1953,7 @@
         <IsEmployeeOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#StarCars"/>
         <IsMemberOfConversation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Conversation2"/>
         <IsMemberOfConversation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Conversation3"/>
-        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
+        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <IsMemberOfUsage rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage3"/>
         <EMail rdf:datatype="http://www.w3.org/2001/XMLSchema#string">robert.rapp@starcars.de</EMail>
         <FirstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">robert</FirstName>
@@ -2005,7 +1973,7 @@
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleDrive"/>
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FiniaIgel"/>
         <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HighNet"/>
-        <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
+        <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">table</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-12-18T18:16:00Z</FileCreationDate>
         <FileID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1cg5y80EpgzDp6uEFunSiWLtseMWqlLYN76EoLCobc48</FileID>
@@ -2024,7 +1992,7 @@
         <rdf:type rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Company"/>
         <HasBelongingProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DevelopmentProject"/>
         <HasBelongingProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HighNet"/>
-        <HasBelongingProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBMProject"/>
+        <HasBelongingProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM"/>
         <HasEmployee rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#AaronHumm"/>
         <HasEmployee rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#BenedictJordan"/>
         <HasEmployee rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FlorianHahn"/>
@@ -2086,7 +2054,7 @@
         <HasAuthor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#AdamMiller"/>
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleDrive"/>
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#AdamMiller"/>
-        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DokumentenRepräsentation"/>
+        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom"/>
         <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage1"/>
         <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">text</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-05-12T17:29:38Z</FileCreationDate>
@@ -2106,6 +2074,36 @@
     
 
 
+    <!-- http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Telecom">
+        <rdf:type rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GeneralProject"/>
+        <BelongsTo rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#BrokenBits"/>
+        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#CostStatement"/>
+        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FinalPresentation"/>
+        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MilestonePlan"/>
+        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Note3"/>
+        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Protocol1"/>
+        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Receipt"/>
+        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#RequirementDesc"/>
+        <HasCreatedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#SystemDocu"/>
+        <HasUsedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#ProjectContract"/>
+        <HasUsedFile rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Specification"/>
+        <IsTopicOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Conversation1"/>
+        <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#AdamMiller"/>
+        <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FiniaIgel"/>
+        <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FlorianHahn"/>
+        <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HarukiMoto"/>
+        <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#JenniferTran"/>
+        <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#RobertRapp"/>
+        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">telecom; tellecom; telekom; tellekom; telcom; telkom; telecom; telekom; telecom project; tellecom project; telekom project;</Keyword>
+        <ProjectID rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">1000002008</ProjectID>
+        <ProjectName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">telecom</ProjectName>
+        <ProjectPeriod rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">90</ProjectPeriod>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#TestCases -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#TestCases">
@@ -2113,7 +2111,7 @@
         <HasAuthor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#BenedictJordan"/>
         <HasMemoryLocation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#GoogleDrive"/>
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MikeTrump"/>
-        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBMProject"/>
+        <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM"/>
         <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage2"/>
         <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tabel</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-06-28T18:08:27Z</FileCreationDate>
@@ -2136,7 +2134,7 @@
         <IsChangedBy rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#LisaMeier"/>
         <IsCreatedFor rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MicrosoftProject"/>
         <IsUsedIn rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Usage3"/>
-        <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">tabel</DocumentType>
+        <DocumentType rdf:datatype="http://www.w3.org/2001/XMLSchema#string">table</DocumentType>
         <FileCreationDate rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2017-11-17T18:47:23Z</FileCreationDate>
         <FileID rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1QZybmw_TPLXa_deavXbNGhIeOFzYBu8_HIpsfCxKaIk</FileID>
         <FileName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">test docu</FileName>
@@ -2273,7 +2271,7 @@
         <IsEmployeeOf rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#BrokenBits"/>
         <IsMemberOfConversation rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#Conversation1"/>
         <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#HighNet"/>
-        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBMProject"/>
+        <IsMemberOfProject rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#IBM"/>
         <EMail rdf:datatype="http://www.w3.org/2001/XMLSchema#string">vanessa.keller@brokenbits.de</EMail>
         <FirstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">vanessa</FirstName>
         <Gender rdf:datatype="http://www.w3.org/2001/XMLSchema#string">female</Gender>
