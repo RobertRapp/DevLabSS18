@@ -168,7 +168,7 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 		 String strproject = (String) event.getValueByKey("project");
 		 String strperson = (String) event.getValueByKey("person");
 		 
-		 if((EventUtils.findPropertyByKey(event, "project") || EventUtils.findPropertyByKey(event, "person") || EventUtils.findPropertyByKey(event, "keyword")) != null) {
+		 if(EventUtils.findPropertyByKey(event, "project") != null || EventUtils.findPropertyByKey(event, "person") != null|| EventUtils.findPropertyByKey(event, "keyword") != null) {
 			 if(EventUtils.findPropertyByKey(event, "project") != null) { 
 					if(strproject != null) {
 					 sFinishQuery = sFinishQuery + addProject((String) event.getValueByKey("project"));
