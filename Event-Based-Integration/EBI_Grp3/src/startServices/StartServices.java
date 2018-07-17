@@ -53,14 +53,14 @@ public class StartServices {
 	public static void main(String[] args) throws AgentException, InterruptedException
 	 {
 		//IP-Adresse des Kafka-Servers			
-		////System.out.println(System.getProperty("user.dir").toString());
+		////
 		String kafkahost = "10.142.0.2"; 
 			   if(args[1].length() > 7) kafkahost = args[1]; //Überschreibt Default wenn ein Wert gegeben ist. 
 		
 		
 		switch (args[0].toLowerCase()) {
 		case "tomcat":
-			//System.out.println("Parameter tomcat aufgerufen: semanticAgent, saveDocumentAgent, documentProposalAgent und der FusekiServer gestartet");
+			//
 			//TOMCAT 
 			AbstractAgent semanticAgent = new SemanticAgent();
 			AbstractAgent saveDocAgent = new SaveDocumentAgent();
@@ -194,7 +194,7 @@ public class StartServices {
 			// Thread wird erzeugt und gestartet
 			Thread thread3 = new Thread(spark);					
 			thread3.start();		
-			//System.out.println("Spark Thread Status: "+thread3.getState());
+			//
 			
 
 			Thread websocket;
@@ -206,14 +206,14 @@ public class StartServices {
 			};
 			websocket = new Thread(webSocketserver);
 			websocket.start();
-			//System.out.println("Websocket Thread Status: "+websocket.getState());
+			//
 			
 			
 			break;
 			
 		case "websocket":
 			Thread thread2;
-			//System.out.println("Websocket als Parameter -- starte Websocket");
+			//
 			Runnable webSocketserver2 = new Runnable() {
 				public void run() {
 					SocketServer.main(null); 					
@@ -221,10 +221,10 @@ public class StartServices {
 			};
 			thread2 = new Thread(webSocketserver2);
 			thread2.start();
-			//System.out.println("Websocket Thread Status: "+thread2.getState());
+			//
 			break;
 		default:
-			//System.out.println("ACHTUNG: Es muss je nach Server tomcat, ux oder spark als args Parameter angegeben werden.");
+			//
 			
 			break;
 		}
@@ -245,7 +245,7 @@ public class StartServices {
 	private static void publishDemoEvents() throws InterruptedException {		
 			
 			for (int i = 8; i < 9; i++) {
-					//System.out.println(14);
+					//
 					// TODO: A response can be added in the future which is caught in the JS Script and shown on the website
 				
 				}

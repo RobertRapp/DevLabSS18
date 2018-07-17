@@ -95,7 +95,7 @@ public class StartServicesApplicationSend {
 				event.add(type);			
 				event.add(link);
 				event.add(user4);				
-				System.out.println(EventUtils.findPropertyByKey(event, "type"));
+				
 				publish(event,"TokenGeneration");
 				
 

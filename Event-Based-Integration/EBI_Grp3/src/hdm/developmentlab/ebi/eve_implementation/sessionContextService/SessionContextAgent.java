@@ -47,7 +47,7 @@ public class SessionContextAgent extends AbstractAgent {
 	 */
 	public AbstractEvent getSessionById(String sessionID) {
 		for (AbstractEvent e : this.getSessions()) {
-			System.out.println(EventUtils.findPropertyByKey(e, "sessionID").getValue());
+			
 			if (sessionID.equals(EventUtils.findPropertyByKey(e, "sessionID").getValue()))
 				return e;
 		}

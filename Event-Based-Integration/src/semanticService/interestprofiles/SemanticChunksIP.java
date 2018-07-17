@@ -122,7 +122,7 @@ public class SemanticChunksIP extends AbstractInterestProfile{
 		ResultSetFormatter.outputAsJSON(outputStream, resultSet);
 		
 		String json = new String(outputStream.toByteArray());
-		System.out.println(json);
+		
 
 		queryExecution.close();
 		

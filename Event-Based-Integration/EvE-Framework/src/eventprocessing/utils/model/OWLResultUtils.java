@@ -31,7 +31,7 @@ public final class OWLResultUtils {
 		ArrayList<Property<String>> properties = new ArrayList<>();
 		
 		JSONObject object = new JSONObject(owlResultObjectString);
-		//System.out.println("Object: "+object);
+		//
 		String docName;	
 		//for (int i = 0; i < values.length(); i++) {			
 			
@@ -45,7 +45,7 @@ public final class OWLResultUtils {
 					}
 					properties.add(new Property<String>(key, value));					
 				}
-					//System.out.println(properties.toString());
+					//
 	return properties;
 	}
 	

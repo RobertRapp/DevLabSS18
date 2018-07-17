@@ -71,8 +71,8 @@ this.setId(name);
 	AbstractInterestProfile ip = new AbstractInterestProfile() {
 private static final long serialVersionUID = 6063600497599610899L;
 	@Override
-	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());<try {	
-		System.out.println("Agent: "+name+" onReceive");
+	protected void doOnReceive(AbstractEvent event) { <try {	
+		
 		LOGGER.log(Level.WARNING, event.toString());
 		LOGGER.log(Level.WARNING, event.toString());
 		LOGGER.log(Level.WARNING, event.toString());

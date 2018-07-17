@@ -73,7 +73,7 @@ public class GuiAgent extends AbstractAgent {
 		 * InteressenProfile besitzen
 		 */
 		try {
-			System.out.println("Gui agent initialisiert");
+			
 			AbstractInterestProfile ip = new GuiInterestProfileDocProposal();
 			//ip.add(new IsFromTopic("Gui"));
 			ip.add(new IsEventType("JsonDocEvent"));

@@ -57,45 +57,45 @@ public class Sessions extends AbstractInterestProfile {
 		System.out.println(this.getClass().getSimpleName() + " : Event angekommen " + event.getType() + " -um: "
 				+ TimeUtils.getCurrentTime());
 
-		System.out.println("in Protokoll IP");
-		System.out.println("event geht ein: " + event);
+		
+		
 
 		switch (event.getType()) {
 
 		case "SessionStartEvent":
-			System.out.println("Protokoll hat SessionStartEvent empfangen");
+			
 			ProtocolAgent.setSessionStart(event.getCreationDate());
 			break;
 
 		case "DocProposalEvent":
-			System.out.println("Protokoll hat DocProposalEvent empfangen");
+			
 			ProtocolAgent.addProposedDocList(event);
 			break;
 
 		case "UserInteractionEvent":
-			System.out.println("Protokoll hat UserInteractionEvent empfangen");
+			
 			ProtocolAgent.addClickedDocList(event);
 			break;
 
 		case "SessionEndEvent":
-			System.out.println("Protokoll hat SessionEndEvent empfangen");
+			
 			ProtocolAgent.setSessionEnd(event.getCreationDate());
 			CreateProtocolEvent();
 			break;
 
 		default:
-			System.out.println("In default case");
+			
 
 			for (Property<?> property : event.getProperties()) {
 
 				switch (property.getKey().toLowerCase()) {
 
 				case "teilnehmer1":
-					System.out.println("Protokoll hat User1 empfangen: " + property.getValue().toString());
+					
 					ProtocolAgent.addUserList(property.getValue().toString());
 					break;
 				case "teilnehmer2":
-					System.out.println("Protokoll hat User2 empfangen: " + property.getValue().toString());
+					
 					ProtocolAgent.addUserList(property.getValue().toString());
 					break;
 				case "topic":
@@ -110,7 +110,7 @@ public class Sessions extends AbstractInterestProfile {
 					break;
 				case "project":
 					if (property.getValue() != null) {
-						System.out.println("Protokoll hat Projekt empfangen: " + property.getValue().toString());
+						
 						ProtocolAgent.addProjectList(property.getValue().toString());
 					}
 					break;
@@ -143,7 +143,7 @@ public class Sessions extends AbstractInterestProfile {
 			protocolEvent.add(new Property<ArrayList<String>>("Topics", ProtocolAgent.getTopicList()));
 			protocolEvent.add(new Property<ArrayList<AbstractEvent>>("ProposedDocs", ProtocolAgent.getProposedDocList()));
 			protocolEvent.add(new Property<ArrayList<AbstractEvent>>("ClickedDocs", ProtocolAgent.getClickedDocList()));
-			System.out.println("ClickedEvents: " + ProtocolAgent.getClickedDocList());
+			
 			protocolEvent.add(new Property<ArrayList<String>>("Projects", ProtocolAgent.getProjectList()));
 
 			/**

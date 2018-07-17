@@ -18,7 +18,7 @@ public class SemanticAgent extends AbstractAgent{
 		 * angegeben werden.
 		 */
 		try {
-			System.out.println("in Sem Agent");
+			
 			this.add("ChunkGeneration");
 		} catch (NoValidConsumingTopicException e) {
 			e.printStackTrace();

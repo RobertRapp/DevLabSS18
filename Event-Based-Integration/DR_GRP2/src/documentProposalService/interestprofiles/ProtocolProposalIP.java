@@ -39,7 +39,7 @@ public class ProtocolProposalIP extends AbstractInterestProfile{
 	 */
 
 	
-	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
+	protected void doOnReceive(AbstractEvent event) { 
 		// Aufruf der Methode getQuery.
 		getQuery(event);
 		// Pushen eines Events.
@@ -146,7 +146,7 @@ public class ProtocolProposalIP extends AbstractInterestProfile{
 		ResultSetFormatter.outputAsJSON(outputStream, resultSet);
 		
 		String json = new String(outputStream.toByteArray());
-		System.out.println(json);
+		
 		queryExecution.close();
 		return json;
 	}

@@ -83,21 +83,21 @@ public class StartServicesProtocolTest {
 	private static void publishDemoEvents() throws InterruptedException {		
 			
 			for (int i = 0; i < 1; i++) {
-				System.out.println(i);
+				
 				AbstractEvent sessionStart = eventFactory.createEvent("AtomicEvent");
 				sessionStart.setType("sessionStart");
 				Property<String> sessionname = new Property<>();
 				sessionname.setKey("name");
 				sessionname.setValue("Session XAZ");
 				sessionStart.add(sessionname);
-				System.out.println("publish sessionstart");
-				System.out.println(sessionStart);
+				
+				
 				publish(sessionStart,"SessionInfo");
 				Thread.sleep(7000);
 				
 				AbstractEvent user = eventFactory.createEvent("AtomicEvent");
 				user.setType("user");
-				System.out.println("publish user");
+				
 				Property<String> name = new Property<>();
 				name.setKey("name");
 				name.setValue("Nikolaus Eblenkamp");
@@ -111,7 +111,7 @@ public class StartServicesProtocolTest {
 				name2.setKey("name");
 				name2.setValue("Gero Menz");
 				user2.add(name2);
-				System.out.println("publish user2");
+				
 				publish(user2,"UserInfo");
 				Thread.sleep(7000);
 				
@@ -125,7 +125,7 @@ public class StartServicesProtocolTest {
 				erstellDatum.setValue("2012");
 				proposedDoc1.add(dokumentName);
 				proposedDoc1.add(erstellDatum);
-				System.out.println("publish prop doc");
+				
 				publish(proposedDoc1,"proposedDoc");
 				Thread.sleep(7000);
 				

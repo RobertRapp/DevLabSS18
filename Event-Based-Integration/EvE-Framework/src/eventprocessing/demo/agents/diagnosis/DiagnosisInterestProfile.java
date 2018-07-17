@@ -75,7 +75,7 @@ public class DiagnosisInterestProfile extends AbstractInterestProfile {
 				getAgent().send(newEvent, ShowcaseValues.INSTANCE.getStorageTopic());
 				newEvent.add(new Property<>("REPORT","DIESES EVENT WURDE AUS DIAGNOSIS INTERPROFIL ERSTELLT."));
 				getAgent().send(newEvent, "Sessions");
-			System.out.println(this.getClass().getSimpleName()+" : Event versendet "+TimeUtils.getCurrentTime()+" - "+ event.getType());} catch (NoValidEventException e1) {
+			} catch (NoValidEventException e1) {
 				LOGGER.log(Level.WARNING, () -> String.format("%s", newEvent));
 			} catch (NoValidTargetTopicException e1) {
 				LOGGER.log(Level.WARNING, () -> String.format("%s", ShowcaseValues.INSTANCE.getStorageTopic()));

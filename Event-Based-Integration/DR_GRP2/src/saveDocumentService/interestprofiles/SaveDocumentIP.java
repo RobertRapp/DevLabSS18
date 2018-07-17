@@ -40,13 +40,13 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 	private static final long serialVersionUID = 8849435572415656139L;
 
 	@Override
-	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
-		System.out.println("XML WIRD ERSTELLT! ");
-		System.out.println("Komplettes ProtokollEvent: " + event);
-		System.out.println("Topiclist des Protokolls:" + EventUtils.findPropertyByKey(event, "Topics").getValue());
-		System.out.println("Userlist des Protokolls:" + EventUtils.findPropertyByKey(event, "User").getValue());
-		System.out.println("Projectlist des Protokolls:" + EventUtils.findPropertyByKey(event, "Projects").getValue());
-		System.out.println("Liste der geklickten Doks: " + EventUtils.findPropertyByKey(event, "ClickedDocs").getValue());
+	protected void doOnReceive(AbstractEvent event) { 
+		
+		
+		
+		
+		
+		
 		
 		
 		String strSessionStart = (String) EventUtils.findPropertyByKey(event, "SessionStart").getValue();
@@ -207,12 +207,12 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			Element actionid3 = doc.createElement("geklicktesDokument"+(i+1));
 			action4.appendChild(actionid3);
 			
-			System.out.println("Clicked Docs 1: " + clickedDocs.get(i));
-			System.out.println("CreationDate: " + String.valueOf(clickedDocs.get(i).getCreationDate()));
-			System.out.println("Clicked Docs 2: "+ EventUtils.findPropertyByKey(event, "ClickedDocs").getValue());
+			
+			
+			
 			
 //			Element timeCD = doc.createElement("Zeitstempel");
-//			System.out.println(clickedDocs.get(i).getCreationDate());
+//			
 //			timeCD.appendChild(doc.createTextNode(clickedDocs.get(i).getCreationDate().toString()));
 //			actionid3.appendChild(timeCD);
 			
@@ -239,14 +239,14 @@ public class SaveDocumentIP extends AbstractInterestProfile{
 			transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC,"yes");
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "10");
 			DOMSource source = new DOMSource(doc);
-			System.out.println("Protokoll wird abgelegt");
+			
 			StreamResult result = new StreamResult(
 					new File("C:\\Users\\jonas\\Documents\\Studium\\DevelopmentLab\\Protokoll.xml"));
 			transformer.transform(source, result);
  
 			
 			//Output to console for testing
-			System.out.println("Protokoll Result als Stream");
+			
 			StreamResult consoleResult = new StreamResult(System.out);
 			transformer.transform(source, consoleResult);
 		} catch (Exception e) {

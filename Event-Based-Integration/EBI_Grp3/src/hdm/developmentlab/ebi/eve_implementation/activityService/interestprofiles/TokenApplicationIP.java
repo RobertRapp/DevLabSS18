@@ -40,7 +40,7 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 	 */
 	
 	@Override
-	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
+	protected void doOnReceive(AbstractEvent event) { 
 	
 		 	String type = (String) event.getPropertyByKey("ApplicationType").getValue();
 			type.toLowerCase();
@@ -55,7 +55,7 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 				event.add(new Property<String>("URL","http://docs.google.com/spreadsheets"));	
 				break;
 			default:
-				System.out.println("URL wird in Default angehängt");
+				
 				event.add(new Property<String>("URL","http://"+type+".google.com"));
 				break;
 			}
@@ -75,10 +75,10 @@ public class TokenApplicationIP extends eventprocessing.agent.interestprofile.Ab
 					
 					//Für die GUI Attribute type, docid, category, Author, URL, Filename, Category
 					
-					System.out.println("Sendet die folgende Application: " + event);
-					System.out.println("Pfad: " + event.getValueByKey("URL"));
+					
+					
 					getAgent().send(event, "DocProposal");
-				System.out.println(this.getClass().getSimpleName()+" : Event versendet "+TimeUtils.getCurrentTime()+" - "+ event.getType());} catch (NoValidEventException e1) {
+				} catch (NoValidEventException e1) {
 					LoggerFactory.getLogger("ApplicationSend");
 				} catch (NoValidTargetTopicException e1) {
 					LoggerFactory.getLogger("ApplicationSend");

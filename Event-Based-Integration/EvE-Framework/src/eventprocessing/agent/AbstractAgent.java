@@ -418,7 +418,7 @@ public abstract class AbstractAgent implements Serializable {
 	 */
 	public void send(AbstractEvent event, String topic)
 			throws NoValidEventException, NoValidTargetTopicException {
-		LOGGER.log(Level.WARNING, "EventId "+event.getId()+" wird versendet");
+		//LOGGER.log(Level.WARNING, "EventId "+event.getId()+" wird versendet");
 		send(event, topic, null);
 	}
 

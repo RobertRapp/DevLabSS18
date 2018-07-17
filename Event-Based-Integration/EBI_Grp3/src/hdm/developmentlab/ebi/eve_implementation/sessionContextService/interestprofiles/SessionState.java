@@ -40,7 +40,7 @@ public class SessionState extends AbstractInterestProfile {
 	 * @param arg0
 	 */
 	@Override
-	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
+	protected void doOnReceive(AbstractEvent event) { 
 		/**
 		 * 
 		 * In dieser Methode wird die Verarbeitung eines Events gemacht. D. h. wie der
@@ -60,7 +60,7 @@ public class SessionState extends AbstractInterestProfile {
 			session.add(new Property<>("sessionEnd", TimeUtils.getCurrentTime()));
 			session.setType("SessionState");
 			try {
-				System.out.println("Neuer SessionState raus geschickt");
+				
 				sA.send(session, "SessionState");
 				sA.getSessions().remove(session);
 			} catch (NoValidEventException e) {
@@ -116,7 +116,7 @@ public class SessionState extends AbstractInterestProfile {
 			ersteAnfrage.add(new Property<>("teilnehmer2", event.getValueBySecoundMatch("userID")));
 			ersteAnfrage.add(new Property<String>("keyword", "protocol"));
 			// Publizieren von Events über die send-Methode des Agenten.
-			System.out.println("SessionContext wird raus geschickt");
+			
 			sA.send(createdSessionContext, "SessionContext");
 			sA.addSession(event);
 

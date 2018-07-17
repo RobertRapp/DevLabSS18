@@ -35,12 +35,12 @@ public class SemanticChunksIP extends AbstractInterestProfile{
 	 */
 	@Override
 	public void doOnReceive(AbstractEvent event) {		
-		System.out.println("In IP von DR!!!!");
+		
 		//Chunker Objekt von Token abfangen
 		ArrayList<Object> chunkslist = (ArrayList<Object>)	EventUtils.findPropertyByKey(event, "Chunks").getValue();
 		Chunker chunkerObject = new Chunker();
 		chunkerObject.parseArrayList(chunkslist);
-		//System.out.println(chunkerObject);
+		//
 		// Alle chunks auslesen, die übergeben sind
 		ArrayList<String> list = chunkerObject.readChunks();
 		// Chunk in der Ontologie durchsuchen
@@ -58,18 +58,18 @@ public class SemanticChunksIP extends AbstractInterestProfile{
 		feedbackEvent.setType("FeedbackEvent");
 		// Eigenschaften von Token wieder hinzufügen
 		feedbackEvent.add(event.getPropertyByKey("UserID"));
-		System.out.println("userid: " + event.getPropertyByKey("UserID").getValue());
+		
 		feedbackEvent.add(event.getPropertyByKey("SessionID"));
-		System.out.println("SessionID: " + event.getPropertyByKey("SessionID").getValue());
+		
 		//feedbackEvent.add(event.getPropertyByKey("SentenceID"));
 		//Unsere Semantic übergeben
 		feedbackEvent.add(new Property<ArrayList<Object>>("Chunks", chunkerObject.returnList()));
-		//System.out.println("Chunkerlist: " + chunkerObject.returnList());
+		//
 		
 		
 		try {
 			//Neue FeedbackEvent
-			//System.out.println("Das wird gesendet vom SemantikAgent: ");
+			//
 			this.getAgent().send(feedbackEvent, "SemanticChunks");
 			
 		} catch (NoValidEventException e) {
@@ -84,7 +84,7 @@ public class SemanticChunksIP extends AbstractInterestProfile{
 	public static String getSemantic(String chunk) {
 		
 		String keyword = chunk.toLowerCase();
-		//System.out.println("keyword: " + keyword);
+		//
 		String sQuery = 
 				"\n" + 
 				"PREFIX asdf: <http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#>\n" + 
@@ -117,17 +117,17 @@ public class SemanticChunksIP extends AbstractInterestProfile{
 				"\n" + 
 				"}";
 		
-		System.out.println("squery: " + sQuery);
+		
 		QueryExecution queryExecution = QueryExecutionFactory.sparqlService("http://localhost:3030/ds/" , sQuery);
-		//System.out.println(queryExecution);
+		//
 		ResultSet resultSet = queryExecution.execSelect();		
 		
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		ResultSetFormatter.outputAsJSON(outputStream, resultSet);
 		
 		String json = new String(outputStream.toByteArray());
-		System.out.println("____________");
-		//System.out.println(json);
+		
+		//
 
 		queryExecution.close();
 		

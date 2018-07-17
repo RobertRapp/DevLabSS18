@@ -47,9 +47,9 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 	 */
 
 	@Override
-	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
+	protected void doOnReceive(AbstractEvent event) { 
 		if(event.getType().equalsIgnoreCase("SessionContextEvent")) {
-			System.out.println("Session geupdated: "+event);
+			
 			lastSessionContextEvent = event;
 		} else {
 		AbstractEvent output = eventFactory.createEvent("AtomicEvent");
@@ -61,7 +61,7 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 		if(EventUtils.hasProperty(lastSessionContextEvent, "teilnehmer1")) output.add(new Property<String>("participant1", (String) lastSessionContextEvent.getValueByKey("teilnehmer1")));
 		if(EventUtils.hasProperty(lastSessionContextEvent, "teilnehmer2")) output.add(new Property<String>("participant2", (String) lastSessionContextEvent.getValueByKey("teilnehmer2")));
 		if(EventUtils.hasProperty(lastSessionContextEvent, "project") && lastSessionContextEvent.getValueByKey("project") != null) output.add(new Property<String>("project", (String) lastSessionContextEvent.getValueByKey("project")));
-		System.out.println("output nach dem zuweisen: "+output);
+		
 		if(event.getType().equalsIgnoreCase("uncertainEvent")) {
 			String key = null;
 			String value= null;
@@ -110,17 +110,17 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 				}
 		}
 		}
-		System.out.println("Der letzte Session COntext ist: " + lastSessionContextEvent);
+		
 		if(lastSessionContextEvent.getProperties().size() > 0) {
-			System.out.println("lastsession Project"+EventUtils.hasProperty(lastSessionContextEvent, "project"));
+			
 			
 			if(!(EventUtils.findPropertyByKey(lastSessionContextEvent, "project").getValue() == null) && EventUtils.hasProperty(output, "project")) {
-				System.out.println("OUTPUT EVENT "+output);
+				
 				output.add(EventUtils.findPropertyByKey(lastSessionContextEvent, "project"));
 			}
 		}
 		try {
-			System.out.println("Folgende DocRequest wird an DR geschickt " + output);
+			
 			
 //			output.getValueBySecoundMatch("project");
 //			List<Property<?>> props = output.getProperties();
@@ -128,13 +128,13 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 //			for(Property p : output.getProperties()) {
 //				
 //				if(p.getKey().equalsIgnoreCase("project") && p.getValue() == null) {
-//					System.out.println("Folgendes Prop wird gelöscht: " + p);
+//					
 //					props.add(p);
 //				}
 //			}
 //			output.getProperties().removeAll(props);
 		//	output.getProperties().set(output.getProperties().indexOf("project"), new Property<>("project", output.getValueBySecoundMatch("project")));
-			System.out.println("Doc Request: " + output);
+			
 			this.getAgent().send(output, "DocRequest");
 		} catch (NoValidEventException e) {
 

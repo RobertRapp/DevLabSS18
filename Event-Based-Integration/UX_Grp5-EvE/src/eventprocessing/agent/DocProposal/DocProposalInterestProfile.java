@@ -45,16 +45,16 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 	 */
 	@Override
 	public void doOnReceive(AbstractEvent event) {
-	//System.out.printIn IP von DocProposalIP von Gui");
-	//System.out.printDieses Event wurde empfangen: " + event);	
+	//
+	//	
 		
 		if(event.getType().equalsIgnoreCase("SessionEndEvent")) {
-			System.out.println("Session beendet durch Event"+event.getType()+":" + event.getId());
+			
 			DocProposalAgent dpA = (DocProposalAgent)this.getAgent();
 			dpA.getProposal().clearProposal();
 		} else {
 			
-//		System.out.println("EVENT in DOCPROSALIP"+event);
+//		
 //		if(event.getProperties().size() == 26 || event.getProperties().size() == 0) {
 //			return;
 //		}
@@ -114,16 +114,16 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 			}
 		
 		//if(EventUtils.findPropertyByKey(event,"Category").getValue().equals("Application")|| EventUtils.hasProperty(event,"Category")) {
-			System.out.println();
+			
 			docListe.add(new Document(fileId, docname, doctype, url , "50", editor, lastChangeDate, category));
-			System.out.println("DOCLISTE DOC PROPOSAL IP : "+docListe);
+			
 	//	}	
 		
 		
 		DocProposalAgent dPA = (DocProposalAgent) this.getAgent();
 		
-		System.out.println("CurrentProposal Listenlenght : "+dPA.getProposal().getDocuments().size());
-		System.out.println("CurrentProposal Categories : "+dPA.getProposal().getCategories().size());
+		
+		
 		dPA.getProposal().addDocuments(docListe);
 		JSONObject json = toJson(dPA.getProposal().getDocuments(), dPA.getProposal().getCategories());
 		AbstractEvent jsonDocEvent = eventFactory.createEvent("AtomicEvent");
@@ -131,7 +131,7 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 		
 		jsonDocEvent.add(new Property<String>("json", json.toString()));
 		LOGGER.log(Level.WARNING, "JSON DOC EVENT: "+jsonDocEvent);
-		//System.out.printTest DPI: "+jsonDocEvent.getPropertyByKey("json"));
+		//
 		
 		try {
 			this.getAgent().send(jsonDocEvent, "Gui");

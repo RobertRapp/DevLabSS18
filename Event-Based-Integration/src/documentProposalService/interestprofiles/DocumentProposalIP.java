@@ -28,7 +28,7 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 
 
 	@Override
-	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());<
+	protected void doOnReceive(AbstractEvent event) { <
 		// TODO Auto-generated method stub
 
 		getModul(event);
@@ -140,7 +140,7 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 			 }
 		 }
 		 sFinishQuery = sFinishQuery + sQueryEnde; 
-		 System.out.println(sFinishQuery);
+		 
 		 getProposal(sFinishQuery);
 		 return sFinishQuery;
 	}
@@ -154,7 +154,7 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 		ResultSetFormatter.outputAsJSON(outputStream, resultSet);
 		
 		String json = new String(outputStream.toByteArray());
-		System.out.println(json);
+		
 		queryExecution.close();
 		return json;
 	}

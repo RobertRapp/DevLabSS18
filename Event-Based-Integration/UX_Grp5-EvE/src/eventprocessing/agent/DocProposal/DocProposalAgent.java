@@ -37,7 +37,7 @@ public class DocProposalAgent extends AbstractAgent {
 		 * InteressenProfile besitzen
 		 */
 		try {
-			System.out.println("DocProposalAgent initialisiert");
+			
 			AbstractInterestProfile ip = new DocProposalInterestProfile();
 			ip.add(new Or(new IsEventType("SessionEndEvent"), new IsEventType("DocProposalEvent")));
 			//ip.add(new IsEventType(ShowcaseValues.INSTANCE.getSpeedEvent()));

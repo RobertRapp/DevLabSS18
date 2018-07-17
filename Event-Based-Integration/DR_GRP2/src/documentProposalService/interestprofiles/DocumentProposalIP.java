@@ -49,7 +49,7 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 	 */
 	@Override
 	protected void doOnReceive(AbstractEvent event) {
-		System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime() +" EVENT:" +event);
+		
 							 
 		// Baut die SPARQL-Abfrage aus Bausteinen zusammen und frägt diese in der Ontologie ab.					 
 		String result = getModul(event);
@@ -71,7 +71,7 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 			
 				try {
 					//Neue FeedbackEvent.
-					System.out.println("DR schickt dieses Event an die GUI mit : " + outputEvent.getProperties().size());
+					
 					if(outputEvent.getProperties().size() > 1 && outputEvent.getProperties().size() != 26 ) {
 						
 						this.getAgent().send(outputEvent, "DocProposal");
@@ -194,7 +194,7 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 					}
 				 }
 				 sFinishQuery = sFinishQuery + sQueryEnde; 
-				 System.out.println(sFinishQuery);
+				 
 				 return getProposal(sFinishQuery); 
 		 } else {
 			 return null;
@@ -219,7 +219,7 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 		ResultSetFormatter.outputAsJSON(outputStream, resultSet);
 		
 		String json = new String(outputStream.toByteArray());
-		//System.out.println("Json-File wird ausgegeben: " + json);
+		//
 		queryExecution.close();
 		return json;
 	}

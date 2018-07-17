@@ -54,7 +54,7 @@ public class GuiInterestProfileDocProposal extends AbstractInterestProfile {
 		JSONObject returnJson = new JSONObject(event.getValueByKey("json").toString());
 		
 		returnJson.put("type", "newDocProposal");
-		System.out.println("return JSON "+returnJson.toString());
+		
 		Websocket.broadcast(returnJson.toString());
 		//GuiAgent.addAndPublishDocsToProposalList(newDocuments);
 		LOGGER.log(Level.WARNING, "Event sent to Websocket: "+event);
@@ -75,7 +75,7 @@ public class GuiInterestProfileDocProposal extends AbstractInterestProfile {
 //			document2.setType("Excel");
 //			newDocuments.add(document2);
 //		}else {
-//			System.out.println("MATH RANDOM "+dou);
+//			
 //		}
 //		
 //		newDocuments.add(document2);

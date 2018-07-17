@@ -130,7 +130,7 @@ public final class EventUtils {
 						.filter(property -> property.getKey().equalsIgnoreCase(key)).findFirst().get();
 				return resultProperty;
 			} catch (NoSuchElementException e) {
-				LOGGER.log(Level.WARNING, () -> String.format("no matching property was found. Committed key: %s%s",
+				LOGGER.log(Level.INFO, () -> String.format("no matching property was found. Committed key: %s%s",
 						SystemUtils.getLineSeparator(), key));
 				return null;
 			}

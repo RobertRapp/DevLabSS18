@@ -52,7 +52,7 @@ public class Websocket {
 
 	 @OnOpen
 	    public void onOpen(Session userSession) {
-	    System.out.println("Neue Verbindung aufgebaut..." + userSession.getId());
+	    
 	    userSessions.add(userSession);
 
 	     }    
@@ -60,7 +60,7 @@ public class Websocket {
 
 	    @OnClose
 	    public void onClose(Session userSession) {
-	    System.out.println("Verbindung getrennt..."+ users.get(userSession.getId()));
+	    
 	    userSessions.remove(userSession);
 	    users.remove(userSession.getId());
 	    
@@ -69,11 +69,11 @@ public class Websocket {
 		usersJSON.put("type", "refreshUserList");
 		 for (Map.Entry user : users.entrySet()) {
 			 usersArray.put(user.getValue());
-	         System.out.println("Key: "+user.getKey() + " & Value: " + user.getValue());
+	         
 	          
 	        }
 usersJSON.put("users", usersArray);
-	System.out.println(usersJSON);
+	
 	broadcast(usersJSON.toString());
 	    }
 	 
@@ -90,10 +90,10 @@ usersJSON.put("users", usersArray);
 	    		usersJSON.put("type", "refreshUserList");
 	    		 for (Map.Entry user : users.entrySet()) {
 	    			 usersArray.put(user.getValue());    			 
-	    	         System.out.println("Key: "+user.getKey() + " & Value: " + user.getValue());	    	          
+	    	         	    	          
 	    	        }
 	        usersJSON.put("users", usersArray);
-	    	System.out.println(usersJSON);
+	    	
 	    	broadcast(usersJSON.toString());
 			break;
 		    case "clickedOnDocument":
@@ -104,7 +104,7 @@ usersJSON.put("users", usersArray);
 		    	userInteractionEvent.add(new Property<String>("userID", requestJSON.getString("userID")));
 		    	userInteractionEvent.add(new Property<String>("FileID", requestJSON.getString("docID")));
 		    	userInteractionEvent.add(new Property<String>("DocumentName", requestJSON.getString("docName")));
-		    	System.out.println("UserInteractionEvent " + userInteractionEvent);
+		    	
 		    	nachricht = messageMapper.toJSON(userInteractionEvent);
 		 		despatcher.deliver(nachricht, "UserInteraction");
 
@@ -130,7 +130,7 @@ usersJSON.put("users", usersArray);
 		    	requestJSON.put("msg", "bin drinnen");
 		    	requestJSON.put("sessionID", requestJSON.getString("sessionID"));
 				broadcastOthers(requestJSON.toString(), userSession);
-				System.out.println(requestJSON.toString());
+				
 				//Events an Kafka
 				AbstractEvent sessionStartEvent = eventFactory.createEvent("AtomicEvent");
 		    	sessionStartEvent.setType("SessionStartEvent");
@@ -138,14 +138,14 @@ usersJSON.put("users", usersArray);
 		    	sessionStartEvent.add(new Property <>("SessionID",requestJSON.getString("sessionID")));
 		    	sessionStartEvent.add(new Property <>("UserID",requestJSON.getString("userID")));
 		    	
-		    	System.out.println(sessionStartEvent);
+		    	
 		    	nachricht = messageMapper.toJSON(sessionStartEvent);
 			 	despatcher.deliver(nachricht, "SessionState");
 		    	
 			break;	
 			case "sessionEnd":
 				//Messages an Websocket
-				System.out.println("Session "+requestJSON.getString("sessionID")+ " beendet von: "+requestJSON.getString("userID"));
+				
 //				requestJSON = new JSONObject();
 				requestJSON.put("type", "sessionEnded");
 				requestJSON.put("sessionID", requestJSON.getString("sessionID"));
@@ -172,18 +172,18 @@ usersJSON.put("users", usersArray);
 	
 
 	public static void broadcast(String msg) {
-	    System.out.println("Broadcast Nachricht an alle aus Websocket:" + msg);
+	    
 	    for (Session session : userSessions) {
 	        session.getAsyncRemote().sendText(msg);
-	        System.out.println("Session ID: " + session.getId());
+	        
 	    }
 	}
 	public static void broadcastOthers(String msg, Session userSession) {
-		System.out.println("Broadcast Nachricht an alle ausser mir:" + msg);		
+				
 		userSessions.remove(userSession);
 		for (Session session : userSessions) {
 			session.getAsyncRemote().sendText(msg);
-			System.out.println("Session ID: " + session.getId());
+			
 		}
 		userSessions.add(userSession);
 	}

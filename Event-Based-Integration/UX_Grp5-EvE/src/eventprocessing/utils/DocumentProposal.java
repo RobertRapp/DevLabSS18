@@ -30,7 +30,7 @@ public class DocumentProposal {
 		}
 	 	
 	 	public void clearProposal() {
-	 		//System.out.println("Documents clear"+documents.toString());
+	 		//
 	 		documents.clear();
 	 		categories.clear();
 	 		
@@ -50,7 +50,7 @@ public class DocumentProposal {
 			//documentList.addAll(newDocuments);
 //			for(Document d : documentList) {
 //				
-//				System.out.println("Documentliste Element:  "+d);
+//				
 //				
 //			}
 			
@@ -105,17 +105,17 @@ public class DocumentProposal {
 		
 		
 //	 	public void addDocuments(ArrayList<Document> newDocuments) {
-//	 		System.out.println("alte Liste: " + documents.size());
-//	 		System.out.println("neue Liste: " + newDocuments.size());
+//	 		
+//	 		
 //			documents.addAll(newDocuments);
-//			System.out.println("neue Liste2: " + newDocuments.size());
+//			
 //			
 //			if(documents.size() > 15) {
 //				ArrayList<Document> removableDocs = new ArrayList<Document>();
 //				for(int i = 0; (documents.size() - i) == 15; i ++) {
 //					removableDocs.add(documents.get(i));
 //				}
-//					System.out.println("removable docs size: " + removableDocs.size());
+//					
 //						documents.removeAll(removableDocs);
 //			}
 //			

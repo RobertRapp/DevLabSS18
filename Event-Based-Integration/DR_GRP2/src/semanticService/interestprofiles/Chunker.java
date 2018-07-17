@@ -84,7 +84,7 @@ public class Chunker implements Serializable{
 				chunkElement.add(chunk);
 				chunkList.add(chunkElement);				
 			}else {
-				//System.out.println("Trying to add already existing chunk");
+				//
 			}
 		}
 	}
@@ -109,13 +109,13 @@ public class Chunker implements Serializable{
 						((ArrayList<String>) chunkList.get(i)).remove(1); // add the new Semantic to the chunkList
 						((ArrayList<String>) chunkList.get(i)).add(1,(String) semantics); // add the new Semantic to the chunkList
 					}else { // something strange happened
-							//System.out.println("Chunker.addSemanticToChunk: something strange happened");
+							//
 					}
 					count++; //counts how often the chunk was found
 				}
 			}
 			if(count==0) {// chunk was never found in List
-				//System.out.println("Chunker.addSemanticToChunk: Chunk you want to add into was not found");
+				//
 			}
 		}else if(semantics instanceof ArrayList<?>) {
 			int count=0;
@@ -140,7 +140,7 @@ public class Chunker implements Serializable{
 				}
 			}
 			if(count==0) {// chunk was never found in List
-				//System.out.println("Chunker.addSemanticToChunk: Chunk not found in List");
+				//
 				//throw new NoSuchElementException();
 			}
 		}
@@ -174,7 +174,7 @@ public class Chunker implements Serializable{
 			}
 		}
 		if(count==0) {// chunk was never found in List
-			//System.out.println("Chunker.readSemanticOfChunk: Chunk not found in List");
+			//
 			//throw new NoSuchElementException();
 			}
 			return semantic;
@@ -198,7 +198,7 @@ public class Chunker implements Serializable{
 			}
 		}
 		if(count==0) {// chunk was never found in List
-			//System.out.println("Chunker.hasSemInfo: Chunk not found");
+			//
 		}
 		
 		if(eachChunk.size()==1) {// contains just the chunk without semantic information
@@ -221,7 +221,7 @@ public class Chunker implements Serializable{
 			}
 		}
 		if(count==0) {// chunk was never found in List
-			//System.out.println("Chunker.removeChunkAndSem:Chunk was never found in List");
+			//
 			//throw new NoSuchElementException();
 		}
 	}
@@ -241,7 +241,7 @@ public class Chunker implements Serializable{
 			}
 		}
 		if(count==0) {
-			//System.out.println("removeSemanticOfChunk: No sem Info or chunk not found");
+			//
 			//throw new NoSuchElementException();
 		}
 	}
@@ -262,6 +262,6 @@ public class Chunker implements Serializable{
 	 * @return a Syso that shows the structure of the List with the chunks and semantic infos
 	 */
 	public void printList() {
-		//System.out.println(chunkList);
+		//
 	}
 }

@@ -84,7 +84,7 @@ public class StartServicesWithAdhocAgents {
 		 */
 			
 			AbstractAgent drAgent = new AdhocAgent(name, zielTopic, localhostFragezeichen);
-						//System.out.println(drAgent);
+						//
 		return drAgent;
 	}
 	
