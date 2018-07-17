@@ -57,7 +57,6 @@ public class Document {
 		public Document(String docID,String name, String type, String path, String size, String lastEditor, 
 			String lastEdit, String categorie) {
 		super();
-		System.out.println("Konstruktur 1: " + categorie);
 		this.name = name;
 		this.type = type;
 		this.path = path;
@@ -69,7 +68,6 @@ public class Document {
 	}
 		public Document(String jsonStr) {
 			JSONObject json = new JSONObject(jsonStr);
-			System.out.println("Konstruktor 2: "  + json.getJSONObject("Category").getString("value").split("#")[1]);
 			this.docID = json.getJSONObject("FileID").getString("value");
 			this.name = json.getJSONObject("FileName").getString("value");
 			this.path = json.getJSONObject("URL").getString("value");
@@ -81,7 +79,6 @@ public class Document {
 		
 		public Document(LinkedHashMap map) {
 			
-			System.out.println("Konstruktor 3: " + map.keySet());
 			this.docID = map.get("path").toString().split("/")[5];
 			this.name = (String) map.get("name");
 			this.path = (String) map.get("path");

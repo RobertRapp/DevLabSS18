@@ -30,8 +30,6 @@ public class DocumentProposal {
 		}
 	 	
 		public void addDocuments(ArrayList<Document> newDocuments) {
-			System.out.println("alte Liste: " + documents.size());
-			System.out.println("neue Liste: " + newDocuments.size());
 			ArrayList<Document> removeEmptyDocs = new ArrayList<Document>();
 			for(Document d : newDocuments) {
 				if(d.getName().isEmpty()) {
@@ -44,22 +42,19 @@ public class DocumentProposal {
 			
 			ArrayList<Document> documentList=documents;
 			documentList.addAll(newDocuments);
-			System.out.println("Erstellte Liste: " + documentList.size());
-			for(Document d : documentList) {
-				
-				System.out.println("Documentliste Element:  "+d);
-				
-			}
+//			for(Document d : documentList) {
+//				
+//				System.out.println("Documentliste Element:  "+d);
+//				
+//			}
 			
 			
 			
 			//Pr�fen ob Gesamtsumme der Dokumente die maximale Anzahl �bertrifft
 			 if(documentList.size() > maxDocuments) {
 				  int sumDeleteDocuments =  documentList.size() - maxDocuments;
-				  System.out.println("so viele muss man abziehen: " + sumDeleteDocuments);
 				  for (int i=0; i < sumDeleteDocuments; i++) {
-					  System.out.println("Dok " + documentList.get(0).getName() + "an der Stelle " + i + "wird gelöscht");
-					  documentList.remove(0);
+					 documentList.remove(0);
 				  	}					  
 				}
 					

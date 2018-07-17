@@ -61,10 +61,8 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 		String fileId= "";
 		String doctype= "";
 		String url = "";
-		System.out.println("Properties die bei Gui ankommen: " + event.getProperties());
 		for(Property<?> pro : event.getProperties()) {
 			if (pro.getValue() instanceof LinkedHashMap) {	
-				System.out.println(pro.getValue().toString());
 				docListe.add(new Document((LinkedHashMap<?, ?>) pro.getValue()));	
 			}else {				
 				switch (pro.getKey().toLowerCase()) {
@@ -87,7 +85,6 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 					lastChangeDate= pro.getValue().toString();
 					break;
 				case "category":
-					System.out.println("Category identifiziert");
 					category= pro.getValue().toString();
 					break;
 					case "fileid":
@@ -116,8 +113,6 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 		System.out.println("CurrentProposal Listenlenght : "+dPA.getProposal().getDocuments().size());
 		System.out.println("CurrentProposal Categories : "+dPA.getProposal().getCategories().size());
 		dPA.getProposal().addDocuments(docListe);
-		System.out.println("DocumentProposal " + dPA.getProposal().getDocuments());
-		System.out.println("DocumentProposal - Category: " + dPA.getProposal().getCategories());
 		JSONObject json = toJson(dPA.getProposal().getDocuments(), dPA.getProposal().getCategories());
 		AbstractEvent jsonDocEvent = eventFactory.createEvent("AtomicEvent");
 		jsonDocEvent.setType("JsonDocEvent");
@@ -149,8 +144,6 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 			JSONObject childrenOneCategory = new JSONObject();
 			
 			for (Document doc : documents) {
-				System.out.println("Document: " + doc);
-				System.out.println("DocumentCategorie "+doc.getCategorie()+ "VS "+category);
 				if (doc.getCategorie().equalsIgnoreCase(category)) {
 					document= new JSONObject();
 					document.put("Ersteller", doc.getLastEditor());

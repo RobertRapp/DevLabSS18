@@ -49,8 +49,6 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 	 */
 	@Override
 	protected void doOnReceive(AbstractEvent event) { System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
-		System.out.println(this.getClass().getSimpleName() + " : Event angekommen "+event.getType()+" - " + TimeUtils.getCurrentTime());
-		System.out.println("in IP von Dr mit dem Event: " + event);
 							 
 		// Baut die SPARQL-Abfrage aus Bausteinen zusammen und frägt diese in der Ontologie ab.					 
 		String result = getModul(event);
@@ -72,9 +70,10 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 			
 				try {
 					//Neue FeedbackEvent.
-					System.out.println("DR schickt dieses Event an die GUI: " + outputEvent);
-					this.getAgent().send(outputEvent, "DocProposal");
-					
+					System.out.println("DR schickt dieses Event an die GUI mit : " + outputEvent.getProperties().size());
+					if(outputEvent.getProperties().size() > 1) {
+						this.getAgent().send(outputEvent, "DocProposal");
+					}
 				} catch (NoValidEventException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

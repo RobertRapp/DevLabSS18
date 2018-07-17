@@ -117,16 +117,19 @@ public class TokenDocumentType extends eventprocessing.agent.interestprofile.Abs
 		try {
 			System.out.println("Folgende DocRequest wird an DR geschickt " + output);
 			
-			output.getValueBySecoundMatch("project");
-			List<Property<?>> props = output.getProperties();
-			
-			for(Property p : output.getProperties()) {
-				
-				if(p.getKey().equalsIgnoreCase("project") && p.getValue() == null) props.add(p);			
-			}
-			output.getProperties().removeAll(props);
+//			output.getValueBySecoundMatch("project");
+//			List<Property<?>> props = output.getProperties();
+//			
+//			for(Property p : output.getProperties()) {
+//				
+//				if(p.getKey().equalsIgnoreCase("project") && p.getValue() == null) {
+//					System.out.println("Folgendes Prop wird gelöscht: " + p);
+//					props.add(p);
+//				}
+//			}
+//			output.getProperties().removeAll(props);
 		//	output.getProperties().set(output.getProperties().indexOf("project"), new Property<>("project", output.getValueBySecoundMatch("project")));
-			
+			System.out.println("Doc Request: " + output);
 			this.getAgent().send(output, "DocRequest");
 		} catch (NoValidEventException e) {
 

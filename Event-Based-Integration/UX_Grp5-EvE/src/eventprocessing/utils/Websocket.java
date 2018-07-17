@@ -100,9 +100,9 @@ usersJSON.put("users", usersArray);
 		    	//Events an Kafka
 		    	AbstractEvent userInteractionEvent = eventFactory.createEvent("AtomicEvent");
 		    	userInteractionEvent.setType("UserInteractionEvent");
-		    	userInteractionEvent.add(new Property <>("userID", requestJSON.getString("userID")));
-		    	userInteractionEvent.add(new Property <>("FileID", requestJSON.getString("docID")));
-		    	userInteractionEvent.add(new Property <>("DocumentName", requestJSON.getString("docName")));
+		    	userInteractionEvent.add(new Property<String>("userID", requestJSON.getString("userID")));
+		    	userInteractionEvent.add(new Property<String>("FileID", requestJSON.getString("docID")));
+		    	userInteractionEvent.add(new Property<String>("DocumentName", requestJSON.getString("docName")));
 		    	System.out.println("UserInteractionEvent " + userInteractionEvent);
 		    	nachricht = messageMapper.toJSON(userInteractionEvent);
 		 		despatcher.deliver(nachricht, "UserInteraction");
