@@ -1404,7 +1404,7 @@
         <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#FlorianHahn"/>
         <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MikeTrump"/>
         <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#VanessaKeller"/>
-        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">IBM; project; document; IBMproject</Keyword>
+        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">IBM; project; document; IBMproject, ibm</Keyword>
         <ProjectID rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">10000020065</ProjectID>
         <ProjectName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">ibmproject</ProjectName>
         <ProjectPeriod rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">49</ProjectPeriod>

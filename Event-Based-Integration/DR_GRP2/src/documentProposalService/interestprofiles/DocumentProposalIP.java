@@ -167,26 +167,33 @@ public class DocumentProposalIP extends AbstractInterestProfile {
 
 		 String strproject = (String) event.getValueByKey("project");
 		 String strperson = (String) event.getValueByKey("person");
-		 if(EventUtils.findPropertyByKey(event, "project") != null) { 
-			if(strproject != null) {
-			 sFinishQuery = sFinishQuery + addProject((String) event.getValueByKey("project"));
-			}
+		 
+		 if((EventUtils.findPropertyByKey(event, "project") || EventUtils.findPropertyByKey(event, "person") || EventUtils.findPropertyByKey(event, "keyword")) != null) {
+			 if(EventUtils.findPropertyByKey(event, "project") != null) { 
+					if(strproject != null) {
+					 sFinishQuery = sFinishQuery + addProject((String) event.getValueByKey("project"));
+					}
+				 }
+				 
+				 if(EventUtils.findPropertyByKey(event, "person") != null) {
+					 if(strperson != null) {
+					 sFinishQuery = sFinishQuery + addProject((String) event.getValueByKey("person"));
+				 	}
+				}	
+				 
+				 if(EventUtils.findPropertyByKey(event, "keyword") != null) {
+					for(int i = 1; i < keywords.size();i++) { 
+					sFinishQuery = sFinishQuery + addKeyword(keywords.get(i));
+					}
+				 }
+				 sFinishQuery = sFinishQuery + sQueryEnde; 
+				 System.out.println(sFinishQuery);
+				 return getProposal(sFinishQuery); 
+		 } else {
+			 return null;
 		 }
 		 
-		 if(EventUtils.findPropertyByKey(event, "person") != null) {
-			 if(strperson != null) {
-			 sFinishQuery = sFinishQuery + addProject((String) event.getValueByKey("person"));
-		 	}
-		}	
 		 
-		 if(EventUtils.findPropertyByKey(event, "keyword") != null) {
-			for(int i = 1; i < keywords.size();i++) { 
-			sFinishQuery = sFinishQuery + addKeyword(keywords.get(i));
-			}
-		 }
-		 sFinishQuery = sFinishQuery + sQueryEnde; 
-		 System.out.println(sFinishQuery);
-		 return getProposal(sFinishQuery);
 	}
 	
 	/**

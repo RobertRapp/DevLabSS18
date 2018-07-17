@@ -19,6 +19,7 @@ import javax.websocket.server.ServerEndpoint;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import eventprocessing.agent.DocProposal.DocProposalAgent;
 import eventprocessing.event.AbstractEvent;
 import eventprocessing.event.Property;
 import eventprocessing.produce.kafka.Despatcher;
@@ -158,7 +159,8 @@ usersJSON.put("users", usersArray);
 		    	
 		    	nachricht = messageMapper.toJSON(sessionEndEvent);
 			 	despatcher.deliver(nachricht, "SessionState");
-		    	
+			 	
+			 	
 			break;						    	
 	    }
 }

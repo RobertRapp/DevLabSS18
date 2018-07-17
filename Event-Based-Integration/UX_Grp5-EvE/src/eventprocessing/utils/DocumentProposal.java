@@ -29,6 +29,11 @@ public class DocumentProposal {
 			return categories;
 		}
 	 	
+	 	public void clearProposal() {
+	 		documents.clear();
+	 		categories.clear();
+	 		
+	 	}
 		public void addDocuments(ArrayList<Document> newDocuments) {
 			ArrayList<Document> removeEmptyDocs = new ArrayList<Document>();
 			for(Document d : newDocuments) {

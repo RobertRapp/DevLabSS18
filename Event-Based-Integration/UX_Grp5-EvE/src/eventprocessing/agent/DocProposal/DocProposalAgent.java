@@ -8,6 +8,8 @@ import eventprocessing.agent.AbstractAgent;
 import eventprocessing.agent.NoValidConsumingTopicException;
 import eventprocessing.agent.dispatch.NoValidInterestProfileException;
 import eventprocessing.agent.interestprofile.AbstractInterestProfile;
+import eventprocessing.agent.interestprofile.predicates.logical.NullPredicateException;
+import eventprocessing.agent.interestprofile.predicates.logical.Or;
 import eventprocessing.agent.interestprofile.predicates.statement.GetEverything;
 import eventprocessing.agent.interestprofile.predicates.statement.IsEventType;
 import eventprocessing.consume.kafka.ConsumerSettings;
@@ -37,18 +39,29 @@ public class DocProposalAgent extends AbstractAgent {
 		try {
 			System.out.println("DocProposalAgent initialisiert");
 			AbstractInterestProfile ip = new DocProposalInterestProfile();
-			ip.add(new IsEventType("DocProposalEvent"));
+			ip.add(new Or(new IsEventType("SessionEndEvent"), new IsEventType("DocProposalEvent")));
 			//ip.add(new IsEventType(ShowcaseValues.INSTANCE.getSpeedEvent()));
 			this.add(ip);
 		} catch (NoValidInterestProfileException e1) {
 			e1.printStackTrace();
+		} catch (NullPredicateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+	
 		/*
 		 * Angabe der Topics, die konsumiert werden sollen. Es koennen mehrere Topics
 		 * angegeben werden.
 		*/
 		try {
 			this.add("DocProposal");
+		} catch (NoValidConsumingTopicException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			this.add("SessionState");
 		} catch (NoValidConsumingTopicException e) {
 			e.printStackTrace();
 		}
@@ -63,7 +76,6 @@ public class DocProposalAgent extends AbstractAgent {
 		return new DocumentProposal();
 	}
 
-	
 	
 	public void setProposal(DocumentProposal proposal) {
 		DocProposalAgent.proposal = proposal;

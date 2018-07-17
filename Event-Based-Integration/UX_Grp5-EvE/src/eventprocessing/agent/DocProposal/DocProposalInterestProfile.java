@@ -48,6 +48,12 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 	//System.out.printIn IP von DocProposalIP von Gui");
 	//System.out.printDieses Event wurde empfangen: " + event);	
 		
+		if(event.getType().equalsIgnoreCase("SessionEndEvent")) {
+			DocProposalAgent dpA = (DocProposalAgent)this.getAgent();
+			dpA.getProposal().clearProposal();
+		} else {
+			
+		
 		
 		ArrayList<Document> docListe = new ArrayList<Document>(); //property.getValue() L9inked Hashmap
 		
@@ -129,6 +135,7 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 			e.printStackTrace();
 		}
 	}
+}
 	
 	public JSONObject toJson(ArrayList<Document> documents, ArrayList<String> categories) {
 		JSONObject docProposalJson = new JSONObject();
@@ -174,6 +181,8 @@ public class DocProposalInterestProfile extends AbstractInterestProfile {
 		requestJson.put("docProposal", docProposalJson);
 		requestJson.put("type", "newDocProposal");
 		return requestJson;
+		
+		
 		
 	}
 
