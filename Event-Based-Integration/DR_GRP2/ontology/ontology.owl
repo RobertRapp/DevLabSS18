@@ -1507,7 +1507,7 @@
         <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#DiCui"/>
         <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#LisaMeier"/>
         <ProjectHasMember rdf:resource="http://www.semanticweb.org/jennifertran/ontologies/2018/0/dokumentenRepraesentation#MikeTrump"/>
-        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">microsoft; project; microsoftproject; projects</Keyword>
+        <Keyword rdf:datatype="http://www.w3.org/2001/XMLSchema#string">microsoft; project; microsoftproject; projects; microsoft project;</Keyword>
         <ProjectID rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">10000020095</ProjectID>
         <ProjectName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">microsoftproject</ProjectName>
         <ProjectPeriod rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">29</ProjectPeriod>
