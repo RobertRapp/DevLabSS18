@@ -30,6 +30,7 @@ public class DocumentProposal {
 		}
 	 	
 	 	public void clearProposal() {
+	 		//System.out.println("Documents clear"+documents.toString());
 	 		documents.clear();
 	 		categories.clear();
 	 		
